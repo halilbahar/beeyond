@@ -14,7 +14,7 @@ kind: Deployment
 metadata:
   name: nginx
 spec:
-  replicas: ${replicas}
+  replicas: 1
   selector:
     matchLabels:
       app: nginx-container
