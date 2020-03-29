@@ -1,5 +1,6 @@
 package at.htl.beeyond.service;
 
+import io.vertx.core.json.JsonObject;
 import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
@@ -28,8 +29,8 @@ public class DeploymentService {
         this.jsonb = JsonbBuilder.create();
     }
 
-    private List<JsonObjectBuilder> readYaml(String file) {
-        List<JsonObjectBuilder> result = new LinkedList<>();
+    private List<JsonObject> readYaml(String file) {
+        List<JsonObject> result = new LinkedList<>();
 
         InputStream inputStream = this.getClass()
                 .getClassLoader()
@@ -37,7 +38,7 @@ public class DeploymentService {
         Iterable<Object> objects = yaml.loadAll(inputStream);
 
         for (Object object : objects) {
-            result.add(Json.createObjectBuilder((Map<String, Object>) object));
+            result.add(JsonObject.mapFrom(object));
         }
 
         return result;
