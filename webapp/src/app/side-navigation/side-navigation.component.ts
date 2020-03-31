@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 
 @Component({
   selector: 'app-side-navigation',
@@ -7,13 +7,16 @@ import { Component, OnInit } from '@angular/core';
 })
 export class SideNavigationComponent implements OnInit {
 
-  private agenda = [
+  agenda = [
     { name: 'Dashboard', icon: 'speed' },
     { name: 'Blueprint', icon: 'list_alt' },
     { name: 'Profile', icon: 'account_circle' },
     { name: 'Accounting', icon: 'account_balance' },
     { name: 'Management', icon: 'desktop_windows' }
   ];
+
+  @Input()
+  name = 'default';
 
   constructor() { }
 
