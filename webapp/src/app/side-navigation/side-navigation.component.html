@@ -1,12 +1,13 @@
 <mat-sidenav-container class="side-nav-container">
   <mat-sidenav mode="side" opened>
-    <mat-nav-list>
-      <a mat-list-item *ngFor="let item of agenda">
+    <mat-nav-list class="side-nav-list">
+      <a mat-list-item class="unselectable" *ngFor="let item of agenda">
         <mat-icon>{{item.icon}}</mat-icon>
         <span class="nav-list-item">{{item.name}}</span>
       </a>
     </mat-nav-list>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <ng-content></ng-content>
   </mat-sidenav-content>

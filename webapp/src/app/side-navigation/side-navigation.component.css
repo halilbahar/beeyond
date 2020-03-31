@@ -8,6 +8,10 @@
   right: 0;
 }
 
+.side-nav-list {
+  padding-top: 0 !important;
+}
+
 .nav-list-item {
   padding-left: 0.7rem;
 }
