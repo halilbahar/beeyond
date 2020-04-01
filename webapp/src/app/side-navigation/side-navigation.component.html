@@ -4,10 +4,10 @@
       Name: {{name}}
     </div>
     <mat-nav-list class="side-nav-list">
-      <a mat-list-item class="unselectable" *ngFor="let item of agenda">
+      <mat-list-item mat-list-item class="unselectable" *ngFor="let item of agenda" [routerLink]="item.router">
         <mat-icon>{{item.icon}}</mat-icon>
         <span class="nav-list-item">{{item.name}}</span>
-      </a>
+      </mat-list-item>
     </mat-nav-list>
   </mat-sidenav>
 

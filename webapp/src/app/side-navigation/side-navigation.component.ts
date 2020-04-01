@@ -8,11 +8,11 @@ import { Component, Input, OnInit } from '@angular/core';
 export class SideNavigationComponent implements OnInit {
 
   agenda = [
-    { name: 'Dashboard', icon: 'speed' },
-    { name: 'Blueprint', icon: 'list_alt' },
-    { name: 'Profile', icon: 'account_circle' },
-    { name: 'Accounting', icon: 'account_balance' },
-    { name: 'Management', icon: 'desktop_windows' }
+    { name: 'Dashboard', icon: 'speed', router: '/dashboard' },
+    { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
+    { name: 'Profile', icon: 'account_circle', router: '/profile' },
+    { name: 'Accounting', icon: 'account_balance', router: '/accounting' },
+    { name: 'Management', icon: 'desktop_windows', router: '/management' }
   ];
 
   @Input()
