@@ -1,9 +1,6 @@
 package at.htl.beeyond.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Application {
@@ -12,6 +9,13 @@ public class Application {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private int replica;
+
+    public Application() {
+    }
+
+    public Application(int replica) {
+        this.replica = replica;
+    }
 
     public Long getId() {
         return id;
