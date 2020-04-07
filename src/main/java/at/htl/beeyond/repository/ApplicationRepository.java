@@ -27,4 +27,10 @@ public class ApplicationRepository {
         em.persist(application);
         return application;
     }
+
+    public Application approveOrDenyApplication(Application application, boolean isApproved) {
+        application.setApproved(isApproved);
+        em.merge(application);
+        return application;
+    }
 }
