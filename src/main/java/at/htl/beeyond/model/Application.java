@@ -3,6 +3,9 @@ package at.htl.beeyond.model;
 import javax.persistence.*;
 
 @Entity
+@NamedQueries({
+        @NamedQuery(name = "Application.getAll", query = "select a from Application a")
+})
 public class Application {
 
     @Id
