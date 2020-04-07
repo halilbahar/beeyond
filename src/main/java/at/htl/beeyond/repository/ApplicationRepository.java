@@ -18,4 +18,8 @@ public class ApplicationRepository {
     public List<Application> getAllApplications() {
         return em.createNamedQuery("Application.getAll").getResultList();
     }
+
+    public Application getApplicationById(Long id) {
+        return em.find(Application.class, id);
+    }
 }

@@ -1,5 +1,6 @@
 package at.htl.beeyond;
 
+import at.htl.beeyond.model.Application;
 import at.htl.beeyond.repository.ApplicationRepository;
 
 import javax.inject.Inject;
@@ -22,5 +23,15 @@ public class ApplicationResource {
         return Response.ok(
                 applicationRepository.getAllApplications()
         ).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    public Response getApplicationById(@PathParam("id") Long id) {
+        Application application = applicationRepository.getApplicationById(id);
+        if (application == null) {
+            return Response.status(404).build();
+        }
+        return Response.ok(application).build();
     }
 }
