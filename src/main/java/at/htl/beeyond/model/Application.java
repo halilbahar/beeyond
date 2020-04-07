@@ -1,7 +1,5 @@
 package at.htl.beeyond.model;
 
-import com.sun.org.apache.xpath.internal.operations.Bool;
-
 import javax.persistence.*;
 
 @Entity
@@ -27,7 +25,6 @@ public class Application {
         this.replica = replica;
         this.isApproved = isApproved;
     }
-
 
     public Long getId() {
         return id;

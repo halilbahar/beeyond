@@ -34,4 +34,10 @@ public class ApplicationResource {
         }
         return Response.ok(application).build();
     }
+
+    @POST
+    public Response uploadApplication(Application application) {
+        Application app = applicationRepository.uploadApplication(application);
+        return Response.ok(app).build();
+    }
 }
