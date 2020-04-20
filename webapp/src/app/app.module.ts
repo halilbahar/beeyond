@@ -13,6 +13,7 @@ import { AccountingComponent } from './accounting/accounting.component';
 import { BlueprintComponent } from './blueprint/blueprint.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
+import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +23,8 @@ import { ManagementComponent } from './management/management.component';
     AccountingComponent,
     BlueprintComponent,
     ProfileComponent,
-    ManagementComponent
+    ManagementComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
