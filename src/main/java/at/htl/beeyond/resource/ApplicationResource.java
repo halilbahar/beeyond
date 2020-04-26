@@ -1,4 +1,4 @@
-package at.htl.beeyond;
+package at.htl.beeyond.resource;
 
 import at.htl.beeyond.model.Application;
 import at.htl.beeyond.repository.ApplicationRepository;
