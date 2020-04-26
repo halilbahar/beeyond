@@ -14,7 +14,6 @@ public class ApprovalResource {
 
     @Inject
     ApplicationRepository applicationRepository;
-
     @Inject
     DeploymentService deploymentService;
 
@@ -22,15 +21,16 @@ public class ApprovalResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response approveOrDenyApplication(@PathParam("id") Long id, @QueryParam("approved") boolean isApproved) {
-        Application application = applicationRepository.getApplicationById(id);
-
+        Application application = this.applicationRepository.findById(id);
         if (application == null) {
             return Response.status(404).build();
         }
-        Application processedApplication = applicationRepository.approveOrDenyApplication(application, isApproved);
-        if (processedApplication.getApproved()) {
-            deploymentService.deployNginx(processedApplication.getReplica());
+
+        this.applicationRepository.setApproval(id, isApproved);
+        if (isApproved) {
+            this.deploymentService.deployNginx(application.getReplica());
         }
-        return Response.ok(processedApplication).build();
+
+        return Response.noContent().build();
     }
 }

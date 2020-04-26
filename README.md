@@ -28,3 +28,11 @@ Or, if you don't have GraalVM installed, you can run the native executable build
 You can then execute your native executable with: `./target/beeyond-1.0.0-SNAPSHOT-runner`
 
 If you want to learn more about building native executables, please consult https://quarkus.io/guides/building-native-image-guide.
+
+## Start a test database with docker
+
+```shell script
+docker run --ulimit memlock=-1:-1 -it --rm=true --memory-swappiness=0 \
+    -e POSTGRES_USER=beeyond -e POSTGRES_PASSWORD=beeyond -e POSTGRES_DB=beeyond_db \
+    -p 5432:5432 postgres:10.5
+```

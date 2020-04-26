@@ -1,40 +1,38 @@
 package at.htl.beeyond.model;
 
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 
 @Entity
-@NamedQueries({
-        @NamedQuery(name = "Application.getAll", query = "select a from Application a")
-})
 public class Application {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private int replica;
+    private Integer replica;
     private Boolean isApproved;
 
-    public Application() {
+    public Application(Integer replica, boolean isApproved) {
+        this.replica = replica;
+        this.isApproved = isApproved;
     }
 
-    public Application(int replica) {
+    public Application(Integer replica) {
         this(replica, false);
     }
 
-    public Application(int replica, boolean isApproved) {
-        this.replica = replica;
-        this.isApproved = isApproved;
+    public Application() {
     }
 
     public Long getId() {
         return id;
     }
 
-    /*
     public void setId(Long id) {
-
         this.id = id;
-    } */
+    }
 
     public int getReplica() {
         return replica;
@@ -44,11 +42,11 @@ public class Application {
         this.replica = replica;
     }
 
-    public Boolean getApproved() {
+    public Boolean getIsApproved() {
         return isApproved;
     }
 
-    public void setApproved(Boolean approved) {
+    public void setIsApproved(Boolean approved) {
         isApproved = approved;
     }
 }

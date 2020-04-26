@@ -1,36 +1,25 @@
 package at.htl.beeyond.repository;
 
 import at.htl.beeyond.model.Application;
+import io.quarkus.hibernate.orm.panache.PanacheRepository;
 
 import javax.enterprise.context.ApplicationScoped;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
-import java.util.List;
 
 @Transactional
 @ApplicationScoped
-public class ApplicationRepository {
+public class ApplicationRepository implements PanacheRepository<Application> {
 
-    @PersistenceContext
-    EntityManager em;
 
-    public List<Application> getAllApplications() {
-        return em.createNamedQuery("Application.getAll").getResultList();
+    public boolean persistApplication(Application application) {
+        if (this.isPersistent(application)) {
+            return false;
+        }
+        this.persist(application);
+        return true;
     }
 
-    public Application getApplicationById(Long id) {
-        return em.find(Application.class, id);
-    }
-
-    public Application uploadApplication(Application application) {
-        em.persist(application);
-        return application;
-    }
-
-    public Application approveOrDenyApplication(Application application, boolean isApproved) {
-        application.setApproved(isApproved);
-        em.merge(application);
-        return application;
+    public void setApproval(Long id, boolean isApproved) {
+        this.findById(id).setIsApproved(isApproved);
     }
 }

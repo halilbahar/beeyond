@@ -19,14 +19,14 @@ public class ApplicationResource {
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public Response getAllApplications() {
-        return Response.ok(applicationRepository.getAllApplications()).build();
+        return Response.ok(this.applicationRepository.findAll().list()).build();
     }
 
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response getApplicationById(@PathParam("id") Long id) {
-        Application application = applicationRepository.getApplicationById(id);
+        Application application = this.applicationRepository.findById(id);
         if (application == null) {
             return Response.status(404).build();
         }
@@ -36,9 +36,8 @@ public class ApplicationResource {
 
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
-    @Produces(MediaType.APPLICATION_JSON)
     public Response uploadApplication(Application application) {
-        Application app = applicationRepository.uploadApplication(application);
-        return Response.ok(app).build();
+        this.applicationRepository.persistApplication(application);
+        return Response.noContent().build();
     }
 }
