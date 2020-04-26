@@ -29,6 +29,10 @@ body {
   user-select: none;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 .main-card {
   width: 80%;
   box-sizing: border-box;

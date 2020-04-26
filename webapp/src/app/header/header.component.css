@@ -1,4 +1,17 @@
-div {
+.header {
+  display: flex;
+  align-items: center;
   background-color: #ffffff;
   box-shadow: 0 1px 5px 0 rgba(0, 0, 0, 0.3);
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  font-size: 40px;
+  padding-left: 22px;
+}
+
+.header-title {
+  margin-left: 22px;
 }
