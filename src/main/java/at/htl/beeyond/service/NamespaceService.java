@@ -41,6 +41,10 @@ public class NamespaceService {
         this.client.load(stream).createOrReplace();
     }
 
+    public void deleteNamespace(String namespace) {
+       this.client.namespaces().withName(namespace).delete();
+    }
+
     private List<JsonObject> readYaml(String file) {
         List<JsonObject> result = new LinkedList<>();
 
