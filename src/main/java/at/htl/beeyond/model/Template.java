@@ -1,9 +1,7 @@
 package at.htl.beeyond.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
+import javax.validation.constraints.Max;
 
 @Entity
 public class Template {
@@ -11,6 +9,7 @@ public class Template {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Column(length = 9999)
     private String content;
     private String name;
     private String description;
