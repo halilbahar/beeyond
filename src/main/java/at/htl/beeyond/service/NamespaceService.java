@@ -14,6 +14,11 @@ public class NamespaceService {
     @Inject
     DeploymentYamlService deploymentYamlService;
 
+    public List<Namespace> getAllNamespaces() {
+        NamespaceList namespaces = this.deploymentYamlService.getClient().namespaces().list();
+        return namespaces.getItems();
+    }
+
     public void createNamespace(String namespace) {
         List<JsonObject> jsonObjects = this.deploymentYamlService.readYaml("config-templates", "namespace-template.yml");
         jsonObjects.get(0).getJsonObject("metadata").put("name", namespace);
@@ -22,10 +27,5 @@ public class NamespaceService {
 
     public void deleteNamespace(String namespace) {
        this.deploymentYamlService.getClient().namespaces().withName(namespace).delete();
-    }
-
-    public List<Namespace> getAllNamespaces() {
-        NamespaceList namespaces = this.deploymentYamlService.getClient().namespaces().list();
-        return namespaces.getItems();
     }
 }

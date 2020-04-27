@@ -12,20 +12,20 @@ public class NamespaceResource {
     @Inject
     NamespaceService namespaceService;
 
+    @GET
+    public Response getAllNamespaces() {
+        return Response.ok(this.namespaceService.getAllNamespaces()).build();
+    }
+
     @POST
     public Response createNamespace(@QueryParam("namespace") String namespace) {
         this.namespaceService.createNamespace(namespace);
-        return Response.ok("Namespace " + namespace + " created").build();
+        return Response.noContent().build();
     }
 
     @DELETE
     public Response deleteNamespace(@QueryParam("namespace") String namespace) {
         this.namespaceService.deleteNamespace(namespace);
-        return Response.ok("Namespace " + namespace + " deleted").build();
-    }
-
-    @GET
-    public Response getAllNamespaces() {
-        return Response.ok(this.namespaceService.getAllNamespaces()).build();
+        return Response.noContent().build();
     }
 }
