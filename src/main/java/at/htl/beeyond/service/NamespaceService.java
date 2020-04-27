@@ -7,9 +7,11 @@ import org.yaml.snakeyaml.DumperOptions;
 import org.yaml.snakeyaml.Yaml;
 
 import javax.enterprise.context.ApplicationScoped;
+import java.io.ByteArrayInputStream;
 import java.io.InputStream;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @ApplicationScoped
 public class NamespaceService {
@@ -24,6 +26,19 @@ public class NamespaceService {
 
         this.yaml = new Yaml(dumperOptions);
         this.client = new DefaultKubernetesClient();
+    }
+
+    public void createNamespace(String namespace) {
+        List<JsonObject> jsonObjects = readYaml("namespace-template.yml");
+        jsonObjects.get(0).getJsonObject("metadata").put("name", namespace);
+
+        String yaml = jsonObjects.stream()
+                .map(JsonObject::getMap)
+                .map(this.yaml::dump)
+                .collect(Collectors.joining("---\n"));
+
+        InputStream stream = new ByteArrayInputStream((yaml.getBytes()));
+        this.client.load(stream).createOrReplace();
     }
 
     private List<JsonObject> readYaml(String file) {
