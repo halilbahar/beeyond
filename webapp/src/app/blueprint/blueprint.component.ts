@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatSelectionList } from '@angular/material/list';
+import { HttpApiService } from '../service/http-api.service';
 
 @Component({
   selector: 'app-blueprint',
@@ -9,10 +10,12 @@ import { MatSelectionList } from '@angular/material/list';
 export class BlueprintComponent implements OnInit {
 
   @ViewChild('blueprints') blueprints: MatSelectionList;
+  templates: string[] = [];
 
-  constructor() { }
+  constructor(private httpApiService: HttpApiService) { }
 
   ngOnInit(): void {
+    this.httpApiService.getAllTemplates().subscribe(value => this.templates = value);
   }
 
 }

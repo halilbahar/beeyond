@@ -15,6 +15,7 @@ import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
 import { HeaderComponent } from './header/header.component';
 import { MatCardModule } from '@angular/material/card';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MatCardModule } from '@angular/material/card';
     MatSidenavModule,
     MatIconModule,
     MatListModule,
-    MatCardModule
+    MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
