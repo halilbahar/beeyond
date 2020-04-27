@@ -1,7 +1,6 @@
 package at.htl.beeyond.model;
 
 import javax.persistence.*;
-import javax.validation.constraints.Max;
 
 @Entity
 public class Template {
