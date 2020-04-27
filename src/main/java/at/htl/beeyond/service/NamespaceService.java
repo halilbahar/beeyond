@@ -1,5 +1,7 @@
 package at.htl.beeyond.service;
 
+import io.fabric8.kubernetes.api.model.Namespace;
+import io.fabric8.kubernetes.api.model.NamespaceList;
 import io.fabric8.kubernetes.client.DefaultKubernetesClient;
 import io.fabric8.kubernetes.client.KubernetesClient;
 import io.vertx.core.json.JsonObject;
@@ -43,6 +45,11 @@ public class NamespaceService {
 
     public void deleteNamespace(String namespace) {
        this.client.namespaces().withName(namespace).delete();
+    }
+
+    public List<Namespace> getAllNamespaces() {
+        NamespaceList namespaces = this.client.namespaces().list();
+        return namespaces.getItems();
     }
 
     private List<JsonObject> readYaml(String file) {
