@@ -13,6 +13,9 @@ import { AccountingComponent } from './accounting/accounting.component';
 import { BlueprintComponent } from './blueprint/blueprint.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
+import { HeaderComponent } from './header/header.component';
+import { MatCardModule } from '@angular/material/card';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,8 @@ import { ManagementComponent } from './management/management.component';
     AccountingComponent,
     BlueprintComponent,
     ProfileComponent,
-    ManagementComponent
+    ManagementComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
@@ -30,7 +34,9 @@ import { ManagementComponent } from './management/management.component';
     BrowserAnimationsModule,
     MatSidenavModule,
     MatIconModule,
-    MatListModule
+    MatListModule,
+    MatCardModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]

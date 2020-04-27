@@ -1,7 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+html, body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+}
 
 .primary-bg-color {
   background-color: #ffdf9e;
@@ -21,4 +27,15 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.main-card {
+  width: 80%;
+  box-sizing: border-box;
+  height: 60%;
+  margin: 3% 0 0 10%;
 }

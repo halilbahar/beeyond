@@ -1,1 +1,11 @@
-<p>blueprint works!</p>
+<mat-card class="main-card">
+  <mat-card-header>
+    <mat-card-title>blueprints</mat-card-title>
+    <mat-card-subtitle>our custom blueprints</mat-card-subtitle>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-selection-list [multiple]="false" #blueprints>
+      <mat-list-option *ngFor="let template of templates">{{template}}</mat-list-option>
+    </mat-selection-list>
+  </mat-card-content>
+</mat-card>
