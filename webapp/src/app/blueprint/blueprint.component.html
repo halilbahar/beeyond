@@ -6,8 +6,8 @@
   <mat-divider></mat-divider>
   <mat-card-content>
     <mat-selection-list [multiple]="false" #blueprints>
-      <mat-list-option *ngFor="let template of templates">
-        <span>{{template.name}}</span>
+      <mat-list-option class="template-wrapper" *ngFor="let template of templates">
+        <span class="template-title">{{template.name}}</span>
         <span>{{template.description}}</span>
       </mat-list-option>
     </mat-selection-list>
