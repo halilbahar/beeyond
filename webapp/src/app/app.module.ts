@@ -17,6 +17,7 @@ import { HeaderComponent } from './header/header.component';
 import { MatCardModule } from '@angular/material/card';
 import {HttpClientModule} from '@angular/common/http';
 import {MatButtonModule} from '@angular/material/button';
+import { BlueprintTemplateComponent } from './blueprint/blueprint-template/blueprint-template.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import {MatButtonModule} from '@angular/material/button';
     BlueprintComponent,
     ProfileComponent,
     ManagementComponent,
-    HeaderComponent
+    HeaderComponent,
+    BlueprintTemplateComponent
   ],
     imports: [
         BrowserModule,
