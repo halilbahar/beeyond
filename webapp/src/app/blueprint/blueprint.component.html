@@ -13,6 +13,6 @@
     </mat-selection-list>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-raised-button>select</button>
+    <button mat-raised-button [disabled]="blueprints.selectedOptions.selected.length !== 1">select</button>
   </mat-card-actions>
 </mat-card>
