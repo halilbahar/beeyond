@@ -10,7 +10,6 @@ import { Template } from './template.model';
 })
 export class BlueprintComponent implements OnInit {
 
-  @ViewChild('blueprints') blueprints: MatSelectionList;
   templates: Template[] = [];
 
   constructor(private httpApiService: HttpApiService) { }
@@ -18,5 +17,4 @@ export class BlueprintComponent implements OnInit {
   ngOnInit(): void {
     this.httpApiService.getAllTemplates().subscribe(value => this.templates = value);
   }
-
 }
