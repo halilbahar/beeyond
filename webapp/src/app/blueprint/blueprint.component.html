@@ -6,13 +6,14 @@
   <mat-divider></mat-divider>
   <mat-card-content>
     <mat-selection-list [multiple]="false" #blueprints>
-      <mat-list-option class="template-wrapper" *ngFor="let template of templates">
+      <mat-list-option class="template-wrapper" *ngFor="let template of templates" [value]="template.name">
         <span class="template-title">{{template.name}}</span>
         <span>{{template.description}}</span>
       </mat-list-option>
     </mat-selection-list>
   </mat-card-content>
   <mat-card-actions align="end">
-    <button mat-raised-button [disabled]="blueprints.selectedOptions.selected.length !== 1">select</button>
+    <button mat-raised-button [disabled]="blueprints.selectedOptions.selected.length !== 1"
+            routerLink="{{blueprints.selectedOptions.selected[0]?.value}}">select</button>
   </mat-card-actions>
 </mat-card>
