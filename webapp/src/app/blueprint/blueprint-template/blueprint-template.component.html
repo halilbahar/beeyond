@@ -1,1 +1,22 @@
-<p>blueprint-template works!</p>
+<mat-card class="main-card">
+  <mat-card-header>
+    <mat-card-title>{{template}}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <form class="blueprint-form">
+      <mat-form-field class="input-full-width">
+        <mat-label>Name</mat-label>
+        <input matInput placeholder="name">
+      </mat-form-field>
+
+      <mat-form-field class="input-full-width">
+        <mat-label>Replicas</mat-label>
+        <input matInput placeholder="Number of replicas generated">
+      </mat-form-field>
+    </form>
+
+  </mat-card-content>
+  <mat-card-actions align="end">
+
+  </mat-card-actions>
+</mat-card>
