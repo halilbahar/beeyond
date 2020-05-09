@@ -16,6 +16,10 @@ import { ManagementComponent } from './management/management.component';
 import { HeaderComponent } from './header/header.component';
 import { MatCardModule } from '@angular/material/card';
 import {HttpClientModule} from '@angular/common/http';
+import {MatButtonModule} from '@angular/material/button';
+import { BlueprintTemplateComponent } from './blueprint/blueprint-template/blueprint-template.component';
+import {MatFormFieldModule} from '@angular/material/form-field';
+import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
   declarations: [
@@ -26,7 +30,8 @@ import {HttpClientModule} from '@angular/common/http';
     BlueprintComponent,
     ProfileComponent,
     ManagementComponent,
-    HeaderComponent
+    HeaderComponent,
+    BlueprintTemplateComponent
   ],
   imports: [
     BrowserModule,
@@ -36,7 +41,10 @@ import {HttpClientModule} from '@angular/common/http';
     MatIconModule,
     MatListModule,
     MatCardModule,
-    HttpClientModule
+    HttpClientModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule
   ],
   providers: [],
   bootstrap: [AppComponent]
