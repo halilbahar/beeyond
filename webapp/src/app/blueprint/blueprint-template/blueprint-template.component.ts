@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { HttpApiService } from '../../service/http-api.service';
 import { BlueprintTemplate } from './blueprint-template.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-blueprint-template',
@@ -15,7 +16,8 @@ export class BlueprintTemplateComponent implements OnInit {
 
   constructor(
     private route: ActivatedRoute,
-    private httpApiService: HttpApiService
+    private httpApiService: HttpApiService,
+    private snackBar: MatSnackBar
   ) { }
 
   ngOnInit(): void {
@@ -23,8 +25,9 @@ export class BlueprintTemplateComponent implements OnInit {
   }
 
   submit() {
-    this.httpApiService.postTemplate(new BlueprintTemplate(this.form.name, this.form.replica, this.template)).subscribe(
-      console.log
-    );
+    this.httpApiService.postTemplate(new BlueprintTemplate(this.form.name, this.form.replica, this.template))
+      .subscribe(value => {
+        this.snackBar.open('Application was sent!', '', {duration: 2000});
+      });
   }
 }
