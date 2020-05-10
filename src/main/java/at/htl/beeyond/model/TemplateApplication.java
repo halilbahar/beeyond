@@ -1,9 +1,6 @@
 package at.htl.beeyond.model;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class TemplateApplication {
@@ -11,16 +8,18 @@ public class TemplateApplication {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private String name;
     private Integer replica;
     private Boolean isApproved;
+    @ManyToOne
+    private Template template;
+    @Transient
+    private String templateName;
 
-    public TemplateApplication(Integer replica, boolean isApproved) {
+    public TemplateApplication(String name, Integer replica, Boolean isApproved) {
+        this.name = name;
         this.replica = replica;
         this.isApproved = isApproved;
-    }
-
-    public TemplateApplication(Integer replica) {
-        this(replica, false);
     }
 
     public TemplateApplication() {
@@ -32,6 +31,14 @@ public class TemplateApplication {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public int getReplica() {
@@ -48,5 +55,21 @@ public class TemplateApplication {
 
     public void setIsApproved(Boolean approved) {
         isApproved = approved;
+    }
+
+    public Template getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(Template template) {
+        this.template = template;
+    }
+
+    public String getTemplateName() {
+        return templateName;
+    }
+
+    public void setTemplateName(String templateName) {
+        this.templateName = templateName;
     }
 }
