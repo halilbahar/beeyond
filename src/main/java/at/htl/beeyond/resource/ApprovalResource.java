@@ -1,7 +1,7 @@
 package at.htl.beeyond.resource;
 
-import at.htl.beeyond.model.Application;
-import at.htl.beeyond.repository.ApplicationRepository;
+import at.htl.beeyond.model.TemplateApplication;
+import at.htl.beeyond.repository.TemplateApplicationRepository;
 import at.htl.beeyond.service.DeploymentService;
 
 import javax.inject.Inject;
@@ -13,7 +13,7 @@ import javax.ws.rs.core.Response;
 public class ApprovalResource {
 
     @Inject
-    ApplicationRepository applicationRepository;
+    TemplateApplicationRepository templateApplicationRepository;
     @Inject
     DeploymentService deploymentService;
 
@@ -21,14 +21,14 @@ public class ApprovalResource {
     @Produces(MediaType.APPLICATION_JSON)
     @Path("/{id}")
     public Response approveOrDenyApplication(@PathParam("id") Long id, @QueryParam("approved") boolean isApproved) {
-        Application application = this.applicationRepository.findById(id);
-        if (application == null) {
+        TemplateApplication templateApplication = this.templateApplicationRepository.findById(id);
+        if (templateApplication == null) {
             return Response.status(404).build();
         }
 
-        this.applicationRepository.setApproval(id, isApproved);
+        this.templateApplicationRepository.setApproval(id, isApproved);
         if (isApproved) {
-            this.deploymentService.deployNginx(application.getReplica());
+            this.deploymentService.deployNginx(templateApplication.getReplica());
         }
 
         return Response.noContent().build();

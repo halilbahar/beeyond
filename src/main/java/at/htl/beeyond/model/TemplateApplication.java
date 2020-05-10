@@ -6,7 +6,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class Application {
+public class TemplateApplication {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -14,16 +14,16 @@ public class Application {
     private Integer replica;
     private Boolean isApproved;
 
-    public Application(Integer replica, boolean isApproved) {
+    public TemplateApplication(Integer replica, boolean isApproved) {
         this.replica = replica;
         this.isApproved = isApproved;
     }
 
-    public Application(Integer replica) {
+    public TemplateApplication(Integer replica) {
         this(replica, false);
     }
 
-    public Application() {
+    public TemplateApplication() {
     }
 
     public Long getId() {
