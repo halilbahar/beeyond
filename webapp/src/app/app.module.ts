@@ -20,6 +20,7 @@ import {MatButtonModule} from '@angular/material/button';
 import { BlueprintTemplateComponent } from './blueprint/blueprint-template/blueprint-template.component';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
+import { FormsModule } from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { MatInputModule } from '@angular/material/input';
     HttpClientModule,
     MatButtonModule,
     MatFormFieldModule,
-    MatInputModule
+    MatInputModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]
