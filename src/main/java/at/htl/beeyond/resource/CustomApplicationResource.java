@@ -34,6 +34,9 @@ public class CustomApplicationResource {
     @Transactional
     public Response approve(@PathParam("id") Long id) {
         CustomApplication customApplication = CustomApplication.findById(id);
+        if (customApplication == null) {
+            Response.status(404).build();
+        }
         this.deploymentService.deploy(customApplication);
         customApplication.setStatus(ApplicationStatus.RUNNING);
         return Response.ok().build();
