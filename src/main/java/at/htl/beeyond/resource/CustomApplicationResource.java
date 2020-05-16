@@ -7,14 +7,19 @@ import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
+import javax.validation.ConstraintViolation;
+import javax.validation.Validator;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.Set;
 
 @Path("/custom-application")
 @Consumes("application/json")
 @Produces("application/json")
 public class CustomApplicationResource {
 
+    @Inject
+    Validator validator;
     @Inject
     DeploymentService deploymentService;
 
@@ -27,6 +32,12 @@ public class CustomApplicationResource {
     @POST
     @Transactional
     public Response create(CustomApplication customApplication) {
+        System.out.println(customApplication);
+        Set<ConstraintViolation<CustomApplication>> violations = this.validator.validate(customApplication);
+        if (!violations.isEmpty()) {
+            return Response.status(422).build();
+        }
+
         customApplication.persist();
         return Response.noContent().build();
     }
