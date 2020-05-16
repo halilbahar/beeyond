@@ -12,7 +12,6 @@ import javax.json.bind.Jsonb;
 import javax.json.bind.JsonbBuilder;
 import java.io.ByteArrayInputStream;
 import java.io.InputStream;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,32 +32,8 @@ public class DeploymentYamlService {
         this.client = new DefaultKubernetesClient();
     }
 
-    public void executeYaml(List<JsonObject> jsonObjects) {
-        executeYaml(jsonObjects, "default");
-    }
-
-    public void executeYaml(List<JsonObject> jsonObjects, String namespace) {
-        String yaml = jsonObjects.stream()
-                .map(JsonObject::getMap)
-                .map(this.yaml::dump)
-                .collect(Collectors.joining("---\n"));
-
-        InputStream stream = new ByteArrayInputStream((yaml.getBytes()));
-        List<HasMetadata> list = this.client.load(stream).inNamespace(namespace).createOrReplace();
-    }
-
-    public List<JsonObject> readYaml(String directory, String file) {
-        List<JsonObject> result = new LinkedList<>();
-
-        InputStream inputStream = this.getClass()
-                .getClassLoader()
-                .getResourceAsStream("/" + directory + "/" + file);
-        Iterable<Object> objects = this.yaml.loadAll(inputStream);
-
-        for (Object object : objects) {
-            result.add(JsonObject.mapFrom(object));
-        }
-        return result;
+    public void executeYaml(String content) {
+        this.client.load(new ByteArrayInputStream(content.getBytes())).inNamespace("default").createOrReplace();
     }
 
     public KubernetesClient getClient() {

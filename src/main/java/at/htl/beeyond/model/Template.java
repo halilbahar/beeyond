@@ -1,41 +1,25 @@
 package at.htl.beeyond.model;
 
-import javax.persistence.*;
+import io.quarkus.hibernate.orm.panache.PanacheEntity;
+
+import javax.persistence.Entity;
+import javax.persistence.Lob;
 
 @Entity
-public class Template {
+public class Template extends PanacheEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-    @Column(length = 9999)
-    private String content;
     private String name;
     private String description;
+    @Lob
+    private String content;
 
-    public Template(String content, String name, String description) {
-        this.content = content;
+    public Template(String name, String content, String description) {
         this.name = name;
+        this.content = content;
         this.description = description;
     }
 
     public Template() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 
     public String getName() {
@@ -52,5 +36,13 @@ public class Template {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 }
