@@ -39,6 +39,6 @@ public class CustomApplicationResource {
         }
         this.deploymentService.deploy(customApplication);
         customApplication.setStatus(ApplicationStatus.RUNNING);
-        return Response.ok().build();
+        return Response.noContent().build();
     }
 }
