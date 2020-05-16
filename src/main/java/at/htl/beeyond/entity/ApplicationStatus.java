@@ -1,4 +1,4 @@
-package at.htl.beeyond.model;
+package at.htl.beeyond.entity;
 
 public enum ApplicationStatus {
     PENDING, DENIED, RUNNING

@@ -1,7 +1,7 @@
 package at.htl.beeyond.resource;
 
-import at.htl.beeyond.model.ApplicationStatus;
-import at.htl.beeyond.model.CustomApplication;
+import at.htl.beeyond.entity.ApplicationStatus;
+import at.htl.beeyond.entity.CustomApplication;
 import at.htl.beeyond.service.DeploymentService;
 
 import javax.inject.Inject;

@@ -1,6 +1,6 @@
 package at.htl.beeyond.resource;
 
-import at.htl.beeyond.model.Template;
+import at.htl.beeyond.entity.Template;
 
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
@@ -12,6 +12,7 @@ import javax.ws.rs.core.Response;
 public class TemplateResource {
 
     @GET
+    @Transactional
     public Response getAll() {
         return Response.ok(Template.findAll().list()).build();
     }

@@ -1,6 +1,6 @@
 package at.htl.beeyond.service;
 
-import at.htl.beeyond.model.CustomApplication;
+import at.htl.beeyond.entity.CustomApplication;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;

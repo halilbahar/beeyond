@@ -1,4 +1,4 @@
-package at.htl.beeyond.model;
+package at.htl.beeyond.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;

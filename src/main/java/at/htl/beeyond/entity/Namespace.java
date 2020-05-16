@@ -1,4 +1,4 @@
-package at.htl.beeyond.model;
+package at.htl.beeyond.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
