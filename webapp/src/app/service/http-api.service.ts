@@ -14,5 +14,9 @@ export class HttpApiService {
   public getAllTemplates(): Observable<Template[]> {
     return this.httpClient.get<Template[]>(environment.apiUrl + '/template');
   }
+
+  public createCustomApplication(payload) {
+    return this.httpClient.post(environment.apiUrl + '/custom-application', payload);
+  }
 }
 

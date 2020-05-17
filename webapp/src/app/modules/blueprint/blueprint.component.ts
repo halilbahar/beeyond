@@ -10,10 +10,18 @@ import { Template } from './template.model';
 export class BlueprintComponent implements OnInit {
 
   templates: Template[] = [];
+  customTemplate = {
+    content: '',
+    note: ''
+  };
 
   constructor(private httpApiService: HttpApiService) { }
 
   ngOnInit(): void {
     this.httpApiService.getAllTemplates().subscribe(value => this.templates = value);
+  }
+
+  sendCustomTemplate(): void {
+    this.httpApiService.createCustomApplication(this.customTemplate).subscribe(console.log);
   }
 }

@@ -1,19 +1,38 @@
 <mat-card class="main-card">
-  <mat-card-header>
-    <mat-card-title>Handcrafted Blueprints</mat-card-title>
-    <mat-card-subtitle>Crafted by our own busy bees</mat-card-subtitle>
-  </mat-card-header>
-  <mat-divider></mat-divider>
-  <mat-card-content>
-    <mat-selection-list [multiple]="false" #blueprints>
-      <mat-list-option class="template-wrapper" *ngFor="let template of templates" [value]="template.name">
-        <span class="template-title">{{template.name}}</span>
-        <span>{{template.description}}</span>
-      </mat-list-option>
-    </mat-selection-list>
-  </mat-card-content>
-  <mat-card-actions align="end">
-    <button mat-raised-button [disabled]="blueprints.selectedOptions.selected.length !== 1"
-            routerLink="{{blueprints.selectedOptions.selected[0]?.value}}">select</button>
-  </mat-card-actions>
+  <mat-tab-group>
+    <mat-tab label="Custom Blueprint">
+      <div class="tab-wrapper">
+        <mat-card-content>
+          <h3>The content of your script:</h3>
+          <textarea rows="20" class="text-area-full-width" [(ngModel)]="customTemplate.content"></textarea>
+          <h3>A small optional note:</h3>
+          <textarea rows="3" class="text-area-full-width" [(ngModel)]="customTemplate.note"></textarea>
+        </mat-card-content>
+
+        <mat-card-actions align="end">
+          <button mat-raised-button (click)="sendCustomTemplate()" [disabled]="customTemplate.content.length === 0">
+            Send
+          </button>
+        </mat-card-actions>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Template Blueprints">
+      <div class="tab-wrapper">
+        <mat-card-content>
+          <mat-selection-list [multiple]="false" #blueprints>
+            <mat-list-option class="template-wrapper" *ngFor="let template of templates" [value]="template.name">
+              <span class="template-title">{{template.name}}</span>
+              <span>{{template.description}}</span>
+            </mat-list-option>
+          </mat-selection-list>
+        </mat-card-content>
+        <mat-card-actions align="end">
+          <button mat-raised-button [disabled]="blueprints.selectedOptions.selected.length !== 1"
+                  routerLink="{{blueprints.selectedOptions.selected[0]?.value}}">select
+          </button>
+        </mat-card-actions>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 </mat-card>

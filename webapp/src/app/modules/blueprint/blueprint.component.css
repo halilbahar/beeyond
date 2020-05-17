@@ -1,6 +1,21 @@
-.template-title{
+.template-title {
   font-size: 20px !important;
 }
-.template-wrapper{
+
+.template-wrapper {
   padding: 10px 0;
+}
+
+.mat-card-actions {
+  margin: 0 2px 6px 0 !important;
+  padding: 0 !important;
+}
+
+.tab-wrapper {
+  margin-top: 1rem;
+}
+
+.text-area-full-width {
+  width: 100%;
+  box-sizing: border-box;
 }
