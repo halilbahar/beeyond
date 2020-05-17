@@ -13,7 +13,7 @@ import { AccountingComponent } from './accounting/accounting.component';
 import { BlueprintComponent } from './blueprint/blueprint.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
-import { HeaderComponent } from './header/header.component';
+import { HeaderComponent } from './core/header/header.component';
 import { MatCardModule } from '@angular/material/card';
 import {HttpClientModule} from '@angular/common/http';
 import {MatButtonModule} from '@angular/material/button';
