@@ -1,6 +1,5 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
-import { MatSelectionList } from '@angular/material/list';
-import { HttpApiService } from '../service/http-api.service';
+import { Component, OnInit } from '@angular/core';
+import { HttpApiService } from '../../service/http-api.service';
 import { Template } from './template.model';
 
 @Component({

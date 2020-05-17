@@ -10,15 +10,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountingComponent } from './accounting/accounting.component';
-import { BlueprintComponent } from './blueprint/blueprint.component';
 import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
 import { HeaderComponent } from './core/header/header.component';
 import { MatCardModule } from '@angular/material/card';
-import {HttpClientModule} from '@angular/common/http';
-import {MatButtonModule} from '@angular/material/button';
-import { BlueprintTemplateComponent } from './blueprint/blueprint-template/blueprint-template.component';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import { HttpClientModule } from '@angular/common/http';
+import { MatButtonModule } from '@angular/material/button';
+import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 
 @NgModule({
@@ -27,11 +25,9 @@ import { MatInputModule } from '@angular/material/input';
     SideNavigationComponent,
     DashboardComponent,
     AccountingComponent,
-    BlueprintComponent,
     ProfileComponent,
     ManagementComponent,
     HeaderComponent,
-    BlueprintTemplateComponent
   ],
   imports: [
     BrowserModule,
@@ -49,4 +45,4 @@ import { MatInputModule } from '@angular/material/input';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
