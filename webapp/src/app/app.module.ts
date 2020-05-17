@@ -10,7 +10,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AccountingComponent } from './accounting/accounting.component';
-import { ProfileComponent } from './profile/profile.component';
 import { ManagementComponent } from './management/management.component';
 import { HeaderComponent } from './core/header/header.component';
 import { MatCardModule } from '@angular/material/card';
@@ -25,9 +24,8 @@ import { MatInputModule } from '@angular/material/input';
     SideNavigationComponent,
     DashboardComponent,
     AccountingComponent,
-    ProfileComponent,
     ManagementComponent,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
