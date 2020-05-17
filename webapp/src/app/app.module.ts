@@ -9,7 +9,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { AccountingComponent } from './accounting/accounting.component';
 import { ManagementComponent } from './management/management.component';
 import { HeaderComponent } from './core/header/header.component';
 import { MatCardModule } from '@angular/material/card';
@@ -23,7 +22,6 @@ import { MatInputModule } from '@angular/material/input';
     AppComponent,
     SideNavigationComponent,
     DashboardComponent,
-    AccountingComponent,
     ManagementComponent,
     HeaderComponent
   ],
@@ -43,4 +41,4 @@ import { MatInputModule } from '@angular/material/input';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
