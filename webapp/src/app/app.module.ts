@@ -9,7 +9,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { MatListModule } from '@angular/material/list';
 import { DashboardComponent } from './dashboard/dashboard.component';
-import { ManagementComponent } from './management/management.component';
 import { HeaderComponent } from './core/header/header.component';
 import { MatCardModule } from '@angular/material/card';
 import { HttpClientModule } from '@angular/common/http';
@@ -22,7 +21,6 @@ import { MatInputModule } from '@angular/material/input';
     AppComponent,
     SideNavigationComponent,
     DashboardComponent,
-    ManagementComponent,
     HeaderComponent
   ],
   imports: [
