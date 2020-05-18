@@ -3,7 +3,6 @@ package at.htl.beeyond.resource;
 import at.htl.beeyond.entity.ApplicationStatus;
 import at.htl.beeyond.entity.CustomApplication;
 import at.htl.beeyond.service.DeploymentService;
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.inject.Inject;
 import javax.transaction.Transactional;
@@ -32,7 +31,6 @@ public class CustomApplicationResource {
     @POST
     @Transactional
     public Response create(CustomApplication customApplication) {
-        System.out.println(customApplication);
         Set<ConstraintViolation<CustomApplication>> violations = this.validator.validate(customApplication);
         if (!violations.isEmpty()) {
             return Response.status(422).build();

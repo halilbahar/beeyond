@@ -4,10 +4,7 @@ import io.quarkus.hibernate.orm.panache.PanacheEntity;
 import org.hibernate.validator.constraints.Length;
 
 import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.Lob;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 
 @Entity
@@ -19,6 +16,8 @@ public class CustomApplication extends PanacheEntity {
     private String note;
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status = ApplicationStatus.PENDING;
+    @ManyToOne
+    private User user;
 
     public CustomApplication(String content, String note, ApplicationStatus status) {
         this.content = content;
@@ -52,5 +51,14 @@ public class CustomApplication extends PanacheEntity {
     @JsonbTransient
     public void setStatus(ApplicationStatus status) {
         this.status = status;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    @JsonbTransient
+    public void setUser(User user) {
+        this.user = user;
     }
 }
