@@ -4,6 +4,7 @@ import at.htl.beeyond.entity.ApplicationStatus;
 import at.htl.beeyond.entity.CustomApplication;
 import at.htl.beeyond.service.DeploymentService;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
@@ -23,12 +24,14 @@ public class CustomApplicationResource {
     DeploymentService deploymentService;
 
     @GET
+    @RolesAllowed("teacher")
     @Transactional
     public Response getAll() {
         return Response.ok(CustomApplication.findAll().list()).build();
     }
 
     @POST
+    @RolesAllowed({"student", "teacher"})
     @Transactional
     public Response create(CustomApplication customApplication) {
         Set<ConstraintViolation<CustomApplication>> violations = this.validator.validate(customApplication);
@@ -42,6 +45,7 @@ public class CustomApplicationResource {
 
     @DELETE
     @Path("/{id}")
+    @RolesAllowed("teacher")
     @Transactional
     public Response delete(@PathParam("id") Long id) {
         CustomApplication customApplication = CustomApplication.findById(id);
@@ -55,6 +59,7 @@ public class CustomApplicationResource {
 
     @PUT
     @Path("/approve/{id}")
+    @RolesAllowed("teacher")
     @Transactional
     public Response approve(@PathParam("id") Long id) {
         CustomApplication customApplication = CustomApplication.findById(id);
