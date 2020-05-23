@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { BlueprintComponent } from './blueprint.component';
+import { BlueprintComponent } from './pages/blueprint/blueprint.component';
 import { BlueprintTemplateComponent } from './blueprint-template/blueprint-template.component';
 
 const routes: Routes = [

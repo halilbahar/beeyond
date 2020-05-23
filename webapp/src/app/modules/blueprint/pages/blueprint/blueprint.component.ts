@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpApiService } from '../../service/http-api.service';
-import { Template } from './template.model';
+import { HttpApiService } from '../../../../service/http-api.service';
+import { Template } from '../../template.model';
 
 @Component({
   selector: 'app-blueprint',

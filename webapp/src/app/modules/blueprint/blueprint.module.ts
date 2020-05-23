@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BlueprintComponent } from './blueprint.component';
+import { BlueprintComponent } from './pages/blueprint/blueprint.component';
 import { BlueprintTemplateComponent } from './blueprint-template/blueprint-template.component';
 import { BlueprintRoutingModule } from './blueprint-routing.module';
 import { MatCardModule } from '@angular/material/card';
