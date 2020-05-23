@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ManagementRoutingModule } from './management-routing.module';
-import { ManagementComponent } from './management.component';
+import { ManagementComponent } from './pages/management/management.component';
 
 @NgModule({
   declarations: [
