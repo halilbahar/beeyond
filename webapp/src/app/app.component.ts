@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthenticationService } from './core/authentification/authentication.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,9 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'beeyond';
+  isLoggedIn = false;
+
+  constructor(private authenticationService: AuthenticationService) {
+    this.authenticationService.getCurrentUser().subscribe(user => this.isLoggedIn = user !== null);
+  }
 }
