@@ -1,0 +1,12 @@
+#form-card {
+  box-sizing: border-box;
+  width: 50%;
+  height: 35%;
+  top: 32.5%;
+  left: 25%;
+  position: absolute;
+}
+
+#login-form mat-form-field {
+  width: 100%;
+}

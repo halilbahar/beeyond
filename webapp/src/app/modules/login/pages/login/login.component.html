@@ -1,1 +1,17 @@
-<p>login works!</p>
+<mat-card id="form-card">
+  <mat-card-content>
+    <form [formGroup]="loginForm" id="login-form">
+      <mat-form-field>
+        <mat-label>Username</mat-label>
+        <input matInput placeholder="Ex. John Doe" formControlName="username">
+      </mat-form-field>
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input matInput type="password" formControlName="password">
+      </mat-form-field>
+    </form>
+  </mat-card-content>
+  <mat-card-actions align="right">
+    <button mat-stroked-button (click)="submitUserLogin()">login</button>
+  </mat-card-actions>
+</mat-card>
