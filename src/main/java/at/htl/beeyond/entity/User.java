@@ -2,18 +2,26 @@ package at.htl.beeyond.entity;
 
 import io.quarkus.hibernate.orm.panache.PanacheEntity;
 
+import javax.json.bind.annotation.JsonbTransient;
 import javax.persistence.Entity;
 import javax.persistence.OneToMany;
 import java.util.List;
 
 @Entity(name = "_user")
 public class User extends PanacheEntity {
+
     private String name;
+
     @OneToMany
+    @JsonbTransient
     private List<Namespace> namespaces;
+
     @OneToMany(mappedBy = "user")
+    @JsonbTransient
     private List<CustomApplication> customApplications;
+
     @OneToMany
+    @JsonbTransient
     private List<TemplateApplication> templateApplications;
 
     public User(String name) {
