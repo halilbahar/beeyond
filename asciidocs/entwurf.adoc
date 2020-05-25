@@ -1,0 +1,52 @@
+== 2.1 Systemarchitektur
+
+[plantuml]
+----
+@startuml
+
+    node Beeyond {
+        [Quarkus Server]
+        [Web Server]
+        database PostgreSQL
+    }
+
+    node Authentication {
+        [Keycloak Server]
+        [LDAP Server]
+        [Keycloak Server] --> [LDAP Server]
+    }
+
+    cloud Kubernetes {
+    }
+
+    [Quarkus Server] --> PostgreSQL
+    [Quarkus Server] <-r-> [Web Server]: HTTP
+
+    [Quarkus Server] -> [Keycloak Server]
+
+    [Quarkus Server] -l-> Kubernetes
+@enduml
+----
+
+== 2.2 Anwedungsfalldiagramm
+
+[plantuml]
+----
+@startuml
+    left to right direction
+
+    rectangle beeyond {
+        usecase (Ansuchung für virtuellen Server erstellen) as ansuchung
+        usecase (Virtuellen Server genehmigen) as genehmigung
+        usecase (Virtuellen Server in Kubernetes erstellen) as erstellung
+        usecase (Vorlagen für Benutzer erstellen) as vorlagen_erstellung
+        usecase (Monitoring)
+    }
+
+    Student -- ansuchung
+    Admin -- genehmigung
+    Kubernetes -- erstellung
+    Admin -- Monitoring
+    Admin -- vorlagen_erstellung
+@enduml
+----

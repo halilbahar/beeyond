@@ -1,0 +1,9 @@
+= Beeyond Documentation
+
+This is the documentation branch / github-page.
+
+== Compile adoc:
+
+....
+asciidoctor -r asciidoctor-diagram -D dist index.adoc
+....
