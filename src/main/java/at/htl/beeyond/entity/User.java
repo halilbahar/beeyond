@@ -12,7 +12,7 @@ public class User extends PanacheEntity {
 
     private String name;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @JsonbTransient
     private List<Namespace> namespaces;
 
@@ -20,7 +20,7 @@ public class User extends PanacheEntity {
     @JsonbTransient
     private List<CustomApplication> customApplications;
 
-    @OneToMany
+    @OneToMany(mappedBy = "user")
     @JsonbTransient
     private List<TemplateApplication> templateApplications;
 

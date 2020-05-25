@@ -7,8 +7,12 @@ import javax.persistence.ManyToOne;
 
 @Entity
 public class TemplateApplication extends PanacheEntity {
+
     @ManyToOne
-    Template template;
+    private Template template;
+
+    @ManyToOne
+    private User user;
 
     public TemplateApplication() {
     }
@@ -19,5 +23,13 @@ public class TemplateApplication extends PanacheEntity {
 
     public void setTemplate(Template template) {
         this.template = template;
+    }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
     }
 }
