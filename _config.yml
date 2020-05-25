@@ -1,2 +1,4 @@
-source: ./dist
-incremental: false
+exclude:
+  - asciidocs
+  - .gitignore
+  - README.adoc
