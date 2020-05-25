@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 @Component({
   selector: 'app-blueprint-template',
   templateUrl: './blueprint-template.component.html',
-  styleUrls: ['./blueprint-template.component.css']
+  styleUrls: ['./blueprint-template.component.scss']
 })
 export class BlueprintTemplateComponent implements OnInit {
 

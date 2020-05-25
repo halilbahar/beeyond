@@ -5,7 +5,7 @@ import { Template } from '../../template.model';
 @Component({
   selector: 'app-blueprint',
   templateUrl: './blueprint.component.html',
-  styleUrls: ['./blueprint.component.css']
+  styleUrls: ['./blueprint.component.scss']
 })
 export class BlueprintComponent implements OnInit {
 

@@ -4,7 +4,7 @@ import { AuthenticationService } from './core/authentification/authentication.se
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
-  styleUrls: ['./app.component.css']
+  styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
   title = 'beeyond';
