@@ -46,7 +46,7 @@ public class AuthenticationResource {
 
         Object response = this.authenticationService.login(form);
 
-        User user = new User(loginData.getUsername());
+        User user = new User(loginData.getUsername().toLowerCase());
         user.persist();
 
         return response;
