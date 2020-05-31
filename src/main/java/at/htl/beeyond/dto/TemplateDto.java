@@ -9,10 +9,10 @@ import javax.validation.constraints.NotBlank;
 public class TemplateDto {
 
     @NotBlank(message = "The name of the template cannot be blank")
-    @Length(max = 255, message = "The name cannot be longer than 255 characters")
+    @Length(max = 255, message = "The name of the template cannot be longer than 255 characters")
     private String name;
 
-    @Length(max = 255, message = "The description cannot be longer than 255 characters")
+    @Length(max = 255, message = "The description of the template cannot be longer than 255 characters")
     private String description;
 
     @NotBlank(message = "The content of the template cannot be blank")
