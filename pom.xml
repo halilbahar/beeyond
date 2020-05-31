@@ -85,6 +85,24 @@
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-rest-client</artifactId>
     </dependency>
+    <dependency>
+      <groupId>com.intuit.karate</groupId>
+      <artifactId>karate-core</artifactId>
+      <version>0.9.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.intuit.karate</groupId>
+      <artifactId>karate-apache</artifactId>
+      <version>0.9.5</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>com.intuit.karate</groupId>
+      <artifactId>karate-junit5</artifactId>
+      <version>0.9.5</version>
+      <scope>test</scope>
+    </dependency>
   </dependencies>
   <build>
     <plugins>
