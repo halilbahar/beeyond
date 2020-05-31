@@ -20,22 +20,32 @@ public class CustomApplicationTest {
     }
 
     @Karate.Test
-    Karate test004Update() {
-        return Karate.run("custom-application-put").tags("valid").relativeTo(getClass());
+    Karate test004Approve() {
+        return Karate.run("custom-application-put").tags("validApprove").relativeTo(getClass());
     }
 
     @Karate.Test
-    Karate test005InvalidUpdate() {
-        return Karate.run("custom-application-put").tags("invalid").relativeTo(getClass());
+    Karate test005InvalidApprove() {
+        return Karate.run("custom-application-put").tags("invalidApprove").relativeTo(getClass());
     }
 
     @Karate.Test
-    Karate test006Delete() {
+    Karate test006Deny() {
+        return Karate.run("custom-application-put").tags("validDeny").relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate test007InvalidDeny() {
+        return Karate.run("custom-application-put").tags("invalidDeny").relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate test007Delete() {
         return Karate.run("custom-application-delete").tags("valid").relativeTo(getClass());
     }
 
     @Karate.Test
-    Karate test007InvalidDelete() {
+    Karate test008InvalidDelete() {
         return Karate.run("custom-application-delete").tags("invalid").relativeTo(getClass());
     }
 }
