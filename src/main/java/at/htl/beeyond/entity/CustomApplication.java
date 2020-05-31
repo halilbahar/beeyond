@@ -1,16 +1,24 @@
 package at.htl.beeyond.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 
 @Entity
-public class CustomApplication extends PanacheEntity {
+public class CustomApplication extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
     @Lob
     private String content;
+
     private String note;
+
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status = ApplicationStatus.PENDING;
+
     @ManyToOne
     private User user;
 
@@ -21,6 +29,10 @@ public class CustomApplication extends PanacheEntity {
     }
 
     public CustomApplication() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getContent() {
