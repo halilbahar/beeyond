@@ -14,6 +14,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/template")
 @Consumes("application/json")
@@ -27,7 +28,12 @@ public class TemplateResource {
     @RolesAllowed({"student", "teacher"})
     @Transactional
     public Response getAll() {
-        return Response.ok(Template.findAll().list()).build();
+        List<TemplateDto> templateDtos = Template.findAll().stream().map(o -> {
+            Template template = (Template) o;
+            return TemplateDto.map(template);
+        }).collect(Collectors.toList());
+
+        return Response.ok(templateDtos).build();
     }
 
     @POST
@@ -39,7 +45,8 @@ public class TemplateResource {
             return Response.status(422).entity(failedFields).build();
         }
 
-        Template template = templateDto.map(User.find("name", sc.getUserPrincipal().getName()).firstResult());
+        User owner = User.find("name", sc.getUserPrincipal().getName()).firstResult();
+        Template template = templateDto.map(owner);
         template.persist();
 
         return Response.noContent().build();

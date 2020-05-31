@@ -18,6 +18,15 @@ public class TemplateDto {
     @NotBlank(message = "The content of the template cannot be blank")
     private String content;
 
+    public TemplateDto(String name, String description, String content) {
+        this.name = name;
+        this.description = description;
+        this.content = content;
+    }
+
+    public TemplateDto() {
+    }
+
     public String getName() {
         return name;
     }
@@ -44,5 +53,9 @@ public class TemplateDto {
 
     public Template map(User owner) {
         return new Template(name, description, content, owner);
+    }
+
+    public static TemplateDto map(Template template) {
+        return new TemplateDto(template.getName(), template.getDescription(), template.getContent());
     }
 }
