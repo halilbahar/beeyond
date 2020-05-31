@@ -17,7 +17,7 @@ import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.Set;
 
-@Path("/custom")
+@Path("/application/custom")
 @Consumes("application/json")
 @Produces("application/json")
 public class CustomApplicationResource {
