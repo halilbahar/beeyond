@@ -1,27 +1,26 @@
 package at.htl.beeyond.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "_user")
-public class User extends PanacheEntity {
+public class User extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
     @OneToMany(mappedBy = "user")
-    @JsonbTransient
     private List<Namespace> namespaces;
 
     @OneToMany(mappedBy = "user")
-    @JsonbTransient
     private List<CustomApplication> customApplications;
 
     @OneToMany(mappedBy = "user")
-    @JsonbTransient
     private List<TemplateApplication> templateApplications;
 
     public User(String name) {
@@ -29,6 +28,10 @@ public class User extends PanacheEntity {
     }
 
     public User() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
