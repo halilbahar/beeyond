@@ -1,12 +1,15 @@
 package at.htl.beeyond.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
-public class TemplateApplication extends PanacheEntity {
+public class TemplateApplication extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @ManyToOne
     private Template template;
@@ -15,6 +18,10 @@ public class TemplateApplication extends PanacheEntity {
     private User user;
 
     public TemplateApplication() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public Template getTemplate() {
