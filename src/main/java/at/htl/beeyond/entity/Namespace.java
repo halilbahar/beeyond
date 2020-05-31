@@ -8,24 +8,24 @@ import javax.persistence.ManyToOne;
 @Entity
 public class Namespace extends PanacheEntity {
 
-    private String name;
+    private String namespace;
 
     @ManyToOne
     private User user;
 
-    public Namespace(String name) {
-        this.name = name;
+    public Namespace(String namespace) {
+        this.namespace = namespace;
     }
 
     public Namespace() {
     }
 
-    public String getName() {
-        return name;
+    public String getNamespace() {
+        return namespace;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setNamespace(String namespace) {
+        this.namespace = namespace;
     }
 
     public User getUser() {
