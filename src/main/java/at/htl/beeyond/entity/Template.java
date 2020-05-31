@@ -25,10 +25,11 @@ public class Template extends PanacheEntityBase {
     @OneToMany(mappedBy = "template")
     private List<TemplateField> fields;
 
-    public Template(String name, String description, String content) {
+    public Template(String name, String description, String content, User owner) {
         this.name = name;
         this.description = description;
         this.content = content;
+        this.owner = owner;
     }
 
     public Template() {

@@ -42,7 +42,7 @@ public class TemplateDto {
         this.content = content;
     }
 
-    public Template map() {
-        return new Template(name, description, content);
+    public Template map(User owner) {
+        return new Template(name, description, content, owner);
     }
 }

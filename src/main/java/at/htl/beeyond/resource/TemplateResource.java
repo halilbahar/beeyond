@@ -1,16 +1,27 @@
 package at.htl.beeyond.resource;
 
+import at.htl.beeyond.dto.TemplateDto;
 import at.htl.beeyond.entity.Template;
+import at.htl.beeyond.entity.User;
+import at.htl.beeyond.model.FailedField;
+import at.htl.beeyond.service.ValidationService;
 
 import javax.annotation.security.RolesAllowed;
+import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.util.List;
 
 @Path("/template")
 @Consumes("application/json")
 @Produces("application/json")
 public class TemplateResource {
+
+    @Inject
+    ValidationService validationService;
 
     @GET
     @RolesAllowed({"student", "teacher"})
@@ -20,10 +31,17 @@ public class TemplateResource {
     }
 
     @POST
-    @RolesAllowed({"student", "teacher"})
+    @RolesAllowed("teacher")
     @Transactional
-    public Response create(Template template) {
+    public Response create(@Context SecurityContext sc, TemplateDto templateDto) {
+        List<FailedField> failedFields = this.validationService.validate(templateDto);
+        if (!failedFields.isEmpty()) {
+            return Response.status(422).entity(failedFields).build();
+        }
+
+        Template template = templateDto.map(User.find("name", sc.getUserPrincipal().getName()).firstResult());
         template.persist();
+
         return Response.noContent().build();
     }
 
