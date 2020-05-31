@@ -14,8 +14,12 @@ public class Application extends PanacheEntityBase {
 
     private String note;
 
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
+
     public Application(String note) {
         this.note = note;
+        this.status = ApplicationStatus.PENDING;
     }
 
     public Application() {
@@ -31,5 +35,13 @@ public class Application extends PanacheEntityBase {
 
     public void setNote(String note) {
         this.note = note;
+    }
+
+    public ApplicationStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(ApplicationStatus status) {
+        this.status = status;
     }
 }

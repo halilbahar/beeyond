@@ -1,38 +1,25 @@
 package at.htl.beeyond.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
-
-import javax.persistence.*;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class CustomApplication extends PanacheEntityBase {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+public class CustomApplication extends Application {
 
     @Lob
     private String content;
 
-    private String note;
-
-    @Enumerated(EnumType.STRING)
-    private ApplicationStatus status = ApplicationStatus.PENDING;
-
     @ManyToOne
     private User user;
 
-    public CustomApplication(String content, String note, ApplicationStatus status) {
+    public CustomApplication(String note, String content, User user) {
+        super(note);
         this.content = content;
-        this.note = note;
-        this.status = status;
+        this.user = user;
     }
 
     public CustomApplication() {
-    }
-
-    public Long getId() {
-        return id;
     }
 
     public String getContent() {
@@ -41,22 +28,6 @@ public class CustomApplication extends PanacheEntityBase {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
-    }
-
-    public ApplicationStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(ApplicationStatus status) {
-        this.status = status;
     }
 
     public User getUser() {
