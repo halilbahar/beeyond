@@ -1,12 +1,15 @@
 package at.htl.beeyond.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.persistence.Entity;
-import javax.persistence.ManyToOne;
+import javax.persistence.*;
 
 @Entity
-public class Namespace extends PanacheEntity {
+public class Namespace extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String namespace;
 
@@ -18,6 +21,10 @@ public class Namespace extends PanacheEntity {
     }
 
     public Namespace() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getNamespace() {
