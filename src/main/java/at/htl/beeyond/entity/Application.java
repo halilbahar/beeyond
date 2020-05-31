@@ -17,9 +17,13 @@ public class Application extends PanacheEntityBase {
     @Enumerated(EnumType.STRING)
     private ApplicationStatus status;
 
-    public Application(String note) {
+    @ManyToOne
+    private User owner;
+
+    public Application(String note, User owner) {
         this.note = note;
         this.status = ApplicationStatus.PENDING;
+        this.owner = owner;
     }
 
     public Application() {
@@ -43,5 +47,13 @@ public class Application extends PanacheEntityBase {
 
     public void setStatus(ApplicationStatus status) {
         this.status = status;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

@@ -2,7 +2,6 @@ package at.htl.beeyond.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.Lob;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class CustomApplication extends Application {
@@ -10,13 +9,9 @@ public class CustomApplication extends Application {
     @Lob
     private String content;
 
-    @ManyToOne
-    private User user;
-
-    public CustomApplication(String note, String content, User user) {
-        super(note);
+    public CustomApplication(String note, User owner, String content) {
+        super(note, owner);
         this.content = content;
-        this.user = user;
     }
 
     public CustomApplication() {
@@ -28,13 +23,5 @@ public class CustomApplication extends Application {
 
     public void setContent(String content) {
         this.content = content;
-    }
-
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
     }
 }

@@ -2,6 +2,8 @@ package at.htl.beeyond.entity;
 
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
 
 @Entity
 public class TemplateApplication extends Application {
@@ -9,13 +11,12 @@ public class TemplateApplication extends Application {
     @ManyToOne
     private Template template;
 
-    @ManyToOne
-    private User user;
+    @OneToMany(mappedBy = "template")
+    private List<TemplateFieldValue> fieldValues;
 
-    public TemplateApplication(String note, Template template, User user) {
-        super(note);
+    public TemplateApplication(String note, User owner, Template template) {
+        super(note, owner);
         this.template = template;
-        this.user = user;
     }
 
     public TemplateApplication() {
@@ -29,11 +30,11 @@ public class TemplateApplication extends Application {
         this.template = template;
     }
 
-    public User getUser() {
-        return user;
+    public List<TemplateFieldValue> getFieldValues() {
+        return fieldValues;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setFieldValues(List<TemplateFieldValue> fieldValues) {
+        this.fieldValues = fieldValues;
     }
 }

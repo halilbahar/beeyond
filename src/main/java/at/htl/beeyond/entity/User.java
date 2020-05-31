@@ -17,11 +17,8 @@ public class User extends PanacheEntityBase {
     @OneToMany(mappedBy = "user")
     private List<Namespace> namespaces;
 
-    @OneToMany(mappedBy = "user")
-    private List<CustomApplication> customApplications;
-
-    @OneToMany(mappedBy = "user")
-    private List<TemplateApplication> templateApplications;
+    @OneToMany(mappedBy = "owner")
+    List<Application> applications;
 
     @OneToMany(mappedBy = "owner")
     private List<Template> templates;
@@ -53,20 +50,12 @@ public class User extends PanacheEntityBase {
         this.namespaces = namespaces;
     }
 
-    public List<CustomApplication> getCustomApplications() {
-        return customApplications;
+    public List<Application> getApplications() {
+        return applications;
     }
 
-    public void setCustomApplications(List<CustomApplication> customApplications) {
-        this.customApplications = customApplications;
-    }
-
-    public List<TemplateApplication> getTemplateApplications() {
-        return templateApplications;
-    }
-
-    public void setTemplateApplications(List<TemplateApplication> templateApplications) {
-        this.templateApplications = templateApplications;
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
     }
 
     public List<Template> getTemplates() {

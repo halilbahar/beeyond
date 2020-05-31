@@ -3,6 +3,7 @@ package at.htl.beeyond.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Template extends PanacheEntityBase {
@@ -20,6 +21,9 @@ public class Template extends PanacheEntityBase {
 
     @ManyToOne
     private User owner;
+
+    @OneToMany(mappedBy = "template")
+    private List<TemplateField> fields;
 
     public Template(String name, String description, String content, User owner) {
         this.name = name;
@@ -65,5 +69,13 @@ public class Template extends PanacheEntityBase {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public List<TemplateField> getFields() {
+        return fields;
+    }
+
+    public void setFields(List<TemplateField> fields) {
+        this.fields = fields;
     }
 }
