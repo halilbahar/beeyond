@@ -14,6 +14,14 @@ public class CustomApplicationDto {
     @NotBlank(message = "The content of the custom application cannot be empty")
     private String content;
 
+    public CustomApplicationDto(String note, String content) {
+        this.note = note;
+        this.content = content;
+    }
+
+    public CustomApplicationDto() {
+    }
+
     public String getNote() {
         return note;
     }
