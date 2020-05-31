@@ -23,6 +23,9 @@ public class User extends PanacheEntityBase {
     @OneToMany(mappedBy = "user")
     private List<TemplateApplication> templateApplications;
 
+    @OneToMany(mappedBy = "owner")
+    private List<Template> templates;
+
     public User(String name) {
         this.name = name;
     }
@@ -64,5 +67,13 @@ public class User extends PanacheEntityBase {
 
     public void setTemplateApplications(List<TemplateApplication> templateApplications) {
         this.templateApplications = templateApplications;
+    }
+
+    public List<Template> getTemplates() {
+        return templates;
+    }
+
+    public void setTemplates(List<Template> templates) {
+        this.templates = templates;
     }
 }
