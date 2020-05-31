@@ -1,9 +1,11 @@
 package at.htl.beeyond.entity;
 
+import at.htl.beeyond.dto.TemplateDto;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class Template extends PanacheEntityBase {
@@ -77,5 +79,12 @@ public class Template extends PanacheEntityBase {
 
     public void setFields(List<TemplateField> fields) {
         this.fields = fields;
+    }
+
+    public static List<TemplateDto> getDtos() {
+        return Template.findAll().stream().map(o -> {
+            Template template = (Template) o;
+            return TemplateDto.map(template);
+        }).collect(Collectors.toList());
     }
 }

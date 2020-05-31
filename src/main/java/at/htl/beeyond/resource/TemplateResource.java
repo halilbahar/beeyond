@@ -28,12 +28,7 @@ public class TemplateResource {
     @RolesAllowed({"student", "teacher"})
     @Transactional
     public Response getAll() {
-        List<TemplateDto> templateDtos = Template.findAll().stream().map(o -> {
-            Template template = (Template) o;
-            return TemplateDto.map(template);
-        }).collect(Collectors.toList());
-
-        return Response.ok(templateDtos).build();
+        return Response.ok(Template.getDtos()).build();
     }
 
     @POST
