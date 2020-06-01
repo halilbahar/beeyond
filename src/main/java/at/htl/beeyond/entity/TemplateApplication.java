@@ -14,9 +14,10 @@ public class TemplateApplication extends Application {
     @OneToMany(mappedBy = "template")
     private List<TemplateFieldValue> fieldValues;
 
-    public TemplateApplication(String note, User owner, Template template) {
+    public TemplateApplication(String note, User owner, Template template, List<TemplateFieldValue> fieldValues) {
         super(note, owner);
         this.template = template;
+        this.fieldValues = fieldValues;
     }
 
     public TemplateApplication() {
