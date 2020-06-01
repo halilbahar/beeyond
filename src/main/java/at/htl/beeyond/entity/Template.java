@@ -4,6 +4,7 @@ import at.htl.beeyond.dto.TemplateDto;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -24,8 +25,8 @@ public class Template extends PanacheEntityBase {
     @ManyToOne
     private User owner;
 
-    @OneToMany(mappedBy = "template")
-    private List<TemplateField> fields;
+    @OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST)
+    private List<TemplateField> fields = new LinkedList<>();
 
     public Template(String name, String description, String content, User owner) {
         this.name = name;
