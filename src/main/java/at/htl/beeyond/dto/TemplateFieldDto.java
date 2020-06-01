@@ -7,6 +7,8 @@ import javax.validation.constraints.NotBlank;
 
 public class TemplateFieldDto {
 
+    private Long id;
+
     @NotBlank(message = "The label of the field cannot be blank")
     @Length(max = 255, message = "The label of the field cannot be longer than 255 characters")
     private String label;
@@ -14,12 +16,17 @@ public class TemplateFieldDto {
     @Length(max = 255, message = "The description of the field cannot be longer than 255 characters")
     private String description;
 
-    public TemplateFieldDto(String label, String description) {
+    public TemplateFieldDto(Long id, String label, String description) {
+        this.id = id;
         this.label = label;
         this.description = description;
     }
 
     public TemplateFieldDto() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getLabel() {
@@ -39,6 +46,6 @@ public class TemplateFieldDto {
     }
 
     public static TemplateFieldDto map(TemplateField templateField) {
-        return new TemplateFieldDto(templateField.getLabel(), templateField.getDescription());
+        return new TemplateFieldDto(templateField.getId(), templateField.getLabel(), templateField.getDescription());
     }
 }

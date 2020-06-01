@@ -8,18 +8,25 @@ import javax.validation.constraints.NotBlank;
 
 public class CustomApplicationDto {
 
+    private Long id;
+
     @Length(max = 255, message = "The note of the custom application cannot be longer than 255 characters")
     private String note;
 
     @NotBlank(message = "The content of the custom application cannot be empty")
     private String content;
 
-    public CustomApplicationDto(String note, String content) {
+    public CustomApplicationDto(Long id, String note, String content) {
+        this.id = id;
         this.note = note;
         this.content = content;
     }
 
     public CustomApplicationDto() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getNote() {

@@ -12,6 +12,8 @@ import java.util.stream.Collectors;
 
 public class TemplateDto {
 
+    private Long id;
+
     @NotBlank(message = "The name of the template cannot be blank")
     @Length(max = 255, message = "The name of the template cannot be longer than 255 characters")
     private String name;
@@ -25,20 +27,19 @@ public class TemplateDto {
     @Valid
     private List<TemplateFieldDto> fields;
 
-    public TemplateDto(String name, String description, String content, List<TemplateFieldDto> fields) {
+    public TemplateDto(Long id, String name, String description, String content, List<TemplateFieldDto> fields) {
+        this.id = id;
         this.name = name;
         this.description = description;
         this.content = content;
         this.fields = fields;
     }
 
-    public TemplateDto(String name, String description, String content) {
-        this.name = name;
-        this.description = description;
-        this.content = content;
+    public TemplateDto() {
     }
 
-    public TemplateDto() {
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -88,6 +89,6 @@ public class TemplateDto {
                 .map(TemplateFieldDto::map)
                 .collect(Collectors.toList());
 
-        return new TemplateDto(template.getName(), template.getDescription(), template.getContent(), fields);
+        return new TemplateDto(template.getId(), template.getName(), template.getDescription(), template.getContent(), fields);
     }
 }
