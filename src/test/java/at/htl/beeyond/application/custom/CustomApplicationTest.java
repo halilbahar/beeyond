@@ -18,26 +18,29 @@ public class CustomApplicationTest {
     Karate test003InvalidContent() { return Karate.run("custom-application-post").tags("invalidContent").relativeTo(getClass()); }
 
     @Karate.Test
-    Karate test004Approve() {
+    Karate test004InvalidNote() { return Karate.run("custom-application-post").tags("invalidNote").relativeTo(getClass()); }
+
+    @Karate.Test
+    Karate test005Approve() {
         return Karate.run("custom-application-put").tags("validApprove").relativeTo(getClass());
     }
 
     @Karate.Test
-    Karate test005InvalidApprove() { return Karate.run("custom-application-put").tags("invalidApprove").relativeTo(getClass()); }
+    Karate test006InvalidApprove() { return Karate.run("custom-application-put").tags("invalidApprove").relativeTo(getClass()); }
 
     @Karate.Test
-    Karate test006Deny() {
+    Karate test007Deny() {
         return Karate.run("custom-application-put").tags("validDeny").relativeTo(getClass());
     }
 
     @Karate.Test
-    Karate test007InvalidDeny() { return Karate.run("custom-application-put").tags("invalidDeny").relativeTo(getClass()); }
+    Karate test008InvalidDeny() { return Karate.run("custom-application-put").tags("invalidDeny").relativeTo(getClass()); }
 
     @Karate.Test
-    Karate test008Delete() {
+    Karate test009Delete() {
         return Karate.run("custom-application-delete").tags("valid").relativeTo(getClass());
     }
 
     @Karate.Test
-    Karate test009InvalidDelete() { return Karate.run("custom-application-delete").tags("invalid").relativeTo(getClass()); }
+    Karate test010InvalidDelete() { return Karate.run("custom-application-delete").tags("invalid").relativeTo(getClass()); }
 }
