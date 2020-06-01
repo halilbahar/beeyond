@@ -24,6 +24,13 @@ public class TemplateDto {
     @Valid
     private List<TemplateFieldDto> fields;
 
+    public TemplateDto(String name, String description, String content, List<TemplateFieldDto> fields) {
+        this.name = name;
+        this.description = description;
+        this.content = content;
+        this.fields = fields;
+    }
+
     public TemplateDto(String name, String description, String content) {
         this.name = name;
         this.description = description;
@@ -69,7 +76,7 @@ public class TemplateDto {
         Template template = new Template(name, description, content, owner);
         List<TemplateField> templateFields = template.getFields();
         fields.stream()
-                .map(fieldDto -> new TemplateField(fieldDto.getLabel(), fieldDto.getDescription()))
+                .map(fieldDto -> new TemplateField(fieldDto.getLabel(), fieldDto.getDescription(), template))
                 .forEach(templateFields::add);
 
         return template;

@@ -18,9 +18,10 @@ public class TemplateField extends PanacheEntityBase {
     @ManyToOne
     private Template template;
 
-    public TemplateField(String label, String description) {
+    public TemplateField(String label, String description, Template template) {
         this.label = label;
         this.description = description;
+        this.template = template;
     }
 
     public TemplateField() {
