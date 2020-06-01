@@ -8,6 +8,7 @@ import org.hibernate.validator.constraints.Length;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class TemplateDto {
 
@@ -83,6 +84,10 @@ public class TemplateDto {
     }
 
     public static TemplateDto map(Template template) {
-        return new TemplateDto(template.getName(), template.getDescription(), template.getContent());
+        List<TemplateFieldDto> fields = template.getFields().stream()
+                .map(TemplateFieldDto::map)
+                .collect(Collectors.toList());
+
+        return new TemplateDto(template.getName(), template.getDescription(), template.getContent(), fields);
     }
 }

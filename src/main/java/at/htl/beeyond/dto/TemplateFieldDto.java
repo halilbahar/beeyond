@@ -1,5 +1,6 @@
 package at.htl.beeyond.dto;
 
+import at.htl.beeyond.entity.TemplateField;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
@@ -35,5 +36,9 @@ public class TemplateFieldDto {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public static TemplateFieldDto map(TemplateField templateField) {
+        return new TemplateFieldDto(templateField.getLabel(), templateField.getDescription());
     }
 }
