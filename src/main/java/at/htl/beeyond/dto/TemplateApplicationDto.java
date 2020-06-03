@@ -5,14 +5,18 @@ import at.htl.beeyond.entity.TemplateApplication;
 import at.htl.beeyond.entity.TemplateFieldValue;
 import at.htl.beeyond.entity.User;
 import at.htl.beeyond.validation.Exists;
+import at.htl.beeyond.validation.TemplateFieldsComplete;
 import org.hibernate.validator.constraints.Length;
 
+import javax.json.Json;
+import javax.json.bind.JsonbBuilder;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@TemplateFieldsComplete(message = "asdfasdf")
 public class TemplateApplicationDto {
 
     private Long id;
