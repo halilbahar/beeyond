@@ -25,7 +25,7 @@ public class Template extends PanacheEntityBase {
     @ManyToOne
     private User owner;
 
-    @OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<TemplateField> fields = new LinkedList<>();
 
     public Template(String name, String description, String content, User owner) {
