@@ -1,8 +1,6 @@
 = Beeyond
 Bahar Halil, Cao Sonja, Naderer Juliana
 1.0, 2020-05-25
-:icons: font
-:toc: left
 
 == 1. Pflichtenheft
 
