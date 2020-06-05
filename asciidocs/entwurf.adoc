@@ -33,13 +33,13 @@ class Template {
 }
 
 class Field {
-    -name : String
+    -label : String
+    -wildcard : String
     -description : String
-    -type : FieldType
 }
 
 class FieldValue {
-    -value : Object
+    -value : String
 }
 
 User "1" -right- "*" Namespace
@@ -50,7 +50,7 @@ CustomApplication -left-|> Application
 Template "1" -down- "*" TemplateApplication
 Template "1" -left- "*" Field
 TemplateApplication "1" -left- "*" FieldValue
-FieldValue -up-> Field
+FieldValue "1" -up- "1" Field
 
 @enduml
 ----
