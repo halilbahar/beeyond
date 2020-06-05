@@ -78,7 +78,7 @@ public class TemplateDto {
         Template template = new Template(name, description, content, owner);
         List<TemplateField> templateFields = template.getFields();
         fields.stream()
-                .map(fieldDto -> new TemplateField(fieldDto.getLabel(), fieldDto.getDescription(), template))
+                .map(fieldDto -> new TemplateField(fieldDto.getLabel(), fieldDto.getWildcard(), fieldDto.getDescription(), template))
                 .forEach(templateFields::add);
 
         return template;

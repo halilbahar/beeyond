@@ -13,12 +13,17 @@ public class TemplateFieldDto {
     @Length(max = 255, message = "The label of the field cannot be longer than 255 characters")
     private String label;
 
+    @NotBlank(message = "The wildcard of the field cannot be blank")
+    @Length(max = 255, message = "The wildcard of the field cannot be longer than 255 characters")
+    private String wildcard;
+
     @Length(max = 255, message = "The description of the field cannot be longer than 255 characters")
     private String description;
 
-    public TemplateFieldDto(Long id, String label, String description) {
+    public TemplateFieldDto(Long id, String label, String wildcard, String description) {
         this.id = id;
         this.label = label;
+        this.wildcard = wildcard;
         this.description = description;
     }
 
@@ -37,6 +42,14 @@ public class TemplateFieldDto {
         this.label = label;
     }
 
+    public String getWildcard() {
+        return wildcard;
+    }
+
+    public void setWildcard(String wildcard) {
+        this.wildcard = wildcard;
+    }
+
     public String getDescription() {
         return description;
     }
@@ -46,6 +59,11 @@ public class TemplateFieldDto {
     }
 
     public static TemplateFieldDto map(TemplateField templateField) {
-        return new TemplateFieldDto(templateField.getId(), templateField.getLabel(), templateField.getDescription());
+        return new TemplateFieldDto(
+                templateField.getId(),
+                templateField.getLabel(),
+                templateField.getWildcard(),
+                templateField.getDescription()
+        );
     }
 }
