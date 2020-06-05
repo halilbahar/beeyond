@@ -50,7 +50,7 @@ CustomApplication -left-|> Application
 Template "1" -down- "*" TemplateApplication
 Template "1" -left- "*" Field
 TemplateApplication "1" -left- "*" FieldValue
-FieldValue "1" -up- "1" Field
+FieldValue "1" -up-> "1" Field
 
 @enduml
 ----
