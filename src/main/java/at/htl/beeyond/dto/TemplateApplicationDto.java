@@ -6,6 +6,7 @@ import at.htl.beeyond.entity.TemplateFieldValue;
 import at.htl.beeyond.entity.User;
 import at.htl.beeyond.validation.Exists;
 import at.htl.beeyond.validation.TemplateFieldsComplete;
+import at.htl.beeyond.validation.checks.TemplateFieldChecks;
 import at.htl.beeyond.validation.checks.TemplateFieldsCompleteChecks;
 import org.hibernate.validator.constraints.Length;
 
@@ -17,16 +18,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@TemplateFieldsComplete(message = "Missing field ids: [{missing-ids}], Obsolete field ids: [{obsolete-ids}]", groups = TemplateFieldsCompleteChecks.class)
+@TemplateFieldsComplete(groups = TemplateFieldChecks.class)
 public class TemplateApplicationDto {
 
     private Long id;
 
-    @Length(max = 255, message = "The note of the custom application cannot be longer than 255 characters")
+    @Length(max = 255)
     private String note;
 
-    @NotNull(message = "The templateId of the template cannot be empty")
-    @Exists(entity = Template.class, fieldName = "id", message = "The templateId of the template application does not exist")
+    @NotNull
+    @Exists(entity = Template.class, fieldName = "id")
     private Long templateId;
 
     @Valid

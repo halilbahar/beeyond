@@ -14,14 +14,14 @@ public class TemplateDto {
 
     private Long id;
 
-    @NotBlank(message = "The name of the template cannot be blank")
-    @Length(max = 255, message = "The name of the template cannot be longer than 255 characters")
+    @NotBlank
+    @Length(max = 255)
     private String name;
 
-    @Length(max = 255, message = "The description of the template cannot be longer than 255 characters")
+    @Length(max = 255)
     private String description;
 
-    @NotBlank(message = "The content of the template cannot be blank")
+    @NotBlank
     private String content;
 
     @Valid

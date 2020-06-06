@@ -9,15 +9,15 @@ public class TemplateFieldDto {
 
     private Long id;
 
-    @NotBlank(message = "The label of the field cannot be blank")
-    @Length(max = 255, message = "The label of the field cannot be longer than 255 characters")
+    @NotBlank
+    @Length(max = 255)
     private String label;
 
-    @NotBlank(message = "The wildcard of the field cannot be blank")
-    @Length(max = 255, message = "The wildcard of the field cannot be longer than 255 characters")
+    @NotBlank
+    @Length(max = 255)
     private String wildcard;
 
-    @Length(max = 255, message = "The description of the field cannot be longer than 255 characters")
+    @Length(max = 255)
     private String description;
 
     public TemplateFieldDto(Long id, String label, String wildcard, String description) {

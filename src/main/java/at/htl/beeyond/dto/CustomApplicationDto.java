@@ -10,10 +10,11 @@ public class CustomApplicationDto {
 
     private Long id;
 
-    @Length(max = 255, message = "The note of the custom application cannot be longer than 255 characters")
+    @NotBlank
+    @Length(max = 255)
     private String note;
 
-    @NotBlank(message = "The content of the custom application cannot be empty")
+    @NotBlank
     private String content;
 
     public CustomApplicationDto(Long id, String note, String content) {
