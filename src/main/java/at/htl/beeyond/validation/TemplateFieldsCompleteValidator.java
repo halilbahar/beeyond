@@ -8,7 +8,6 @@ import org.hibernate.validator.constraintvalidation.HibernateConstraintValidator
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Objects;
