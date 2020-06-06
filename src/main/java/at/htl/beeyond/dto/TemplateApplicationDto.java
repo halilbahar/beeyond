@@ -7,7 +7,6 @@ import at.htl.beeyond.entity.User;
 import at.htl.beeyond.validation.Exists;
 import at.htl.beeyond.validation.TemplateFieldsComplete;
 import at.htl.beeyond.validation.checks.TemplateFieldChecks;
-import at.htl.beeyond.validation.checks.TemplateFieldsCompleteChecks;
 import org.hibernate.validator.constraints.Length;
 
 import javax.json.bind.annotation.JsonbTransient;
