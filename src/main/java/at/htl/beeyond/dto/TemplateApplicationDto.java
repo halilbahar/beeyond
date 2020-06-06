@@ -4,9 +4,9 @@ import at.htl.beeyond.entity.Template;
 import at.htl.beeyond.entity.TemplateApplication;
 import at.htl.beeyond.entity.TemplateFieldValue;
 import at.htl.beeyond.entity.User;
+import at.htl.beeyond.validation.Checks;
 import at.htl.beeyond.validation.Exists;
 import at.htl.beeyond.validation.TemplateFieldsComplete;
-import at.htl.beeyond.validation.checks.TemplateFieldChecks;
 import org.hibernate.validator.constraints.Length;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 
-@TemplateFieldsComplete(groups = TemplateFieldChecks.class)
+@TemplateFieldsComplete(groups = Checks.TemplateField.class)
 public class TemplateApplicationDto {
 
     private Long id;

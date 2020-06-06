@@ -3,7 +3,7 @@ package at.htl.beeyond.dto;
 import at.htl.beeyond.entity.Template;
 import at.htl.beeyond.entity.TemplateField;
 import at.htl.beeyond.entity.TemplateFieldValue;
-import at.htl.beeyond.validation.checks.TemplateFieldChecks;
+import at.htl.beeyond.validation.Checks;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,10 +12,10 @@ public class TemplateFieldValueDto {
 
     private Long id;
 
-    @NotBlank(groups = TemplateFieldChecks.class)
+    @NotBlank(groups = Checks.TemplateField.class)
     private String value;
 
-    @NotNull(groups = TemplateFieldChecks.class)
+    @NotNull(groups = Checks.TemplateField.class)
     private Long fieldId;
 
     public TemplateFieldValueDto(Long id, String value, Long fieldId) {
