@@ -15,12 +15,6 @@ import java.util.stream.Collectors;
 
 public class TemplateFieldsCompleteValidator implements ConstraintValidator<TemplateFieldsComplete, TemplateApplicationDto> {
 
-    private TemplateFieldsComplete constraint;
-
-    public void initialize(TemplateFieldsComplete constraint) {
-        this.constraint = constraint;
-    }
-
     public boolean isValid(TemplateApplicationDto obj, ConstraintValidatorContext context) {
         if (obj == null) {
             return true;
