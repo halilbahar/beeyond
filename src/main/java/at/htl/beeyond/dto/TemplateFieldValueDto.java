@@ -40,7 +40,7 @@ public class TemplateFieldValueDto {
     }
 
     public void setValue(String value) {
-        this.value = value;
+        this.value = value.trim();
     }
 
     public Long getFieldId() {

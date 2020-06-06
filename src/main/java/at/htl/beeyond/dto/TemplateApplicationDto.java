@@ -53,7 +53,7 @@ public class TemplateApplicationDto {
     }
 
     public void setNote(String note) {
-        this.note = note;
+        this.note = note.trim();
     }
 
     public Long getTemplateId() {

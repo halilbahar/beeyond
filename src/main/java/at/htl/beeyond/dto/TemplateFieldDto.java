@@ -39,7 +39,7 @@ public class TemplateFieldDto {
     }
 
     public void setLabel(String label) {
-        this.label = label;
+        this.label = label.trim();
     }
 
     public String getWildcard() {
@@ -47,7 +47,7 @@ public class TemplateFieldDto {
     }
 
     public void setWildcard(String wildcard) {
-        this.wildcard = wildcard;
+        this.wildcard = wildcard.trim();
     }
 
     public String getDescription() {
@@ -55,7 +55,7 @@ public class TemplateFieldDto {
     }
 
     public void setDescription(String description) {
-        this.description = description;
+        this.description = description.trim();
     }
 
     public static TemplateFieldDto map(TemplateField templateField) {

@@ -35,7 +35,7 @@ public class CustomApplicationDto {
     }
 
     public void setNote(String note) {
-        this.note = note;
+        this.note = note.trim();
     }
 
     public String getContent() {
@@ -43,7 +43,7 @@ public class CustomApplicationDto {
     }
 
     public void setContent(String content) {
-        this.content = content;
+        this.content = content.trim();
     }
 
     public CustomApplication map(User owner) {
