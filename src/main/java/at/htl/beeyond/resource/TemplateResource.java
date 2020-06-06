@@ -5,6 +5,8 @@ import at.htl.beeyond.entity.Template;
 import at.htl.beeyond.entity.User;
 import at.htl.beeyond.model.FailedField;
 import at.htl.beeyond.service.ValidationService;
+import at.htl.beeyond.validation.checks.TemplateContentCheck;
+import at.htl.beeyond.validation.checks.TemplateSequence;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -34,7 +36,7 @@ public class TemplateResource {
     @RolesAllowed("teacher")
     @Transactional
     public Response create(@Context SecurityContext sc, TemplateDto templateDto) {
-        List<FailedField> failedFields = this.validationService.validate(templateDto);
+        List<FailedField> failedFields = this.validationService.validate(templateDto, TemplateSequence.class);
         if (!failedFields.isEmpty()) {
             return Response.status(422).entity(failedFields).build();
         }

@@ -3,13 +3,17 @@ package at.htl.beeyond.dto;
 import at.htl.beeyond.entity.Template;
 import at.htl.beeyond.entity.TemplateField;
 import at.htl.beeyond.entity.User;
+import at.htl.beeyond.validation.TemplateFieldsMatching;
+import at.htl.beeyond.validation.checks.TemplateContentCheck;
 import org.hibernate.validator.constraints.Length;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+@TemplateFieldsMatching(groups = TemplateContentCheck.class)
 public class TemplateDto {
 
     private Long id;
@@ -25,7 +29,7 @@ public class TemplateDto {
     private String content;
 
     @Valid
-    private List<TemplateFieldDto> fields;
+    private List<TemplateFieldDto> fields = new LinkedList<>();
 
     public TemplateDto(Long id, String name, String description, String content, List<TemplateFieldDto> fields) {
         this.id = id;
@@ -72,6 +76,11 @@ public class TemplateDto {
 
     public void setFields(List<TemplateFieldDto> fields) {
         this.fields = fields;
+    }
+
+    @Override
+    public String toString() {
+        return "";
     }
 
     public Template map(User owner) {
