@@ -4,6 +4,7 @@ import at.htl.beeyond.entity.Template;
 import at.htl.beeyond.entity.TemplateField;
 import at.htl.beeyond.entity.TemplateFieldValue;
 import at.htl.beeyond.validation.Exists;
+import at.htl.beeyond.validation.checks.TemplateFieldChecks;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -12,11 +13,11 @@ public class TemplateFieldValueDto {
 
     private Long id;
 
-    @NotBlank(message = "The value of the fieldvalue cannot be blank")
+    @NotBlank(message = "The value of the fieldvalue cannot be blank", groups = TemplateFieldChecks.class)
     private String value;
 
-    @NotNull(message = "The fieldId of the fieldvalue cannot be empty")
-    @Exists(entity = TemplateField.class, fieldName = "id", message = "The fieldId of the fieldvalue does not exist")
+    @NotNull(message = "The fieldId of the fieldvalue cannot be empty", groups = TemplateFieldChecks.class)
+    @Exists(entity = TemplateField.class, fieldName = "id", message = "The fieldId of the fieldvalue does not exist", groups = TemplateFieldChecks.class)
     private Long fieldId;
 
     public TemplateFieldValueDto(Long id, String value, Long fieldId) {
@@ -53,7 +54,7 @@ public class TemplateFieldValueDto {
     }
 
     public TemplateFieldValue map(Template template) {
-        TemplateField templateField = TemplateFieldValue.findById(fieldId);
-        return new TemplateFieldValue(value, templateField, template);
+        TemplateField templateField = TemplateFieldValue.findById(this.fieldId);
+        return new TemplateFieldValue(this.value, templateField, template);
     }
 }

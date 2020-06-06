@@ -5,6 +5,7 @@ import at.htl.beeyond.entity.TemplateApplication;
 import at.htl.beeyond.entity.User;
 import at.htl.beeyond.model.FailedField;
 import at.htl.beeyond.service.ValidationService;
+import at.htl.beeyond.validation.checks.TemplateApplicationSequence;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
@@ -30,13 +31,14 @@ public class TemplateApplicationResource {
     @RolesAllowed({"student", "teacher"})
     @Transactional
     public Response create(@Context SecurityContext context, TemplateApplicationDto templateApplicationDto) {
-        List<FailedField> failedFields = this.validationService.validate(templateApplicationDto);
+        List<FailedField> failedFields = this.validationService.validate(templateApplicationDto, TemplateApplicationSequence.class);
         if (!failedFields.isEmpty()) {
             return Response.status(422).entity(failedFields).build();
         }
 
         User user = User.find("name", context.getUserPrincipal().getName()).firstResult();
-        TemplateApplication templateApplication = templateApplicationDto.map(user);
+        templateApplicationDto.setOwner(user);
+        TemplateApplication templateApplication = templateApplicationDto.map();
 
         templateApplication.persist();
 

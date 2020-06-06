@@ -6,17 +6,18 @@ import at.htl.beeyond.entity.TemplateFieldValue;
 import at.htl.beeyond.entity.User;
 import at.htl.beeyond.validation.Exists;
 import at.htl.beeyond.validation.TemplateFieldsComplete;
+import at.htl.beeyond.validation.checks.TemplateFieldsCompleteChecks;
 import org.hibernate.validator.constraints.Length;
 
-import javax.json.Json;
-import javax.json.bind.JsonbBuilder;
+import javax.json.bind.annotation.JsonbTransient;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@TemplateFieldsComplete(message = "asdfasdf")
+
+@TemplateFieldsComplete(message = "Missing field ids: [{missing-ids}], Obsolete field ids: [{obsolete-ids}]", groups = TemplateFieldsCompleteChecks.class)
 public class TemplateApplicationDto {
 
     private Long id;
@@ -30,6 +31,8 @@ public class TemplateApplicationDto {
 
     @Valid
     private List<TemplateFieldValueDto> fieldValues = new LinkedList<>();
+
+    private UserDto owner;
 
     public TemplateApplicationDto(Long id, String note, Long templateId, List<TemplateFieldValueDto> fieldValues) {
         this.id = id;
@@ -69,12 +72,26 @@ public class TemplateApplicationDto {
         this.fieldValues = fieldValues;
     }
 
-    public TemplateApplication map(User owner) {
-        Template template = Template.findById(templateId);
-        List<TemplateFieldValue> templateFieldValues = fieldValues.stream()
+    public UserDto getOwner() {
+        return owner;
+    }
+
+    @Override
+    public String toString() {
+        return "";
+    }
+
+    @JsonbTransient
+    public void setOwner(User user) {
+        this.owner = UserDto.map(user);
+    }
+
+    public TemplateApplication map() {
+        Template template = Template.findById(this.templateId);
+        List<TemplateFieldValue> templateFieldValues = this.fieldValues.stream()
                 .map(o -> o.map(template))
                 .collect(Collectors.toList());
 
-        return new TemplateApplication(note, owner, template, templateFieldValues);
+        return new TemplateApplication(this.note, this.owner.map(), template, templateFieldValues);
     }
 }

@@ -4,12 +4,14 @@ import at.htl.beeyond.dto.TemplateApplicationDto;
 import at.htl.beeyond.dto.TemplateFieldValueDto;
 import at.htl.beeyond.entity.Template;
 import at.htl.beeyond.entity.TemplateField;
+import org.hibernate.validator.constraintvalidation.HibernateConstraintValidatorContext;
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class TemplateFieldsCompleteValidator implements ConstraintValidator<TemplateFieldsComplete, TemplateApplicationDto> {
@@ -35,22 +37,27 @@ public class TemplateFieldsCompleteValidator implements ConstraintValidator<Temp
                 .stream()
                 .map(TemplateField::getId).collect(Collectors.toList());
 
-        List<Long> fieldValueIds = obj.getFieldValues()
+        List<Long> dtoFieldValueIds = obj.getFieldValues()
                 .stream()
                 .map(TemplateFieldValueDto::getFieldId).collect(Collectors.toList());
 
+        List<Long> missingIds = new LinkedList<>();
         for (Long id : fieldIds) {
-            if (!fieldValueIds.remove(id)) {
-                return false;
+            if (!dtoFieldValueIds.remove(id)) {
+                missingIds.add(id);
             }
         }
 
-        boolean isValid = fieldValueIds.isEmpty();
+        boolean isValid = missingIds.isEmpty() && dtoFieldValueIds.isEmpty();
 
         if (!isValid) {
-            context.disableDefaultConstraintViolation();
-            context.buildConstraintViolationWithTemplate("atwasdf")
-                    .addPropertyNode("fieldValues").addConstraintViolation();
+            HibernateConstraintValidatorContext ctx = context.unwrap(HibernateConstraintValidatorContext.class);
+
+            String missingIdString = missingIds.stream().map(Objects::toString).collect(Collectors.joining(", "));
+            ctx.addMessageParameter("missing-ids", missingIdString);
+
+            String obsoleteIdString = dtoFieldValueIds.stream().map(Objects::toString).collect(Collectors.joining(", "));
+            ctx.addMessageParameter("obsolete-ids", obsoleteIdString);
         }
 
         return isValid;

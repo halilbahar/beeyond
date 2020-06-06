@@ -14,7 +14,6 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Path("/template")
 @Consumes("application/json")
