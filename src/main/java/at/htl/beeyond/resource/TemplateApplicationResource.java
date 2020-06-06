@@ -6,7 +6,6 @@ import at.htl.beeyond.entity.User;
 import at.htl.beeyond.model.FailedField;
 import at.htl.beeyond.service.ValidationService;
 import at.htl.beeyond.validation.Sequence;
-import at.htl.beeyond.validation.checks.TemplateApplicationSequence;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
