@@ -1,51 +1,47 @@
 package at.htl.beeyond.resource;
 
-import at.htl.beeyond.model.Template;
-import at.htl.beeyond.model.TemplateApplication;
-import at.htl.beeyond.repository.TemplateApplicationRepository;
-import at.htl.beeyond.repository.TemplateRepository;
+import at.htl.beeyond.dto.TemplateApplicationDto;
+import at.htl.beeyond.entity.TemplateApplication;
+import at.htl.beeyond.entity.User;
+import at.htl.beeyond.model.FailedField;
+import at.htl.beeyond.service.ValidationService;
+import at.htl.beeyond.validation.Sequence;
 
+import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.SecurityContext;
+import java.util.List;
 
-@Path("/template-application")
-@Transactional
+@Path("/application/template")
+@Consumes("application/json")
+@Produces("application/json")
 public class TemplateApplicationResource {
 
     @Inject
-    TemplateApplicationRepository templateApplicationRepository;
-    @Inject
-    TemplateRepository templateRepository;
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public Response getAllApplications() {
-        return Response.ok(this.templateApplicationRepository.findAll().list()).build();
-    }
-
-    @GET
-    @Produces(MediaType.APPLICATION_JSON)
-    @Path("/{id}")
-    public Response getApplicationById(@PathParam("id") Long id) {
-        TemplateApplication templateApplication = this.templateApplicationRepository.findById(id);
-        if (templateApplication == null) {
-            return Response.status(404).build();
-        }
-
-        return Response.ok(templateApplication).build();
-    }
+    ValidationService validationService;
 
     @POST
-    @Consumes(MediaType.APPLICATION_JSON)
-    public Response uploadApplication(TemplateApplication templateApplication) {
-        Template template = this.templateRepository
-                .find("name", templateApplication.getTemplateName())
-                .firstResult();
-        templateApplication.setTemplate(template);
-        this.templateApplicationRepository.persistApplication(templateApplication);
+    @RolesAllowed({"student", "teacher"})
+    @Transactional
+    public Response create(@Context SecurityContext context, TemplateApplicationDto templateApplicationDto) {
+        List<FailedField> failedFields = this.validationService.validate(templateApplicationDto, Sequence.TemplateApplication.class);
+        if (!failedFields.isEmpty()) {
+            return Response.status(422).entity(failedFields).build();
+        }
+
+        User user = User.find("name", context.getUserPrincipal().getName()).firstResult();
+        templateApplicationDto.setOwner(user);
+        TemplateApplication templateApplication = templateApplicationDto.map();
+
+        templateApplication.persist();
+
         return Response.noContent().build();
     }
 }
