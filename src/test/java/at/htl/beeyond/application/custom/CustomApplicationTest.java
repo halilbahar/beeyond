@@ -8,4 +8,9 @@ public class CustomApplicationTest {
     Karate testCreate() {
         return Karate.run("custom-application-post").tags("validCustomApplication").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testBlankContent() {
+        return Karate.run("custom-application-post").tags("blankContent").relativeTo(getClass());
+    }
 }
