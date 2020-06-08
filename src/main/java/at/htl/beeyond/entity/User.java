@@ -1,34 +1,37 @@
 package at.htl.beeyond.entity;
 
-import io.quarkus.hibernate.orm.panache.PanacheEntity;
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
-import javax.json.bind.annotation.JsonbTransient;
-import javax.persistence.Entity;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import java.util.List;
 
 @Entity(name = "_user")
-public class User extends PanacheEntity {
+public class User extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     private String name;
 
     @OneToMany(mappedBy = "user")
-    @JsonbTransient
     private List<Namespace> namespaces;
 
-    @OneToMany(mappedBy = "user")
-    @JsonbTransient
-    private List<CustomApplication> customApplications;
+    @OneToMany(mappedBy = "owner")
+    List<Application> applications;
 
-    @OneToMany(mappedBy = "user")
-    @JsonbTransient
-    private List<TemplateApplication> templateApplications;
+    @OneToMany(mappedBy = "owner")
+    private List<Template> templates;
 
     public User(String name) {
         this.name = name;
     }
 
     public User() {
+    }
+
+    public Long getId() {
+        return id;
     }
 
     public String getName() {
@@ -47,19 +50,19 @@ public class User extends PanacheEntity {
         this.namespaces = namespaces;
     }
 
-    public List<CustomApplication> getCustomApplications() {
-        return customApplications;
+    public List<Application> getApplications() {
+        return applications;
     }
 
-    public void setCustomApplications(List<CustomApplication> customApplications) {
-        this.customApplications = customApplications;
+    public void setApplications(List<Application> applications) {
+        this.applications = applications;
     }
 
-    public List<TemplateApplication> getTemplateApplications() {
-        return templateApplications;
+    public List<Template> getTemplates() {
+        return templates;
     }
 
-    public void setTemplateApplications(List<TemplateApplication> templateApplications) {
-        this.templateApplications = templateApplications;
+    public void setTemplates(List<Template> templates) {
+        this.templates = templates;
     }
 }

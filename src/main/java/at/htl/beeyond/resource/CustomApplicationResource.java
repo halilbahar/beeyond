@@ -1,80 +1,44 @@
 package at.htl.beeyond.resource;
 
-import at.htl.beeyond.entity.ApplicationStatus;
+import at.htl.beeyond.dto.CustomApplicationDto;
 import at.htl.beeyond.entity.CustomApplication;
 import at.htl.beeyond.entity.User;
-import at.htl.beeyond.service.DeploymentService;
+import at.htl.beeyond.model.FailedField;
+import at.htl.beeyond.service.ValidationService;
 
 import javax.annotation.security.RolesAllowed;
 import javax.inject.Inject;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Validator;
-import javax.ws.rs.*;
+import javax.ws.rs.Consumes;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.SecurityContext;
-import java.util.Set;
+import java.util.List;
 
-@Path("/custom-application")
+@Path("/application/custom")
 @Consumes("application/json")
 @Produces("application/json")
 public class CustomApplicationResource {
 
     @Inject
-    Validator validator;
-    @Inject
-    DeploymentService deploymentService;
-
-    @GET
-    @RolesAllowed("teacher")
-    @Transactional
-    public Response getAll() {
-        return Response.ok(CustomApplication.findAll().list()).build();
-    }
+    ValidationService validationService;
 
     @POST
     @RolesAllowed({"student", "teacher"})
     @Transactional
-    public Response create(@Context SecurityContext context, CustomApplication customApplication) {
-        Set<ConstraintViolation<CustomApplication>> violations = this.validator.validate(customApplication);
-        if (!violations.isEmpty()) {
-            return Response.status(422).build();
+    public Response create(@Context SecurityContext context, CustomApplicationDto customApplicationDto) {
+        List<FailedField> failedFields = this.validationService.validate(customApplicationDto);
+        if (!failedFields.isEmpty()) {
+            return Response.status(422).entity(failedFields).build();
         }
 
         User user = User.find("name", context.getUserPrincipal().getName()).firstResult();
-        customApplication.setUser(user);
+        CustomApplication customApplication = customApplicationDto.map(user);
         customApplication.persist();
 
-        return Response.noContent().build();
-    }
-
-    @DELETE
-    @Path("/{id}")
-    @RolesAllowed("teacher")
-    @Transactional
-    public Response delete(@PathParam("id") Long id) {
-        CustomApplication customApplication = CustomApplication.findById(id);
-        if (customApplication == null) {
-            return Response.status(404).build();
-        }
-
-        customApplication.delete();
-        return Response.ok(customApplication).build();
-    }
-
-    @PUT
-    @Path("/approve/{id}")
-    @RolesAllowed("teacher")
-    @Transactional
-    public Response approve(@PathParam("id") Long id) {
-        CustomApplication customApplication = CustomApplication.findById(id);
-        if (customApplication == null) {
-            Response.status(404).build();
-        }
-
-        this.deploymentService.deploy(customApplication);
-        customApplication.setStatus(ApplicationStatus.RUNNING);
         return Response.noContent().build();
     }
 }
