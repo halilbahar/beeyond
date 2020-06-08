@@ -14,3 +14,11 @@ Feature: Test for deleting a template
     And header Accept = 'application/json'
     When method delete
     Then status 204
+
+  @deleteNotExistingTemplate
+  Scenario: Delete a custom application
+    Given path '/template/9999999999'
+    And header Authorization = 'Bearer ' + accessToken
+    And header Accept = 'application/json'
+    When method delete
+    Then status 404
