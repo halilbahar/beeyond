@@ -13,4 +13,9 @@ public class CustomApplicationTest {
     Karate testBlankContent() {
         return Karate.run("custom-application-post").tags("blankContent").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testBlankNote() {
+        return Karate.run("custom-application-post").tags("blankNote").relativeTo(getClass());
+    }
 }
