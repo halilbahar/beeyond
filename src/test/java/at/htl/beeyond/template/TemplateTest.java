@@ -8,4 +8,9 @@ public class TemplateTest {
     Karate testGetAll() {
         return Karate.run("template-get").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testCreate() {
+        return Karate.run("template-post").relativeTo(getClass());
+    }
 }
