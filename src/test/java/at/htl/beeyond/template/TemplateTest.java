@@ -13,4 +13,9 @@ public class TemplateTest {
     Karate testCreate() {
         return Karate.run("template-post").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testDelete() {
+        return Karate.run("template-delete").tags("deleteExistingTemplate").relativeTo(getClass());
+    }
 }
