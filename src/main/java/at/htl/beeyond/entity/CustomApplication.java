@@ -1,5 +1,7 @@
 package at.htl.beeyond.entity;
 
+import at.htl.beeyond.dto.CustomApplicationDto;
+
 import javax.persistence.Entity;
 import javax.persistence.Lob;
 
@@ -23,5 +25,9 @@ public class CustomApplication extends Application {
 
     public void setContent(String content) {
         this.content = content;
+    }
+
+    public static CustomApplicationDto getDto(CustomApplication customApplication) {
+        return CustomApplicationDto.map(customApplication);
     }
 }
