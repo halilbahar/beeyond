@@ -11,7 +11,12 @@ public class TemplateTest {
 
     @Karate.Test
     Karate testCreate() {
-        return Karate.run("template-post").relativeTo(getClass());
+        return Karate.run("template-post").tags("create").relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate testBlankContent() {
+        return Karate.run("template-post").tags("blankContent").relativeTo(getClass());
     }
 
     @Karate.Test

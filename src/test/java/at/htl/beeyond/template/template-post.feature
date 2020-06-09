@@ -6,7 +6,9 @@ Feature: Test for creating a template
     And request { username: 'testteacher', password: 'teacher'}
     When method post
     * def accessToken = response.access_token
+    * def stringWith300 = call read('string-generator.js')
 
+  @create
   Scenario: Create a new template
     Given path '/template'
     And header Authorization = 'Bearer ' + accessToken
@@ -14,3 +16,12 @@ Feature: Test for creating a template
     And request { name: 'Test Template', description: 'This is a test template', content: 'Some yaml' }
     When method post
     Then status 204
+
+  @blankContent
+  Scenario: Create Template with blank content
+    Given path '/template'
+    And header Authorization = 'Bearer ' + accessToken
+    And header Content-Type = 'application/json'
+    And request { name: 'Test Template', description: 'This is a test template', content: '' }
+    When method post
+    Then status 422
