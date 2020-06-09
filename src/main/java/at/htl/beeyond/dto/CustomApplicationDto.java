@@ -49,4 +49,12 @@ public class CustomApplicationDto {
     public CustomApplication map(User owner) {
         return new CustomApplication(note, owner, content);
     }
+
+    public static CustomApplicationDto map(CustomApplication customApplication) {
+        return new CustomApplicationDto(
+                customApplication.getId(),
+                customApplication.getNote(),
+                customApplication.getContent()
+        );
+    }
 }
