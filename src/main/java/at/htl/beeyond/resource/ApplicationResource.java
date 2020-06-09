@@ -1,7 +1,7 @@
 package at.htl.beeyond.resource;
 
-import at.htl.beeyond.entity.Application;
-import at.htl.beeyond.entity.ApplicationStatus;
+import at.htl.beeyond.dto.TemplateApplicationDto;
+import at.htl.beeyond.entity.*;
 import at.htl.beeyond.service.DeploymentService;
 
 import javax.annotation.security.RolesAllowed;
@@ -9,6 +9,8 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Path("/application")
 @Consumes("application/json")
@@ -19,8 +21,17 @@ public class ApplicationResource {
     DeploymentService deploymentService;
 
     @GET
-    public Response getAll() {
-        return Response.ok(Application.findAll().list()).build();
+    @Transactional
+    public Response getAll(TemplateApplicationDto templateApplicationDto) {
+        List<Object> applications = Application.findAll().stream().map(o -> {
+            if (o instanceof CustomApplication) {
+                return CustomApplication.getDto((CustomApplication) o);
+            } else if (o instanceof TemplateApplication) {
+                return TemplateApplication.getDto((TemplateApplication) o);
+            }
+            return null;
+        }).collect(Collectors.toList());
+        return Response.ok(applications).build();
     }
 
     @PATCH
