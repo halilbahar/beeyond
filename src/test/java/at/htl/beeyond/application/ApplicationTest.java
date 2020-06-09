@@ -13,4 +13,9 @@ public class ApplicationTest {
     Karate testApprove() {
         return Karate.run("application-patch").tags("approve").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testDeny() {
+        return Karate.run("application-patch").tags("deny").relativeTo(getClass());
+    }
 }
