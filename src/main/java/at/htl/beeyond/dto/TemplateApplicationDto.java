@@ -1,9 +1,6 @@
 package at.htl.beeyond.dto;
 
-import at.htl.beeyond.entity.Template;
-import at.htl.beeyond.entity.TemplateApplication;
-import at.htl.beeyond.entity.TemplateFieldValue;
-import at.htl.beeyond.entity.User;
+import at.htl.beeyond.entity.*;
 import at.htl.beeyond.validation.Checks;
 import at.htl.beeyond.validation.Exists;
 import at.htl.beeyond.validation.TemplateFieldsComplete;
@@ -93,5 +90,18 @@ public class TemplateApplicationDto {
                 .collect(Collectors.toList());
 
         return new TemplateApplication(this.note, this.owner.map(), template, templateFieldValues);
+    }
+
+    public static TemplateApplicationDto map(TemplateApplication templateApplication) {
+        List<TemplateFieldValueDto> fieldValues = templateApplication.getFieldValues().stream()
+                .map(TemplateFieldValueDto::map)
+                .collect(Collectors.toList());
+
+        return new TemplateApplicationDto(
+                templateApplication.getId(),
+                templateApplication.getNote(),
+                templateApplication.getTemplate().getId(),
+                fieldValues
+        );
     }
 }
