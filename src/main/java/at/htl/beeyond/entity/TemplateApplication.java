@@ -1,5 +1,6 @@
 package at.htl.beeyond.entity;
 
+import at.htl.beeyond.dto.TemplateApplicationDto;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -37,5 +38,9 @@ public class TemplateApplication extends Application {
 
     public void setFieldValues(List<TemplateFieldValue> fieldValues) {
         this.fieldValues = fieldValues;
+    }
+
+    public static TemplateApplicationDto getDto(TemplateApplication templateApplication) {
+        return TemplateApplicationDto.map(templateApplication);
     }
 }
