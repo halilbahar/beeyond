@@ -1,4 +1,4 @@
-package at.htl.beeyond.login;
+package login;
 
 import com.intuit.karate.junit5.Karate;
 

@@ -1,4 +1,4 @@
-package at.htl.beeyond.application.custom;
+package application.custom;
 
 import com.intuit.karate.junit5.Karate;
 

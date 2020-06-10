@@ -1,4 +1,4 @@
-package at.htl.beeyond.template.field;
+package template.field;
 
 import com.intuit.karate.junit5.Karate;
 
