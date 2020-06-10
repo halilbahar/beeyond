@@ -10,27 +10,27 @@ Feature: Test for invalid template fields
 
   @labelLength
   Scenario: Label length over 255
-    Given path '/application/template'
+    Given path '/template'
     And header Authorization = 'Bearer ' + accessToken
     And header Content-Type = 'application/json'
-    And request {templateId: 1, name: 'Nginx 1.16',description: 'This is a simple template for a nginx server', content: 'Some content', fields: [{wildcard: 'port',label: '#(stringWith300)',description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'}], note: 'Some note'}
+    And request { name: 'Test Template', description: 'This is a test template', content: 'Some yaml %port%', fields: [{wildcard: 'port',label: '#(stringWith300)',description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'}]}
     When method post
     Then status 422
 
   @wildcardLength
   Scenario: Wildcard length over 255
-    Given path '/application/template'
+    Given path '/template'
     And header Authorization = 'Bearer ' + accessToken
     And header Content-Type = 'application/json'
-    And request {templateId: 1, name: 'Nginx 1.16',description: 'This is a simple template for a nginx server', content: 'Some content', fields: [{wildcard: '#(stringWith300)',label: 'Port of the webserver',description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'}], note: 'Some note'}
+    And request { name: 'Test Template', description: 'This is a test template', content: 'Some yaml %#(stringWith300)%', fields: [{wildcard: '#(stringWith300)',label: 'Port of the webserver',description: 'Lorem ipsum dolor sit amet, consectetuer adipiscing elit.'}]}
     When method post
     Then status 422
 
   @descriptionLength
   Scenario: Description length over 255
-    Given path '/application/template'
+    Given path '/template'
     And header Authorization = 'Bearer ' + accessToken
     And header Content-Type = 'application/json'
-    And request {templateId: 1, name: 'Nginx 1.16',description: 'This is a simple template for a nginx server', content: 'Some content', fields: [{wildcard: 'port',label: 'Port of the webserver',description: '#(stringWith300)'}], note: 'Some note'}
+    And request { name: 'Test Template', description: 'This is a test template', content: 'Some yaml %port%', fields: [{wildcard: 'port',label: 'Port of the webserver',description: '#(stringWith300)'}]}
     When method post
     Then status 422
