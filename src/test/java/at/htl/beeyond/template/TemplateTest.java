@@ -20,6 +20,11 @@ public class TemplateTest {
     }
 
     @Karate.Test
+    Karate testNameLength() {
+        return Karate.run("template-post").tags("nameLength").relativeTo(getClass());
+    }
+
+    @Karate.Test
     Karate testDelete() {
         return Karate.run("template-delete").tags("deleteExistingTemplate").relativeTo(getClass());
     }
