@@ -6,6 +6,7 @@ Feature: Test for creating a custom application
     And request { username: 'teststudent', password: 'student'}
     When method post
     * def accessToken = response.access_token
+    * def stringWith300 = call read('string-generator.js')
 
   @validCustomApplication
   Scenario: Create a custom application
@@ -17,7 +18,7 @@ Feature: Test for creating a custom application
     Then status 204
 
   @blankContent
-  Scenario: Create an custom application with blank content
+  Scenario: Create a custom application with blank content
     Given path '/application/custom'
     And header Authorization = 'Bearer ' + accessToken
     And header Content-Type = 'application/json'
@@ -25,11 +26,29 @@ Feature: Test for creating a custom application
     When method post
     Then status 422
 
+  @contentLength
+  Scenario: Content length over 255
+    Given path '/application/custom'
+    And header Authorization = 'Bearer ' + accessToken
+    And header Content-Type = 'application/json'
+    And request { content: '#(stringWith300)', note: 'Some note'}
+    When method post
+    Then status 422
+
   @blankNote
-  Scenario: Create an custom application with blank note
+  Scenario: Create a custom application with blank note
     Given path '/application/custom'
     And header Authorization = 'Bearer ' + accessToken
     And header Content-Type = 'application/json'
     And request { content: 'Some content', note: ''}
+    When method post
+    Then status 422
+
+  @noteLength
+  Scenario: Note length over 255
+    Given path '/application/custom'
+    And header Authorization = 'Bearer ' + accessToken
+    And header Content-Type = 'application/json'
+    And request { content: 'Some content', note: '#(stringWith300)'}
     When method post
     Then status 422
