@@ -1,4 +1,5 @@
 <mat-card id="form-card">
+  <div class="form-image"></div>
   <mat-card-content>
     <form [formGroup]="loginForm" id="login-form">
       <mat-form-field>
@@ -9,9 +10,7 @@
         <mat-label>Password</mat-label>
         <input matInput type="password" formControlName="password">
       </mat-form-field>
+      <button mat-stroked-button (click)="submitUserLogin()">login</button>
     </form>
   </mat-card-content>
-  <mat-card-actions align="right">
-    <button mat-stroked-button (click)="submitUserLogin()">login</button>
-  </mat-card-actions>
 </mat-card>
