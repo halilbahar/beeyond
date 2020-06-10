@@ -8,7 +8,12 @@
   width: 90%;
   display: inline-block;
 
-  input, button mat-icon {
-    font-size: 18px;
+  $search-font: 18px;
+  input {
+    font-size: $search-font;
+  }
+
+  button mat-icon {
+    font-size: $search-font + 8px;
   }
 }
