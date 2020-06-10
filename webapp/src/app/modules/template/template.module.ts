@@ -7,9 +7,10 @@ import { MatButtonModule } from '@angular/material/button';
 import { SharedModule } from '../../shared/shared.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { TemplateCreateComponent } from './pages/template-create/template-create.component';
 
 @NgModule({
-  declarations: [TemplateComponent],
+  declarations: [TemplateComponent, TemplateCreateComponent],
   imports: [
     CommonModule,
     TemplateRoutingModule,
