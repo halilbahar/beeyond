@@ -34,3 +34,12 @@ Feature: Test for creating a template
     And request { name: '#(stringWith300)', description: 'This is a test template', content: 'Some yaml' }
     When method post
     Then status 422
+
+  @descriptionLength
+  Scenario: Description length over 255
+    Given path '/template'
+    And header Authorization = 'Bearer ' + accessToken
+    And header Content-Type = 'application/json'
+    And request { name: 'Test Template', description: '#(stringWith300)', content: 'Some yaml' }
+    When method post
+    Then status 422
