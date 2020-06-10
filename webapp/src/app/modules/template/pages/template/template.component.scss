@@ -1,0 +1,16 @@
+$box-size: 420px;
+
+.main-grid {
+  display: grid;
+  gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax($box-size, 1fr));
+}
+
+.main-grid div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: $box-size * 0.6;
+  background-color: #b5813d;
+  font-size: 22px;
+}

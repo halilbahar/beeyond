@@ -1,0 +1,16 @@
+<div class="unselectable">
+  <div *ngFor="let template of templates; let i = index">
+    <div class="list-item" matRipple>
+      <div class="list-item-text">
+        <span>{{template.name}}</span>
+        <span>{{template.description}}</span>
+      </div>
+      <div class="list-item-template-field">
+        {{template.fields.length}} fields
+        <mat-icon>notes</mat-icon>
+      </div>
+    </div>
+
+    <div class="list-item-divider" *ngIf="i !== templates.length - 1"></div>
+  </div>
+</div>
