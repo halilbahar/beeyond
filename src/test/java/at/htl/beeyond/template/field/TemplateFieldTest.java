@@ -18,4 +18,9 @@ public class TemplateFieldTest {
     Karate testDescriptionLength() {
         return Karate.run("template-field-post").tags("descriptionLength").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testFieldNotInContent() {
+        return Karate.run("template-field-post").tags("fieldNotInContent").relativeTo(getClass());
+    }
 }

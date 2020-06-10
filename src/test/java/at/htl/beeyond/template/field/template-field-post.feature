@@ -34,3 +34,4 @@ Feature: Test for invalid template fields
     And request { name: 'Test Template', description: 'This is a test template', content: 'Some yaml %port%', fields: [{wildcard: 'port',label: 'Port of the webserver',description: '#(stringWith300)'}]}
     When method post
     Then status 422
+    And match response[0].message == 'Missing fields: [], obsolete fields: [port]'
