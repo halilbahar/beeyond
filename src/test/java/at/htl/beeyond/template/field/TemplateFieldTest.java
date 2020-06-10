@@ -8,4 +8,9 @@ public class TemplateFieldTest {
     Karate testLabelLength() {
         return Karate.run("template-field-post").tags("labelLength").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testWildcardLength() {
+        return Karate.run("template-field-post").tags("wildcardLength").relativeTo(getClass());
+    }
 }
