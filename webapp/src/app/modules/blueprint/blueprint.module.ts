@@ -11,23 +11,25 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
 import { FormsModule } from '@angular/forms';
+import {SharedModule} from '../../shared/shared.module';
 
 @NgModule({
   declarations: [
     BlueprintComponent,
     BlueprintTemplateComponent
   ],
-  imports: [
-    CommonModule,
-    BlueprintRoutingModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTabsModule,
-    FormsModule
-  ]
+    imports: [
+        CommonModule,
+        BlueprintRoutingModule,
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTabsModule,
+        FormsModule,
+        SharedModule
+    ]
 })
 export class BlueprintModule { }

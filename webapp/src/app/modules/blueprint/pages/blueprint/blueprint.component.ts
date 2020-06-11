@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpApiService } from '../../../../service/http-api.service';
-import { Template } from '../../template.model';
+import { Template } from '../../../../shared/models/template.model';
+import { ApiService } from '../../../../core/services/api.service';
 
 @Component({
   selector: 'app-blueprint',
@@ -15,13 +15,12 @@ export class BlueprintComponent implements OnInit {
     note: ''
   };
 
-  constructor(private httpApiService: HttpApiService) { }
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.httpApiService.getAllTemplates().subscribe(value => this.templates = value);
+    this.apiService.getTemplates().subscribe(templates => this.templates = templates);
   }
 
   sendCustomTemplate(): void {
-    this.httpApiService.createCustomApplication(this.customTemplate).subscribe(console.log);
   }
 }

@@ -5,7 +5,7 @@ import { BlueprintTemplateComponent } from './pages/blueprint-template/blueprint
 
 const routes: Routes = [
   {path: '', component: BlueprintComponent},
-  {path: ':name', component: BlueprintTemplateComponent}
+  {path: 'template/:id', component: BlueprintTemplateComponent}
 ];
 
 @NgModule({
