@@ -2,8 +2,8 @@
   <div *ngFor="let template of templates; let i = index">
     <div class="list-item" matRipple (click)="route(template.id)">
       <div class="list-item-text">
-        <span>{{template.name}}</span>
-        <span>{{template.description}}</span>
+        <span class="label">{{template.name}}</span>
+        <span class="description">{{template.description}}</span>
       </div>
       <div class="list-item-template-field">
         {{template.fields.length}} field{{template.fields.length !== 1 ? 's' : ''}}

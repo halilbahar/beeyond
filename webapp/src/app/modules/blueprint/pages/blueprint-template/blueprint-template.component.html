@@ -6,13 +6,13 @@
     <form [formGroup]="templateForm">
       <div *ngFor="let field of template.fields; let i = index" class="field-container" formArrayName="fieldValues">
         <ng-container [formGroupName]="i">
-          <div class="field-label">{{field.label}}</div>
-          <div class="field-description">{{field.description}}</div>
+          <div class="label">{{field.label}}</div>
+          <div class="description">{{field.description}}</div>
           <input type="text" class="full-width" formControlName="value">
         </ng-container>
       </div>
       <div class="field-container">
-        <div class="field-label">An optional note:</div>
+        <div class="label">An optional note:</div>
         <textarea class="full-width" formControlName="note"></textarea>
       </div>
     </form>
