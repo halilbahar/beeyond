@@ -1,5 +1,6 @@
 package at.htl.beeyond.entity;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -11,7 +12,7 @@ public class TemplateApplication extends Application {
     @ManyToOne
     private Template template;
 
-    @OneToMany(mappedBy = "template")
+    @OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST)
     private List<TemplateFieldValue> fieldValues;
 
     public TemplateApplication(String note, User owner, Template template, List<TemplateFieldValue> fieldValues) {
