@@ -10,7 +10,6 @@ public class CustomApplicationDto {
 
     private Long id;
 
-    @NotBlank
     @Length(max = 255)
     private String note;
 
