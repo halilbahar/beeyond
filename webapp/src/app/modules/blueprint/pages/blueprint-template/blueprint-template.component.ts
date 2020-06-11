@@ -42,16 +42,16 @@ export class BlueprintTemplateComponent implements OnInit {
     });
   }
 
-  createFieldValue(fieldId: number) {
+  createFieldValue(fieldId: number): FormGroup {
     return this.fb.group({
       value: ['', Validators.required],
       fieldId: [fieldId]
     });
   }
 
-  submitApplication() {
+  submitApplication(): void {
     this.apiService.createTemplateApplication(this.templateForm.value).subscribe(() => {
-      this.router.navigate(['dashboard'], {}).then(navigated => {
+      this.router.navigate(['dashboard']).then(navigated => {
         if (navigated) {
           this.snackBar.open(
             'Your application was sent will be reviewed as soon as possible',
