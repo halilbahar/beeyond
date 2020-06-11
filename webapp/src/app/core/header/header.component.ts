@@ -15,7 +15,7 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        const title = event.url.substr(1);
+        const title = event.url.split('/')[1];
         this.headerTitle = title.charAt(0).toUpperCase() + title.substr(1);
       }
     });
