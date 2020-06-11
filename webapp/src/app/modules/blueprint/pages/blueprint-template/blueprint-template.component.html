@@ -1,20 +1,25 @@
 <mat-card class="main-card">
-  <mat-card-header>
-    <mat-card-title>{{template}}</mat-card-title>
-  </mat-card-header>
-  <mat-card-content>
-      <mat-form-field class="input-full-width">
-        <mat-label>Name</mat-label>
-        <input matInput placeholder="Name" [(ngModel)]="form.name" name="name">
-      </mat-form-field>
-
-      <mat-form-field class="input-full-width">
-        <mat-label>Replicas</mat-label>
-        <input matInput placeholder="Number of replicas generated" [(ngModel)]="form.replica" name="replica">
-      </mat-form-field>
-
-  </mat-card-content>
-  <mat-card-actions align="end">
-    <button mat-raised-button type="submit" (click)="submit()">Request</button>
-  </mat-card-actions>
+  <ng-container *ngIf="template">
+    <mat-card-title>{{template.name}}</mat-card-title>
+    <mat-card-subtitle>{{template.description}}</mat-card-subtitle>
+    <mat-divider></mat-divider>
+    <form [formGroup]="templateForm">
+      <div *ngFor="let field of template.fields; let i = index" class="field-container" formArrayName="fieldValues">
+        <ng-container [formGroupName]="i">
+          <div class="field-label">{{field.label}}</div>
+          <div class="field-description">{{field.description}}</div>
+          <input type="text" class="full-width" formControlName="value">
+        </ng-container>
+      </div>
+      <div class="field-container">
+        <div class="field-label">An optional note:</div>
+        <textarea class="full-width" formControlName="note"></textarea>
+      </div>
+    </form>
+    <mat-card-actions align="right">
+      <button mat-flat-button color="primary" (click)="submitApplication()" [disabled]="!templateForm.valid">
+        Submit
+      </button>
+    </mat-card-actions>
+  </ng-container>
 </mat-card>

@@ -10,26 +10,29 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatTabsModule } from '@angular/material/tabs';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {SharedModule} from '../../shared/shared.module';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [
     BlueprintComponent,
     BlueprintTemplateComponent
   ],
-    imports: [
-        CommonModule,
-        BlueprintRoutingModule,
-        MatCardModule,
-        MatDividerModule,
-        MatListModule,
-        MatButtonModule,
-        MatFormFieldModule,
-        MatInputModule,
-        MatTabsModule,
-        FormsModule,
-        SharedModule
-    ]
+  imports: [
+    CommonModule,
+    BlueprintRoutingModule,
+    MatCardModule,
+    MatDividerModule,
+    MatListModule,
+    MatButtonModule,
+    MatFormFieldModule,
+    MatInputModule,
+    MatTabsModule,
+    FormsModule,
+    SharedModule,
+    ReactiveFormsModule,
+    MatSnackBarModule
+  ]
 })
 export class BlueprintModule { }
