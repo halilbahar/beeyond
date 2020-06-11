@@ -8,6 +8,7 @@ import { SharedModule } from '../../shared/shared.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TemplateCreateComponent } from './pages/template-create/template-create.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [TemplateComponent, TemplateCreateComponent],
@@ -19,6 +20,7 @@ import { TemplateCreateComponent } from './pages/template-create/template-create
     SharedModule,
     MatInputModule,
     MatIconModule,
+    ReactiveFormsModule,
   ]
 })
 export class TemplateModule { }

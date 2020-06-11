@@ -9,7 +9,7 @@ import { Template } from '../../../../shared/models/template.model';
 })
 export class TemplateComponent implements OnInit {
 
-  templates: Template[];
+  templates: Template[] = [];
 
   constructor(private apiService: ApiService) { }
 
