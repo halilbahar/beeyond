@@ -3,15 +3,18 @@
     <mat-tab label="Custom Blueprint">
       <div class="tab-wrapper">
         <mat-card-content>
-          <h3>The content of your script:</h3>
-          <textarea rows="20" class="text-area-full-width" [(ngModel)]="customTemplate.content"></textarea>
-          <h3>A small optional note:</h3>
-          <textarea rows="3" class="text-area-full-width" [(ngModel)]="customTemplate.note"></textarea>
+          <form [formGroup]="customApplicationForm">
+            <h3>The content of your script:</h3>
+            <textarea rows="20" class="text-area-full-width" formControlName="content"></textarea>
+            <h3>A small optional note:</h3>
+            <textarea rows="3" class="text-area-full-width" formControlName="note"></textarea>
+          </form>
         </mat-card-content>
 
         <mat-card-actions align="end">
-          <button mat-raised-button (click)="sendCustomTemplate()" [disabled]="customTemplate.content.length === 0">
-            Send
+          <button mat-flat-button color="primary" (click)="sendCustomTemplate()"
+                  [disabled]="!customApplicationForm.valid">
+            Submit
           </button>
         </mat-card-actions>
       </div>

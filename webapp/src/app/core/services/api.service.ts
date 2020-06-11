@@ -12,7 +12,7 @@ export class ApiService {
   constructor(private http: HttpClient) { }
 
   getTemplates(): Observable<Template[]> {
-    return this.http.get<Template[]>(environment.apiUrl + '/template');
+    return this.http.get<Template[]>(`${environment.apiUrl}/template`);
   }
 
   getTemplateById(id: number): Observable<Template> {
@@ -20,6 +20,10 @@ export class ApiService {
   }
 
   createTemplateApplication(body: object): Observable<null> {
-    return this.http.post<null>(environment.apiUrl + '/application/template', body);
+    return this.http.post<null>(`${environment.apiUrl}/application/template`, body);
+  }
+
+  createCustomApplication(body: object): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/application/custom`, body);
   }
 }
