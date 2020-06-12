@@ -1,5 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ApiService } from '../../../../core/services/api.service';
+import { Template } from '../../../../shared/models/template.model';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-blueprint-template',
@@ -8,11 +12,54 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class BlueprintTemplateComponent implements OnInit {
 
-  template = '';
+  template: Template;
+  templateForm: FormGroup;
+  id: number;
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private apiService: ApiService,
+    private fb: FormBuilder,
+    private snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
-    this.route.url.subscribe(url => this.template = url[1].path);
+    this.id = Number(this.route.snapshot.paramMap.get('id'));
+    this.apiService.getTemplateById(this.id).subscribe(template => {
+      this.template = template;
+
+      const fieldValues = [];
+      this.template.fields.forEach(field => fieldValues.push(this.createFieldValue(field.id)));
+
+      const config = {
+        templateId: [this.id],
+        note: [''],
+        fieldValues: this.fb.array(fieldValues)
+      };
+
+      this.templateForm = this.fb.group(config);
+    });
+  }
+
+  createFieldValue(fieldId: number): FormGroup {
+    return this.fb.group({
+      value: ['', Validators.required],
+      fieldId: [fieldId]
+    });
+  }
+
+  submitApplication(): void {
+    this.apiService.createTemplateApplication(this.templateForm.value).subscribe(() => {
+      this.router.navigate(['dashboard']).then(navigated => {
+        if (navigated) {
+          this.snackBar.open(
+            'Your application was sent will be reviewed as soon as possible',
+            'close',
+            {duration: undefined}
+          );
+        }
+      });
+    });
   }
 }

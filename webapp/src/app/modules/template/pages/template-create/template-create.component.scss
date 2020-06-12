@@ -1,0 +1,19 @@
+.wildcard-fields .wildcard-field-wrapper {
+  margin-top: 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.wildcard-label {
+  font-size: 1.5rem;
+}
+
+.stepper-buttons {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: .5rem;
+
+  button {
+    margin-left: .8rem;
+  }
+}

@@ -52,7 +52,7 @@ public class TemplateFieldValueDto {
     }
 
     public TemplateFieldValue map(Template template) {
-        TemplateField templateField = TemplateFieldValue.findById(this.fieldId);
+        TemplateField templateField = TemplateField.findById(this.fieldId);
         return new TemplateFieldValue(this.value, templateField, template);
     }
 

@@ -1,0 +1,70 @@
+<mat-card class="main-card">
+  <mat-card-title>Create a new Template</mat-card-title>
+  <mat-card-subtitle>Write your template here:</mat-card-subtitle>
+  <mat-card-content>
+    <mat-horizontal-stepper [linear]="true">
+      <mat-step [stepControl]="firstFormGroup">
+        <ng-template matStepLabel>Write the script</ng-template>
+
+        <form [formGroup]="firstFormGroup">
+          <textarea rows="20" class="full-width" formControlName="content"></textarea>
+        </form>
+
+        <div class="stepper-buttons">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button mat-flat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="secondFormGroup">
+        <ng-template matStepLabel>Fill Out Wildcard Fields</ng-template>
+
+        <form [formGroup]="secondFormGroup" *ngIf="wildcards.length > 0 else noWildcards">
+          <div formArrayName="fields">
+            <div *ngFor="let control of fields.controls; let i = index" class="wildcard-fields" [formGroupName]="i">
+              <span class="wildcard-label">{{control.value.wildcard}}:</span>
+              <mat-form-field class="full-width">
+                <mat-label>Label</mat-label>
+                <input matInput placeholder="Your label for this wildcard" formControlName="label">
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <mat-label>Description</mat-label>
+                <input matInput placeholder="Your description for this wildcard" formControlName="description">
+              </mat-form-field>
+            </div>
+          </div>
+        </form>
+
+        <ng-template #noWildcards>
+          Nothing to fill out
+        </ng-template>
+
+        <div class="stepper-buttons">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button mat-flat-button color="primary" matStepperNext>Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="thirdFormGroup">
+        <ng-template matStepLabel>Specify Data</ng-template>
+
+        <form [formGroup]="thirdFormGroup">
+          <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name of this template" formControlName="name">
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <input matInput placeholder="Description of this template" formControlName="description">
+          </mat-form-field>
+        </form>
+
+        <div class="stepper-buttons">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button mat-flat-button color="primary" (click)="createTemplate()">Create</button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>

@@ -1,7 +1,9 @@
 package at.htl.beeyond.resource;
 
-import at.htl.beeyond.dto.TemplateApplicationDto;
-import at.htl.beeyond.entity.*;
+import at.htl.beeyond.entity.Application;
+import at.htl.beeyond.entity.ApplicationStatus;
+import at.htl.beeyond.entity.CustomApplication;
+import at.htl.beeyond.entity.TemplateApplication;
 import at.htl.beeyond.service.DeploymentService;
 
 import javax.annotation.security.RolesAllowed;
@@ -22,7 +24,7 @@ public class ApplicationResource {
 
     @GET
     @Transactional
-    public Response getAll(TemplateApplicationDto templateApplicationDto) {
+    public Response getAll() {
         List<Object> applications = Application.findAll().stream().map(o -> {
             if (o instanceof CustomApplication) {
                 return CustomApplication.getDto((CustomApplication) o);
@@ -44,7 +46,7 @@ public class ApplicationResource {
             return Response.status(404).build();
         }
 
-        // Start application
+        this.deploymentService.deploy(application);
         application.setStatus(ApplicationStatus.RUNNING);
         return Response.noContent().build();
     }

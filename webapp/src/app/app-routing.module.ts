@@ -9,7 +9,8 @@ const routes: Routes = [
       {path: 'blueprint', loadChildren: () => import('./modules/blueprint/blueprint.module').then(m => m.BlueprintModule)},
       {path: 'profile', loadChildren: () => import('./modules/profile/profile.module').then(m => m.ProfileModule)},
       {path: 'accounting', loadChildren: () => import('./modules/accounting/accounting.module').then(m => m.AccountingModule)},
-      {path: 'management', loadChildren: () => import('./modules/management/management.module').then(m => m.ManagementModule)}
+      {path: 'management', loadChildren: () => import('./modules/management/management.module').then(m => m.ManagementModule)},
+      {path: 'template', loadChildren: () => import('./modules/template/template.module').then(m => m.TemplateModule)}
     ]
   },
   {path: 'login', loadChildren: () => import('./modules/login/login.module').then(m => m.LoginModule)}
