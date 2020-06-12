@@ -1,6 +1,6 @@
 package at.htl.beeyond.entity;
 
-import javax.persistence.CascadeType;
+import at.htl.beeyond.dto.TemplateApplicationDto;
 import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
@@ -12,7 +12,7 @@ public class TemplateApplication extends Application {
     @ManyToOne
     private Template template;
 
-    @OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "template")
     private List<TemplateFieldValue> fieldValues;
 
     public TemplateApplication(String note, User owner, Template template, List<TemplateFieldValue> fieldValues) {
@@ -38,5 +38,9 @@ public class TemplateApplication extends Application {
 
     public void setFieldValues(List<TemplateFieldValue> fieldValues) {
         this.fieldValues = fieldValues;
+    }
+
+    public static TemplateApplicationDto getDto(TemplateApplication templateApplication) {
+        return TemplateApplicationDto.map(templateApplication);
     }
 }

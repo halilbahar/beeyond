@@ -55,4 +55,12 @@ public class TemplateFieldValueDto {
         TemplateField templateField = TemplateField.findById(this.fieldId);
         return new TemplateFieldValue(this.value, templateField, template);
     }
+
+    public static TemplateFieldValueDto map(TemplateFieldValue templateFieldValue) {
+        return new TemplateFieldValueDto(
+                templateFieldValue.getId(),
+                templateFieldValue.getValue(),
+                templateFieldValue.getField().getId()
+        );
+    }
 }
