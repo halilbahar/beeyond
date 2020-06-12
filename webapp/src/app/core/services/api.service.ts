@@ -26,4 +26,8 @@ export class ApiService {
   createCustomApplication(body: object): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/application/custom`, body);
   }
+
+  createTemplate(body: object): Observable<any> {
+    return this.http.post<any>(`${environment.apiUrl}/template`, body);
+  }
 }

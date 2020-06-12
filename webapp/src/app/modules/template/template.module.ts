@@ -9,6 +9,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TemplateCreateComponent } from './pages/template-create/template-create.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { MatDividerModule } from '@angular/material/divider';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 
 @NgModule({
   declarations: [TemplateComponent, TemplateCreateComponent],
@@ -21,6 +24,9 @@ import { ReactiveFormsModule } from '@angular/forms';
     MatInputModule,
     MatIconModule,
     ReactiveFormsModule,
+    MatDividerModule,
+    MatStepperModule,
+    MatSnackBarModule
   ]
 })
 export class TemplateModule { }
