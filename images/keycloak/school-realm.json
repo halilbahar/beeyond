@@ -1,0 +1,66 @@
+{
+    "realm": "school",
+    "enabled": true,
+    "roles": {
+        "realm": [
+            {
+                "name": "student"
+            },
+            {
+                "name": "teacher"
+            }
+        ]
+    },
+    "requiredCredentials": [
+        "password"
+    ],
+    "users": [
+        {
+            "username": "teacher",
+            "enabled": true,
+            "realmRoles": [
+                "teacher"
+            ],
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "teacher"
+                }
+            ]
+        },
+        {
+            "username": "student",
+            "enabled": true,
+            "realmRoles": [
+                "student"
+            ],
+            "credentials": [
+                {
+                    "type": "password",
+                    "value": "student"
+                }
+            ]
+        }
+    ],
+    "clients": [
+        {
+            "clientId": "beeyond",
+            "enabled": true,
+            "secret": "f203438c-d453-453d-8c66-9e5f22aaf80a",
+            "redirectUris": [
+                "localhost"
+            ],
+            "bearerOnly": false,
+            "directAccessGrantsEnabled": true,
+            "serviceAccountsEnabled": true,
+            "authorizationServicesEnabled": true,
+            "publicClient": false,
+            "protocol": "openid-connect",
+            "standardFlowEnabled": true,
+            "implicitFlowEnabled": false,
+            "attributes": {
+                "access.token.lifespan": "4140"
+            }
+        }
+    ]
+}

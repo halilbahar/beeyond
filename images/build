@@ -1,0 +1,9 @@
+#!/bin/bash
+
+name=$1
+if [[ -z $name ]]; then
+    name="beeyond"
+fi
+
+docker build -t "$name/keycloak-dev" keycloak/
+docker build -t "$name/postgres-dev" postgres/
