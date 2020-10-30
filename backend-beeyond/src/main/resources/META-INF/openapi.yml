@@ -1,0 +1,296 @@
+---
+openapi: 3.0.1
+info:
+  title: Beeyond API
+  version: "1.0"
+paths:
+  /authentication/login:
+    post:
+      tags:
+        - authentication
+      summary: Login with username and password
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LoginData'
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json: { }
+        "401":
+          description: User does not exist or invalid username or password
+  /template:
+    get:
+      tags:
+        - template
+      summary: Returns a list with all templates
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  anyOf:
+                    - $ref: '#/components/schemas/CustomApplicationDto'
+                    - $ref: '#/components/schemas/TemplateApplicationDto'
+    post:
+      tags:
+        - template
+      summary: Creates a template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateDto'
+      responses:
+        "204":
+          description: Template has been created
+        "422":
+          description: Unable to process the entity because some fields are not specified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedField"
+  /template/{id}:
+    delete:
+      tags:
+        - template
+      summary: Deletes the template with the specified id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "200":
+          description: OK
+        "404":
+          description: Template with the specified id does not exist
+  /application:
+    get:
+      tags:
+        - application
+      summary: Returns a list with all applications
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/TemplateApplicationDto"
+  /application/custom:
+    post:
+      tags:
+        - application
+      summary: Creates a custom application
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/CustomApplicationDto'
+      responses:
+        "204":
+          description: Custom application has been created
+        "422":
+          description: Unable to process the entity because some fields are not specified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedField"
+  /application/template:
+    post:
+      tags:
+        - application
+      summary: Creates an application from a template
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TemplateApplicationDto'
+      responses:
+        "204":
+          description: Template application has been created
+        "422":
+          description: Unable to process the entity because some fields are not specified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/FailedField"
+  /application/approve/{id}:
+    patch:
+      tags:
+        - application
+      summary: Approves the application and deploys it
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "204":
+          description: Application has been approved
+        "404":
+          description: Application with the specified id does not exist
+  /application/deny/{id}:
+    patch:
+      tags:
+        - application
+      summary: Denies the application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "204":
+          description: Application has been denied
+        "404":
+          description: Application with the specified id does not exist
+tags:
+  - name: authentication
+    description: User authentication
+  - name: template
+    description: Everything about templates
+  - name: application
+    description: Managing custom applications and template applications
+components:
+  schemas:
+    LoginData:
+      type: object
+      properties:
+        password:
+          type: string
+        username:
+          type: string
+    FailedField:
+      type: object
+      properties:
+        key:
+          type: string
+        value:
+          type: string
+        message:
+          type: string
+    ApplicationStatus:
+      enum:
+        - PENDING
+        - DENIED
+        - RUNNING
+    Application:
+      type: object
+      properties:
+        id:
+          format: int64
+          type: integer
+        note:
+          type: string
+        status:
+          allOf:
+            - $ref: "#/components/schemas/ApplicationStatus"
+    TemplateFieldValueDto:
+      type: object
+      properties:
+        fieldId:
+          format: int64
+          type: integer
+        id:
+          format: int64
+          type: integer
+        value:
+          type: string
+    ListTemplateFieldValueDto:
+      type: array
+      items:
+        $ref: '#/components/schemas/TemplateFieldValueDto'
+    UserDto:
+      type: object
+      properties:
+        id:
+          format: int64
+          type: integer
+        name:
+          type: string
+    TemplateApplicationDto:
+      allOf:
+        - $ref: "#/components/schemas/Application"
+        - required:
+          - templateId
+          type: object
+          properties:
+            fieldValues:
+              $ref: '#/components/schemas/ListTemplateFieldValueDto'
+            id:
+              format: int64
+              type: integer
+            note:
+              type: string
+            owner:
+              $ref: '#/components/schemas/UserDto'
+            templateId:
+              format: int64
+              type: integer
+              nullable: false
+    TemplateFieldDto:
+      type: object
+      properties:
+        description:
+          type: string
+        id:
+          format: int64
+          type: integer
+        label:
+          pattern: \S
+          type: string
+          nullable: false
+        wildcard:
+          pattern: \S
+          type: string
+          nullable: false
+    ListTemplateFieldDto:
+      type: array
+      items:
+        $ref: '#/components/schemas/TemplateFieldDto'
+    TemplateDto:
+      type: object
+      properties:
+        content:
+          pattern: \S
+          type: string
+          nullable: false
+        description:
+          type: string
+        fields:
+          $ref: '#/components/schemas/ListTemplateFieldDto'
+        id:
+          format: int64
+          type: integer
+        name:
+          pattern: \S
+          type: string
+          nullable: false
+    CustomApplicationDto:
+      allOf:
+        - $ref: "#/components/schemas/Application"
+        - type: object
+          properties:
+            content:
+              pattern: \S
+              type: string
+              nullable: false
+            id:
+              format: int64
+              type: integer
+            note:
+              type: string
