@@ -1,11 +1,11 @@
-# Dev images
+# Dev Images
 
-This folder contains docker files for development. To build them execute you `./build`. This will produce 2 following images:
+This folder contains docker files for development. To build them execute `./build`. This will produce 2 following images:
 
 * `beeyond/keycloak-dev`
 * `beeyond/postgres-dev`
 
-If you want to publish these images or give them other name execute `./build scott`. This will produce again 2 images:
+If you want to publish these images or give them other name execute `./build <name>`. This will again produce 2 images:
 
 * `scott/keycloak-dev`
 * `scott/postgres-dev`
