@@ -1,18 +1,14 @@
 # Dev Images
 
-This folder contains a docker-compose file for development. To create and start the service execute `docker-compose up -d`.
-This will produce 2 following images:
+This folder contains a docker-compose file for development. It creates and starts the service which has two containers.
 
-* `beeyond/keycloak-dev`
-* `beeyond/postgres-dev`
+## PostgreSQL
 
-## PostgreSQL (postgres-dev)
+The container `beeyond-database` specifies the PostgreSQL **database** `beeyond` which has an **user** `beeyond` with the **password** `beeyond`.
 
-This postgres image only has an **user** `beeyond` with the **password** `beeyond` and a **database** `beeyond_db`.
+## KeyCloak
 
-## Keycloak (keycloak-dev)
-
-This keycloak image provides the following:
+The container `beeyond-identity-provider` specifies the KeyCloak server which has:
 
 * A realm called `school` with the roles `student` and `teacher`
 * A service called `beeyond` with the secret `f203438c-d453-453d-8c66-9e5f22aaf80a`
