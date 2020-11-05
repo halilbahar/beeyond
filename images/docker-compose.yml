@@ -1,0 +1,23 @@
+version: '3'
+services:
+  beeyond-db:
+    image: 'postgres:13.0'
+    environment:
+      - 'POSTGRES_USER=beeyond'
+      - 'POSTGRES_PASSWORD=beeyond'
+      - 'POSTGRES_DB=beeyond_db'
+    ports:
+      - '5432:5432'
+    container_name: 'beeyond-database'
+  identity-provider:
+    image: 'jboss/keycloak:11.0.2'
+    command: ['-b', '0.0.0.0', '-Dkeycloak.migration.action=import', '-Dkeycloak.profile.feature.upload_scripts=enabled', '-Dkeycloak.migration.provider=singleFile', '-Dkeycloak.migration.file=/tmp/school-realm.json']
+    volumes:
+      - './school-realm.json:/tmp/school-realm.json'
+    environment:
+      - 'KEYCLOAK_USER=admin'
+      - 'KEYCLOAK_PASSWORD=admin'
+      - 'DB_VENDOR=h2'
+    ports:
+      - '8081:8080'
+    container_name: 'webclient-identity-provider'

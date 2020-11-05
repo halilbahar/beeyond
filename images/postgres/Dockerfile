@@ -1,5 +1,0 @@
-FROM postgres:13.0
-
-ENV POSTGRES_USER beeyond
-ENV POSTGRES_PASSWORD beeyond
-ENV POSTGRES_DB beeyond_db
