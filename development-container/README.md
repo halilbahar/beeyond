@@ -1,6 +1,6 @@
 # Dev Images
 
-This folder contains a docker-compose file for development. It start two containers: KeyCloak and PostgreSQL.
+This folder contains a docker-compose file for development. It starts two containers: KeyCloak and PostgreSQL.
 
 ## PostgreSQL
 
