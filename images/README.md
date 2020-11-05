@@ -1,14 +1,14 @@
 # Dev Images
 
-This folder contains a docker-compose file for development. It creates and starts the service which has two containers.
+This folder contains a docker-compose file for development. It start two containers: KeyCloak and PostgreSQL.
 
 ## PostgreSQL
 
-The container `beeyond-database` specifies the PostgreSQL **database** `beeyond` which has an **user** `beeyond` with the **password** `beeyond`.
+The Postgres container `beeyond-database` provides the **database** `beeyond_db` which has an **user** `beeyond` with the **password** `beeyond`.
 
 ## KeyCloak
 
-The container `beeyond-identity-provider` specifies the KeyCloak server which has:
+The KeyCloak container `beeyond-identity-provider` provides the following:
 
 * A realm called `school` with the roles `student` and `teacher`
 * A service called `beeyond` with the secret `f203438c-d453-453d-8c66-9e5f22aaf80a`
