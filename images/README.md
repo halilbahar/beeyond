@@ -1,14 +1,10 @@
 # Dev Images
 
-This folder contains docker files for development. To build them execute `./build`. This will produce 2 following images:
+This folder contains a docker-compose file for development. To create and start the service execute `docker-compose up -d`.
+This will produce 2 following images:
 
 * `beeyond/keycloak-dev`
 * `beeyond/postgres-dev`
-
-If you want to publish these images or give them other name execute `./build <name>`. This will again produce 2 images:
-
-* `scott/keycloak-dev`
-* `scott/postgres-dev`
 
 ## PostgreSQL (postgres-dev)
 
