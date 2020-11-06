@@ -40,11 +40,6 @@ public class TemplateResource {
         if (template == null) {
             return Response.status(404).build();
         }
-        /*TemplateDto templateDto = Template.getDto(id);
-        if (templateDto == null) {
-            return Response.status(404).build();
-        }*/
-
         return Response.ok(Template.getDto(id)).build();
     }
 
