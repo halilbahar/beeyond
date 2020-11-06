@@ -2,10 +2,13 @@ package at.htl.beeyond.dto;
 
 import at.htl.beeyond.entity.CustomApplication;
 import at.htl.beeyond.entity.User;
+import at.htl.beeyond.validation.Checks;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.GroupSequence;
 import javax.validation.constraints.NotBlank;
 
+@GroupSequence({CustomApplicationDto.class, Checks.TemplateContent.class})
 public class CustomApplicationDto {
 
     private Long id;

@@ -4,16 +4,16 @@ import at.htl.beeyond.entity.Template;
 import at.htl.beeyond.entity.TemplateField;
 import at.htl.beeyond.entity.User;
 import at.htl.beeyond.validation.Checks;
-import at.htl.beeyond.validation.TemplateFieldsMatching;
 import org.hibernate.validator.constraints.Length;
 
+import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@TemplateFieldsMatching(groups = Checks.TemplateContent.class)
+@GroupSequence({TemplateDto.class, Checks.TemplateContent.class})
 public class TemplateDto {
 
     private Long id;
