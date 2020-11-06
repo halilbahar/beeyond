@@ -31,6 +31,18 @@ public class TemplateResource {
         return Response.ok(Template.getDtos()).build();
     }
 
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"student", "teacher"})
+    @Transactional
+    public Response getById(@PathParam("id") Long id) {
+        Template template = Template.findById(id);
+        if (template == null) {
+            return Response.status(404).build();
+        }
+        return Response.ok(Template.getDto(id)).build();
+    }
+
     @POST
     @RolesAllowed("teacher")
     @Transactional

@@ -82,6 +82,13 @@ public class Template extends PanacheEntityBase {
         this.fields = fields;
     }
 
+    public static TemplateDto getDto(Long id) {
+        return Template.find("id", id).stream().map(o -> {
+            Template template = (Template) o;
+            return TemplateDto.map(template);
+        }).findFirst().get();
+    }
+
     public static List<TemplateDto> getDtos() {
         return Template.findAll().stream().map(o -> {
             Template template = (Template) o;
