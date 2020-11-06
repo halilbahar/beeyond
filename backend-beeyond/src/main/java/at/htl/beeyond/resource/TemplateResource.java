@@ -13,6 +13,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
 import java.util.List;
 
@@ -45,6 +46,20 @@ public class TemplateResource {
         template.persist();
 
         return Response.noContent().build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @RolesAllowed({"student", "teacher"})
+    @Transactional
+    public Response getTemplateById(@PathParam("id") Long id) {
+        Template template = Template.findById(id);
+        if (template == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        TemplateDto templateDto = TemplateDto.map(template);
+        return Response.ok(templateDto).build();
     }
 
     @DELETE
