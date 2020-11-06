@@ -37,7 +37,7 @@ export class BlueprintComponent implements OnInit {
           this.snackBar.open(
             'Your application was sent will be reviewed as soon as possible',
             'close',
-            {duration: undefined}
+            { duration: undefined }
           );
         }
       });

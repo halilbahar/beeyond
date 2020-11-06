@@ -5,7 +5,8 @@
         <mat-card-content>
           <form [formGroup]="customApplicationForm">
             <span class="label">The content of your script:</span>
-            <textarea rows="20" class="text-area-full-width" formControlName="content"></textarea>
+            <ngx-monaco-editor [options]="{ language: 'yml' }" formControlName="content"></ngx-monaco-editor>
+
             <span class="label">A small optional note:</span>
             <textarea rows="3" class="text-area-full-width" formControlName="note"></textarea>
           </form>
@@ -13,7 +14,7 @@
 
         <mat-card-actions align="end">
           <button mat-flat-button color="primary" (click)="sendCustomTemplate()"
-                  [disabled]="!customApplicationForm.valid">
+            [disabled]="!customApplicationForm.valid">
             Submit
           </button>
         </mat-card-actions>
