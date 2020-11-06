@@ -19,5 +19,5 @@ services:
       KEYCLOAK_PASSWORD: 'admin'
       DB_VENDOR: 'h2'
     ports:
-      - '8081:8080'
+      - '8180:8080'
     container_name: 'beeyond-identity-provider'
