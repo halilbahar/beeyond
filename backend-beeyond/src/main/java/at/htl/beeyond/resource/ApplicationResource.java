@@ -11,6 +11,7 @@ import javax.inject.Inject;
 import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,6 +35,19 @@ public class ApplicationResource {
             return null;
         }).collect(Collectors.toList());
         return Response.ok(applications).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @RolesAllowed("teacher")
+    @Transactional
+    public Response getApplicationById(@PathParam("id") Long id) {
+        Application application = Application.findById(id);
+        if (application == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        return Response.ok(application).build();
     }
 
     @PATCH
