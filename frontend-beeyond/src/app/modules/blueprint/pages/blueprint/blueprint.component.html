@@ -5,10 +5,12 @@
         <mat-card-content>
           <form [formGroup]="customApplicationForm">
             <span class="label">The content of your script:</span>
-            <ngx-monaco-editor [options]="{ language: 'yml' }" formControlName="content"></ngx-monaco-editor>
-
-            <span class="label">A small optional note:</span>
-            <textarea rows="3" class="text-area-full-width" formControlName="note"></textarea>
+            <ngx-monaco-editor [options]="{ language: 'yaml', scrollBeyondLastLine: false }" class="border" formControlName="content"></ngx-monaco-editor>
+            <mat-form-field class="field-container full-width tab-wrapper">
+              <mat-label>An optional note:</mat-label>
+              <textarea formControlName="note" matInput cdkTextareaAutosize cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"></textarea>
+            </mat-form-field>
           </form>
         </mat-card-content>
 
