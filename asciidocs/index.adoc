@@ -12,4 +12,4 @@ include::entwurf.adoc[leveloffset=+1]
 
 == 3. Protokolle
 
-include::protokolle/protokoll-index.adoc[]
+link:protokolle/protokoll-index.html[Protokolle]
