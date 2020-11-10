@@ -37,8 +37,7 @@ public class TemplateApplicationResource {
         }
 
         User user = User.find("name", context.getUserPrincipal().getName()).firstResult();
-        templateApplicationDto.setOwner(user);
-        TemplateApplication templateApplication = templateApplicationDto.map();
+        TemplateApplication templateApplication = templateApplicationDto.map(user);
 
         templateApplication.persist();
 

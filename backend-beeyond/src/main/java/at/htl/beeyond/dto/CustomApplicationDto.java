@@ -1,40 +1,22 @@
 package at.htl.beeyond.dto;
 
+import at.htl.beeyond.entity.ApplicationStatus;
 import at.htl.beeyond.entity.CustomApplication;
 import at.htl.beeyond.entity.User;
-import org.hibernate.validator.constraints.Length;
 
 import javax.validation.constraints.NotBlank;
 
-public class CustomApplicationDto {
-
-    private Long id;
-
-    @Length(max = 255)
-    private String note;
+public class CustomApplicationDto extends ApplicationDto {
 
     @NotBlank
     private String content;
 
-    public CustomApplicationDto(Long id, String note, String content) {
-        this.id = id;
-        this.note = note;
+    public CustomApplicationDto(Long id, String note, ApplicationStatus status, UserDto owner, String content) {
+        super(id, note, status, owner);
         this.content = content;
     }
 
     public CustomApplicationDto() {
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note.trim();
     }
 
     public String getContent() {
@@ -53,6 +35,8 @@ public class CustomApplicationDto {
         return new CustomApplicationDto(
                 customApplication.getId(),
                 customApplication.getNote(),
+                customApplication.getStatus(),
+                UserDto.map(customApplication.getOwner()),
                 customApplication.getContent()
         );
     }
