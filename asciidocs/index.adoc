@@ -1,6 +1,7 @@
 = Beeyond
 :toc: left
 :sectnums:
+:nofooter:
 Bahar Halil, Cao Sonja, Naderer Juliana
 1.0, 2020-05-25
 
