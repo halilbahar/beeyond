@@ -32,13 +32,11 @@ export class BlueprintTemplateComponent implements OnInit {
       const fieldValues = [];
       this.template.fields.forEach(field => fieldValues.push(this.createFieldValue(field.id)));
 
-      const config = {
+      this.templateForm = this.fb.group({
         templateId: [this.id],
         note: [''],
         fieldValues: this.fb.array(fieldValues)
-      };
-
-      this.templateForm = this.fb.group(config);
+      });
     });
   }
 
@@ -56,7 +54,7 @@ export class BlueprintTemplateComponent implements OnInit {
           this.snackBar.open(
             'Your application was sent will be reviewed as soon as possible',
             'close',
-            {duration: undefined}
+            { duration: 2000 }
           );
         }
       });
