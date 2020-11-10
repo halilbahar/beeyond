@@ -1,4 +1,4 @@
-== 2.1 Klassendiagramm
+== Klassendiagramm
 [plantuml]
 ----
 @startuml
@@ -56,7 +56,7 @@ FieldValue "1" -up-> "1" Field
 ----
 
 
-== 2.2 Systemarchitektur
+== Systemarchitektur
 
 [plantuml]
 ----
@@ -86,7 +86,7 @@ FieldValue "1" -up-> "1" Field
 @enduml
 ----
 
-== 2.3 Anwedungsfalldiagramm
+== Anwedungsfalldiagramm
 
 [plantuml]
 ----

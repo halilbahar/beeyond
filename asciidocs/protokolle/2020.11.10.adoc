@@ -1,4 +1,6 @@
-==== Anwesend
+== Protokoll vom 2020.11.10
+
+=== Anwesend
 
 .Teilnehmer
 |===
@@ -17,9 +19,9 @@
 | Dauer | ca. 20min
 |===
 
-==== Besprochene Themen:
+=== Besprochene Themen:
 
-==== Business Process
+=== Business Process
 
 Der Vorgeschlagene Prozess wie ein Lehrer Anfragen akzeptiert ist nicht detailreich genug. Dieser soll überarbeitet werden. Z.B. sollen Beispiel-Schüler verwendet werden.
 
@@ -28,7 +30,7 @@ Der Vorgeschlagene Prozess wie ein Lehrer Anfragen akzeptiert ist nicht detailre
 
 Der überarbeitete Business Process soll dann in der Dokumentation sichtbar sein.
 
-==== In Memory DB
+=== In Memory DB
 
 * Zu komplex als Zusatz
 * zurzeit bei einer Ralationalen-DB bleiben

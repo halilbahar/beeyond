@@ -1,4 +1,6 @@
-==== Anwesend
+== Protokoll vom 1900.02.30
+
+=== Anwesend
 
 .Teilnehmer
 |===
@@ -18,8 +20,8 @@
 | Dauer | etwa 12 Stunden
 |===
 
-==== Besprochene Themen:
+=== Besprochene Themen:
 
-==== Autos
+=== Autos
 
 * Sehr praktisch, aber umweltverschmutzend

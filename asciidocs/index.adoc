@@ -1,15 +1,23 @@
 = Beeyond
+:toc: left
+:sectnums:
 Bahar Halil, Cao Sonja, Naderer Juliana
 1.0, 2020-05-25
 
-== 1. Pflichtenheft
+== Pflichtenheft
 
 include::pflichtenheft.adoc[leveloffset=+1]
 
-== 2. Entwurf "Wie mache ich es"
+== Entwurf "Wie mache ich es"
 
 include::entwurf.adoc[leveloffset=+1]
 
-== 3. Protokolle
+== Protokolle
 
-link:protokolle/index.adoc[Protokolle]
+:leveloffset: +1
+
+include::protokolle/2020.05.25.adoc[]
+
+include::protokolle/2020.11.10.adoc[]
+
+:leveloffset: -1
