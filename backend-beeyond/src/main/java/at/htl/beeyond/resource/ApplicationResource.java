@@ -26,7 +26,7 @@ public class ApplicationResource {
     @GET
     @Transactional
     public Response getAll() {
-        List<Object> applications = Application.findAll().stream().map(o -> {
+        List<Object> applications = Application.streamAll().map(o -> {
             if (o instanceof CustomApplication) {
                 return CustomApplication.getDto((CustomApplication) o);
             } else if (o instanceof TemplateApplication) {
