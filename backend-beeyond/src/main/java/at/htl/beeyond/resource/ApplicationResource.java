@@ -1,5 +1,7 @@
 package at.htl.beeyond.resource;
 
+import at.htl.beeyond.dto.CustomApplicationDto;
+import at.htl.beeyond.dto.TemplateApplicationDto;
 import at.htl.beeyond.entity.Application;
 import at.htl.beeyond.entity.ApplicationStatus;
 import at.htl.beeyond.entity.CustomApplication;
@@ -47,7 +49,11 @@ public class ApplicationResource {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        return Response.ok(application).build();
+        if (application instanceof CustomApplication) {
+            return Response.ok(CustomApplicationDto.map((CustomApplication) application)).build();
+        } else {
+            return Response.ok(TemplateApplicationDto.map((TemplateApplication) application)).build();
+        }
     }
 
     @PATCH
