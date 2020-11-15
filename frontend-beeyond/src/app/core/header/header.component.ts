@@ -18,17 +18,19 @@ export class HeaderComponent implements OnInit {
       if (event instanceof NavigationEnd) {
         this.breadcrumbs = []
         const links = event.url.split('/');
+        let curLink = '';
         links.shift();
 
         links.forEach(link => {
+          curLink += '/' + link;
           this.breadcrumbs.push({
-            link: link,
+            link: curLink,
             title: link.charAt(0).toUpperCase() + link.substr(1)
           })
         });
 
+        this.breadcrumbs[this.breadcrumbs.length - 1].link = '';
         this.headerTitle = this.breadcrumbs[0].title;
-        console.log(this.breadcrumbs);
       }
     });
   }

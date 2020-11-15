@@ -17,3 +17,14 @@
 .header-title {
   margin-left: 22px;
 }
+
+a[ng-reflect-router-link] {
+  text-decoration: none;
+  color: grey;
+}
+
+span[ng-reflect-router-link] {
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
