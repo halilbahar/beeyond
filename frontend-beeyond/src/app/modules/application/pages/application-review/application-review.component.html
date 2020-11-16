@@ -1,0 +1,18 @@
+<mat-card class="main-card">
+  <ng-container ng-app>
+    <mat-card-title>{{ application.owner.name }}</mat-card-title>
+    <mat-card-subtitle>{{ application.note }}</mat-card-subtitle>
+    <ngx-monaco-editor [options]="{ language: 'yaml', scrollBeyondLastLine: false }" class="border"
+      [(ngModel)]="application.content" *ngIf="template == false"></ngx-monaco-editor>
+    <app-variable-list [fields]="application.fieldValues" [templateId]="application.templateId"
+      *ngIf="template == true"></app-variable-list>
+    <mat-card-actions align="right">
+      <button mat-flat-button color="primary" class="margin" (click)="deny()">
+        Deny
+      </button>
+      <button mat-flat-button color="primary" (click)="approve()">
+        Approve
+      </button>
+    </mat-card-actions>
+  </ng-container>
+</mat-card>

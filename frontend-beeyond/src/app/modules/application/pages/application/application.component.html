@@ -1,0 +1,18 @@
+<mat-card class="main-card">
+  <mat-table [dataSource]="applications" class="full-width table">
+    <ng-container matColumnDef="id">
+      <th mat-header-cell *matHeaderCellDef> Id </th>
+      <td mat-cell *matCellDef="let application"> {{application.id}} </td>
+    </ng-container>
+    <ng-container matColumnDef="owner.name">
+      <th mat-header-cell *matHeaderCellDef> User </th>
+      <td mat-cell *matCellDef="let application"> {{application.owner.name}} </td>
+    </ng-container>
+    <ng-container matColumnDef="status">
+      <th mat-header-cell *matHeaderCellDef> Status </th>
+      <td mat-cell *matCellDef="let application"> {{application.status}} </td>
+    </ng-container>
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay" (click)="routeTo(myRowData.id)"></tr>
+  </mat-table>
+</mat-card>
