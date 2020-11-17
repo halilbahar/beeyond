@@ -3,6 +3,9 @@ import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { Template } from '../../shared/models/template.model';
 import { Observable } from 'rxjs';
+import { Application } from 'src/app/shared/models/application.model';
+import { CustomApplication } from 'src/app/shared/models/custom.application.model';
+import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 
 @Injectable({
   providedIn: 'root'
@@ -29,5 +32,21 @@ export class ApiService {
 
   createTemplate(body: object): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/template`, body);
+  }
+
+  getApplications(): Observable<Application[]> {
+    return this.http.get<Application[]>(`${environment.apiUrl}/application`);
+  }
+
+  getApplicationById(id: number): Observable<TemplateApplication | CustomApplication> {
+    return this.http.get<TemplateApplication | CustomApplication>(`${environment.apiUrl}/application/${id}`);
+  }
+
+  approveApplication(id: number): Observable<null> {
+    return this.http.patch<any>(`${environment.apiUrl}/application/approve/${id}`, null);
+  }
+
+  denyApplication(id: number): Observable<null> {
+    return this.http.patch<any>(`${environment.apiUrl}/application/deny/${id}`, null);
   }
 }

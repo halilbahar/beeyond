@@ -1,0 +1,14 @@
+<mat-card>
+  <mat-card-title>Fields</mat-card-title>
+  <div *ngFor="let d of data; let i = index">
+    <div class="list-item" matRipple>
+      <div class="list-item-text">
+        <span class="label">{{d.fieldName.label}}</span>
+      </div>
+      <div class="list-item-text right">
+        <span class="label">{{d.field.value}}</span>
+      </div>
+    </div>
+    <div class="list-item-divider" *ngIf="i !== fields.length - 1"></div>
+  </div>
+</mat-card>
