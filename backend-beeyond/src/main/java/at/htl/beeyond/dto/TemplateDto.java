@@ -7,7 +7,6 @@ import at.htl.beeyond.validation.Checks;
 import at.htl.beeyond.validation.TemplateFieldsMatching;
 import org.hibernate.validator.constraints.Length;
 
-import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import java.util.LinkedList;

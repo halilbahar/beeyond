@@ -1,5 +1,7 @@
 package at.htl.beeyond.resource;
 
+import at.htl.beeyond.dto.CustomApplicationDto;
+import at.htl.beeyond.dto.TemplateApplicationDto;
 import at.htl.beeyond.entity.Application;
 import at.htl.beeyond.entity.ApplicationStatus;
 import at.htl.beeyond.entity.CustomApplication;
@@ -12,6 +14,7 @@ import javax.transaction.Transactional;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -26,7 +29,7 @@ public class ApplicationResource {
     @GET
     @Transactional
     public Response getAll() {
-        List<Object> applications = Application.findAll().stream().map(o -> {
+        List<Object> applications = Application.streamAll().map(o -> {
             if (o instanceof CustomApplication) {
                 return CustomApplication.getDto((CustomApplication) o);
             } else if (o instanceof TemplateApplication) {
@@ -35,6 +38,23 @@ public class ApplicationResource {
             return null;
         }).collect(Collectors.toList());
         return Response.ok(applications).build();
+    }
+
+    @GET
+    @Path("/{id}")
+    @RolesAllowed("teacher")
+    @Transactional
+    public Response getApplicationById(@PathParam("id") Long id) {
+        Application application = Application.findById(id);
+        if (application == null) {
+            return Response.status(Status.NOT_FOUND).build();
+        }
+
+        if (application instanceof CustomApplication) {
+            return Response.ok(CustomApplicationDto.map((CustomApplication) application)).build();
+        } else {
+            return Response.ok(TemplateApplicationDto.map((TemplateApplication) application)).build();
+        }
     }
 
     @PATCH

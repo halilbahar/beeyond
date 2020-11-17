@@ -26,8 +26,7 @@ public class TemplateApplicationResource {
     @Transactional
     public Response create(@Context SecurityContext context, @Valid TemplateApplicationDto templateApplicationDto) {
         User user = User.find("name", context.getUserPrincipal().getName()).firstResult();
-        templateApplicationDto.setOwner(user);
-        TemplateApplication templateApplication = templateApplicationDto.map();
+        TemplateApplication templateApplication = templateApplicationDto.map(user);
 
         templateApplication.persist();
 

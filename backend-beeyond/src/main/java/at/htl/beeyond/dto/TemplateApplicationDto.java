@@ -4,10 +4,7 @@ import at.htl.beeyond.entity.*;
 import at.htl.beeyond.validation.Checks;
 import at.htl.beeyond.validation.Exists;
 import at.htl.beeyond.validation.TemplateFieldsComplete;
-import org.hibernate.validator.constraints.Length;
 
-import javax.json.bind.annotation.JsonbTransient;
-import javax.validation.GroupSequence;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import java.util.LinkedList;
@@ -15,12 +12,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @TemplateFieldsComplete(groups = Checks.TemplateField.class)
-public class TemplateApplicationDto {
-
-    private Long id;
-
-    @Length(max = 255)
-    private String note;
+public class TemplateApplicationDto extends ApplicationDto {
 
     @NotNull
     @Exists(entity = Template.class, fieldName = "id")
@@ -29,11 +21,8 @@ public class TemplateApplicationDto {
     @Valid
     private List<TemplateFieldValueDto> fieldValues = new LinkedList<>();
 
-    private UserDto owner;
-
-    public TemplateApplicationDto(Long id, String note, Long templateId, List<TemplateFieldValueDto> fieldValues) {
-        this.id = id;
-        this.note = note;
+    public TemplateApplicationDto(Long id, String note, ApplicationStatus status, UserDto owner, Long templateId, List<TemplateFieldValueDto> fieldValues) {
+        super(id, note, status, owner);
         this.templateId = templateId;
         this.fieldValues = fieldValues;
     }
@@ -69,27 +58,18 @@ public class TemplateApplicationDto {
         this.fieldValues = fieldValues;
     }
 
-    public UserDto getOwner() {
-        return owner;
-    }
-
     @Override
     public String toString() {
         return "";
     }
 
-    @JsonbTransient
-    public void setOwner(User user) {
-        this.owner = UserDto.map(user);
-    }
-
-    public TemplateApplication map() {
+    public TemplateApplication map(User owner) {
         Template template = Template.findById(this.templateId);
         List<TemplateFieldValue> templateFieldValues = this.fieldValues.stream()
                 .map(o -> o.map(template))
                 .collect(Collectors.toList());
 
-        return new TemplateApplication(this.note, this.owner.map(), template, templateFieldValues);
+        return new TemplateApplication(this.note, owner, template, templateFieldValues);
     }
 
     public static TemplateApplicationDto map(TemplateApplication templateApplication) {
@@ -100,6 +80,8 @@ public class TemplateApplicationDto {
         return new TemplateApplicationDto(
                 templateApplication.getId(),
                 templateApplication.getNote(),
+                templateApplication.getStatus(),
+                UserDto.map(templateApplication.getOwner()),
                 templateApplication.getTemplate().getId(),
                 fieldValues
         );
