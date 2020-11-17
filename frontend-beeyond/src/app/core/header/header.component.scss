@@ -20,11 +20,15 @@
 
 a[ng-reflect-router-link] {
   text-decoration: none;
-  color: grey;
+  color: gray;
 }
 
 span[ng-reflect-router-link] {
   text-decoration: none;
   color: black;
   cursor: pointer;
+}
+
+.breadcrumb {
+  color: gray;
 }

@@ -2,19 +2,15 @@
   <div class="header-left">
     <mat-icon [inline]="true" class="unselectable cursor-pointer" (click)="toggleSideNavigation()">reorder</mat-icon>
     <span class="header-title">
-      <ng-template [ngIf]="breadcrumbs.length > 1" [ngIfElse]="noLink">
-        <span [routerLink]="breadcrumbs[0].link" style="color: black;">{{ headerTitle }}</span>
-      </ng-template>
+      <span [routerLink]="breadcrumbs[0].link" *ngIf="breadcrumbs.length > 1; else noLink">{{ headerTitle }}</span>
       <ng-template #noLink>
         {{ headerTitle }}
       </ng-template>
     </span>
     <div layout-align="center center" class="breadcrumb">
-      <span *ngFor="let link of breadcrumbs | slice:1" style="color: grey;" class="mat-h2">
+      <span *ngFor="let link of breadcrumbs | slice:1" class="mat-h2 breadcrumb">
         <mat-icon [inline]="true" class="unselectable">chevron_right</mat-icon>
-        <ng-template [ngIf]="link.link" [ngIfElse]="noLinkBreadcrumb">
-          <a [routerLink]="link.link">{{ link.title }}</a>
-        </ng-template>
+        <a *ngIf="link.link; else noLinkBreadcrumb" [routerLink]="link.link" >{{ link.title }}</a>
         <ng-template #noLinkBreadcrumb>
           {{ link.title }}
         </ng-template>
