@@ -9,14 +9,28 @@ import { NavigationEnd, Router } from '@angular/router';
 export class HeaderComponent implements OnInit {
 
   headerTitle = '';
+  breadcrumbs = [];
 
   constructor(private router: Router) { }
 
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        const title = event.url.split('/')[1];
-        this.headerTitle = title.charAt(0).toUpperCase() + title.substr(1);
+        this.breadcrumbs = []
+        const links = event.url.split('/');
+        let curLink = '';
+        links.shift();
+
+        links.forEach(link => {
+          curLink += '/' + link;
+          this.breadcrumbs.push({
+            link: curLink,
+            title: link.charAt(0).toUpperCase() + link.substr(1)
+          })
+        });
+
+        this.breadcrumbs[this.breadcrumbs.length - 1].link = '';
+        this.headerTitle = this.breadcrumbs[0].title;
       }
     });
   }
