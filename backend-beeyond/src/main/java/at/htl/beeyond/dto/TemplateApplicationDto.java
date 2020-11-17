@@ -3,6 +3,7 @@ package at.htl.beeyond.dto;
 import at.htl.beeyond.entity.*;
 import at.htl.beeyond.validation.Checks;
 import at.htl.beeyond.validation.Exists;
+import at.htl.beeyond.validation.TemplateFieldsComplete;
 import org.hibernate.validator.constraints.Length;
 
 import javax.json.bind.annotation.JsonbTransient;
@@ -13,7 +14,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@GroupSequence({TemplateApplicationDto.class, Checks.TemplateField.class})
+@TemplateFieldsComplete(groups = Checks.TemplateField.class)
 public class TemplateApplicationDto {
 
     private Long id;
