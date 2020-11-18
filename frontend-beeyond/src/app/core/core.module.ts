@@ -7,6 +7,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
+import { environment } from '../../environments/environment';
 
 @NgModule({
   declarations: [
@@ -23,7 +24,12 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    OAuthModule.forRoot()
+    OAuthModule.forRoot({
+      resourceServer: {
+        allowedUrls: [environment.apiUrl],
+        sendAccessToken: true
+      }
+    })
   ]
 })
 export class CoreModule {}

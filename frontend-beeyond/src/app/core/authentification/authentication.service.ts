@@ -39,31 +39,12 @@ export class AuthenticationService {
 
   initializeLogin(): void {
     this.oAuthService.configure(authConfig);
-    this.oAuthService.loadDiscoveryDocument().then(_ =>
-      this.oAuthService.tryLogin().then(() => {
-        if (!this.oAuthService.hasValidAccessToken()) {
-          this.oAuthService.silentRefresh().catch(result => {
-            console.log(result);
-            const errorResponsesRequiringUserInteraction = [
-              'interaction_required',
-              'login_required',
-              'account_selection_required',
-              'consent_required',
-            ];
-
-            if (result && result.reason && errorResponsesRequiringUserInteraction.indexOf(result.reason.error) >= 0) {
-              this.oAuthService.initLoginFlow();
-            }
-          });
-        }
-      })
-    );
-
-    /*
-        this.oAuthService.loadDiscoveryDocumentAndLogin();
-        console.log(this.oAuthService.getIdentityClaims());
-    */
-    // this.oAuthService.loadUserProfile().then(console.log);
+    this.oAuthService.setupAutomaticSilentRefresh();
+    this.oAuthService.loadDiscoveryDocumentAndTryLogin().then(_ => {
+      if (!this.oAuthService.hasValidAccessToken()) {
+        this.oAuthService.initLoginFlow();
+      }
+    });
   }
 
   getCurrentUser() {
