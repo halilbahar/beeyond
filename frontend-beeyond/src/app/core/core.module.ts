@@ -9,6 +9,7 @@ import { RouterModule } from '@angular/router';
 import { ErrorInterceptor } from './interceptors/error.interceptor';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { TokenInterceptor } from './interceptors/token.interceptor';
+import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,8 @@ import { TokenInterceptor } from './interceptors/token.interceptor';
     RouterModule,
     MatSidenavModule,
     MatListModule,
-    MatIconModule
+    MatIconModule,
+    OAuthModule.forRoot()
   ],
   providers: [
     {
