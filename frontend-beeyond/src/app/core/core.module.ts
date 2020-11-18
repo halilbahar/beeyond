@@ -6,9 +6,6 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
-import { ErrorInterceptor } from './interceptors/error.interceptor';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { TokenInterceptor } from './interceptors/token.interceptor';
 import { OAuthModule } from 'angular-oauth2-oidc';
 
 @NgModule({
@@ -27,18 +24,6 @@ import { OAuthModule } from 'angular-oauth2-oidc';
     MatListModule,
     MatIconModule,
     OAuthModule.forRoot()
-  ],
-  providers: [
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: ErrorInterceptor,
-      multi: true
-    },
-    {
-      provide: HTTP_INTERCEPTORS,
-      useClass: TokenInterceptor,
-      multi: true
-    }
   ]
 })
-export class CoreModule { }
+export class CoreModule {}
