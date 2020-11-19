@@ -42,11 +42,11 @@ export class ApiService {
     return this.http.get<TemplateApplication | CustomApplication>(`${environment.apiUrl}/application/${id}`);
   }
 
-  approveApplication(id: number): Observable<null> {
+  approveApplicationById(id: number): Observable<null> {
     return this.http.patch<any>(`${environment.apiUrl}/application/approve/${id}`, null);
   }
 
-  denyApplication(id: number): Observable<null> {
+  denyApplicationById(id: number): Observable<null> {
     return this.http.patch<any>(`${environment.apiUrl}/application/deny/${id}`, null);
   }
 }

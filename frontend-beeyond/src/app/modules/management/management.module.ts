@@ -1,15 +1,29 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ManagementRoutingModule } from './management-routing.module';
-import { ManagementComponent } from './pages/management/management.component';
+import { ApplicationComponent } from './pages/application/application.component';
+import { ApplicationRoutingModule } from './management-routing.module';
+import { MatCardModule } from '@angular/material/card';
+import { MatTableModule } from '@angular/material/table';
+import { ApplicationReviewComponent } from './pages/application-review/application-review.component';
+import { VariableListComponent } from './components/variable-list/variable-list.component';
+import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { FormsModule } from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
-    ManagementComponent
+    ApplicationComponent,
+    ApplicationReviewComponent,
+    VariableListComponent
   ],
   imports: [
     CommonModule,
-    ManagementRoutingModule
+    ApplicationRoutingModule,
+    MatCardModule,
+    MatTableModule,
+    MonacoEditorModule,
+    MatButtonModule,
+    FormsModule
   ]
 })
 export class ManagementModule { }
