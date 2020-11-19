@@ -13,7 +13,7 @@ public class TemplateFieldValue extends PanacheEntityBase {
 
     private String value;
 
-    @OneToOne
+    @ManyToOne
     private TemplateField field;
 
     @ManyToOne
