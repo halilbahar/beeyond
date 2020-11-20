@@ -16,8 +16,9 @@ export class HeaderComponent implements OnInit {
   ngOnInit(): void {
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
-        this.breadcrumbs = []
-        const links = event.url.split('/');
+        this.breadcrumbs = [];
+        const url = event.url.split('?')[0];
+        const links = url.split('/');
         let curLink = '';
         links.shift();
 
@@ -26,7 +27,7 @@ export class HeaderComponent implements OnInit {
           this.breadcrumbs.push({
             link: curLink,
             title: link.charAt(0).toUpperCase() + link.substr(1)
-          })
+          });
         });
 
         this.breadcrumbs[this.breadcrumbs.length - 1].link = '';
