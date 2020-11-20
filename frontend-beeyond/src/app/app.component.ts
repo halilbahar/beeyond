@@ -8,9 +8,8 @@ import { AuthenticationService } from './core/authentification/authentication.se
 })
 export class AppComponent {
   title = 'beeyond';
-  isLoggedIn = false;
 
   constructor(private authenticationService: AuthenticationService) {
-    this.authenticationService.getCurrentUser().subscribe(user => this.isLoggedIn = user !== null);
+    this.authenticationService.initializeLogin();
   }
 }

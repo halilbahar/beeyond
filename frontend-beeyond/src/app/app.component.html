@@ -1,7 +1,7 @@
-<app-side-navigation [isLoggedIn]="isLoggedIn">
+<app-side-navigation>
   <!-- container for main page -->
   <div class="app-wrapper">
-    <app-header *ngIf="isLoggedIn"></app-header>
+    <app-header></app-header>
     <router-outlet></router-outlet>
   </div>
 </app-side-navigation>

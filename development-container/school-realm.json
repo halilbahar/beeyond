@@ -46,20 +46,29 @@
         {
             "clientId": "beeyond",
             "enabled": true,
-            "secret": "f203438c-d453-453d-8c66-9e5f22aaf80a",
-            "redirectUris": [
-                "localhost"
-            ],
-            "bearerOnly": false,
-            "directAccessGrantsEnabled": true,
-            "serviceAccountsEnabled": true,
-            "authorizationServicesEnabled": true,
-            "publicClient": false,
+            "secret": "ee3bd205-844e-4d4f-bc5d-482341ac20bc",
+            "bearerOnly": true,
             "protocol": "openid-connect",
-            "standardFlowEnabled": true,
-            "implicitFlowEnabled": false,
             "attributes": {
                 "access.token.lifespan": "4140"
+            }
+        },
+        {
+            "clientId": "beeyond-spa",
+            "enabled": true,
+            "redirectUris": [
+                "http://localhost:4200"
+            ],
+            "webOrigins": [
+                "+"
+            ],
+            "standardFlowEnabled": true,
+            "directAccessGrantsEnabled": false,
+            "publicClient": true,
+            "protocol": "openid-connect",
+            "attributes": {
+                "access.token.lifespan": "900",
+                "pkce.code.challenge.method": "S256"
             }
         }
     ]
