@@ -9,30 +9,14 @@ services:
     ports:
       - 5432:5432
     container_name: beeyond-database
-  keycloak-db:
-    image: postgres:13.0
-    volumes:
-      - ./keycloak_data:/var/lib/postgresql/data
-    environment:
-      POSTGRES_USER: beeyond
-      POSTGRES_PASSWORD: beeyond
-      POSTGRES_DB: keycloak_db
-    container_name: beeyond-identity-provider-database
   identity-provider:
     image: jboss/keycloak:11.0.2
     volumes:
       - ./school-realm.json:/tmp/school-realm.json
+    command: ['-b', '0.0.0.0', '-Dkeycloak.migration.action=import', '-Dkeycloak.profile.feature.upload_scripts=enabled', '-Dkeycloak.migration.provider=singleFile', '-Dkeycloak.migration.file=/tmp/school-realm.json']
     environment:
       KEYCLOAK_USER: beeyond
       KEYCLOAK_PASSWORD: beeyond
-      DB_ADDR: keycloak-db:5432 
-      DB_DATABASE: keycloak_db
-      DB_USER: beeyond
-      DB_SCHEMA: public
-      DB_PASSWORD: beeyond
-      DB_VENDOR: POSTGRES
-    depends_on:
-        - keycloak-db
     ports:
       - 8180:8080
     container_name: beeyond-identity-provider
