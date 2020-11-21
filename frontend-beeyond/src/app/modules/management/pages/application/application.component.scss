@@ -1,3 +1,20 @@
-.table{
-    display: table;
+form{
+    justify-content: space-between;
+    display: flex;
+}
+
+.mat-column-id, .mat-column-owner-name, .mat-column-status, .column {
+    margin: 1vw;
+    width: 100%;
+    border: 0;
+}
+
+.mat-row, .mat-header-row{
+    justify-content: space-between;
+    display: flex;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+th.mat-header-cell:first-of-type, td.mat-cell:first-of-type, th.mat-header-cell:last-of-type, td.mat-cell:last-of-type{
+    padding: 0;
 }

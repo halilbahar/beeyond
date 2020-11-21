@@ -1,14 +1,48 @@
 <mat-card class="main-card">
-  <mat-table [dataSource]="applications" class="full-width table">
-    <ng-container matColumnDef="id">
+  <div class="row">
+    <div class="col">
+      <form [formGroup]="filterForm" class="space">
+        <mat-form-field class="column">
+          <mat-label>Search an application...</mat-label>
+          <input type="text" placeholder="Search an application..." aria-label="Number" matInput
+          [formControl]="searchInput" [matAutocomplete]="autoId" [(ngModel)]="id" (ngModelChange)="applyFilter(id,user,status)">
+        </mat-form-field>
+        <mat-autocomplete #autoId="matAutocomplete">
+          <mat-option *ngFor="let idOption of filterdIdOptions | async" [value]="idOption">
+            {{idOption}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-form-field class="column">
+          <mat-label>Search an user...</mat-label>
+          <input type="text" placeholder="User" aria-label="Number" matInput [formControl]="userSearchInput"
+            [matAutocomplete]="autoUser" [(ngModel)]="user" (ngModelChange)="applyFilter(id,user,status)">
+        </mat-form-field>
+        <mat-autocomplete #autoUser="matAutocomplete">
+          <mat-option *ngFor="let userOption of filterdUserOptions | async" [value]="userOption">
+            {{userOption}}
+          </mat-option>
+        </mat-autocomplete>
+        <mat-form-field class="column">
+          <mat-label class="nomargin">Select an option...</mat-label>
+          <mat-select [(ngModel)]="status" (ngModelChange)="applyFilter(id,user,status)" formControlName="statusSearchInput">
+            <mat-option *ngFor="let status of statuses" [value]="status">
+              {{status}}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+      </form>
+    </div>
+  </div>
+  <mat-table [dataSource]="dataSource" class="full-width table space" matSort matSortActive="id" matSortDirection="asc">
+    <ng-container matColumnDef="id" class="column">
       <th mat-header-cell *matHeaderCellDef> Id </th>
       <td mat-cell *matCellDef="let application"> {{application.id}} </td>
     </ng-container>
-    <ng-container matColumnDef="owner.name">
+    <ng-container matColumnDef="owner.name" class="column">
       <th mat-header-cell *matHeaderCellDef> User </th>
       <td mat-cell *matCellDef="let application"> {{application.owner.name}} </td>
     </ng-container>
-    <ng-container matColumnDef="status">
+    <ng-container matColumnDef="status" class="column">
       <th mat-header-cell *matHeaderCellDef> Status </th>
       <td mat-cell *matCellDef="let application"> {{application.status}} </td>
     </ng-container>
