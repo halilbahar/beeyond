@@ -5,5 +5,5 @@ export interface CustomApplication {
   id: number;
   note: string;
   status: string;
-  owner: User;
+  //owner: User;
 }

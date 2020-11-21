@@ -23,8 +23,8 @@ export class VariableListComponent implements OnInit {
     this.data = [];
     this.service.getTemplateById(this.templateId).subscribe(template => {
       this.fieldNames = template.fields;
-      this.fields.forEach((elt, i) => {
-        this.data.push({ field: elt, fieldName: this.fieldNames[i] });
+      this.fields.forEach((field, i) => {
+        this.data.push({ field: field, fieldName: this.fieldNames[i] });
       });
     });
   }

@@ -24,10 +24,10 @@ export class ApplicationReviewComponent implements OnInit {
   }
 
   deny(): void {
-    this.service.denyApplication(this.application.id).subscribe(console.log);
+    this.service.denyApplicationById(this.application.id).subscribe(console.log);
   }
 
   approve(): void {
-    this.service.approveApplication(this.application.id).subscribe(console.log);
+    this.service.approveApplicationById(this.application.id).subscribe(console.log);
   }
 }
