@@ -19,9 +19,6 @@ export class SideNavigationComponent implements OnInit {
   @Input()
   name = 'default';
 
-  @Input()
-  isLoggedIn = false;
-
   constructor() { }
 
   ngOnInit(): void {
