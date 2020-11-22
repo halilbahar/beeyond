@@ -29,8 +29,8 @@
               }
             ],
             "styles": [
-              "src/custom-theme.scss",
-              "src/styles.scss"
+              "src/assets/scss/custom-theme.scss",
+              "src/assets/scss/styles.scss"
             ],
             "scripts": []
           },
@@ -93,7 +93,7 @@
               "src/assets"
             ],
             "styles": [
-              "src/styles.scss"
+              "src/assets/scss/styles.scss"
             ],
             "scripts": []
           }
