@@ -30,8 +30,9 @@ The KeyCloak container `beeyond-identity-provider` provides the following:
 For creating a realm without any preconfigurations run the following command: 
 
 ```shell
-docker run --rm -p 8180:8080 -e KEYCLOAK_USER=admin -e \
-KEYCLOAK_PASSWORD=admin -v $(pwd)/tmp:/tmp --name kc \
+docker run --rm -p 8180:8080 --name keycloak -v $(pwd)/tmp:/tmp \
+-e KEYCLOAK_USER=admin \
+-e KEYCLOAK_PASSWORD=admin \
 jboss/keycloak:11.0.2
 ```
 
@@ -50,7 +51,7 @@ When creating the services you must follow these settings:
 After you are done with your setup you can run in the `/tmp` directory:
 
 ```shell
-docker exec -it kc /opt/jboss/keycloak/bin/standalone.sh \
+docker exec -it keycloak /opt/jboss/keycloak/bin/standalone.sh \
 -Djboss.socket.binding.port-offset=100 -Dkeycloak.migration.action=export \
 -Dkeycloak.migration.provider=singleFile \
 -Dkeycloak.migration.realmName=school \
