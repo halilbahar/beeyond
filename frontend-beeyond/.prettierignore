@@ -1,6 +1,10 @@
 # https://stackoverflow.com/a/44568826/11125147
+# Ignore everything except directories with source code
 *
 !*/
 !src/app/**
 !src/assets/**
 !src/environments/**
+
+# Ignore tests for now
+*.spec.ts
