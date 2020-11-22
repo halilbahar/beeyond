@@ -9,6 +9,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: frontend-beeyond
+
     steps:
     - uses: actions/checkout@v2
     - name: Setup Node.js 14.x
