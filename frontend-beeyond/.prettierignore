@@ -1,0 +1,6 @@
+# https://stackoverflow.com/a/44568826/11125147
+*
+!*/
+!src/app/**
+!src/assets/**
+!src/environments/**
