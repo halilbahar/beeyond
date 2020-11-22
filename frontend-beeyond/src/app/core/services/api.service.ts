@@ -21,15 +21,18 @@ export class ApiService {
     return this.http.get<Template>(`${environment.apiUrl}/template/${id}`);
   }
 
-  createTemplateApplication(body: object): Observable<null> {
+  // TODO: type body
+  createTemplateApplication(body: Record<string, unknown>): Observable<null> {
     return this.http.post<null>(`${environment.apiUrl}/application/template`, body);
   }
 
-  createCustomApplication(body: object): Observable<any> {
+  // TODO: type body
+  createCustomApplication(body: Record<string, unknown>): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/application/custom`, body);
   }
 
-  createTemplate(body: object): Observable<any> {
+  // TODO: type body
+  createTemplate(body: Record<string, unknown>): Observable<any> {
     return this.http.post<any>(`${environment.apiUrl}/template`, body);
   }
 

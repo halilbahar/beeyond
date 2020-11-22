@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
@@ -12,7 +12,9 @@ import { MatSort } from '@angular/material/sort';
   templateUrl: './application.component.html',
   styleUrls: ['./application.component.scss']
 })
-export class ApplicationComponent implements OnInit {
+export class ApplicationComponent implements OnInit, AfterViewInit {
+  @ViewChild(MatSort) sort: MatSort;
+
   filterdIdOptions: Observable<number[]>;
   filterdUserOptions: Observable<string[]>;
   statuses: string[] = ['ALL', 'PENDING', 'DENIED', 'APPROVED'];
@@ -24,20 +26,20 @@ export class ApplicationComponent implements OnInit {
   dataSource: any;
   userSearchInput: FormControl = new FormControl();
   searchInput: FormControl = new FormControl();
-  @ViewChild(MatSort) sort: MatSort;
 
   filterForm: FormGroup;
 
-  constructor(private route: ActivatedRoute, private router: Router, private _fb: FormBuilder) {}
+  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {}
 
   ngAfterViewInit() {
     this.dataSource.sort = this.sort;
   }
+
   ngOnInit(): void {
     this.applications = this.route.snapshot.data.applications;
     this.dataSource = new MatTableDataSource(this.applications);
     this.dataSource.filterPredicate = this.customFiltered();
-    this.filterForm = this._fb.group({
+    this.filterForm = this.fb.group({
       searchInput: [],
       userSearchInput: [],
       statusSearchInput: []
@@ -58,25 +60,26 @@ export class ApplicationComponent implements OnInit {
         return (
           String(data.id).includes(this.id) &&
           data.owner.name.includes(this.user) &&
-          (data.status == this.status || this.status == 'ALL')
+          (data.status === this.status || this.status === 'ALL')
         );
       } else if (this.id && this.status) {
         return (
-          String(data.id).includes(this.id) && (data.status == this.status || this.status == 'ALL')
+          String(data.id).includes(this.id) &&
+          (data.status === this.status || this.status === 'ALL')
         );
       } else if (this.id && this.user) {
         return String(data.id).includes(this.id) && data.owner.name.includes(this.user);
       } else if (this.user && this.status) {
         return (
           data.owner.name.includes(this.user) &&
-          (data.status == this.status || this.status == 'ALL')
+          (data.status === this.status || this.status === 'ALL')
         );
       } else if (this.id) {
         return String(data.id).includes(this.id);
       } else if (this.user) {
         return data.owner.name.includes(this.user);
       } else if (this.status) {
-        return data.status == this.status || this.status == 'ALL';
+        return data.status === this.status || this.status === 'ALL';
       }
       return true;
     };
@@ -84,6 +87,10 @@ export class ApplicationComponent implements OnInit {
 
   applyFilter(id: string, user: string, status: string) {
     this.dataSource.filter = id + ',' + user;
+  }
+
+  routeTo(id: number) {
+    this.router.navigate(['/management/review/' + id]).then(console.log);
   }
 
   private filterId(value: number): number[] {
@@ -98,9 +105,5 @@ export class ApplicationComponent implements OnInit {
       .map(application => application.owner.name)
       .filter(user => user.includes(value))
       .filter((v, i, a) => a.indexOf(v) === i);
-  }
-
-  routeTo(id: number) {
-    this.router.navigate(['/management/review/' + id]).then(console.log);
   }
 }

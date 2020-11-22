@@ -6,6 +6,8 @@ import { Component, Input, OnInit } from '@angular/core';
   styleUrls: ['./side-navigation.component.scss']
 })
 export class SideNavigationComponent implements OnInit {
+  @Input() name = 'default';
+
   agenda = [
     { name: 'Dashboard', icon: 'speed', router: '/dashboard' },
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
@@ -14,9 +16,6 @@ export class SideNavigationComponent implements OnInit {
     { name: 'Management', icon: 'desktop_windows', router: '/management' },
     { name: 'Template', icon: 'bakery_dining', router: '/template' }
   ];
-
-  @Input()
-  name = 'default';
 
   constructor() {}
 

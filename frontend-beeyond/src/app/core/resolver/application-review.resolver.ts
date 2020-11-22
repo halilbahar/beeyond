@@ -11,6 +11,6 @@ export class ApplicationReviewResolver implements Resolve<TemplateApplication | 
   constructor(private service: ApiService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<TemplateApplication | CustomApplication> {
-    return this.service.getApplicationById(route.params['id']);
+    return this.service.getApplicationById(route.params.id);
   }
 }

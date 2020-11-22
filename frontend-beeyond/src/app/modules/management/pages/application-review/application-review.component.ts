@@ -11,7 +11,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 })
 export class ApplicationReviewComponent implements OnInit {
   application: any;
-  template: boolean = false;
+  template = false;
 
   constructor(private route: ActivatedRoute, private service: ApiService) {}
 
