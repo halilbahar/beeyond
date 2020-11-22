@@ -9,9 +9,7 @@ import { CoreModule } from './core/core.module';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
-  declarations: [
-    AppComponent
-  ],
+  declarations: [AppComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
@@ -23,4 +21,4 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
   providers: [],
   bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}

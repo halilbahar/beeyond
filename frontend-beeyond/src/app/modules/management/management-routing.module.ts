@@ -5,12 +5,16 @@ import { ApplicationReviewComponent } from './pages/application-review/applicati
 import { ApplicationReviewResolver } from 'src/app/core/resolver/application-review.resolver';
 
 const routes: Routes = [
-  {path: '', component: ApplicationComponent},
-  {path: 'review/:id', component: ApplicationReviewComponent, resolve: {application: ApplicationReviewResolver}}
+  { path: '', component: ApplicationComponent },
+  {
+    path: 'review/:id',
+    component: ApplicationReviewComponent,
+    resolve: { application: ApplicationReviewResolver }
+  }
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
   exports: [RouterModule]
 })
-export class ApplicationRoutingModule { }
+export class ApplicationRoutingModule {}

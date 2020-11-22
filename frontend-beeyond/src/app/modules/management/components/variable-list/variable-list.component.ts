@@ -9,7 +9,6 @@ import { TemplateField } from 'src/app/shared/models/template-field.model';
   styleUrls: ['./variable-list.component.scss']
 })
 export class VariableListComponent implements OnInit {
-
   @Input() fields: TemplateFieldValue[];
   @Input() templateId: number;
 
@@ -17,7 +16,7 @@ export class VariableListComponent implements OnInit {
 
   fieldNames: TemplateField[];
 
-  constructor(private service: ApiService) { }
+  constructor(private service: ApiService) {}
 
   ngOnInit(): void {
     this.data = [];

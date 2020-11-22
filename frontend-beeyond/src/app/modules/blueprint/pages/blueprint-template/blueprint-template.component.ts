@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./blueprint-template.component.scss']
 })
 export class BlueprintTemplateComponent implements OnInit {
-
   template: Template;
   templateForm: FormGroup;
   id: number;
@@ -22,7 +21,7 @@ export class BlueprintTemplateComponent implements OnInit {
     private apiService: ApiService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));

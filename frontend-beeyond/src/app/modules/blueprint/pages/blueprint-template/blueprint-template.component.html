@@ -4,11 +4,15 @@
     <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
     <form [formGroup]="templateForm">
-      <div *ngFor="let field of template.fields; let i = index" class="field-container" formArrayName="fieldValues">
+      <div
+        *ngFor="let field of template.fields; let i = index"
+        class="field-container"
+        formArrayName="fieldValues"
+      >
         <ng-container [formGroupName]="i">
           <mat-form-field class="full-width">
             <mat-label>{{ field.label }}</mat-label>
-            <input matInput formControlName="value">
+            <input matInput formControlName="value" />
             <mat-hint>{{ field.description }}</mat-hint>
           </mat-form-field>
         </ng-container>
@@ -16,12 +20,22 @@
 
       <mat-form-field class="field-container full-width">
         <mat-label>An optional note:</mat-label>
-        <textarea formControlName="note" matInput cdkTextareaAutosize cdkAutosizeMinRows="1"
-          cdkAutosizeMaxRows="5"></textarea>
+        <textarea
+          formControlName="note"
+          matInput
+          cdkTextareaAutosize
+          cdkAutosizeMinRows="1"
+          cdkAutosizeMaxRows="5"
+        ></textarea>
       </mat-form-field>
     </form>
     <mat-card-actions align="right">
-      <button mat-flat-button color="primary" (click)="submitApplication()" [disabled]="!templateForm.valid">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="submitApplication()"
+        [disabled]="!templateForm.valid"
+      >
         Submit
       </button>
     </mat-card-actions>

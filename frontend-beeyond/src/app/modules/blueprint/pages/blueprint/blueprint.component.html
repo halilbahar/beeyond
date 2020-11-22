@@ -5,18 +5,31 @@
         <mat-card-content>
           <form [formGroup]="customApplicationForm">
             <span class="label">The content of your script:</span>
-            <ngx-monaco-editor [options]="{ language: 'yaml', scrollBeyondLastLine: false }" class="border" formControlName="content"></ngx-monaco-editor>
+            <ngx-monaco-editor
+              [options]="{ language: 'yaml', scrollBeyondLastLine: false }"
+              class="border"
+              formControlName="content"
+            ></ngx-monaco-editor>
             <mat-form-field class="field-container full-width tab-wrapper">
               <mat-label>An optional note:</mat-label>
-              <textarea formControlName="note" matInput cdkTextareaAutosize cdkAutosizeMinRows="1"
-                cdkAutosizeMaxRows="5"></textarea>
+              <textarea
+                formControlName="note"
+                matInput
+                cdkTextareaAutosize
+                cdkAutosizeMinRows="1"
+                cdkAutosizeMaxRows="5"
+              ></textarea>
             </mat-form-field>
           </form>
         </mat-card-content>
 
         <mat-card-actions align="end">
-          <button mat-flat-button color="primary" (click)="sendCustomTemplate()"
-            [disabled]="!customApplicationForm.valid">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="sendCustomTemplate()"
+            [disabled]="!customApplicationForm.valid"
+          >
             Submit
           </button>
         </mat-card-actions>
@@ -25,7 +38,11 @@
 
     <mat-tab label="Template Blueprints">
       <div class="tab-wrapper">
-        <app-template-list [templates]="templates" [routingEnabled]="true" routePath="/blueprint/template/{id}">
+        <app-template-list
+          [templates]="templates"
+          [routingEnabled]="true"
+          routePath="/blueprint/template/{id}"
+        >
         </app-template-list>
       </div>
     </mat-tab>

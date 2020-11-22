@@ -4,7 +4,6 @@ import { Application } from '../../../../shared/models/application.model';
 import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from 'src/app/core/services/api.service';
 
-
 @Component({
   selector: 'app-application-review',
   templateUrl: './application-review.component.html',
@@ -14,7 +13,7 @@ export class ApplicationReviewComponent implements OnInit {
   application: any;
   template: boolean = false;
 
-  constructor(private route: ActivatedRoute, private service: ApiService) { };
+  constructor(private route: ActivatedRoute, private service: ApiService) {}
 
   ngOnInit(): void {
     this.application = this.route.snapshot.data.application;

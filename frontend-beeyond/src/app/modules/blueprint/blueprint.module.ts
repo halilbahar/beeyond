@@ -16,10 +16,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 
 @NgModule({
-  declarations: [
-    BlueprintComponent,
-    BlueprintTemplateComponent
-  ],
+  declarations: [BlueprintComponent, BlueprintTemplateComponent],
   imports: [
     CommonModule,
     BlueprintRoutingModule,
@@ -37,4 +34,4 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     MonacoEditorModule
   ]
 })
-export class BlueprintModule { }
+export class BlueprintModule {}

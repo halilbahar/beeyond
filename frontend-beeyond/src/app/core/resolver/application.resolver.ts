@@ -8,7 +8,7 @@ import { CustomApplication } from 'src/app/shared/models/custom.application.mode
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationResolver implements Resolve<Application[]> {
-  constructor(private service: ApiService) { }
+  constructor(private service: ApiService) {}
 
   resolve(): Observable<Application[]> {
     return this.service.getApplications();

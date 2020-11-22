@@ -19,26 +19,36 @@
       <mat-step [stepControl]="secondFormGroup">
         <ng-template matStepLabel>Fill Out Wildcard Fields</ng-template>
 
-        <form [formGroup]="secondFormGroup" *ngIf="wildcards.length > 0 else noWildcards">
+        <form [formGroup]="secondFormGroup" *ngIf="wildcards.length > 0; else noWildcards">
           <div formArrayName="fields">
-            <div *ngFor="let control of fields.controls; let i = index" class="wildcard-fields" [formGroupName]="i">
-              <span class="wildcard-label">{{control.value.wildcard}}:</span>
+            <div
+              *ngFor="let control of fields.controls; let i = index"
+              class="wildcard-fields"
+              [formGroupName]="i"
+            >
+              <span class="wildcard-label">{{ control.value.wildcard }}:</span>
               <mat-form-field class="full-width">
                 <mat-label>Label</mat-label>
-                <input matInput placeholder="Your label for this wildcard" formControlName="label">
+                <input
+                  matInput
+                  placeholder="Your label for this wildcard"
+                  formControlName="label"
+                />
               </mat-form-field>
 
               <mat-form-field class="full-width">
                 <mat-label>Description</mat-label>
-                <input matInput placeholder="Your description for this wildcard" formControlName="description">
+                <input
+                  matInput
+                  placeholder="Your description for this wildcard"
+                  formControlName="description"
+                />
               </mat-form-field>
             </div>
           </div>
         </form>
 
-        <ng-template #noWildcards>
-          Nothing to fill out
-        </ng-template>
+        <ng-template #noWildcards> Nothing to fill out </ng-template>
 
         <div class="stepper-buttons">
           <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
@@ -52,11 +62,15 @@
         <form [formGroup]="thirdFormGroup">
           <mat-form-field class="full-width">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="Name of this template" formControlName="name">
+            <input matInput placeholder="Name of this template" formControlName="name" />
           </mat-form-field>
           <mat-form-field class="full-width">
             <mat-label>Description</mat-label>
-            <input matInput placeholder="Description of this template" formControlName="description">
+            <input
+              matInput
+              placeholder="Description of this template"
+              formControlName="description"
+            />
           </mat-form-field>
         </form>
 

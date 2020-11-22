@@ -10,7 +10,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./template-create.component.scss']
 })
 export class TemplateCreateComponent implements OnInit {
-
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
@@ -22,7 +21,7 @@ export class TemplateCreateComponent implements OnInit {
     private fb: FormBuilder,
     private apiService: ApiService,
     private snackBar: MatSnackBar
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.firstFormGroup = this.fb.group({
@@ -35,7 +34,7 @@ export class TemplateCreateComponent implements OnInit {
 
     this.thirdFormGroup = this.fb.group({
       name: ['', [Validators.required, Validators.maxLength(255)]],
-      description: ['', Validators.maxLength(255)],
+      description: ['', Validators.maxLength(255)]
     });
 
     this.firstFormGroup.controls.content.valueChanges.subscribe(content => {
@@ -56,15 +55,17 @@ export class TemplateCreateComponent implements OnInit {
   }
 
   createTemplate(): void {
-    const template = {...this.firstFormGroup.value, ...this.secondFormGroup.value, ...this.thirdFormGroup.value};
+    const template = {
+      ...this.firstFormGroup.value,
+      ...this.secondFormGroup.value,
+      ...this.thirdFormGroup.value
+    };
     this.apiService.createTemplate(template).subscribe(() => {
       this.router.navigate(['template']).then(navigated => {
         if (navigated) {
-          this.snackBar.open(
-            'Your Template was created',
-            'close',
-            {duration: undefined}
-          );
+          this.snackBar.open('Your Template was created', 'close', {
+            duration: undefined
+          });
         }
       });
     });

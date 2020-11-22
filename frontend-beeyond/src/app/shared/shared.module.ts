@@ -6,20 +6,9 @@ import { MatRippleModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 
-
 @NgModule({
-  declarations: [
-    TemplateListComponent,
-    PageNotFoundComponent
-  ],
-  exports: [
-    TemplateListComponent
-  ],
-  imports: [
-    CommonModule,
-    MatListModule,
-    MatRippleModule,
-    MatIconModule
-  ]
+  declarations: [TemplateListComponent, PageNotFoundComponent],
+  exports: [TemplateListComponent],
+  imports: [CommonModule, MatListModule, MatRippleModule, MatIconModule]
 })
-export class SharedModule { }
+export class SharedModule {}

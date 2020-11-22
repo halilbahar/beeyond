@@ -1,4 +1,4 @@
-export interface Application{
-    status: string;
-    note: string;
+export interface Application {
+  status: string;
+  note: string;
 }

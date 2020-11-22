@@ -11,7 +11,6 @@ import { MatSnackBar } from '@angular/material/snack-bar';
   styleUrls: ['./blueprint.component.scss']
 })
 export class BlueprintComponent implements OnInit {
-
   templates: Template[] = [];
   customApplicationForm: FormGroup;
 
@@ -19,11 +18,11 @@ export class BlueprintComponent implements OnInit {
     private router: Router,
     private apiService: ApiService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar,
-  ) { }
+    private snackBar: MatSnackBar
+  ) {}
 
   ngOnInit(): void {
-    this.apiService.getTemplates().subscribe(templates => this.templates = templates);
+    this.apiService.getTemplates().subscribe(templates => (this.templates = templates));
     this.customApplicationForm = this.fb.group({
       content: ['', Validators.required],
       note: ['']

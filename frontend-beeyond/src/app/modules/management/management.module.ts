@@ -16,11 +16,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 
 @NgModule({
-  declarations: [
-    ApplicationComponent,
-    ApplicationReviewComponent,
-    VariableListComponent
-  ],
+  declarations: [ApplicationComponent, ApplicationReviewComponent, VariableListComponent],
   imports: [
     CommonModule,
     ApplicationRoutingModule,
@@ -37,4 +33,4 @@ import { MatSortModule } from '@angular/material/sort';
     MatSortModule
   ]
 })
-export class ManagementModule { }
+export class ManagementModule {}

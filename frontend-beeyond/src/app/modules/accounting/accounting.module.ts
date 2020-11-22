@@ -4,12 +4,7 @@ import { AccountingComponent } from './pages/accounting/accounting.component';
 import { AccountingRoutingModule } from './accounting-routing.module';
 
 @NgModule({
-  declarations: [
-    AccountingComponent
-  ],
-  imports: [
-    CommonModule,
-    AccountingRoutingModule
-  ]
+  declarations: [AccountingComponent],
+  imports: [CommonModule, AccountingRoutingModule]
 })
-export class AccountingModule { }
+export class AccountingModule {}

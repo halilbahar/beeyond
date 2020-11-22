@@ -1,12 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
 
-html, body {
+html,
+body {
   height: 100%;
 }
 
 body {
   margin: 0;
-  font-family: Roboto, "Helvetica Neue", sans-serif;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
 .primary-bg-color {
@@ -48,6 +49,6 @@ body {
 }
 
 .description {
-  font-size: .9rem;
+  font-size: 0.9rem;
   color: rgba(0, 0, 0, 0.67);
 }

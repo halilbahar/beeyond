@@ -10,14 +10,8 @@ import { OAuthModule } from 'angular-oauth2-oidc';
 import { environment } from '../../environments/environment';
 
 @NgModule({
-  declarations: [
-    SideNavigationComponent,
-    HeaderComponent
-  ],
-  exports: [
-    SideNavigationComponent,
-    HeaderComponent
-  ],
+  declarations: [SideNavigationComponent, HeaderComponent],
+  exports: [SideNavigationComponent, HeaderComponent],
   imports: [
     CommonModule,
     RouterModule,

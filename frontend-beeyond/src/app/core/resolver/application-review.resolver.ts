@@ -8,9 +8,7 @@ import { CustomApplication } from 'src/app/shared/models/custom.application.mode
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationReviewResolver implements Resolve<TemplateApplication | CustomApplication> {
-  constructor(
-    private service: ApiService
-  ) { }
+  constructor(private service: ApiService) {}
 
   resolve(route: ActivatedRouteSnapshot): Observable<TemplateApplication | CustomApplication> {
     return this.service.getApplicationById(route.params['id']);

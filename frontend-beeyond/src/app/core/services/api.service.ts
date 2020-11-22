@@ -11,8 +11,7 @@ import { TemplateApplication } from 'src/app/shared/models/template.application.
   providedIn: 'root'
 })
 export class ApiService {
-
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) {}
 
   getTemplates(): Observable<Template[]> {
     return this.http.get<Template[]>(`${environment.apiUrl}/template`);
@@ -39,7 +38,9 @@ export class ApiService {
   }
 
   getApplicationById(id: number): Observable<TemplateApplication | CustomApplication> {
-    return this.http.get<TemplateApplication | CustomApplication>(`${environment.apiUrl}/application/${id}`);
+    return this.http.get<TemplateApplication | CustomApplication>(
+      `${environment.apiUrl}/application/${id}`
+    );
   }
 
   approveApplicationById(id: number): Observable<null> {
