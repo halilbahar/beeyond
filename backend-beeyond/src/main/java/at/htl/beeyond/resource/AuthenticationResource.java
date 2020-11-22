@@ -25,10 +25,10 @@ public class AuthenticationResource {
     @RestClient
     AuthenticationService authenticationService;
 
-    @ConfigProperty(name = "beeyond.keycloak-client-id")
+    @ConfigProperty(name = "beeyond.keycloak.client-id")
     String clientId;
 
-    @ConfigProperty(name = "beeyond.keycloak-secret")
+    @ConfigProperty(name = "beeyond.keycloak.secret")
     String clientSecret;
 
     @POST

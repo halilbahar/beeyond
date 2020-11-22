@@ -2,9 +2,7 @@ package at.htl.beeyond.interceptor;
 
 import at.htl.beeyond.entity.User;
 
-import javax.enterprise.context.Dependent;
-import javax.inject.Inject;
-import javax.persistence.EntityManager;
+import javax.enterprise.context.ApplicationScoped;
 import javax.transaction.Transactional;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
@@ -13,12 +11,10 @@ import javax.ws.rs.core.SecurityContext;
 import javax.ws.rs.ext.Provider;
 import java.security.Principal;
 
+// Seems like @Transactional does only work in a managed bean => @ApplicationScoped is required
 @Provider
+@ApplicationScoped
 public class UserFilter implements ContainerRequestFilter {
-
-    // @Transactional not working without EntityManager
-    @Inject
-    EntityManager entityManager;
 
     @Context
     SecurityContext securityContext;
@@ -33,7 +29,7 @@ public class UserFilter implements ContainerRequestFilter {
 
             if (user == null) {
                 user = new User(name);
-                user.persistAndFlush();
+                user.persist();
             }
         }
     }

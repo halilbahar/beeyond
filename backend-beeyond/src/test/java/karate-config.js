@@ -5,7 +5,7 @@ function fn(){
         env = 'dev';
     }
     var config = {
-        baseUrl: 'http://localhost:8080'
+        baseUrl: 'http://localhost:8081'
     };
     karate.configure('connectTimeout', 5000);
     karate.configure('readTimeout', 5000);
