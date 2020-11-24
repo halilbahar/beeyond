@@ -5,6 +5,7 @@ import at.htl.beeyond.intergration.IdentityProviderResource;
 import com.intuit.karate.junit5.Karate;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;
+import io.quarkus.test.security.TestSecurity;
 
 @QuarkusTest
 @QuarkusTestResource(DatabaseResource.class)
@@ -14,7 +15,6 @@ public class TemplateTest {
     @Karate.Test
     Karate testGetAllAsStudent() {
         return Karate.run("template-get").tags("student").relativeTo(getClass());
-
     }
 
     @Karate.Test
@@ -23,7 +23,8 @@ public class TemplateTest {
     }
 
     @Karate.Test
-    Karate testCreateAsStudent() {
-        return Karate.run("template-creation").tags("student").relativeTo(getClass());
+    @TestSecurity(user = "sonja-teacher", roles = "teacher")
+    Karate testCreateAsTeacher() {
+        return Karate.run("template-creation").tags("teacher").relativeTo(getClass());
     }
 }

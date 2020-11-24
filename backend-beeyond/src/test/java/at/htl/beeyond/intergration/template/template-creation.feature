@@ -1,25 +1,53 @@
 Feature: Template creation endpoint
 
-  @student
-  Scenario: Create a valid template application
+  Background:
+    * url baseUrl
+    * path 'template'
 
-  @student
+  @teacher
+  Scenario: Create a valid template application
+    * def content = read('nginx-deployment-template.yml.txt')
+    Given request
+    """
+    {
+      "name": "Nginx Deployment",
+      "description": "Static Webserver",
+      "content": "#(content)",
+      "fields": [
+        {
+          "label": "Server count",
+          "wildcard": "replica",
+          "description": "How many server should there be?"
+        },
+        {
+          "label": "Port of your saver",
+          "wildcard": "port",
+          "description": "This will be the port that will be exposed to the world"
+        }
+      ]
+    }
+    """
+   When method POST
+   Then status 204
+
+
+  @teacher
   Scenario: Create a template with no description
 
-  @student
+  @teacher
   Scenario: Create a template with no name and content
 
-  @student
+  @teacher
   Scenario: Create a template with a too long name and description
 
-  @student
+  @teacher
   Scenario: Create a template where at least 1 field is missing
 
-  @student
+  @teacher
   Scenario: Create a template where the field label and wildcard are missing
 
-  @student
+  @teacher
   Scenario: Create a template where the field label and wildcard are empty
 
-  @student
+  @teacher
   Scenario: Create a template where the field label, wildcard and description are too long
