@@ -18,6 +18,7 @@
     <compiler-plugin.version>3.8.1</compiler-plugin.version>
     <quarkus.platform.group-id>io.quarkus</quarkus.platform.group-id>
     <testcontainers.version>1.15.0</testcontainers.version>
+    <karate.version>0.9.6</karate.version>
   </properties>
   <dependencyManagement>
     <dependencies>
@@ -88,20 +89,14 @@
     </dependency>
     <dependency>
       <groupId>com.intuit.karate</groupId>
-      <artifactId>karate-core</artifactId>
-      <version>0.9.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>com.intuit.karate</groupId>
       <artifactId>karate-apache</artifactId>
-      <version>0.9.5</version>
+      <version>${karate.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
       <groupId>com.intuit.karate</groupId>
       <artifactId>karate-junit5</artifactId>
-      <version>0.9.5</version>
+      <version>${karate.version}</version>
       <scope>test</scope>
     </dependency>
     <dependency>
@@ -116,7 +111,6 @@
       <version>${testcontainers.version}</version>
       <scope>test</scope>
     </dependency>
-
     <dependency>
       <groupId>io.quarkus</groupId>
       <artifactId>quarkus-test-security</artifactId>
@@ -128,6 +122,14 @@
     </dependency>
   </dependencies>
   <build>
+    <testResources>
+      <testResource>
+        <directory>src/test/java</directory>
+        <excludes>
+          <exclude>**/*.java</exclude>
+        </excludes>
+      </testResource>
+    </testResources>
     <plugins>
       <plugin>
         <groupId>io.quarkus</groupId>
