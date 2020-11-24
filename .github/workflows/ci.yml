@@ -1,4 +1,4 @@
-name: Angular CI
+name: Beeyond CI
 
 on:
   push:
@@ -7,12 +7,25 @@ on:
     branches: [ master ]
 
 jobs:
-  build:
+  quarkus-backend:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: backend-beeyond
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+      - name: Build
+        run: ./mvnw verify -B
+
+  angular-frontend:
     runs-on: ubuntu-latest
     defaults:
       run:
         working-directory: frontend-beeyond
-
     steps:
     - uses: actions/checkout@v2
     - name: Setup Node.js 14.x
