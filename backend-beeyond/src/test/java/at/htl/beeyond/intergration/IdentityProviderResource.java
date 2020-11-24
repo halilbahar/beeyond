@@ -14,7 +14,7 @@ public class IdentityProviderResource implements QuarkusTestResourceLifecycleMan
             .waitingFor(Wait.forHttp("/auth").forPort(8080))
             .withEnv("KEYCLOAK_USER", "beeyond")
             .withEnv("KEYCLOAK_PASSWORD", "beeyond")
-            .withClasspathResourceMapping("school-realm.json", "/tmp/school-realm.json", BindMode.READ_ONLY)
+            .withClasspathResourceMapping("/school-realm.json", "/tmp/school-realm.json", BindMode.READ_ONLY)
             .withCommand(
                     "-b", "0.0.0.0",
                     "-Dkeycloak.migration.action=import",
