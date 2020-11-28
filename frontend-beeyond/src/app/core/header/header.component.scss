@@ -1,4 +1,7 @@
+@import '../../../assets/scss/variables.scss';
+
 .header {
+  height: $header-height;
   display: flex;
   align-items: center;
   justify-content: flex-end;
