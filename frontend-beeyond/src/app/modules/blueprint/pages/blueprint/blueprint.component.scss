@@ -1,21 +1,26 @@
-.template-title {
-  font-size: 20px !important;
+:host ::ng-deep .mat-tab-body-wrapper {
+  flex: 1;
+
+  mat-tab-body {
+    margin-top: 1rem;
+
+    .mat-tab-body-content {
+      display: flex;
+      flex-direction: column;
+    }
+  }
 }
 
-.mat-card-actions {
-  margin: 0 2px 6px 0 !important;
-  padding: 0 !important;
+mat-tab-group {
+  height: 100%;
 }
 
-.tab-wrapper {
-  margin-top: 1rem;
+.button-container {
+  display: flex;
+  justify-content: flex-end;
 }
 
-.text-area-full-width {
-  width: 100%;
-  box-sizing: border-box;
-}
-
-.border {
+.monaco-editor {
+  flex: 1;
   border: 0.1rem solid rgba(0, 0, 0, 0.1);
 }
