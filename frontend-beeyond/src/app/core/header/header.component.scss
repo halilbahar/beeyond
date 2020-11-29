@@ -1,6 +1,6 @@
 @import '../../../assets/scss/variables.scss';
 
-.header {
+:host {
   height: $header-height;
   display: flex;
   align-items: center;
@@ -13,25 +13,10 @@
 .header-left {
   display: flex;
   align-items: center;
-  font-size: 40px;
+  font-size: 26px;
   margin-right: auto;
 }
 
-.header-title {
-  margin-left: 22px;
-}
-
-a[ng-reflect-router-link] {
-  text-decoration: none;
-  color: gray;
-}
-
-span[ng-reflect-router-link] {
-  text-decoration: none;
-  color: black;
-  cursor: pointer;
-}
-
-.breadcrumb {
-  color: gray;
+.no-outline {
+  outline: none;
 }
