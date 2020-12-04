@@ -66,6 +66,8 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
+    And match response contains {message:'This field cannot be empty', key: 'name', value:''}
+    And match response contains {message:'This field cannot be empty', key: 'content', value:''}
 
   @teacher
   Scenario: Create a template with a too long name and description
