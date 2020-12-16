@@ -1,24 +1,15 @@
 package at.htl.beeyond.dto
 
-import at.htl.beeyond.dto.UserDto
 import at.htl.beeyond.entity.User
 
-class UserDto {
-    var id: Long? = null
-    var name: String? = null
-
-    constructor(id: Long?, name: String?) {
-        this.id = id
-        this.name = name
-    }
-
-    constructor() {}
+data class UserDto(var id: Long?, var name: String?) {
 
     fun map(): User {
         return User.findById(id)
     }
 
     companion object {
+        @kotlin.jvm.JvmStatic
         fun map(user: User): UserDto {
             return UserDto(user.id, user.name)
         }
