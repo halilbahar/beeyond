@@ -21,6 +21,7 @@
         <surefire-plugin.version>2.22.1</surefire-plugin.version>
         <testcontainers.version>1.15.0</testcontainers.version>
         <karate.version>0.9.6</karate.version>
+        <snakeyaml.version>1.26</snakeyaml.version>
     </properties>
     <dependencyManagement>
         <dependencies>
@@ -36,7 +37,11 @@
     <dependencies>
         <dependency>
             <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-arc</artifactId>
+            <artifactId>quarkus-resteasy-jsonb</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-kotlin</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -44,21 +49,20 @@
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-arc</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
             <artifactId>quarkus-junit5</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <scope>test</scope>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk8</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-hibernate-validator</artifactId>
-        </dependency>
-        <dependency>
-            <groupId>io.quarkus</groupId>
-            <artifactId>quarkus-resteasy-jsonb</artifactId>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -67,7 +71,7 @@
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.26</version>
+            <version>${snakeyaml.version}</version>
         </dependency>
         <dependency>
             <groupId>io.quarkus</groupId>
@@ -92,6 +96,10 @@
         <dependency>
             <groupId>io.quarkus</groupId>
             <artifactId>quarkus-rest-client</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.quarkus</groupId>
+            <artifactId>quarkus-smallrye-openapi</artifactId>
         </dependency>
         <dependency>
             <groupId>com.intuit.karate</groupId>
@@ -140,14 +148,8 @@
         </dependency>
     </dependencies>
     <build>
-        <testResources>
-            <testResource>
-                <directory>src/test/java</directory>
-                <excludes>
-                    <exclude>**/*.java</exclude>
-                </excludes>
-            </testResource>
-        </testResources>
+        <sourceDirectory>src/main/java</sourceDirectory>
+        <testSourceDirectory>src/test/java</testSourceDirectory>
         <plugins>
             <plugin>
                 <groupId>io.quarkus</groupId>
@@ -185,6 +187,7 @@
                 <executions>
                     <execution>
                         <id>compile</id>
+                        <phase>process-sources</phase>
                         <goals>
                             <goal>compile</goal>
                         </goals>
@@ -212,7 +215,8 @@
                     <pluginOptions>
                         <option>all-open:annotation=javax.ws.rs.Path</option>
                         <option>all-open:annotation=javax.enterprise.context.ApplicationScoped</option>
-                        <option>all-open:annotation=io.quarkus.test.junit.QuarkusTest</option>
+                        <option>all-open:annotation=javax.ws.rs.core.Context</option>
+                        <option>all-open:annotation=javax.ws.rs.ext.Provider</option>
                     </pluginOptions>
                 </configuration>
             </plugin>
