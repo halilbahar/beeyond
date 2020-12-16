@@ -27,8 +27,8 @@ Feature: Template creation endpoint
       ]
     }
     """
-   When method POST
-   Then status 204
+    When method POST
+    Then status 204
 
   @teacher
   Scenario: Create a template with no description
@@ -95,7 +95,7 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field needs to be between 0 and 255 characters', key: 'name', value:'#ignore'}
+    And match response contains {message:'This field needs to be between 1 and 255 characters', key: 'name', value:'#ignore'}
     And match response contains {message:'This field needs to be between 0 and 255 characters', key: 'description', value:'#ignore'}
 
   @teacher

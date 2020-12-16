@@ -1,103 +1,47 @@
-package at.htl.beeyond.dto;
+package at.htl.beeyond.dto
 
-import at.htl.beeyond.entity.Template;
-import at.htl.beeyond.entity.TemplateField;
-import at.htl.beeyond.entity.User;
-import at.htl.beeyond.validation.Checks;
-import at.htl.beeyond.validation.TemplateFieldsMatching;
-import org.hibernate.validator.constraints.Length;
+import at.htl.beeyond.entity.Template
+import at.htl.beeyond.entity.TemplateField
+import at.htl.beeyond.entity.User
+import at.htl.beeyond.validation.Checks.TemplateContent
+import at.htl.beeyond.validation.TemplateFieldsMatching
+import java.util.stream.Collectors
+import javax.json.bind.annotation.JsonbTransient
+import javax.validation.Valid
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
 
-import javax.validation.Valid;
-import javax.validation.constraints.NotBlank;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.stream.Collectors;
+@TemplateFieldsMatching(groups = [TemplateContent::class])
+data class TemplateDto(
+        @set:JsonbTransient var id: Long?,
+        @field:NotNull @field:Size(min = 1, max = 255) var name: String?,
+        @field:Size(max = 255) var description: String?,
+        @field:NotBlank var content: String?,
+        @field:Valid var fields: List<TemplateFieldDto>?
+) {
+    constructor() : this(null, null, null, null, null)
 
-@TemplateFieldsMatching(groups = Checks.TemplateContent.class)
-public class TemplateDto {
-
-    private Long id;
-
-    @NotBlank
-    @Length(max = 255)
-    private String name;
-
-    @Length(max = 255)
-    private String description;
-
-    @NotBlank
-    private String content;
-
-    @Valid
-    private List<TemplateFieldDto> fields = new LinkedList<>();
-
-    public TemplateDto(Long id, String name, String description, String content, List<TemplateFieldDto> fields) {
-        this.id = id;
-        this.name = name;
-        this.description = description;
-        this.content = content;
-        this.fields = fields;
+    override fun toString(): String {
+        return ""
     }
 
-    public TemplateDto() {
+    fun map(owner: User?): Template {
+        val template = Template(name, description, content, owner)
+        val templateFields = template.fields
+        fields!!.stream()
+                .map { fieldDto: TemplateFieldDto -> TemplateField(fieldDto.label, fieldDto.wildcard, fieldDto.description, template) }
+                .forEach { e: TemplateField -> templateFields.add(e) }
+        return template
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name.trim();
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description.trim();
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content.trim();
-    }
-
-    public List<TemplateFieldDto> getFields() {
-        return fields;
-    }
-
-    public void setFields(List<TemplateFieldDto> fields) {
-        this.fields = fields;
-    }
-
-    @Override
-    public String toString() {
-        return "";
-    }
-
-    public Template map(User owner) {
-        Template template = new Template(name, description, content, owner);
-        List<TemplateField> templateFields = template.getFields();
-        fields.stream()
-                .map(fieldDto -> new TemplateField(fieldDto.getLabel(), fieldDto.getWildcard(), fieldDto.getDescription(), template))
-                .forEach(templateFields::add);
-
-        return template;
-    }
-
-    public static TemplateDto map(Template template) {
-        List<TemplateFieldDto> fields = template.getFields().stream()
-                .map(TemplateFieldDto::map)
-                .collect(Collectors.toList());
-
-        return new TemplateDto(template.getId(), template.getName(), template.getDescription(), template.getContent(), fields);
+    companion object {
+        @JvmStatic
+        fun map(template: Template): TemplateDto {
+            val fields = template.fields.stream()
+                    .map { templateField: TemplateField? -> TemplateFieldDto.map(templateField) }
+                    .collect(Collectors.toList())
+            return TemplateDto(template.id, template.name, template.description, template.content, fields)
+        }
     }
 }
