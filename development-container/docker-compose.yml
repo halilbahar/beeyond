@@ -17,6 +17,7 @@ services:
     environment:
       KEYCLOAK_USER: beeyond
       KEYCLOAK_PASSWORD: beeyond
+      DB_VENDOR: h2
     ports:
       - 8180:8080
     container_name: beeyond-identity-provider

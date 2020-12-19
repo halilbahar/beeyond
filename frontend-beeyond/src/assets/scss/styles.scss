@@ -18,15 +18,7 @@ body {
   background-color: #b5813d;
 }
 
-.header-height {
-  height: 80px;
-}
-
 .unselectable {
-  -webkit-touch-callout: none;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
   user-select: none;
 }
 
@@ -34,12 +26,16 @@ body {
   cursor: pointer;
 }
 
-.main-card {
-  width: 80%;
+.card-entire-page {
+  height: 100%;
   box-sizing: border-box;
-  margin: 3% 0 0 10%;
+
+  mat-card-content {
+    height: 100%;
+  }
 }
 
+// TODO: Remove later
 .full-width {
   width: 100%;
 }

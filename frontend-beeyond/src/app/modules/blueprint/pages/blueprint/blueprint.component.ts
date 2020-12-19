@@ -13,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class BlueprintComponent implements OnInit {
   templates: Template[] = [];
   customApplicationForm: FormGroup;
+  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
 
   constructor(
     private router: Router,

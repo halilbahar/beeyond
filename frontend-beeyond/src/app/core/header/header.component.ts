@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { NavigationEnd, Router } from '@angular/router';
+import { ActivationEnd, NavigationEnd, Params, Router } from '@angular/router';
+import { Breadcrumb } from 'src/app/shared/models/breadcrumb.model';
 
 @Component({
   selector: 'app-header',
@@ -7,30 +8,52 @@ import { NavigationEnd, Router } from '@angular/router';
   styleUrls: ['./header.component.scss']
 })
 export class HeaderComponent implements OnInit {
-  headerTitle = '';
-  breadcrumbs = [];
+  breadcrumbs: Breadcrumb[] = [];
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
+    let segements: { path: string; params: Params }[] = [];
+
     this.router.events.subscribe(event => {
-      if (event instanceof NavigationEnd) {
-        this.breadcrumbs = [];
-        const url = event.url.split('?')[0];
-        const links = url.split('/');
-        let curLink = '';
-        links.shift();
-
-        links.forEach(link => {
-          curLink += '/' + link;
-          this.breadcrumbs.push({
-            link: curLink,
-            title: link.charAt(0).toUpperCase() + link.substr(1)
-          });
+      if (event instanceof ActivationEnd) {
+        const route = event.snapshot;
+        segements.unshift({
+          path: route.routeConfig.path,
+          params: route.params
         });
+      }
 
-        this.breadcrumbs[this.breadcrumbs.length - 1].link = '';
-        this.headerTitle = this.breadcrumbs[0].title;
+      if (event instanceof NavigationEnd) {
+        const breadcrumbs: Breadcrumb[] = [];
+
+        let link = '';
+        for (const segment of segements) {
+          let path = segment.path;
+          if (path === '') {
+            continue;
+          }
+
+          // Remove any path param associated with the path: /path/:id => /path
+          const title = path.replace(/\/:\w+/, '');
+
+          // Itterate over the object that contains the path param and
+          // replace the placeholder with the actual value: /path/:id => /path/1
+          const params = segment.params;
+          for (const key in params) {
+            if (params.hasOwnProperty(key)) {
+              const value = segment.params[key];
+              path = path.replace(`:${key}`, value);
+            }
+          }
+
+          link += `/${path}`;
+          breadcrumbs.push({ link, title });
+        }
+
+        breadcrumbs[breadcrumbs.length - 1].link = '';
+        this.breadcrumbs = breadcrumbs;
+        segements = [];
       }
     });
   }
