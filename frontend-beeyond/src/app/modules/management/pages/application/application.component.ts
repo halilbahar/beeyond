@@ -40,7 +40,7 @@ export class ApplicationComponent implements OnInit {
       .map(application => application.owner.name)
       .filter((name, index, self) => self.indexOf(name) === index);
 
-    this.filterForm.valueChanges.subscribe(() => this.update);
+    this.filterForm.valueChanges.subscribe(() => this.update());
 
     this.update();
   }
