@@ -1,0 +1,10 @@
+@import '../../../../../assets/scss/styles.scss';
+
+.review-content {
+  @include flex-column;
+  flex: 1;
+
+  & > * {
+    flex: 1;
+  }
+}

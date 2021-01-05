@@ -4,18 +4,20 @@
   </mat-card-title>
   <mat-card-subtitle>{{ (customApplication || templateApplication).note }}</mat-card-subtitle>
 
-  <ngx-monaco-editor
-    *ngIf="customApplication"
-    [options]="monacoEditorOptions"
-    class="monaco-editor-border"
-    [ngModel]="customApplication.content"
-  ></ngx-monaco-editor>
+  <div class="review-content">
+    <ngx-monaco-editor
+      *ngIf="customApplication"
+      [options]="monacoEditorOptions"
+      class="monaco-editor-border"
+      [ngModel]="customApplication.content"
+    ></ngx-monaco-editor>
 
-  <app-variable-list
-    *ngIf="templateApplication"
-    [fieldValues]="templateApplication.fieldValues"
-    [templateId]="templateApplication.templateId"
-  ></app-variable-list>
+    <app-variable-list
+      *ngIf="templateApplication"
+      [fieldValues]="templateApplication.fieldValues"
+      [templateId]="templateApplication.templateId"
+    ></app-variable-list>
+  </div>
 
   <div class="button-container">
     <button mat-flat-button color="primary" class="margin" (click)="deny()">Deny</button>
