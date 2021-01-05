@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import { Application } from '../../../../shared/models/application.model';
-import { MatButtonModule } from '@angular/material/button';
 import { ApiService } from 'src/app/core/services/api.service';
+import { CustomApplication } from 'src/app/shared/models/custom.application.model';
+import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 
 @Component({
   selector: 'app-application-review',
@@ -10,15 +10,19 @@ import { ApiService } from 'src/app/core/services/api.service';
   styleUrls: ['./application-review.component.scss']
 })
 export class ApplicationReviewComponent implements OnInit {
-  application: any;
-  template = false;
+  customApplication: CustomApplication | null;
+  templateApplication: TemplateApplication | null;
+
+  monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
   constructor(private route: ActivatedRoute, private service: ApiService) {}
 
   ngOnInit(): void {
-    this.application = this.route.snapshot.data.application;
-    if (this.application.templateId != null) {
-      this.template = true;
+    const application = this.route.snapshot.data.application;
+    if ('templateId' in application) {
+      this.templateApplication = application;
+    } else {
+      this.customApplication = application;
     }
   }
 
@@ -28,5 +32,9 @@ export class ApplicationReviewComponent implements OnInit {
 
   approve(): void {
     this.service.approveApplicationById(this.application.id).subscribe(console.log);
+  }
+
+  private get application(): CustomApplication | TemplateApplication {
+    return this.customApplication || this.templateApplication;
   }
 }
