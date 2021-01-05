@@ -1,8 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { Application } from '../../../../shared/models/application.model';
-import { MatButtonModule } from '@angular/material/button';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
+import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
+import { CustomApplication } from 'src/app/shared/models/custom.application.model';
+import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 
 @Component({
   selector: 'app-application-review',
@@ -10,23 +11,38 @@ import { ApiService } from 'src/app/core/services/api.service';
   styleUrls: ['./application-review.component.scss']
 })
 export class ApplicationReviewComponent implements OnInit {
-  application: any;
-  template = false;
+  customApplication: CustomApplication | null;
+  templateApplication: TemplateApplication | null;
 
-  constructor(private route: ActivatedRoute, private service: ApiService) {}
+  monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
+
+  isPending = false;
+
+  constructor(private route: ActivatedRoute, private router: Router, private service: ApiService) {}
 
   ngOnInit(): void {
-    this.application = this.route.snapshot.data.application;
-    if (this.application.templateId != null) {
-      this.template = true;
+    const application = this.route.snapshot.data.application;
+    this.isPending = application.status === ApplicationStatus.PENDING;
+    if ('templateId' in application) {
+      this.templateApplication = application;
+    } else {
+      this.customApplication = application;
     }
   }
 
   deny(): void {
-    this.service.denyApplicationById(this.application.id).subscribe(console.log);
+    this.service.denyApplicationById(this.application.id).subscribe(() => {
+      this.router.navigate(['/management']);
+    });
   }
 
   approve(): void {
-    this.service.approveApplicationById(this.application.id).subscribe(console.log);
+    this.service.approveApplicationById(this.application.id).subscribe(() => {
+      this.router.navigate(['/management']);
+    });
+  }
+
+  private get application(): CustomApplication | TemplateApplication {
+    return this.customApplication || this.templateApplication;
   }
 }

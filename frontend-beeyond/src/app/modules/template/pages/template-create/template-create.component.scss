@@ -1,19 +1,34 @@
+@import '../../../../../assets/scss/styles.scss';
+
+::ng-deep .card-entire-page mat-card-content mat-horizontal-stepper {
+  @include flex-column;
+  height: 100%;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  flex: 1;
+  padding: 0 24px !important;
+
+  & .mat-horizontal-stepper-content {
+    height: 100%;
+    @include flex-column;
+  }
+}
+
 .wildcard-fields .wildcard-field-wrapper {
   margin-top: 1rem;
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
 }
 
 .wildcard-label {
   font-size: 1.5rem;
 }
 
-.stepper-buttons {
-  display: flex;
-  justify-content: flex-end;
-  margin-top: 0.5rem;
+.stepper-content {
+  flex: 1;
+  @include flex-column;
+}
 
-  button {
-    margin-left: 0.8rem;
-  }
+.monaco-editor {
+  flex: 1;
 }

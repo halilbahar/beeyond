@@ -1,0 +1,9 @@
+/* eslint-disable @typescript-eslint/naming-convention */
+// eslint-disable-next-line no-shadow
+export enum ApplicationStatus {
+  // ALL just frontend
+  ALL = 'ALL',
+  PENDING = 'PENDING',
+  DENIED = 'DENIED',
+  APPROVED = 'APPROVED'
+}

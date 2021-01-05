@@ -1,14 +1,18 @@
-<mat-card>
-  <mat-card-title>Fields</mat-card-title>
-  <div *ngFor="let d of data; let i = index">
-    <div class="list-item" matRipple>
-      <div class="list-item-text">
-        <span class="label">{{ d.fieldName.label }}</span>
-      </div>
-      <div class="list-item-text right">
-        <span class="label">{{ d.field.value }}</span>
-      </div>
+<h2>Field-Value:</h2>
+
+<div *ngFor="let data of fieldData; let i = index">
+  <div class="list-item" matRipple>
+    <div class="list-item-text">
+      {{ data.label }}
     </div>
-    <div class="list-item-divider" *ngIf="i !== fields.length - 1"></div>
+    <div class="list-item-text right">
+      {{ data.value }}
+    </div>
   </div>
-</mat-card>
+
+  <div class="list-item-divider" *ngIf="i !== fieldData.length - 1"></div>
+</div>
+
+<div class="eval-button">
+  <button mat-stroked-button (click)="openDialog()">Evaluate and Show</button>
+</div>

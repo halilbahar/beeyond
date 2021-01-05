@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 html,
 body {
   height: 100%;
@@ -29,9 +34,12 @@ body {
 .card-entire-page {
   height: 100%;
   box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column;
+  padding: 16px;
 
   mat-card-content {
-    height: 100%;
+    flex: 1;
   }
 }
 
@@ -47,4 +55,18 @@ body {
 .description {
   font-size: 0.9rem;
   color: rgba(0, 0, 0, 0.67);
+}
+
+.monaco-editor-border {
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.8rem;
+
+  & > button:not(:first-child) {
+    margin-left: 0.8rem;
+  }
 }

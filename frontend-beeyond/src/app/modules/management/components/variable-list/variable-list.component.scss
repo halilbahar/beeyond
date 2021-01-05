@@ -1,30 +1,36 @@
+@import '../../../../../assets/scss/styles.scss';
+
+:host {
+  @include flex-column;
+}
+
 .list-item {
   display: flex;
-  padding: 15px;
+  padding: 16px;
   justify-content: space-between;
 
   &:hover {
     background-color: #f5f5f5;
   }
 
-  .list-item-text span {
+  .list-item-text {
+    font-size: 1.2rem;
     white-space: nowrap;
     text-overflow: ellipsis;
     display: block;
-  }
-
-  .list-item-template-field {
-    display: flex;
-    margin-left: auto;
-    align-items: center;
-
-    mat-icon {
-      padding-left: 10px;
-    }
   }
 }
 
 .list-item-divider {
   width: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.eval-button {
+  margin-top: auto;
+  display: flex;
+
+  & > button {
+    flex: 1;
+  }
 }

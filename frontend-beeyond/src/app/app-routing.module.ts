@@ -1,6 +1,5 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { ApplicationResolver } from './core/resolver/application.resolver';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
@@ -28,8 +27,7 @@ const routes: Routes = [
   {
     path: 'management',
     loadChildren: () =>
-      import('./modules/management/management.module').then(m => m.ManagementModule),
-    resolve: { applications: ApplicationResolver }
+      import('./modules/management/management.module').then(m => m.ManagementModule)
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {

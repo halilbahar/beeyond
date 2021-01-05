@@ -1,109 +1,58 @@
-import { Component, OnInit, Input, ViewChild, AfterViewInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from 'src/app/core/services/api.service';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
-import { MatSort } from '@angular/material/sort';
+import { Application } from 'src/app/shared/models/application.model';
+import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
 
 @Component({
   selector: 'app-application-review',
   templateUrl: './application.component.html',
   styleUrls: ['./application.component.scss']
 })
-export class ApplicationComponent implements OnInit, AfterViewInit {
-  @ViewChild(MatSort) sort: MatSort;
-
-  filterdIdOptions: Observable<number[]>;
-  filterdUserOptions: Observable<string[]>;
-  statuses: string[] = ['ALL', 'PENDING', 'DENIED', 'APPROVED'];
-  columnsToDisplay = ['id', 'owner.name', 'status'];
-  applications: any;
-  user: string;
-  id: string;
-  status: string;
-  dataSource: any;
-  userSearchInput: FormControl = new FormControl();
-  searchInput: FormControl = new FormControl();
+export class ApplicationComponent implements OnInit {
+  applications: Application[];
+  applicationDataSource: MatTableDataSource<Application>;
+  columnsToDisplay = ['id', 'owner', 'status'];
 
   filterForm: FormGroup;
+  availableUsername: string[];
+  statuses: ApplicationStatus[] = [
+    ApplicationStatus.ALL,
+    ApplicationStatus.PENDING,
+    ApplicationStatus.DENIED,
+    ApplicationStatus.APPROVED
+  ];
 
-  constructor(private route: ActivatedRoute, private router: Router, private fb: FormBuilder) {}
+  selectedRow: number | null;
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
-  }
+  constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.applications = this.route.snapshot.data.applications;
-    this.dataSource = new MatTableDataSource(this.applications);
-    this.dataSource.filterPredicate = this.customFiltered();
+    this.applicationDataSource = new MatTableDataSource(this.applications);
     this.filterForm = this.fb.group({
-      searchInput: [],
-      userSearchInput: [],
-      statusSearchInput: []
+      username: [''],
+      status: [ApplicationStatus.PENDING]
     });
-    this.filterdIdOptions = this.searchInput.valueChanges.pipe(
-      startWith(''),
-      map(value => this.filterId(value))
-    );
-    this.filterdUserOptions = this.userSearchInput.valueChanges.pipe(
-      startWith(''),
-      map(value => this.filterUser(value))
-    );
-  }
 
-  customFiltered() {
-    return (data, filter) => {
-      if (this.id && this.user && this.status) {
-        return (
-          String(data.id).includes(this.id) &&
-          data.owner.name.includes(this.user) &&
-          (data.status === this.status || this.status === 'ALL')
-        );
-      } else if (this.id && this.status) {
-        return (
-          String(data.id).includes(this.id) &&
-          (data.status === this.status || this.status === 'ALL')
-        );
-      } else if (this.id && this.user) {
-        return String(data.id).includes(this.id) && data.owner.name.includes(this.user);
-      } else if (this.user && this.status) {
-        return (
-          data.owner.name.includes(this.user) &&
-          (data.status === this.status || this.status === 'ALL')
-        );
-      } else if (this.id) {
-        return String(data.id).includes(this.id);
-      } else if (this.user) {
-        return data.owner.name.includes(this.user);
-      } else if (this.status) {
-        return data.status === this.status || this.status === 'ALL';
-      }
-      return true;
-    };
-  }
-
-  applyFilter(id: string, user: string, status: string) {
-    this.dataSource.filter = id + ',' + user;
-  }
-
-  routeTo(id: number) {
-    this.router.navigate(['/management/review/' + id]).then(console.log);
-  }
-
-  private filterId(value: number): number[] {
-    return this.applications
-      .map(application => application.id)
-      .filter(id => String(id).includes(String(value)))
-      .sort((a, b) => a - b);
-  }
-
-  private filterUser(value: string): string[] {
-    return this.applications
+    this.availableUsername = this.applications
       .map(application => application.owner.name)
-      .filter(user => user.includes(value))
-      .filter((v, i, a) => a.indexOf(v) === i);
+      .filter((name, index, self) => self.indexOf(name) === index);
+
+    this.filterForm.valueChanges.subscribe(() => this.update());
+
+    this.update();
+  }
+
+  private update(): void {
+    this.selectedRow = null;
+    const form: { username: string; status: ApplicationStatus } = this.filterForm.value;
+    this.applicationDataSource.data = this.applications.filter(({ status, owner }) => {
+      const nameFilter = form.username ? owner.name.includes(form.username) : true;
+      const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
+
+      return nameFilter && statusFilter;
+    });
   }
 }

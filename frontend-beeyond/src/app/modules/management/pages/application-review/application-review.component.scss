@@ -1,7 +1,10 @@
-.margin {
-  margin: 8px 8px 8px 0;
-}
+@import '../../../../../assets/scss/styles.scss';
 
-.border {
-  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+.review-content {
+  @include flex-column;
+  flex: 1;
+
+  & > * {
+    flex: 1;
+  }
 }

@@ -1,12 +1,9 @@
+import { Application } from './application.model';
 import { TemplateFieldValue } from './template-field-value.model';
-import { TemplateField } from './template-field.model';
-import { User } from './user.model';
 
-export interface TemplateApplication {
+export interface TemplateApplication extends Application {
   note: string;
   fieldValues: TemplateFieldValue[]; //TODO;
   id: number;
-  status: string;
   templateId: number;
-  //owner: User; funktioniert nicht mit
 }
