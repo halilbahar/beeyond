@@ -14,10 +14,15 @@ import { MatInputModule } from '@angular/material/input';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
-import { TemplateApplicationPreviewDialogComponent } from './components/template-application-preview-dialog/template-application-preview-dialog.component';
+import { ApplicationPreviewDialogComponent } from './components/application-preview-dialog/application-preview-dialog.component';
 
 @NgModule({
-  declarations: [ApplicationComponent, ApplicationReviewComponent, VariableListComponent, TemplateApplicationPreviewDialogComponent],
+  declarations: [
+    ApplicationComponent,
+    ApplicationReviewComponent,
+    VariableListComponent,
+    ApplicationPreviewDialogComponent
+  ],
   imports: [
     CommonModule,
     ApplicationRoutingModule,
