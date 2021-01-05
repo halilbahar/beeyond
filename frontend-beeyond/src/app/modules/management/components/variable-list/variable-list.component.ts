@@ -9,22 +9,22 @@ import { TemplateField } from 'src/app/shared/models/template-field.model';
   styleUrls: ['./variable-list.component.scss']
 })
 export class VariableListComponent implements OnInit {
-  @Input() fields: TemplateFieldValue[];
+  @Input() fieldValues: TemplateFieldValue[];
   @Input() templateId: number;
 
-  data: any;
-
-  fieldNames: TemplateField[];
+  fieldData: { value: string; fieldName: string }[] = [];
 
   constructor(private service: ApiService) {}
 
   ngOnInit(): void {
-    this.data = [];
     this.service.getTemplateById(this.templateId).subscribe(template => {
-      this.fieldNames = template.fields;
-      this.fields.forEach((field, i) => {
-        this.data.push({ field, fieldName: this.fieldNames[i] });
-      });
+      for (const fieldValue of this.fieldValues) {
+        const templateField = template.fields.find(aTemplate => aTemplate.id === fieldValue.fieldId);
+        this.fieldData.push({
+          value: fieldValue.value,
+          fieldName: templateField.label
+        });
+      }
     });
   }
 }
