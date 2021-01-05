@@ -3,7 +3,7 @@
 <div *ngFor="let data of fieldData; let i = index">
   <div class="list-item" matRipple>
     <div class="list-item-text">
-      {{ data.fieldName }}
+      {{ data.label }}
     </div>
     <div class="list-item-text right">
       {{ data.value }}
@@ -14,5 +14,5 @@
 </div>
 
 <div class="eval-button">
-  <button mat-stroked-button>Evaluate and Show</button>
+  <button mat-stroked-button (click)="openDialog()">Evaluate and Show</button>
 </div>

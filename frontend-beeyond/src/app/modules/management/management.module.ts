@@ -15,6 +15,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSortModule } from '@angular/material/sort';
 import { ApplicationPreviewDialogComponent } from './components/application-preview-dialog/application-preview-dialog.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [
@@ -36,7 +37,8 @@ import { ApplicationPreviewDialogComponent } from './components/application-prev
     MatAutocompleteModule,
     ReactiveFormsModule,
     MatSelectModule,
-    MatSortModule
+    MatSortModule,
+    MatDialogModule
   ]
 })
 export class ManagementModule {}
