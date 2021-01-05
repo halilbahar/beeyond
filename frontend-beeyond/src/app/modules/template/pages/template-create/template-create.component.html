@@ -17,7 +17,7 @@
 
         <div class="button-container">
           <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
-          <button mat-flat-button color="primary" matStepperNext>Next</button>
+          <button mat-flat-button color="primary" matStepperNext [disabled]="firstFormGroup.invalid">Next</button>
         </div>
       </mat-step>
 
@@ -63,7 +63,7 @@
 
         <div class="button-container">
           <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
-          <button mat-flat-button color="primary" matStepperNext>Next</button>
+          <button mat-flat-button color="primary" matStepperNext [disabled]="secondFormGroup.invalid">Next</button>
         </div>
       </mat-step>
 
@@ -87,7 +87,7 @@
 
         <div class="button-container">
           <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
-          <button mat-flat-button color="primary" (click)="createTemplate()">Create</button>
+          <button mat-flat-button color="primary" [disabled]="thirdFormGroup.invalid" (click)="createTemplate()">Create</button>
         </div>
       </mat-step>
     </mat-horizontal-stepper>
