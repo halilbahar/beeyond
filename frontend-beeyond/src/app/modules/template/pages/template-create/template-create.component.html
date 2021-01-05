@@ -6,14 +6,14 @@
       <mat-step [stepControl]="firstFormGroup">
         <ng-template matStepLabel>Write the script</ng-template>
 
-        <ng-container [formGroup]="firstFormGroup">
+        <div class="stepper-content" [formGroup]="firstFormGroup">
           <ngx-monaco-editor
             [options]="monacoOptions"
             class="monaco-editor monaco-editor-border"
             formControlName="content"
           >
           </ngx-monaco-editor>
-        </ng-container>
+        </div>
 
         <div class="button-container">
           <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
@@ -24,7 +24,11 @@
       <mat-step [stepControl]="secondFormGroup">
         <ng-template matStepLabel>Fill Out Wildcard Fields</ng-template>
 
-        <form [formGroup]="secondFormGroup" *ngIf="wildcards.length > 0; else noWildcards">
+        <div
+          class="stepper-content"
+          [formGroup]="secondFormGroup"
+          *ngIf="wildcards.length > 0; else noWildcards"
+        >
           <div formArrayName="fields">
             <div
               *ngFor="let control of fields.controls; let i = index"
@@ -51,11 +55,13 @@
               </mat-form-field>
             </div>
           </div>
-        </form>
+        </div>
 
-        <ng-template #noWildcards> Nothing to fill out </ng-template>
+        <ng-template #noWildcards>
+          <div class="stepper-content">Nothing to fill out</div>
+        </ng-template>
 
-        <div class="stepper-buttons">
+        <div class="button-container">
           <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
           <button mat-flat-button color="primary" matStepperNext>Next</button>
         </div>
@@ -64,7 +70,7 @@
       <mat-step [stepControl]="thirdFormGroup">
         <ng-template matStepLabel>Specify Data</ng-template>
 
-        <form [formGroup]="thirdFormGroup">
+        <div class="stepper-content" [formGroup]="thirdFormGroup">
           <mat-form-field class="full-width">
             <mat-label>Name</mat-label>
             <input matInput placeholder="Name of this template" formControlName="name" />
@@ -77,9 +83,9 @@
               formControlName="description"
             />
           </mat-form-field>
-        </form>
+        </div>
 
-        <div class="stepper-buttons">
+        <div class="button-container">
           <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
           <button mat-flat-button color="primary" (click)="createTemplate()">Create</button>
         </div>

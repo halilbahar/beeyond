@@ -25,14 +25,10 @@
   font-size: 1.5rem;
 }
 
-.stepper-buttons {
+.stepper-content {
+  flex: 1;
   display: flex;
-  justify-content: flex-end;
-  margin-top: 0.5rem;
-
-  button {
-    margin-left: 0.8rem;
-  }
+  flex-direction: column;
 }
 
 .monaco-editor {
