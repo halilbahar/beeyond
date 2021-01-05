@@ -60,3 +60,13 @@ body {
 .monaco-editor-border {
   border: 0.1rem solid rgba(0, 0, 0, 0.1);
 }
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.8rem;
+
+  & > button:not(:first-child) {
+    margin-left: 0.8rem;
+  }
+}
