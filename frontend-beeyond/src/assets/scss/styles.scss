@@ -35,9 +35,11 @@ body {
 .card-entire-page {
   height: 100%;
   box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column;
 
   mat-card-content {
-    height: 100%;
+    flex: 1;
   }
 }
 
@@ -53,4 +55,8 @@ body {
 .description {
   font-size: 0.9rem;
   color: rgba(0, 0, 0, 0.67);
+}
+
+.monaco-editor-border {
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
 }
