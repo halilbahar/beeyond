@@ -1,9 +1,7 @@
-import { User } from './user.model';
+import { Application } from './application.model';
 
-export interface CustomApplication {
+export interface CustomApplication extends Application {
   content: string;
   id: number;
   note: string;
-  status: string;
-  //owner: User;
 }
