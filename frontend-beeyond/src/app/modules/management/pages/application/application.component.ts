@@ -40,16 +40,19 @@ export class ApplicationComponent implements OnInit {
       .map(application => application.owner.name)
       .filter((name, index, self) => self.indexOf(name) === index);
 
-    this.filterForm.valueChanges.subscribe(
-      (form: { username: string; status: ApplicationStatus }) => {
-        this.selectedRow = null;
-        this.applicationDataSource.data = this.applications.filter(({ status, owner }) => {
-          const nameFilter = form.username ? owner.name.includes(form.username) : true;
-          const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
+    this.filterForm.valueChanges.subscribe(() => this.update);
 
-          return nameFilter && statusFilter;
-        });
-      }
-    );
+    this.update();
+  }
+
+  private update(): void {
+    this.selectedRow = null;
+    const form: { username: string; status: ApplicationStatus } = this.filterForm.value;
+    this.applicationDataSource.data = this.applications.filter(({ status, owner }) => {
+      const nameFilter = form.username ? owner.name.includes(form.username) : true;
+      const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
+
+      return nameFilter && statusFilter;
+    });
   }
 }
