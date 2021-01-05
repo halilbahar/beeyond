@@ -20,7 +20,8 @@
   </div>
 
   <div class="button-container">
-    <button mat-flat-button color="primary" class="margin" (click)="deny()">Deny</button>
+    <button mat-flat-button color="primary" [routerLink]="['/management']">Back</button>
+    <button mat-flat-button color="primary" (click)="deny()">Deny</button>
     <button mat-flat-button color="primary" (click)="approve()">Approve</button>
   </div>
 </mat-card>
