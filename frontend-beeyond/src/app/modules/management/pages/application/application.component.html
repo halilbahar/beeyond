@@ -1,5 +1,5 @@
 <mat-card class="card-entire-page">
-  <div [formGroup]="filterForm" class="row">
+  <div [formGroup]="filterForm" class="filter-controls">
     <mat-form-field>
       <mat-label>Search for an user...</mat-label>
       <input
@@ -27,7 +27,7 @@
     </mat-form-field>
   </div>
 
-  <mat-table [dataSource]="applicationDataSource">
+  <mat-table [dataSource]="applicationDataSource" class="applications-table">
     <!-- Id -->
     <ng-container matColumnDef="id">
       <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
@@ -50,8 +50,21 @@
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
     <mat-row
-      *matRowDef="let row; columns: columnsToDisplay"
-      [routerLink]="['review', row.id]"
+      *matRowDef="let row; columns: columnsToDisplay; let i = index"
+      (click)="selectedRow = i"
+      [ngClass]="{ 'selected-row': selectedRow === i }"
     ></mat-row>
   </mat-table>
+
+  <div class="button-container">
+    <button
+      mat-flat-button
+      color="primary"
+      class="next-button"
+      [disabled]="selectedRow == null"
+      [routerLink]="['review', applicationDataSource.data[selectedRow]?.id]"
+    >
+      Next
+    </button>
+  </div>
 </mat-card>

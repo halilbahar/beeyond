@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Application } from 'src/app/shared/models/application.model';
@@ -24,6 +24,8 @@ export class ApplicationComponent implements OnInit {
     ApplicationStatus.APPROVED
   ];
 
+  selectedRow: number | null;
+
   constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
@@ -34,10 +36,13 @@ export class ApplicationComponent implements OnInit {
       status: [ApplicationStatus.ALL]
     });
 
-    this.availableUsername = this.applications.map(application => application.owner.name);
+    this.availableUsername = this.applications
+      .map(application => application.owner.name)
+      .filter((name, index, self) => self.indexOf(name) === index);
 
     this.filterForm.valueChanges.subscribe(
       (form: { username: string; status: ApplicationStatus }) => {
+        this.selectedRow = null;
         this.applicationDataSource.data = this.applications.filter(({ status, owner }) => {
           const nameFilter = form.username ? owner.name.includes(form.username) : true;
           const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
