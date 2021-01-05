@@ -33,7 +33,7 @@ export class ApplicationComponent implements OnInit {
     this.applicationDataSource = new MatTableDataSource(this.applications);
     this.filterForm = this.fb.group({
       username: [''],
-      status: [ApplicationStatus.ALL]
+      status: [ApplicationStatus.PENDING]
     });
 
     this.availableUsername = this.applications
