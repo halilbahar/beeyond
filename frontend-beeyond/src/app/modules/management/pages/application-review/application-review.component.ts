@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
@@ -15,7 +15,7 @@ export class ApplicationReviewComponent implements OnInit {
 
   monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
-  constructor(private route: ActivatedRoute, private service: ApiService) {}
+  constructor(private route: ActivatedRoute, private router: Router, private service: ApiService) {}
 
   ngOnInit(): void {
     const application = this.route.snapshot.data.application;
@@ -27,11 +27,15 @@ export class ApplicationReviewComponent implements OnInit {
   }
 
   deny(): void {
-    this.service.denyApplicationById(this.application.id).subscribe(console.log);
+    this.service.denyApplicationById(this.application.id).subscribe(() => {
+      this.router.navigate(['/management']);
+    });
   }
 
   approve(): void {
-    this.service.approveApplicationById(this.application.id).subscribe(console.log);
+    this.service.approveApplicationById(this.application.id).subscribe(() => {
+      this.router.navigate(['/management']);
+    });
   }
 
   private get application(): CustomApplication | TemplateApplication {
