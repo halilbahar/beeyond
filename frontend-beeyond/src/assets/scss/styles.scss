@@ -15,12 +15,6 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
-
 .primary-bg-color {
   background-color: #ffdf9e;
 }
@@ -42,6 +36,7 @@ body {
   box-sizing: border-box;
   display: flex !important;
   flex-direction: column;
+  padding: 16px;
 
   mat-card-content {
     flex: 1;
