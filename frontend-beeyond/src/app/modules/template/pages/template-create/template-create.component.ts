@@ -14,6 +14,8 @@ export class TemplateCreateComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
 
+  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
+
   wildcards: string[] = [];
 
   constructor(
