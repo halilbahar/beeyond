@@ -1,5 +1,10 @@
 /* You can add global styles to this file, and also import other style files */
 
+@mixin flex-column {
+  display: flex;
+  flex-direction: column;
+}
+
 html,
 body {
   height: 100%;
