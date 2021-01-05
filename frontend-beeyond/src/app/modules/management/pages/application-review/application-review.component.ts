@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ApiService } from 'src/app/core/services/api.service';
+import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 
@@ -15,10 +16,13 @@ export class ApplicationReviewComponent implements OnInit {
 
   monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
+  isPending = false;
+
   constructor(private route: ActivatedRoute, private router: Router, private service: ApiService) {}
 
   ngOnInit(): void {
     const application = this.route.snapshot.data.application;
+    this.isPending = application.status === ApplicationStatus.PENDING;
     if ('templateId' in application) {
       this.templateApplication = application;
     } else {
