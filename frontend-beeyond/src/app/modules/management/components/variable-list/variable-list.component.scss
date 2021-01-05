@@ -1,3 +1,9 @@
+@import '../../../../../assets/scss/styles.scss';
+
+:host {
+  @include flex-column;
+}
+
 .list-item {
   display: flex;
   padding: 16px;
@@ -18,4 +24,13 @@
 .list-item-divider {
   width: 100%;
   border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.eval-button {
+  margin-top: auto;
+  display: flex;
+
+  & > button {
+    flex: 1;
+  }
 }
