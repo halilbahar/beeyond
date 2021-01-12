@@ -4,7 +4,8 @@
   <ngx-monaco-editor
     [options]="monacoEditorOptions"
     class="monaco-editor-border"
-    [ngModel]="content"
+    [ngModel]="data.content"
+    (onInit)="onEditorInit($event)"
   ></ngx-monaco-editor>
 </mat-dialog-content>
 

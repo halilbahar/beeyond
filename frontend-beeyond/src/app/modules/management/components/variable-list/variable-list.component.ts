@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ApiService } from 'src/app/core/services/api.service';
+import { ApplicationRange } from 'src/app/shared/models/application-range.model';
 import { TemplateFieldValue } from 'src/app/shared/models/template-field-value.model';
 import { Template } from 'src/app/shared/models/template.model';
 import { ApplicationPreviewDialogComponent } from '../application-preview-dialog/application-preview-dialog.component';
@@ -14,7 +15,7 @@ export class VariableListComponent implements OnInit {
   @Input() private fieldValues: TemplateFieldValue[];
   @Input() private templateId: number;
 
-  fieldData: { value: string; label: string; wildcard: string }[] = [];
+  fieldData: { value: string; label: string; wildcard: string; description: string }[] = [];
 
   private template: Template;
 
@@ -24,26 +25,55 @@ export class VariableListComponent implements OnInit {
     this.service.getTemplateById(this.templateId).subscribe(template => {
       this.template = template;
       for (const fieldValue of this.fieldValues) {
-        const { label, wildcard } = template.fields.find(
+        const { label, wildcard, description } = template.fields.find(
           aTemplate => aTemplate.id === fieldValue.fieldId
         );
         this.fieldData.push({
           value: fieldValue.value,
           label,
-          wildcard
+          wildcard,
+          description
         });
       }
     });
   }
 
   openDialog() {
-    let content = this.template.content;
-    for (const data of this.fieldData) {
-      content = content.replace(`%${data.wildcard}%`, data.value);
+    const templateContent = this.template.content;
+    const lines = templateContent.split('\n');
+
+    let content = '';
+    const ranges: ApplicationRange[] = [];
+    const wildcardRegex = /%(.+?)%/;
+
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+
+      const match = line.match(wildcardRegex);
+      if (match) {
+        const wildcardMatch = match[1];
+        const { wildcard, label, value, description } = this.fieldData.find(
+          data => data.wildcard === wildcardMatch
+        );
+        line = line.replace(`%${wildcard}%`, value);
+
+        ranges.push({
+          lineNumber: i + 1,
+          startColumn: match.index + 1,
+          endColumn: match.index + 1 + value.length,
+          wildcard,
+          label,
+          description
+        });
+      }
+
+      content += line + '\n';
     }
+    // Remove \n
+    content = content.substring(0, content.length - 1);
 
     this.dialog.open(ApplicationPreviewDialogComponent, {
-      data: content,
+      data: { content, ranges },
       width: '100%',
       height: '80%',
       autoFocus: false
