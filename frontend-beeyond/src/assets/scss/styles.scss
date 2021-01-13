@@ -70,3 +70,15 @@ body {
     margin-left: 0.8rem;
   }
 }
+
+.monaco-application-inline {
+  color: #0058e9 !important;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.monaco-application-line-decoration {
+  background: #0058e9;
+  width: 5px !important;
+  margin-left: 3px;
+}
