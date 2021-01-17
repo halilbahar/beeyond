@@ -2,8 +2,10 @@ package main
 
 import (
 	"./routers"
+	"./services"
 )
+
 func main() {
-	r := routers.InitRouter()
-	r.Run(":8180")
+	services.Init()
+	routers.Init()
 }

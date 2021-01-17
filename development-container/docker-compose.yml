@@ -2,9 +2,9 @@ version: '3'
 services:
   mongo-db:
     image: mongo:4.4.3
-    container_name: beeyond_mongo_db
+    container_name: beeyond-mongo-db
     environment:
-      - MONGO_INITDB_DATABASE=beeyond_db
+      - MONGO_INITDB_DATABASE=beeyond_validation_db
       - MONGO_INITDB_ROOT_USERNAME=beeyond
       - MONGO_INITDB_ROOT_PASSWORD=beeyond
     ports:

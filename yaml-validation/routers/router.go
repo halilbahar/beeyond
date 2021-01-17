@@ -1,13 +1,13 @@
 package routers
 
 import (
-	"../models"
 	"github.com/gin-gonic/gin"
 )
 
-func InitRouter() *gin.Engine {
+func Init() {
 	r := gin.Default()
-	r.POST("/api/validate", models.GetValidationResult)
-	r.POST("/api/constraints", models.AddConstraint)
-	return r
+	r.POST("/api/validate", getValidationResult)
+	r.POST("/api/constraints", addConstraint)
+	r.GET("api/constraints", listConstraints)
+	r.Run(":8180")
 }

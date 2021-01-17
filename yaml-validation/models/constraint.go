@@ -2,21 +2,35 @@ package models
 
 import (
 	"../services"
-	"github.com/gin-gonic/gin"
-	"net/http"
+	"context"
+	"fmt"
+	"go.mongodb.org/mongo-driver/bson"
 )
 
-func AddConstraint(c *gin.Context) {
-	var constraint  services.Constraint
-	if err := c.ShouldBindJSON(&constraint); err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
-		return
-	}
-	if services.SaveConstraint(constraint) != nil {
-		c.Writer.WriteHeader(400)
-		return
-	}
-
-	c.Writer.WriteHeader(201)
+type Constraint struct {
+	Path     string `json:"path"`
+	Kind     string `json:"kind"`
+	Regex    string `json:"regex"`
+	Disabled bool   `json:"disabled"`
 }
 
+func SaveConstraintToDb(constraint Constraint) error {
+	collection := services.GetClient().Database("beeyond_validation_db").Collection("Constraints")
+	_, err := collection.InsertOne(context.TODO(), constraint)
+	fmt.Print(err)
+	return err
+}
+
+func GetConstraints() []*Constraint {
+	var constraints []*Constraint
+
+	cur, _ := services.GetClient().Database("beeyond_validation_db").Collection("Constraints").Find(context.TODO(), bson.D{})
+	for cur.Next(context.TODO()) {
+		var constr Constraint
+		cur.Decode(&constr)
+		constraints = append(constraints, &constr)
+	}
+
+	cur.Close(context.TODO())
+	return constraints
+}
