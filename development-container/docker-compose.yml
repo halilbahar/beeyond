@@ -1,5 +1,14 @@
 version: '3'
 services:
+  mongo-db:
+    image: mongo:4.4.3
+    container_name: beeyond-mongo-db
+    environment:
+      - MONGO_INITDB_DATABASE=beeyond_validation_db
+      - MONGO_INITDB_ROOT_USERNAME=beeyond
+      - MONGO_INITDB_ROOT_PASSWORD=beeyond
+    ports:
+      - 27017:27017
   beeyond-db:
     image: postgres:13.0
     environment:
@@ -17,7 +26,6 @@ services:
     environment:
       KEYCLOAK_USER: beeyond
       KEYCLOAK_PASSWORD: beeyond
-      DB_VENDOR: h2
     ports:
-      - 8180:8080
+      - 8280:8080
     container_name: beeyond-identity-provider
