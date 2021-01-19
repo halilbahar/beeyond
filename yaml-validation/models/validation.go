@@ -1,31 +1,43 @@
 package models
 
 import (
-	"fmt"
 	"github.com/instrumenta/kubeval/kubeval"
 )
 
-type Content struct {
-	Content string `form:"content" json:"content"`
+type ValidationError struct {
+	Description string `json:"description"`
+	Value       string `json:"value"`
+	Field       string `json:"field"`
 }
 
-func Validate(content string) string {
-	var config *kubeval.Config = kubeval.NewDefaultConfig()
+func ValidateContent(content string) ([]ValidationError, error) {
+	config := kubeval.NewDefaultConfig()
 
 	contentBytes := []byte(content)
-	_, err := kubeval.Validate(contentBytes, config)
 
+	validationResults, err := kubeval.Validate(contentBytes, config)
 	if err != nil {
-		fmt.Printf("error -- %s \n", err)
-		return err.Error()
-	} else {
-		return "no errors"
+		return nil, err
 	}
 
-}
+	var validationError []ValidationError
+	for _, result := range validationResults {
+		for _, resultError := range result.Errors {
+			fieldDetail := resultError.Details()["field"]
+			var field string
+			if fieldDetail != nil {
+				field = fieldDetail.(string)
+			} else {
+				field = ""
+			}
 
-func PrintError(err error) {
-	if err != nil {
-		panic(err)
+			validationError = append(validationError, ValidationError{
+				Description: resultError.Description(),
+				Value:       resultError.Value().(string),
+				Field:       field,
+			})
+		}
 	}
+
+	return validationError, nil
 }

@@ -1,8 +1,8 @@
 package main
 
 import (
-	"./routers"
-	"./services"
+	"yaml-validation/routers"
+	"yaml-validation/services"
 )
 
 func main() {
