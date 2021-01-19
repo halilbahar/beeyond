@@ -1,15 +1,23 @@
 package routers
 
 import (
-	"../models"
 	"github.com/gin-gonic/gin"
+	"net/http"
+	. "yaml-validation/models"
 )
 
 func getValidationResult(c *gin.Context) {
-	var json models.Content
-	if err := c.ShouldBindJSON(&json); err != nil {
-		c.JSON(422, gin.H{"error": err.Error()})
+	data, _ := c.GetRawData()
+	yamlContent := string(data)
+	results, err := ValidateContent(yamlContent)
+
+	// TODO: handle error
+	print(err)
+
+	if len(results) > 0 {
+		c.JSON(http.StatusUnprocessableEntity, results)
 		return
 	}
-	c.Writer.WriteHeader(200)
+
+	c.Writer.WriteHeader(http.StatusOK)
 }

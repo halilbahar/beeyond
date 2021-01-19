@@ -5,9 +5,17 @@ import (
 )
 
 func Init() {
-	r := gin.Default()
-	r.POST("/api/validate", getValidationResult)
-	r.POST("/api/constraints", addConstraint)
-	r.GET("api/constraints", listConstraints)
-	r.Run(":8180")
+	router := gin.Default()
+
+	api := router.Group("/api")
+	{
+		// validate
+		api.POST("/validate", getValidationResult)
+
+		// constraints
+		api.GET("/constraints", listConstraints)
+		api.POST("/constraints", createConstraint)
+	}
+
+	_ = router.Run(":8180")
 }

@@ -1,10 +1,9 @@
 package models
 
 import (
-	"../services"
 	"context"
-	"fmt"
 	"go.mongodb.org/mongo-driver/bson"
+	"yaml-validation/services"
 )
 
 type Constraint struct {
@@ -14,23 +13,31 @@ type Constraint struct {
 	Disabled bool   `json:"disabled"`
 }
 
-func SaveConstraintToDb(constraint Constraint) error {
-	collection := services.GetClient().Database("beeyond_validation_db").Collection("Constraints")
+func SaveConstraint(constraint Constraint) error {
+	collection := services.GetClient().
+		Database("beeyond_validation_db").
+		Collection("Constraints")
+
 	_, err := collection.InsertOne(context.TODO(), constraint)
-	fmt.Print(err)
 	return err
 }
 
 func GetConstraints() []*Constraint {
 	var constraints []*Constraint
 
-	cur, _ := services.GetClient().Database("beeyond_validation_db").Collection("Constraints").Find(context.TODO(), bson.D{})
+	// TODO: error handling?
+	cur, _ := services.GetClient().
+		Database("beeyond_validation_db").
+		Collection("Constraints").
+		Find(context.TODO(), bson.D{})
+
 	for cur.Next(context.TODO()) {
 		var constr Constraint
-		cur.Decode(&constr)
+		_ = cur.Decode(&constr)
+		// TODO: append only when there is no error?
 		constraints = append(constraints, &constr)
 	}
 
-	cur.Close(context.TODO())
+	_ = cur.Close(context.TODO())
 	return constraints
 }
