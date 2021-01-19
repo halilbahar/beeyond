@@ -1,6 +1,7 @@
 package models
 
 import (
+	"../pkg/setting"
 	"../services"
 	"context"
 	"fmt"
@@ -15,7 +16,7 @@ type Constraint struct {
 }
 
 func SaveConstraintToDb(constraint Constraint) error {
-	collection := services.GetClient().Database("beeyond_validation_db").Collection("Constraints")
+	collection := services.GetClient().Database(setting.DatabaseSetting.Name).Collection("Constraints")
 	_, err := collection.InsertOne(context.TODO(), constraint)
 	fmt.Print(err)
 	return err
@@ -24,7 +25,7 @@ func SaveConstraintToDb(constraint Constraint) error {
 func GetConstraints() []*Constraint {
 	var constraints []*Constraint
 
-	cur, _ := services.GetClient().Database("beeyond_validation_db").Collection("Constraints").Find(context.TODO(), bson.D{})
+	cur, _ := services.GetClient().Database(setting.DatabaseSetting.Name).Collection("Constraints").Find(context.TODO(), bson.D{})
 	for cur.Next(context.TODO()) {
 		var constr Constraint
 		cur.Decode(&constr)
