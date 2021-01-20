@@ -33,7 +33,7 @@ export class BlueprintTemplateComponent implements OnInit {
 
       this.templateForm = this.fb.group({
         templateId: [this.id],
-        note: [''],
+        note: ['', Validators.maxLength(255)],
         fieldValues: this.fb.array(fieldValues)
       });
     });
