@@ -1,4 +1,4 @@
-package at.htl.beeyond.intergration;
+package at.htl.beeyond.integration;
 
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
 import org.testcontainers.containers.PostgreSQLContainer;

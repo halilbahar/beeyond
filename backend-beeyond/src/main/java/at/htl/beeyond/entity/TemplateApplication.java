@@ -14,13 +14,13 @@ public class TemplateApplication extends Application {
     @ManyToOne
     private Template template;
 
-    @OneToMany(mappedBy = "template", cascade = CascadeType.PERSIST)
+    @OneToMany(mappedBy = "templateApplication", cascade = CascadeType.PERSIST)
     private List<TemplateFieldValue> fieldValues;
 
     public TemplateApplication(String note, User owner, Template template, List<TemplateFieldValue> fieldValues) {
         super(note, owner);
         this.template = template;
-        this.fieldValues = fieldValues;
+        this.setFieldValues(fieldValues);
     }
 
     public TemplateApplication() {
@@ -39,10 +39,11 @@ public class TemplateApplication extends Application {
     }
 
     public void setFieldValues(List<TemplateFieldValue> fieldValues) {
+        fieldValues.forEach(templateFieldValue -> templateFieldValue.setTemplateApplication(this));
         this.fieldValues = fieldValues;
     }
 
     public static TemplateApplicationDto getDto(TemplateApplication templateApplication) {
-        return TemplateApplicationDto.map(templateApplication);
+        return new TemplateApplicationDto(templateApplication);
     }
 }
