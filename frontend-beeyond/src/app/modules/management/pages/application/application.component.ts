@@ -26,7 +26,7 @@ export class ApplicationComponent implements OnInit {
 
   selectedRow: number | null;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) { }
+  constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     this.applications = this.route.snapshot.data.applications.sort(
