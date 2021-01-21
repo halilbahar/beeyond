@@ -26,7 +26,7 @@ class TemplateFieldDto(
             }
         }
 
-    @field:Size(max = 255)
+    @field:NotBlank @field:Size(max = 255)
     var wildcard:String? = wildcard
         set(value) {
             if (value != null) {
