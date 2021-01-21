@@ -44,16 +44,15 @@ export class VariableListComponent implements OnInit {
 
     let content = '';
     const ranges: ApplicationRange[] = [];
-    const wildcardRegex = /%(.+?)%/;
+    const wildcardRegex = /%(.+?)%/g;
 
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
 
       const match = line.match(wildcardRegex);
-      if (match) {
-        const wildcardMatch = match[1];
+      for (const wildcardMatch of match) {
         const { wildcard, label, value, description } = this.fieldData.find(
-          data => data.wildcard === wildcardMatch
+          data => data.wildcard === wildcardMatch.replace(/%/g, '')
         );
         line = line.replace(`%${wildcard}%`, value);
 
