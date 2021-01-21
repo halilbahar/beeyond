@@ -29,7 +29,9 @@ export class ApplicationComponent implements OnInit {
   constructor(private route: ActivatedRoute, private fb: FormBuilder) { }
 
   ngOnInit(): void {
-    this.applications = this.route.snapshot.data.applications.sort((a1, a2) => a1.createdAt > a2.createdAt);
+    this.applications = this.route.snapshot.data.applications.sort(
+      (a1, a2) => a1.createdAt > a2.createdAt
+    );
     this.applicationDataSource = new MatTableDataSource(this.applications);
     this.filterForm = this.fb.group({
       username: [''],

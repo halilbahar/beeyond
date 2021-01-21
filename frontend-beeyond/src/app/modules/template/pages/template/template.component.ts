@@ -13,6 +13,8 @@ export class TemplateComponent implements OnInit {
   constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
-    this.apiService.getTemplates().subscribe(templates => (this.templates = templates.filter(template => !template.deleted)));
+    this.apiService
+      .getTemplates()
+      .subscribe(templates => (this.templates = templates.filter(template => !template.deleted)));
   }
 }
