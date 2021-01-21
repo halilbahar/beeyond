@@ -1,0 +1,11 @@
+{
+  "owner": {
+    "name": "sonja-teacher",
+    "id": "#notnull"
+  },
+  "note": "Nginx deployment done by teacher",
+  "id": "#ignore",
+  "content": "apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: nginx-deployment\nspec:\n  selector:\n    matchLabels:\n      app: nginx\n  replicas: %replica%\n  template:\n    metadata:\n      labels:\n        app: nginx\n    spec:\n      containers:\n        - name: nginx\n          image: nginx:1.14.2\n          ports:\n            - containerPort: 80\n            - hostPort: %port%",
+  "status": "PENDING",
+  "createdAt": "#notnull"
+}
