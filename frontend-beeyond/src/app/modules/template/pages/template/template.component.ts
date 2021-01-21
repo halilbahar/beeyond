@@ -10,7 +10,7 @@ import { Template } from '../../../../shared/models/template.model';
 export class TemplateComponent implements OnInit {
   templates: Template[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private apiService: ApiService) { }
 
   ngOnInit(): void {
     this.apiService.getTemplates().subscribe(templates => (this.templates = templates.filter(template => !template.deleted)));
