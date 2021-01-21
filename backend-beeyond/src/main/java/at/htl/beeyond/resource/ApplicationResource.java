@@ -50,9 +50,9 @@ public class ApplicationResource {
         }
 
         if (application instanceof CustomApplication) {
-            return Response.ok(CustomApplicationDto.map((CustomApplication) application)).build();
+            return Response.ok(new CustomApplicationDto((CustomApplication) application)).build();
         } else {
-            return Response.ok(TemplateApplicationDto.map((TemplateApplication) application)).build();
+            return Response.ok(new TemplateApplicationDto((TemplateApplication) application)).build();
         }
     }
 

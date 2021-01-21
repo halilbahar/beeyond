@@ -4,6 +4,8 @@ import at.htl.beeyond.dto.TemplateDto;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -28,11 +30,14 @@ public class Template extends PanacheEntityBase {
     @OneToMany(mappedBy = "template", cascade = CascadeType.ALL)
     private List<TemplateField> fields = new LinkedList<>();
 
-    public Template(String name, String description, String content, User owner) {
+    private Boolean deleted;
+
+    public Template(String name, String description, String content, User owner, Boolean deleted) {
         this.name = name;
         this.description = description;
         this.content = content;
         this.owner = owner;
+        this.deleted = deleted;
     }
 
     public Template() {
@@ -82,10 +87,18 @@ public class Template extends PanacheEntityBase {
         this.fields = fields;
     }
 
+    public Boolean getDeleted() {
+        return deleted;
+    }
+
+    public void setDeleted(Boolean deleted) {
+        this.deleted = deleted;
+    }
+
     public static List<TemplateDto> getDtos() {
         return Template.findAll().stream().map(o -> {
             Template template = (Template) o;
-            return TemplateDto.map(template);
+            return new TemplateDto(template);
         }).collect(Collectors.toList());
     }
 }

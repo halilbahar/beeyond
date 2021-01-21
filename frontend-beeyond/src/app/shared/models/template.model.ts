@@ -6,4 +6,5 @@ export interface Template {
   description: string;
   content: string;
   fields: TemplateField[];
+  deleted: boolean;
 }

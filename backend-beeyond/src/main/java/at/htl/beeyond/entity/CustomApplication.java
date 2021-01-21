@@ -28,6 +28,6 @@ public class CustomApplication extends Application {
     }
 
     public static CustomApplicationDto getDto(CustomApplication customApplication) {
-        return CustomApplicationDto.map(customApplication);
+        return new CustomApplicationDto(customApplication);
     }
 }
