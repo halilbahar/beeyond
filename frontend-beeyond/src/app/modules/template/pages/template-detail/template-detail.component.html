@@ -3,6 +3,14 @@
     <mat-card-title>{{ template.name }}</mat-card-title>
     <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
+    <mat-dialog-content>
+      <ngx-monaco-editor
+        [options]="monacoEditorOptions"
+        class="monaco-editor-border"
+        [ngModel]="template.content"
+      ></ngx-monaco-editor>
+    </mat-dialog-content>
+
     <mat-card-actions align="right">
       <button mat-flat-button color="primary" [routerLink]="['/template']">Back</button>
     </mat-card-actions>

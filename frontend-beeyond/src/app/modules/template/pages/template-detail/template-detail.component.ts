@@ -1,7 +1,6 @@
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Template } from '../../../../shared/models/template.model';
-import { Validators } from '@angular/forms';
 import { ApiService } from '../../../../core/services/api.service';
 
 @Component({
@@ -14,6 +13,7 @@ export class TemplateDetailComponent implements OnInit {
 
   template: Template;
   id: number;
+  monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
   constructor(
     private router: Router,

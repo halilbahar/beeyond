@@ -8,12 +8,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { TemplateCreateComponent } from './pages/template-create/template-create.component';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { TemplateDetailComponent } from './pages/template-detail/template-detail.component';
+import { MatDialogModule } from '@angular/material/dialog';
 
 @NgModule({
   declarations: [TemplateComponent, TemplateCreateComponent, TemplateDetailComponent],
@@ -29,7 +30,9 @@ import { TemplateDetailComponent } from './pages/template-detail/template-detail
     MatDividerModule,
     MatStepperModule,
     MatSnackBarModule,
-    MonacoEditorModule
+    MonacoEditorModule,
+    MatDialogModule,
+    FormsModule
   ]
 })
 export class TemplateModule {}
