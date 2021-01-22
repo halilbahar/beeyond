@@ -12,6 +12,10 @@
   overflow-y: auto;
 }
 
+.applications-table *:hover {
+  background-color: #f1f1f1;
+}
+
 .selected-row {
   background-color: #f1f1f1;
 }
