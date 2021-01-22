@@ -1,0 +1,10 @@
+<mat-card class="main-card">
+  <ng-container *ngIf="template">
+    <mat-card-title>{{ template.name }}</mat-card-title>
+    <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
+
+    <mat-card-actions align="right">
+      <button mat-flat-button color="primary" [routerLink]="['/template']">Back</button>
+    </mat-card-actions>
+  </ng-container>
+</mat-card>

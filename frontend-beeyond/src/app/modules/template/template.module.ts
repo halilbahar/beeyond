@@ -13,9 +13,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { TemplateDetailComponent } from './pages/template-detail/template-detail.component';
 
 @NgModule({
-  declarations: [TemplateComponent, TemplateCreateComponent],
+  declarations: [TemplateComponent, TemplateCreateComponent, TemplateDetailComponent],
   imports: [
     CommonModule,
     TemplateRoutingModule,

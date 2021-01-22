@@ -11,5 +11,9 @@
 </mat-card>
 
 <mat-card class="main-card" *ngIf="templates.length > 0">
-  <app-template-list [templates]="templates"></app-template-list>
+  <app-template-list
+    [templates]="templates"
+    [routingEnabled]="true"
+    routePath="/template/detail/{id}">
+  </app-template-list>
 </mat-card>
