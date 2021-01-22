@@ -1,5 +1,6 @@
 package at.htl.beeyond.entity;
 
+import at.htl.beeyond.dto.TemplateFieldValueDto;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
@@ -17,12 +18,17 @@ public class TemplateFieldValue extends PanacheEntityBase {
     private TemplateField field;
 
     @ManyToOne
-    private Template template;
+    private TemplateApplication templateApplication;
 
-    public TemplateFieldValue(String value, TemplateField field, Template template) {
+    public TemplateFieldValue(String value, TemplateField field, TemplateApplication templateApplication) {
         this.value = value;
         this.field = field;
-        this.template = template;
+        this.templateApplication = templateApplication;
+    }
+
+    public TemplateFieldValue(TemplateFieldValueDto templateFieldValueDto) {
+        this.value = templateFieldValueDto.getValue();
+        this.field = TemplateField.findById(templateFieldValueDto.getFieldId());
     }
 
     public TemplateFieldValue() {
@@ -48,11 +54,11 @@ public class TemplateFieldValue extends PanacheEntityBase {
         this.field = field;
     }
 
-    public Template getTemplate() {
-        return template;
+    public TemplateApplication getTemplateApplication() {
+        return templateApplication;
     }
 
-    public void setTemplate(Template template) {
-        this.template = template;
+    public void setTemplateApplication(TemplateApplication templateApplication) {
+        this.templateApplication = templateApplication;
     }
 }

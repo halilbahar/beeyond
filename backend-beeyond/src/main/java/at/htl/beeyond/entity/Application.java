@@ -3,6 +3,7 @@ package at.htl.beeyond.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
@@ -20,10 +21,13 @@ public class Application extends PanacheEntityBase {
     @ManyToOne
     private User owner;
 
+    private LocalDateTime createdAt;
+
     public Application(String note, User owner) {
         this.note = note;
         this.status = ApplicationStatus.PENDING;
         this.owner = owner;
+        this.createdAt = LocalDateTime.now();
     }
 
     public Application() {
@@ -55,5 +59,13 @@ public class Application extends PanacheEntityBase {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

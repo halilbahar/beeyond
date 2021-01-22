@@ -6,4 +6,5 @@ export abstract class Application {
   status: ApplicationStatus;
   note: string;
   owner: User;
+  createdAt: Date;
 }
