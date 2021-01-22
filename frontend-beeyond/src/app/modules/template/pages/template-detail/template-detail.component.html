@@ -3,6 +3,26 @@
     <mat-card-title>{{ template.name }}</mat-card-title>
     <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
+    <div *ngIf="template.fields.length > 0">
+      <h2>Wildcards:</h2>
+
+      <div *ngFor="let data of template.fields; let i = index">
+        <div class="list-item" matRipple>
+          <div class="list-item-text">
+            <b>%{{ data.wildcard }}%</b>
+          </div>
+          <div class="list-item-text right">
+            Label: {{ data.label }}<br/>
+            <div *ngIf="data.description.length">
+              Description: {{ data.description }}
+            </div>
+          </div>
+        </div>
+
+        <div class="list-item-divider" *ngIf="i !== template.fields.length - 1"></div>
+      </div>
+    </div>
+
     <mat-dialog-content>
       <ngx-monaco-editor
         [options]="monacoEditorOptions"
