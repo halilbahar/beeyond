@@ -1,7 +1,12 @@
-@import '../../../../../assets/scss/styles.scss';
+@import '../../../../../assets/scss/styles';
 
 :host {
   @include flex-column;
+}
+
+.wildcard-details {
+  margin-top: 1rem;
+  overflow: scroll;
 }
 
 .list-item {
@@ -22,6 +27,6 @@
   border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-mat-dialog-content {
-  margin-top: 10px;
+ngx-monaco-editor {
+  height: 15rem;
 }

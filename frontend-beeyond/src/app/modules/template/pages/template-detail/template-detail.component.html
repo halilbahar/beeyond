@@ -1,9 +1,17 @@
-<mat-card class="main-card">
+<mat-card class="card-entire-page">
   <ng-container *ngIf="template">
     <mat-card-title>{{ template.name }}</mat-card-title>
     <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
-    <div *ngIf="template.fields.length > 0">
+    <mat-dialog-content>
+      <ngx-monaco-editor
+        [options]="monacoEditorOptions"
+        class="monaco-editor-border"
+        [ngModel]="template.content"
+      ></ngx-monaco-editor>
+    </mat-dialog-content>
+
+    <div class="wildcard-details" *ngIf="template.fields.length > 0">
       <h2>Wildcards:</h2>
 
       <div *ngFor="let data of template.fields; let i = index">
@@ -18,21 +26,14 @@
             </div>
           </div>
         </div>
-
         <div class="list-item-divider" *ngIf="i !== template.fields.length - 1"></div>
       </div>
     </div>
 
-    <mat-dialog-content>
-      <ngx-monaco-editor
-        [options]="monacoEditorOptions"
-        class="monaco-editor-border"
-        [ngModel]="template.content"
-      ></ngx-monaco-editor>
-    </mat-dialog-content>
-
-    <mat-card-actions align="right">
-      <button mat-flat-button color="primary" [routerLink]="['/template']">Back</button>
+    <mat-card-actions>
+      <div class="button-container">
+        <button mat-flat-button color="primary" [routerLink]="['/template']">Back</button>
+      </div>
     </mat-card-actions>
   </ng-container>
 </mat-card>
