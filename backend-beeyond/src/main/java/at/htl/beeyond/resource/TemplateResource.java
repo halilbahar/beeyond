@@ -15,6 +15,7 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Path("/template")
@@ -58,7 +59,7 @@ public class TemplateResource {
             return Response.status(Status.NOT_FOUND).build();
         }
 
-        TemplateDto templateDto = TemplateDto.map(template);
+        TemplateDto templateDto = new TemplateDto(template);
         return Response.ok(templateDto).build();
     }
 
@@ -72,7 +73,7 @@ public class TemplateResource {
             return Response.status(404).build();
         }
 
-        template.delete();
+        template.setDeleted(true);
         return Response.noContent().build();
     }
 }

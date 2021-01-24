@@ -36,6 +36,10 @@ export class ApiService {
     return this.http.post<any>(`${environment.apiUrl}/template`, body);
   }
 
+  deleteTemplate(id: number): Observable<any> {
+    return this.http.delete<any>(`${environment.apiUrl}/template/${id}`, null);
+  }
+
   getApplications(): Observable<Application[]> {
     return this.http.get<Application[]>(`${environment.apiUrl}/application`);
   }
