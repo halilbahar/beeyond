@@ -2,8 +2,10 @@ package models
 
 import (
 	"context"
-	"go.mongodb.org/mongo-driver/bson"
+	"yaml-validation/pkg/setting"
 	"yaml-validation/services"
+
+	"go.mongodb.org/mongo-driver/bson"
 )
 
 type Constraint struct {
@@ -15,7 +17,7 @@ type Constraint struct {
 
 func SaveConstraint(constraint Constraint) error {
 	collection := services.GetClient().
-		Database("beeyond_validation_db").
+		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints")
 
 	_, err := collection.InsertOne(context.TODO(), constraint)
@@ -27,7 +29,7 @@ func GetConstraints() []*Constraint {
 
 	// TODO: error handling?
 	cur, _ := services.GetClient().
-		Database("beeyond_validation_db").
+		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
 		Find(context.TODO(), bson.D{})
 
