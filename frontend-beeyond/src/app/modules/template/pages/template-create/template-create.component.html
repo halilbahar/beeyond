@@ -93,7 +93,7 @@
         <div class="stepper-content" [formGroup]="thirdFormGroup">
           <mat-form-field class="full-width">
             <mat-label>Name</mat-label>
-            <input matInput placeholder="Name of this template" formControlName="name"/>
+            <input matInput placeholder="Name of this template" formControlName="name" />
             <mat-error *ngIf="thirdFormGroup.get('name').invalid">
               Please enter a name with a maximum of 255 characters
             </mat-error>

@@ -25,7 +25,7 @@ export class VariableListComponent implements OnInit {
     this.service.getTemplateById(this.templateId).subscribe(template => {
       this.template = template;
       for (const fieldValue of this.fieldValues) {
-        const {label, wildcard, description} = template.fields.find(
+        const { label, wildcard, description } = template.fields.find(
           aTemplate => aTemplate.id === fieldValue.fieldId
         );
         this.fieldData.push({
@@ -53,7 +53,7 @@ export class VariableListComponent implements OnInit {
       while ((match = wildcardRegex.exec(line)) != null) {
         console.log('match found at ' + match.index);
 
-        const {wildcard, label, value, description} = this.fieldData.find(
+        const { wildcard, label, value, description } = this.fieldData.find(
           data => data.wildcard === match[0].replace(/%/g, '')
         );
         line = line.replace(`%${wildcard}%`, value);
@@ -74,7 +74,7 @@ export class VariableListComponent implements OnInit {
     content = content.substring(0, content.length - 1);
 
     this.dialog.open(ApplicationPreviewDialogComponent, {
-      data: {content, ranges},
+      data: { content, ranges },
       width: '100%',
       height: '80%',
       autoFocus: false
