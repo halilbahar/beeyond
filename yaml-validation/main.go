@@ -1,9 +1,9 @@
 package main
 
 import (
-	"./pkg/setting"
-	"./routers"
-	"./services"
+	"yaml-validation/pkg/setting"
+	"yaml-validation/routers"
+	"yaml-validation/services"
 )
 
 func main() {
