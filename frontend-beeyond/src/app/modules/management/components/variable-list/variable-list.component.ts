@@ -48,11 +48,13 @@ export class VariableListComponent implements OnInit {
 
     for (let i = 0; i < lines.length; i++) {
       let line = lines[i];
+      let match: RegExpExecArray;
 
-      const match = line.match(wildcardRegex);
-      for (const wildcardMatch of match) {
+      while ((match = wildcardRegex.exec(line)) != null) {
+        console.log('match found at ' + match.index);
+
         const { wildcard, label, value, description } = this.fieldData.find(
-          data => data.wildcard === wildcardMatch.replace(/%/g, '')
+          data => data.wildcard === match[0].replace(/%/g, '')
         );
         line = line.replace(`%${wildcard}%`, value);
 

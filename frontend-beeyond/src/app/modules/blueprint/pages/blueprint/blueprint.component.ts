@@ -26,7 +26,7 @@ export class BlueprintComponent implements OnInit {
     this.apiService.getTemplates().subscribe(templates => (this.templates = templates));
     this.customApplicationForm = this.fb.group({
       content: ['', Validators.required],
-      note: ['']
+      note: ['', Validators.maxLength(255)]
     });
   }
 

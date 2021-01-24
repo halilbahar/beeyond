@@ -21,6 +21,9 @@
               formControlName="note"
             >
             </textarea>
+            <mat-error *ngIf="customApplicationForm.get('note').invalid">
+              The note must not be longer than 255 characters
+            </mat-error>
           </mat-form-field>
         </ng-container>
 
