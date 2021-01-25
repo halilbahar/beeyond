@@ -6,7 +6,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Init() {
+func GetRouter() *gin.Engine {
 	router := gin.Default()
 
 	api := router.Group("/api")
@@ -19,5 +19,10 @@ func Init() {
 		api.POST("/constraints", createConstraint)
 	}
 
+	return router
+}
+
+func Init() {
+	router := GetRouter()
 	_ = router.Run(setting.ServerSetting.HttpPort)
 }

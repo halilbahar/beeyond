@@ -23,5 +23,9 @@ func createConstraint(c *gin.Context) {
 }
 
 func listConstraints(c *gin.Context) {
-	c.JSON(http.StatusOK, models.GetConstraints())
+	if constraints := models.GetConstraints(); constraints != nil {
+		c.JSON(http.StatusOK, constraints)
+	} else {
+		c.Writer.WriteHeader(http.StatusInternalServerError)
+	}
 }
