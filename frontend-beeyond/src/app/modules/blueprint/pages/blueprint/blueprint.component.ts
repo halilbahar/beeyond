@@ -14,6 +14,7 @@ export class BlueprintComponent implements OnInit {
   templates: Template[] = [];
   customApplicationForm: FormGroup;
   monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
+  message = '';
 
   constructor(
     private router: Router,
@@ -24,6 +25,10 @@ export class BlueprintComponent implements OnInit {
 
   ngOnInit(): void {
     this.apiService.getTemplates().subscribe(templates => (this.templates = templates));
+    if (this.templates.length === 0) {
+      this.message =
+        'There are currently no templates available. Wait until your administrator creates one.';
+    }
     this.customApplicationForm = this.fb.group({
       content: ['', Validators.required],
       note: ['', Validators.maxLength(255)]

@@ -40,6 +40,9 @@
       </mat-tab>
 
       <mat-tab label="Template Blueprints">
+        <div class="center">
+          <div *ngIf="message">{{ message }}</div>
+        </div>
         <app-template-list
           [templates]="templates"
           [routingEnabled]="true"
