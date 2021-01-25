@@ -5,6 +5,7 @@ import at.htl.beeyond.entity.Template
 import at.htl.beeyond.entity.TemplateApplication
 import at.htl.beeyond.entity.TemplateField
 import at.htl.beeyond.validation.Checks
+import at.htl.beeyond.validation.Exists
 import javax.json.bind.annotation.JsonbTransient
 import javax.validation.GroupSequence
 import javax.validation.constraints.NotBlank
@@ -14,7 +15,7 @@ import javax.validation.constraints.NotNull
 class TemplateFieldValueDto(
         @set:JsonbTransient var id: Long? = null,
         value: String? = null,
-        @field:NotNull(groups = [Checks.TemplateField::class]) var fieldId: Long? = null
+        @field:Exists(entity = TemplateField::class, fieldName = "id") @field:NotNull(groups = [Checks.TemplateField::class]) var fieldId: Long? = null
 ) {
     constructor(templateFieldValue: TemplateFieldValue) : this(
             templateFieldValue.id,

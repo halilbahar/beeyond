@@ -14,6 +14,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
+@GroupSequence(value = [TemplateDto::class,TemplateContent::class])
 @TemplateFieldsMatching(groups = [TemplateContent::class])
 class TemplateDto(
         @set:JsonbTransient var id: Long? = null,
@@ -21,7 +22,7 @@ class TemplateDto(
         @field:Size(max = 255) var description: String? = null,
         @field:NotBlank var content: String? = null,
         @field:Valid var fields: List<TemplateFieldDto> = LinkedList(),
-        var deleted: Boolean?
+        @set:JsonbTransient var deleted: Boolean?
 ) {
 
     constructor(template: Template):this(template.id, template.name, template.description, template.content, template.fields.stream().map { TemplateFieldDto(it) }!!.collect(Collectors.toList()), template.deleted)

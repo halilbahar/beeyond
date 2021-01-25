@@ -201,4 +201,4 @@ Feature: Template application creation endpoint
     Then status 422
     #* print response
     And match response contains {"message": "Missing field ids: [2], obsolete field ids: [3]","value": "","key": ""}
-    And match response contains {"message": "This field cannot be empty","value": "","key": "fieldValues[1].value"}
+    And match response contains {"message": "This field cannot be empty","value": "","key": "value"}
