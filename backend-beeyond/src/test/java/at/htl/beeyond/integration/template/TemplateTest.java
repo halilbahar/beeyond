@@ -25,4 +25,10 @@ public class TemplateTest {
     Karate testCreateAsTeacher() {
         return Karate.run("template-creation").tags("teacher").relativeTo(getClass());
     }
+
+    @Karate.Test
+    @TestSecurity(user = "sonja-teacher", roles = "teacher")
+    Karate testDeletionAsTeacher() {
+        return Karate.run("template-deletion").tags("teacher").relativeTo(getClass());
+    }
 }

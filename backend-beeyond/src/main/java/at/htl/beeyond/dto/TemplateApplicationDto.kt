@@ -50,12 +50,5 @@ class TemplateApplicationDto(
     fun map(owner: User?): TemplateApplication {
         val template = Template.findById<Template>(templateId)
         return TemplateApplication(note, owner, template, fieldValues.map { TemplateFieldValue(it) }.toList())
-
-
-//        val templateApplication = TemplateApplication.findById<TemplateApplication>(id)
-//        val fieldValues = fieldValues.stream()
-//                .map{ fieldDto -> TemplateFieldValue(fieldDto.value, TemplateField.findById(fieldDto.fieldId), templateApplication) }
-//                .collect(Collectors.toList())
-//        return TemplateApplication(note, owner, template, fieldValues)
     }
 }

@@ -20,6 +20,7 @@ abstract class ApplicationDto {
     @set:JsonbTransient
     var owner: UserDto? = null
 
+    @set:JsonbTransient
     var createdAt: LocalDateTime? = null
 
     constructor(id: Long?, note: String?, status: ApplicationStatus?, owner: UserDto?, createdAt: LocalDateTime?) {

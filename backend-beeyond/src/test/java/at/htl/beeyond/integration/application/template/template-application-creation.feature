@@ -201,4 +201,29 @@ Feature: Template application creation endpoint
     Then status 422
     #* print response
     And match response contains {"message": "Missing field ids: [2], obsolete field ids: [3]","value": "","key": ""}
-    And match response contains {"message": "This field cannot be empty","value": "","key": "fieldValues[1].value"}
+    And match response contains {"message": "This field cannot be empty","value": "","key": "value"}
+
+  @student
+  Scenario: Create a template with a non existing fieldId
+    Given request
+    """
+    {
+      "note": "string",
+      "fieldValues": [
+        {
+          "fieldId": 1,
+          "id": 1,
+          "value": "4"
+        },
+        {
+          "fieldId": -1,
+          "id": 2,
+          "value": "8081"
+        }
+      ],
+      "templateId": 1
+    }
+    """
+    When method POST
+    Then status 422
+    And match response contains {"message":"TemplateField with id -1 does not exist","value":"-1","key":"fieldId"}

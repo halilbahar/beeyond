@@ -143,8 +143,8 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field cannot be empty',value:'',key:'fields[1].wildcard'}
-    And match response contains {message:'This field cannot be empty',value:'',key:'fields[1].label'}
+    And match response contains {message:'This field cannot be empty',value:'',key:'wildcard'}
+    And match response contains {message:'This field cannot be empty',value:'',key:'label'}
 
   @teacher
   Scenario: Create a template where the field label and wildcard are empty
@@ -171,8 +171,8 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field cannot be empty',value:'',key:'fields[1].wildcard'}
-    And match response contains {message:'This field cannot be empty',value:'',key:'fields[1].label'}
+    And match response contains {message:'This field cannot be empty',value:'',key:'wildcard'}
+    And match response contains {message:'This field cannot be empty',value:'',key:'label'}
 
   @teacher
   Scenario: Create a template where the field label, wildcard and description are too long
@@ -200,6 +200,6 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'fields[1].label', value:'#ignore'}
-    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'fields[1].description', value:'#ignore'}
-    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'fields[1].wildcard', value:'#ignore'}
+    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'label', value:'#ignore'}
+    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'description', value:'#ignore'}
+    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'wildcard', value:'#ignore'}
