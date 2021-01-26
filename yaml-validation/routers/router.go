@@ -1,6 +1,8 @@
 package routers
 
 import (
+	"yaml-validation/pkg/setting"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -17,5 +19,5 @@ func Init() {
 		api.POST("/constraints", createConstraint)
 	}
 
-	_ = router.Run(":8180")
+	_ = router.Run(setting.ServerSetting.HttpPort)
 }

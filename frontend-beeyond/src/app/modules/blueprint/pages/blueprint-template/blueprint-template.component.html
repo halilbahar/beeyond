@@ -12,7 +12,7 @@
         <ng-container [formGroupName]="i">
           <mat-form-field class="full-width">
             <mat-label>{{ field.label }}</mat-label>
-            <input matInput formControlName="value"/>
+            <input matInput formControlName="value" />
             <mat-hint>{{ field.description }}</mat-hint>
             <mat-error *ngIf="templateForm.get('fieldValues').invalid">
               {{ field.description }}
