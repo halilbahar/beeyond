@@ -7,7 +7,7 @@ import { TemplateDetailComponent } from './pages/template-detail/template-detail
 const routes: Routes = [
   { path: '', component: TemplateComponent },
   { path: 'create', component: TemplateCreateComponent },
-  { path: 'detail/:id', component: TemplateDetailComponent}
+  { path: 'detail/:id', component: TemplateDetailComponent }
 ];
 
 @NgModule({

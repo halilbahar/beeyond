@@ -3,37 +3,32 @@
     <mat-card-title>{{ template.name }}</mat-card-title>
     <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
-    <mat-dialog-content>
+    <div class="template-detail">
       <ngx-monaco-editor
         [options]="monacoEditorOptions"
         class="monaco-editor-border"
         [ngModel]="template.content"
       ></ngx-monaco-editor>
-    </mat-dialog-content>
 
-    <div class="wildcard-details" *ngIf="template.fields.length > 0">
-      <h2>Wildcards:</h2>
+      <div class="wildcard-details" *ngIf="template.fields.length > 0">
+        <h2>Wildcards:</h2>
 
-      <div *ngFor="let data of template.fields; let i = index">
-        <div class="list-item" matRipple>
-          <div class="list-item-text">
-            <b>%{{ data.wildcard }}%</b>
-          </div>
-          <div class="list-item-text right">
-            Label: {{ data.label }}<br/>
-            <div *ngIf="data.description.length">
-              Description: {{ data.description }}
-            </div>
-          </div>
+        <div class="wildcard-table-wrapper">
+          <table>
+            <tbody>
+              <tr class="list-item-hover" *ngFor="let data of template.fields; let i = index">
+                <td>%{{ data.wildcard }}%</td>
+                <td>{{ data.label }}</td>
+                <td>{{ data.description }}</td>
+              </tr>
+            </tbody>
+          </table>
         </div>
-        <div class="list-item-divider" *ngIf="i !== template.fields.length - 1"></div>
       </div>
     </div>
 
-    <mat-card-actions>
-      <div class="button-container">
-        <button mat-flat-button color="primary" [routerLink]="['/template']">Back</button>
-      </div>
-    </mat-card-actions>
+    <div class="button-container">
+      <button mat-flat-button color="primary" [routerLink]="['/template']">Back</button>
+    </div>
   </ng-container>
 </mat-card>
