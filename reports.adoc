@@ -1,0 +1,8 @@
+# Reports
+:nofooter:
+
+[options="header", cols="h,1,1,1,1"]
+|===
+| | Datum | Karate | Backend | Validation
+// insert-new-line-please-here
+|===
