@@ -8,7 +8,7 @@ import { Template } from '../../../../shared/models/template.model';
   styleUrls: ['./template-detail.component.scss']
 })
 export class TemplateDetailComponent implements OnInit {
-  template: Template | any;
+  template: Template;
 
   monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
