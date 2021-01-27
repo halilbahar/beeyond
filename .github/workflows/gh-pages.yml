@@ -1,0 +1,23 @@
+name: GitHub Pages CD
+
+on:
+  push:
+    branches:
+      - docs
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Setup repo
+        uses: actions/checkout@v2
+      - name: Setup asciidoctor
+        run: sudo apt-get install -y asciidoctor
+      - name: Build documentation
+        run: ./build
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./out
