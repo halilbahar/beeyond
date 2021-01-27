@@ -4,20 +4,22 @@ function fn(){
     if (!env) {
         env = 'dev';
     }
+
+    var basicAuth = function(isTeacher) {
+        var temp;
+        if (isTeacher){
+            temp = 'stuetz:password';
+        } else{
+            temp = 'moritz:password';
+        }
+        var Base64 = Java.type('java.util.Base64');
+        var encoded = Base64.getEncoder().encodeToString(temp.bytes);
+        return 'Basic ' + encoded;
+    };
     var config = {
         baseUrl: 'http://localhost:8081',
-        teacherAuth: function() {
-            var temp = 'stuetz:password';
-            var Base64 = Java.type('java.util.Base64');
-            var encoded = Base64.getEncoder().encodeToString(temp.bytes);
-            return 'Basic ' + encoded;
-        },
-        studentAuth: function() {
-            var temp = 'moritz:password';
-            var Base64 = Java.type('java.util.Base64');
-            var encoded = Base64.getEncoder().encodeToString(temp.bytes);
-            return 'Basic ' + encoded;
-        }
+        auth: basicAuth(),
+        config: karate.tags
     };
     karate.configure('connectTimeout', 5000);
     karate.configure('readTimeout', 5000);

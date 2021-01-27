@@ -1,14 +1,15 @@
 Feature:
-    Background:
-        * url baseUrl
-        * path 'template'
-        * print teacherAuth
-        * configure headers = { Authorization: '#(teacherAuth())'}
-        * print headers
 
-    Scenario: Create a valid template application
-        * def content = read('nginx-deployment-template.yml.txt')
-        Given request
+  Background:
+    * url baseUrl
+    * path 'template'
+    * configure headers = {Authorization: '#(teacherAuth())'}
+    * print headers
+    * print auth
+
+  Scenario: Create a valid template application
+    * def content = read('nginx-deployment-template.yml.txt')
+    Given request
         """
         {
           "name": "Nginx Deployment",
@@ -28,6 +29,13 @@ Feature:
           ]
         }
         """
-        When method POST
-        Then status 204
-        * print 'headers:', karate.prevRequest.headers
+    * print headers
+    When method POST
+    * print 'headers:', karate.prevRequest.headers
+    And status 201
+    And url responseHeaders['Location'][0]
+    And method GET
+    And request
+    And def template = response
+
+

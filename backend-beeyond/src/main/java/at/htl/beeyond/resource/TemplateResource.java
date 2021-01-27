@@ -12,6 +12,8 @@ import javax.ws.rs.core.Context;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import javax.ws.rs.core.SecurityContext;
+import javax.ws.rs.core.UriInfo;
+import java.net.URI;
 
 @Path("/template")
 @Consumes("application/json")
@@ -28,12 +30,15 @@ public class TemplateResource {
     @POST
     @RolesAllowed("teacher")
     @Transactional
-    public Response create(@Context SecurityContext sc, @Valid TemplateDto templateDto) {
+    public Response create(@Context SecurityContext sc, @Context UriInfo uriInfo, @Valid TemplateDto templateDto) {
         User owner = User.find("name", sc.getUserPrincipal().getName()).firstResult();
         Template template = templateDto.map(owner);
         template.persist();
+        template.setDeleted(false);
 
-        return Response.noContent().build();
+        URI uri = uriInfo.getAbsolutePathBuilder().path(Long.toString(template.getId())).build();
+
+        return Response.created(uri).build();
     }
 
     @GET

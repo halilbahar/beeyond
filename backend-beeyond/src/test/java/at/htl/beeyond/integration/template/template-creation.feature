@@ -28,7 +28,7 @@ Feature: Template creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @teacher
   Scenario: Create a template with no description
@@ -53,7 +53,7 @@ Feature: Template creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @teacher
   Scenario: Create a template with no name and content

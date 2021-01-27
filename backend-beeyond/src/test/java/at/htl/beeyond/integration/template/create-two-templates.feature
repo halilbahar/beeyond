@@ -27,7 +27,7 @@ Feature:
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
 
   Scenario: Create a second valid template application
@@ -53,4 +53,4 @@ Feature:
     }
     """
     When method POST
-    Then status 204
+    Then status 201

@@ -3,8 +3,10 @@ Feature: Template application creation endpoint
   Background:
     * url baseUrl
     * path 'application/template'
-    * def insertTemplate = read('create-template.feature')
-    * call insertTemplate
+    * print karate.tags
+    * def insertTemplate = read('template-preparation.feature')
+    * def insertTemplateResponse = call insertTemplate
+    * def template = insertTemplateResponse.template
 
   @student
   Scenario: Create a valid template application
@@ -14,17 +16,15 @@ Feature: Template application creation endpoint
       "note": "string",
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         },
         {
-          "fieldId": 2,
-          "id": 2,
+          "fieldId": #(template.fields[1].id),
           "value": "8081"
         }
       ],
-      "templateId": 1
+      "templateId": #(template.id)
     }
     """
     When method POST
@@ -39,17 +39,15 @@ Feature: Template application creation endpoint
     {
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         },
         {
-          "fieldId": 2,
-          "id": 2,
+          "fieldId": #(template.fields[1].id),
           "value": "8081"
         }
       ],
-      "templateId": 1
+      "templateId": #(template.id)
     }
     """
     When method POST
@@ -64,17 +62,15 @@ Feature: Template application creation endpoint
       "note": "#(longNote)",
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         },
         {
-          "fieldId": 2,
-          "id": 2,
+          "fieldId": #(template.fields[1].id),
           "value": "8081"
         }
       ],
-      "templateId": 1
+      "templateId": #(template.id)
     }
     """
     When method POST
@@ -89,13 +85,11 @@ Feature: Template application creation endpoint
       "note": "string",
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         },
         {
-          "fieldId": 2,
-          "id": 2,
+          "fieldId": #(template.fields[1].id),
           "value": "8081"
         }
       ]
@@ -113,13 +107,11 @@ Feature: Template application creation endpoint
       "note": "string",
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         },
         {
-          "fieldId": 2,
-          "id": 2,
+          "fieldId": #(template.fields[1].id),
           "value": "8081"
         }
       ],
@@ -139,12 +131,11 @@ Feature: Template application creation endpoint
       "note": "string",
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         }
       ],
-      "templateId": 1
+      "templateId": #(template.id)
     }
     """
     When method POST
@@ -160,17 +151,15 @@ Feature: Template application creation endpoint
       "note": "string",
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         },
         {
-          "fieldId": 3,
-          "id": 2,
+          "fieldId": 9999,
           "value": "8081"
         }
       ],
-      "templateId": 1
+      "templateId": #(template.id)
     }
     """
     When method POST
@@ -186,15 +175,14 @@ Feature: Template application creation endpoint
       "note": "string",
       "fieldValues": [
         {
-          "fieldId": 1,
-          "id": 1,
+          "fieldId": #(template.fields[0].id),
           "value": "4"
         },
         {
-          "fieldId": 3
+          "fieldId": #(template.fields[1].id)
         }
       ],
-      "templateId": 1
+      "templateId": #(template.id)
     }
     """
     When method POST
@@ -204,7 +192,11 @@ Feature: Template application creation endpoint
     And match response contains {"message": "This field cannot be empty","value": "","key": "value"}
 
   @student
-  Scenario: Create a template with a non existing fieldId
+  Scenario: Create a template with a deleted template
+    Given path 'template', template.id
+    And request
+    And method DELETE
+    Then status 200
     Given request
     """
     {
@@ -216,14 +208,14 @@ Feature: Template application creation endpoint
           "value": "4"
         },
         {
-          "fieldId": -1,
+          "fieldId": 2,
           "id": 2,
           "value": "8081"
         }
       ],
-      "templateId": 1
+      "templateId": 2
     }
     """
     When method POST
-    Then status 422
-    And match response contains {"message":"TemplateField with id -1 does not exist","value":"-1","key":"fieldId"}
+    Then status 404
+
