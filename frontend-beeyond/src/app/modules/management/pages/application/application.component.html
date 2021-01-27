@@ -50,6 +50,7 @@
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
     <mat-row
+      class="item-hover"
       *matRowDef="let row; columns: columnsToDisplay; let i = index"
       (click)="selectedRow = i"
       [ngClass]="{ 'selected-row': selectedRow === i }"
