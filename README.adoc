@@ -1,9 +1,0 @@
-= Beeyond Documentation
-
-This is the documentation branch / github-page.
-
-== Compile adoc:
-
-....
-rm -rf .asciidoctor/ diag-*.png && asciidoctor -r asciidoctor-diagram -D ./ asciidocs/index.adoc
-....
