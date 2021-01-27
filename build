@@ -1,4 +1,4 @@
 #!/bin/bash
 
 rm -rf out
-asciidoctor -r asciidoctor-diagram -D ./out *.adoc
+asciidoctor -r asciidoctor-diagram -D ./out ./asciidoctor/*.adoc
