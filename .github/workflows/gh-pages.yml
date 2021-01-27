@@ -11,7 +11,7 @@ name: GitHub Pages CD
 on:
   push:
     branches:
-      - doc
+      - docs
   
 jobs:
   build-and-deploy:
