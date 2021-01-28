@@ -3,10 +3,9 @@ Feature:
   Background:
     * url baseUrl
     * path 'template'
-    * configure headers = {Authorization: '#(teacherAuth())'}
-    * print headers
-    * print auth
+    * configure headers = {Authorization: '#(auth(karate.tags))'}
 
+  @teacher
   Scenario: Create a valid template application
     * def content = read('nginx-deployment-template.yml.txt')
     Given request
@@ -29,13 +28,10 @@ Feature:
           ]
         }
         """
-    * print headers
     When method POST
-    * print 'headers:', karate.prevRequest.headers
     And status 201
-    And url responseHeaders['Location'][0]
-    And method GET
-    And request
-    And def template = response
+    Given url responseHeaders['Location'][0]
+    When method GET
+    Then def template = response
 
 

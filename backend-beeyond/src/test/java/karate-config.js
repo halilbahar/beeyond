@@ -1,26 +1,43 @@
-function fn(){
+function fn() {
     var env = karate.env;
-    karate.log('karate.env system property was:', env);
     if (!env) {
         env = 'dev';
     }
 
-    var basicAuth = function(isTeacher) {
+    var auth = function (tags) {
+        var isTeacher = false;
+        var isStudent = false;
+        for (var i = 0; i < tags.length; i++) {
+            var tag = tags[i];
+            if (tag == 'teacher') {
+                isTeacher = true;
+            } else if (tag == 'student') {
+                isStudent = true;
+            }
+        }
+
+        if (isTeacher && isStudent) {
+            return 'Please use either @teacher or @student';
+        }
+
         var temp;
-        if (isTeacher){
+        if (isTeacher) {
             temp = 'stuetz:password';
-        } else{
+        } else if (isStudent) {
             temp = 'moritz:password';
         }
+
         var Base64 = Java.type('java.util.Base64');
         var encoded = Base64.getEncoder().encodeToString(temp.bytes);
         return 'Basic ' + encoded;
     };
+
     var config = {
         baseUrl: 'http://localhost:8081',
-        auth: basicAuth(),
+        auth: auth,
         config: karate.tags
     };
+
     karate.configure('connectTimeout', 5000);
     karate.configure('readTimeout', 5000);
     return config;
