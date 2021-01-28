@@ -11,24 +11,17 @@ import io.quarkus.test.security.TestSecurity;
 public class TemplateTest {
 
     @Karate.Test
-    Karate testGetAllAsStudent() {
-        return Karate.run("template-get").tags("student").relativeTo(getClass());
+    Karate testGetAll() {
+        return Karate.run("template-get").relativeTo(getClass());
     }
 
     @Karate.Test
-    Karate testGetAllAsTeacher() {
-        return Karate.run("template-get").tags("teacher").relativeTo(getClass());
+    Karate testCreate() {
+        return Karate.run("template-creation").relativeTo(getClass());
     }
 
     @Karate.Test
-    @TestSecurity(user = "sonja-teacher", roles = "teacher")
-    Karate testCreateAsTeacher() {
-        return Karate.run("template-creation").tags("teacher").relativeTo(getClass());
-    }
-
-    @Karate.Test
-    @TestSecurity(user = "sonja-teacher", roles = "teacher")
-    Karate testDeletionAsTeacher() {
-        return Karate.run("template-deletion").tags("teacher").relativeTo(getClass());
+    Karate testDeletion() {
+        return Karate.run("template-deletion").relativeTo(getClass());
     }
 }

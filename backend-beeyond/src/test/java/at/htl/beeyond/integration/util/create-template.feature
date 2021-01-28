@@ -7,7 +7,7 @@ Feature:
 
   @teacher
   Scenario: Create a valid template application
-    * def content = read('nginx-deployment-template.yml.txt')
+    * def content = read('classpath:at/htl/beeyond/integration/util/nginx-deployment-template.yml.txt')
     Given request
         """
         {
