@@ -53,7 +53,6 @@ Feature: Custom application creation endpoint
 
   @student
   Scenario: Create a custom application with a too long note
-    * def content = read('content-nginx-custom-application.yml.txt')
     * def generateString = read('string-generator.js')
     Given request
     """
