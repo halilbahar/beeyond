@@ -3,16 +3,17 @@ Feature: Template creation endpoint
   Background:
     * url baseUrl
     * path 'template'
+    * configure headers = { Authorization: '#(auth(karate.tags))' }
+    * def nginxDeployment = read('nginx-deployment-template.yml.txt')
 
   @teacher
   Scenario: Create a valid template application
-    * def content = read('nginx-deployment-template.yml.txt')
     Given request
     """
     {
       "name": "Nginx Deployment",
       "description": "Static Webserver",
-      "content": "#(content)",
+      "content": "#(nginxDeployment)",
       "fields": [
         {
           "label": "Server count",
@@ -32,12 +33,11 @@ Feature: Template creation endpoint
 
   @teacher
   Scenario: Create a template with no description
-    * def content = read('nginx-deployment-template.yml.txt')
     Given request
     """
     {
       "name": "Nginx Deployment",
-      "content": "#(content)",
+      "content": "#(nginxDeployment)",
       "fields": [
         {
           "label": "Server count",
@@ -57,7 +57,6 @@ Feature: Template creation endpoint
 
   @teacher
   Scenario: Create a template with no name and content
-    * def content = read('nginx-deployment-template.yml.txt')
     Given request
     """
     {
@@ -66,8 +65,8 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field cannot be empty', key: 'name', value:''}
-    And match response contains {message:'This field cannot be empty', key: 'content', value:''}
+    And match response contains { message: 'This field cannot be empty', key: 'name', value: '' }
+    And match response contains { message: 'This field cannot be empty', key: 'content', value: '' }
 
   @teacher
   Scenario: Create a template with a too long name and description
@@ -143,18 +142,17 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field cannot be empty',value:'',key:'wildcard'}
-    And match response contains {message:'This field cannot be empty',value:'',key:'label'}
+    And match response contains { message:'This field cannot be empty' ,value: '' ,key: 'wildcard' }
+    And match response contains { message:'This field cannot be empty' ,value: '' ,key: 'label' }
 
   @teacher
   Scenario: Create a template where the field label and wildcard are empty
-    * def content = read('nginx-deployment-template.yml.txt')
     Given request
     """
     {
       "name": "Nginx Deployment",
       "description": "Static Webserver",
-      "content": "#(content)",
+      "content": "#(nginxDeployment)",
       "fields": [
         {
           "label": "Server count",
@@ -171,13 +169,12 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field cannot be empty',value:'',key:'wildcard'}
-    And match response contains {message:'This field cannot be empty',value:'',key:'label'}
+    And match response contains { message: 'This field cannot be empty' , value: '' , key: 'wildcard' }
+    And match response contains { message: 'This field cannot be empty' , value: '' , key: 'label' }
 
   @teacher
   Scenario: Create a template where the field label, wildcard and description are too long
     * def generateString = read('string-generator.js')
-    * def content = read('nginx-deployment-template.yml.txt')
     Given request
     """
     {
@@ -200,6 +197,6 @@ Feature: Template creation endpoint
     """
     When method POST
     Then status 422
-    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'label', value:'#ignore'}
-    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'description', value:'#ignore'}
-    And match response contains {message:'This field needs to be between 0 and 255 characters', key:'wildcard', value:'#ignore'}
+    And match response contains { message: 'This field needs to be between 0 and 255 characters', key:'label', value: '#ignore' }
+    And match response contains { message: 'This field needs to be between 0 and 255 characters', key:'description', value: '#ignore' }
+    And match response contains { message: 'This field needs to be between 0 and 255 characters', key:'wildcard', value: '#ignore' }

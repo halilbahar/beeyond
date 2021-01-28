@@ -1,25 +1,24 @@
 Feature: Template deletion endpoint
 
   Background:
-    * url baseUrl
-    * path 'template'
-    * def insertMethod = read('create-two-templates.feature')
+    * url baseUrl + '/template'
+    * configure headers = { Authorization: '#(auth(karate.tags))' }
+    * def insertTemplate = read('classpath:at/htl/beeyond/integration/util/create-template.feature')
+    * def insertTemplateResponse = call insertTemplate
+    * def template = insertTemplateResponse.template
 
   @teacher
   Scenario: Delete a template
-    Given path '1'
+    Given path template.id
     When method DELETE
     Then status 204
-
-  @teacher
-  Scenario: Check if property deleted was actually set to true
-    * def fun = function(x) { return x.id == 1 }
+    Given path template.id
     When method GET
     Then status 200
-    And match karate.filter(response, fun)[0].deleted == true
+    And match response.deleted == true
 
   @teacher
-  Scenario: Delete a template - template does not exist
-    Given path '-1'
+  Scenario: Delete a template that does not exist
+    Given path '1000'
     When method DELETE
     Then status 404

@@ -33,5 +33,3 @@ Feature:
     Given url responseHeaders['Location'][0]
     When method GET
     Then def template = response
-
-
