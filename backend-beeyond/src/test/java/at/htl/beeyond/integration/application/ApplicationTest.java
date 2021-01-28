@@ -1,6 +1,6 @@
 package at.htl.beeyond.integration.application;
 
-import at.htl.beeyond.integration.DatabaseResource;
+import at.htl.beeyond.integration.util.DatabaseResource;
 import com.intuit.karate.junit5.Karate;
 import io.quarkus.test.common.QuarkusTestResource;
 import io.quarkus.test.junit.QuarkusTest;

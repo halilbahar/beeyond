@@ -4,7 +4,7 @@ Feature: Template application creation endpoint
     * url baseUrl
     * path 'application/template'
     * configure headers = { Authorization: '#(auth(karate.tags))' }
-    * def insertTemplate = read('template-preparation.feature')
+    * def insertTemplate = read('classpath:at/htl/beeyond/integration/util/create-template.feature')
     * def insertTemplateResponse = call insertTemplate
     * def template = insertTemplateResponse.template
 
@@ -253,7 +253,7 @@ Feature: Template application creation endpoint
 
   @student
   Scenario: Create a valid template application with a deleted template
-    * def deleteTemplate = read('template-deletion.feature')
+    * def deleteTemplate = read('classpath:at/htl/beeyond/integration/util/delete-template.feature')
     * def insertTemplateResponse = call deleteTemplate { id: #(template.id) }
     Given path 'application', 'template'
     Given request
@@ -278,7 +278,7 @@ Feature: Template application creation endpoint
 
   @student
   Scenario: Create a invalid template application with a deleted template where the fieldValues are missing
-    * def deleteTemplate = read('template-deletion.feature')
+    * def deleteTemplate = read('classpath:at/htl/beeyond/integration/util/delete-template.feature')
     * def insertTemplateResponse = call deleteTemplate { id: #(template.id) }
     Given path 'application', 'template'
     Given request
