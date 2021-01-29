@@ -12,7 +12,6 @@ import javax.validation.constraints.NotNull
 import at.htl.beeyond.entity.TemplateFieldValue
 import java.time.LocalDateTime
 
-
 @GroupSequence(value = [TemplateApplicationDto::class, Checks.TemplateField::class])
 @TemplateFieldsComplete(groups = [Checks.TemplateField::class])
 class TemplateApplicationDto(
@@ -45,10 +44,5 @@ class TemplateApplicationDto(
 
     override fun toString(): String {
         return ""
-    }
-
-    fun map(owner: User?): TemplateApplication {
-        val template = Template.findById<Template>(templateId)
-        return TemplateApplication(note, owner, template, fieldValues.map { TemplateFieldValue(it) }.toList())
     }
 }
