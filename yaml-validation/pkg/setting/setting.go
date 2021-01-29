@@ -1,7 +1,7 @@
 package setting
 
 import (
-	"github.com/go-ini/ini"
+	"gopkg.in/ini.v1"
 	"log"
 )
 
