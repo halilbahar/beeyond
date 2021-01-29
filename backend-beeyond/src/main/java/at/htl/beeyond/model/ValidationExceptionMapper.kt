@@ -1,5 +1,6 @@
 package at.htl.beeyond.model
 
+import at.htl.beeyond.dto.FailedFieldDto
 import java.util.stream.Collectors
 import java.util.stream.StreamSupport
 import javax.validation.ConstraintViolation
@@ -15,7 +16,7 @@ class ValidationExceptionMapper : ExceptionMapper<ConstraintViolationException> 
         return Response.status(422).entity(
                 exception.constraintViolations.stream()
                         .map { o: ConstraintViolation<*> ->
-                            FailedField(
+                            FailedFieldDto(
                                     StreamSupport.stream(o.propertyPath.spliterator(), false).reduce { first: Path.Node?, second: Path.Node? -> second }.orElse(null).toString(),
                                     if (o.invalidValue != null) o.invalidValue.toString() else "",
                                     o.message
