@@ -270,3 +270,6 @@ Feature: Template creation endpoint
 
   @teacher
   Scenario: Create a template where deleted is set
+
+  @teacher
+  Scenario: Create a template where field id is set
