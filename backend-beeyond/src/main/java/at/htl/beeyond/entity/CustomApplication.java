@@ -11,9 +11,9 @@ public class CustomApplication extends Application {
     @Lob
     private String content;
 
-    public CustomApplication(String note, User owner, String content) {
-        super(note, owner);
-        this.content = content;
+    public CustomApplication(CustomApplicationDto customApplicationDto, User owner) {
+        super(customApplicationDto.getNote(), owner);
+        this.content = customApplicationDto.getContent();
     }
 
     public CustomApplication() {

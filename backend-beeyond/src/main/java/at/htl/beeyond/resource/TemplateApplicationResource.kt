@@ -27,9 +27,9 @@ class TemplateApplicationResource {
     @Transactional
     fun createTemplateApplication(
             @Context context: SecurityContext,
-            @Valid templateApplicationDto: TemplateApplicationDto
+            @Valid templateApplicationDto: TemplateApplicationDto?
     ): Response {
-        val template = Template.findById<Template>(templateApplicationDto.templateId)
+        val template = Template.findById<Template>(templateApplicationDto!!.templateId)
         if (template.deleted) {
             return Response.status(Response.Status.NOT_FOUND).build()
         }
