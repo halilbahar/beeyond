@@ -264,3 +264,9 @@ Feature: Template creation endpoint
     When method POST
     Then status 422
     And match response contains { message: 'Missing fields: [], obsolete fields: [wrong-wildcard]', value: '', key: '' }
+
+  @teacher
+  Scenario: Create a template where id is set
+
+  @teacher
+  Scenario: Create a template where deleted is set
