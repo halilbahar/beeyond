@@ -1,8 +1,6 @@
 package at.htl.beeyond.dto
 
 import at.htl.beeyond.entity.ApplicationStatus
-import at.htl.beeyond.dto.UserDto
-import org.hibernate.validator.constraints.Length
 import java.time.LocalDateTime
 import javax.json.bind.annotation.JsonbTransient
 import javax.validation.constraints.Size
