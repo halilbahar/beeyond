@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { Application } from 'src/app/shared/models/application.model';
@@ -35,7 +35,9 @@ export class ApplicationComponent implements OnInit {
     this.applicationDataSource = new MatTableDataSource(this.applications);
     this.filterForm = this.fb.group({
       username: [''],
-      status: [ApplicationStatus.PENDING]
+      status: [ApplicationStatus.PENDING],
+      fromDate: Date,
+      toDate: Date
     });
 
     this.availableUsername = this.applications
@@ -49,12 +51,34 @@ export class ApplicationComponent implements OnInit {
 
   private update(): void {
     this.selectedRow = null;
-    const form: { username: string; status: ApplicationStatus } = this.filterForm.value;
-    this.applicationDataSource.data = this.applications.filter(({ status, owner }) => {
+    const form: { username: string; status: ApplicationStatus; fromDate: Date; toDate: Date } = this
+      .filterForm.value;
+    this.applicationDataSource.data = this.applications.filter(({ status, owner, createdAt }) => {
       const nameFilter = form.username ? owner.name.includes(form.username) : true;
       const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
+      const date = new Date(createdAt);
 
-      return nameFilter && statusFilter;
+      let fromDateFilter = false;
+      if (typeof form.fromDate.getTime !== 'undefined') {
+        if (date.getTime() >= form.fromDate.getTime()) {
+          fromDateFilter = true;
+        }
+      } else {
+        fromDateFilter = true;
+      }
+
+      let toDateFilter = false;
+      if (form.toDate !== null && typeof form.toDate.getTime !== 'undefined') {
+        if (date.getTime() <= form.toDate.getTime()) {
+          toDateFilter = true;
+        }
+      } else {
+        toDateFilter = true;
+      }
+
+      const dateFilter = fromDateFilter && toDateFilter;
+
+      return nameFilter && statusFilter && dateFilter;
     });
   }
 }
