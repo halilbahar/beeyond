@@ -4,8 +4,6 @@ import at.htl.beeyond.dto.TemplateDto;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -32,12 +30,22 @@ public class Template extends PanacheEntityBase {
 
     private Boolean deleted;
 
-    public Template(String name, String description, String content, User owner, Boolean deleted) {
-        this.name = name;
-        this.description = description;
-        this.content = content;
+    public Template(TemplateDto templateDto, User owner) {
+        this.name = templateDto.getName();
+        this.description = templateDto.getDescription();
+        this.content = templateDto.getContent();
         this.owner = owner;
-        this.deleted = deleted;
+        this.deleted = false;
+
+        this.fields = templateDto.getFields()
+                .stream()
+                .map(templateFieldDto -> new TemplateField(
+                        templateFieldDto.getLabel(),
+                        templateFieldDto.getWildcard(),
+                        templateFieldDto.getDescription(),
+                        this)
+                )
+                .collect(Collectors.toList());
     }
 
     public Template() {
