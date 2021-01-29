@@ -290,3 +290,6 @@ Feature: Template application creation endpoint
     """
     When method POST
     Then status 404
+
+  @student
+  Scenario: Create a template application where the id of a template field is set
