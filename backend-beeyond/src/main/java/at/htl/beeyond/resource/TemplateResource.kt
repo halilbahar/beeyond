@@ -9,6 +9,7 @@ import javax.transaction.Transactional
 import javax.validation.Valid
 import javax.ws.rs.*
 import javax.ws.rs.core.*
+import kotlin.streams.toList
 
 @Path("/template")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -18,7 +19,7 @@ class TemplateResource {
     @Transactional
     @RolesAllowed("student", "teacher")
     @GET
-    fun getAllTemplates(): Response = Response.ok(Template.getDtos()).build()
+    fun getAllTemplates(): Response = Response.ok(Template.streamAll<Template>().map { TemplateDto(it) }.toList()).build()
 
     @POST
     @RolesAllowed("teacher")

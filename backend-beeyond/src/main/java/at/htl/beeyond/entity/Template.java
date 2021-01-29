@@ -102,11 +102,4 @@ public class Template extends PanacheEntityBase {
     public void setDeleted(Boolean deleted) {
         this.deleted = deleted;
     }
-
-    public static List<TemplateDto> getDtos() {
-        return Template.findAll().stream().map(o -> {
-            Template template = (Template) o;
-            return new TemplateDto(template);
-        }).collect(Collectors.toList());
-    }
 }

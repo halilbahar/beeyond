@@ -48,8 +48,4 @@ public class TemplateApplication extends Application {
         fieldValues.forEach(templateFieldValue -> templateFieldValue.setTemplateApplication(this));
         this.fieldValues = fieldValues;
     }
-
-    public static TemplateApplicationDto getDto(TemplateApplication templateApplication) {
-        return new TemplateApplicationDto(templateApplication);
-    }
 }

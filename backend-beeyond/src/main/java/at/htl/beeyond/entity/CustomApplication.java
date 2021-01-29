@@ -26,8 +26,4 @@ public class CustomApplication extends Application {
     public void setContent(String content) {
         this.content = content;
     }
-
-    public static CustomApplicationDto getDto(CustomApplication customApplication) {
-        return new CustomApplicationDto(customApplication);
-    }
 }
