@@ -23,8 +23,5 @@ export class TemplateDetailComponent implements OnInit {
     this.service.deleteTemplate(this.template.id).subscribe(() => {
       this.router.navigate(['/template']);
     });
-    /*this.service.deleteTemplate(this.template.id).subscribe(() => {
-      this.router.navigate(['/template']);
-    });*/
   }
 }
