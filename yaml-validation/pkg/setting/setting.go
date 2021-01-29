@@ -21,6 +21,13 @@ type Database struct {
 
 var DatabaseSetting = &Database{}
 
+type KubernetesJsonschema struct {
+	KubernetesVersion string
+	Url               string
+}
+
+var KubernetesJsonschemaSetting = &KubernetesJsonschema{}
+
 var cfg *ini.File
 
 // Setup initialize the configuration instance
@@ -33,6 +40,7 @@ func Init() {
 
 	mapTo("server", ServerSetting)
 	mapTo("database", DatabaseSetting)
+	mapTo("kubernetes-jsonschema", KubernetesJsonschemaSetting)
 }
 
 func mapTo(section string, v interface{}) {
