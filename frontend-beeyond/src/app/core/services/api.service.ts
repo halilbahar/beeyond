@@ -37,7 +37,7 @@ export class ApiService {
   }
 
   deleteTemplate(id: number): Observable<any> {
-    return this.http.delete<any>(`${environment.apiUrl}/template/${id}`, null);
+    return this.http.delete<any>(`${environment.apiUrl}/template/${id}`);
   }
 
   getApplications(): Observable<Application[]> {
