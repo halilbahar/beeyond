@@ -20,7 +20,7 @@ class CustomApplicationDto(
         owner,
         createdAt
 ) {
-    constructor(customApplication: CustomApplication):this(
+    constructor(customApplication: CustomApplication) : this(
             customApplication.id,
             customApplication.note,
             customApplication.status,
@@ -30,14 +30,10 @@ class CustomApplicationDto(
     )
 
     @field:NotBlank
-    var content : String? = content
-        set(value){
+    var content: String? = content
+        set(value) {
             if (value != null) {
                 field = value.trim()
             }
         }
-
-    fun map(owner: User?): CustomApplication {
-        return CustomApplication(note, owner, content)
-    }
 }

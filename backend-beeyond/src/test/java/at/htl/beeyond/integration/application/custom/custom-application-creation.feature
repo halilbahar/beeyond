@@ -64,3 +64,15 @@ Feature: Custom application creation endpoint
     When method POST
     Then status 422
     And match response contains { "message": "This field needs to be between 0 and 255 characters", "value": "#ignore", "key":"note"}
+
+  @student
+  Scenario: Create a custom application with id set
+
+  @student
+  Scenario: Create a custom application with application status set
+
+  @student
+  Scenario: Create a custom application with owner set
+
+  @student
+  Scenario: Create a custom application with created at set
