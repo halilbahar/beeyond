@@ -68,7 +68,7 @@ jobs:
           key: ${{ runner.os }}-go-${{ hashFiles('**/go.sum') }}
           restore-keys: |
             ${{ runner.os }}-go-
-      - name: update
+      - name: Update
         run: apt-get update
       - name: Install gcc
         run: apt install gcc -y
