@@ -92,18 +92,25 @@ func getConstraintsByPath(c *gin.Context) {
 				return
 			}
 
-			// We want the last part of the reference
-			// Example: #/definitions/io.k8s.api.apps.v1.DeploymentSpec
-			split := strings.Split(property.Reference, "/")
-			definitionName := split[len(split)-1]
+			var referencePath string
+			if property.Reference != "" {
+				referencePath = property.Reference
+			} else if property.Items != nil {
+				referencePath = property.Items.Reference
+			}
 
-			schema := collection.Schemas[definitionName]
-			if schema == nil {
+			// If the specified path of the user does not exist, return
+			if referencePath == "" {
 				c.Writer.WriteHeader(http.StatusBadRequest)
 				return
 			}
 
-			currentSchema = schema
+			// We want the last part of the reference
+			// Example: #/definitions/io.k8s.api.apps.v1.DeploymentSpec
+			split := strings.Split(referencePath, "/")
+			definitionName := split[len(split)-1]
+
+			currentSchema = collection.Schemas[definitionName]
 		}
 	}
 
