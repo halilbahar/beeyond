@@ -15,7 +15,7 @@ func Init() {
 		api.POST("/validate", getValidationResult)
 
 		// constraints
-		api.GET("/constraints", listConstraints)
+		api.GET("/constraints", listRootConstraints)
 		api.POST("/constraints", createConstraint)
 	}
 

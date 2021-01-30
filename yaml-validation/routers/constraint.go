@@ -22,6 +22,22 @@ func createConstraint(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusCreated)
 }
 
-func listConstraints(c *gin.Context) {
-	c.JSON(http.StatusOK, models.GetConstraints())
+func listRootConstraints(c *gin.Context) {
+	collection, err := models.GetSchemaCollection()
+	if err != nil {
+		c.Writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	var kubernetesRootDefinitions []models.Schema
+	for _, definition := range collection.Schema {
+		groupKindVersions := definition.GroupKindVersion
+		if len(groupKindVersions) > 0 && groupKindVersions[0].Kind != "" {
+			kubernetesRootDefinitions = append(kubernetesRootDefinitions, definition)
+		}
+	}
+
+	// TODO: add constraint from the database to the definition if one is present
+
+	c.JSON(http.StatusOK, kubernetesRootDefinitions)
 }
