@@ -11,23 +11,25 @@ class TemplateFieldDto(
         wildcard: String? = null,
         description: String? = null
 ) {
-    constructor(templateField: TemplateField):this(
+    constructor(templateField: TemplateField) : this(
             templateField.id,
             templateField.label,
             templateField.wildcard,
             templateField.description
     )
 
-    @field:NotBlank @field:Size(max = 255)
-    var label:String? = label
+    @field:NotBlank
+    @field:Size(max = 255)
+    var label: String? = label
         set(value) {
             if (value != null) {
                 field = value.trim()
             }
         }
 
-    @field:NotBlank @field:Size(max = 255)
-    var wildcard:String? = wildcard
+    @field:NotBlank
+    @field:Size(max = 255)
+    var wildcard: String? = wildcard
         set(value) {
             if (value != null) {
                 field = value.trim()
@@ -35,7 +37,7 @@ class TemplateFieldDto(
         }
 
     @field:Size(max = 255)
-    var description:String? = description
+    var description: String? = description
         set(value) {
             if (value != null) {
                 field = value.trim()

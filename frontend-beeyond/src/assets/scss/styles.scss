@@ -83,6 +83,10 @@ body {
   margin-left: 3px;
 }
 
+.item-hover {
+  transition: background-color 100ms ease-in-out;
+}
+
 .item-hover:hover {
-  background: #f1f1f1;
+  background-color: #f1f1f1;
 }
