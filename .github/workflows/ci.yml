@@ -69,9 +69,9 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-go-
       - name: Update
-        run: apt-get update
+        run: sudo apt-get update
       - name: Install gcc
-        run: apt install gcc -y
+        run: sudo apt install gcc -y
       - name: Run build
         run: go build .
       - name: Run test
