@@ -39,7 +39,7 @@ func GetConstraints() []*Constraint {
 	for cur.Next(context.TODO()) {
 		var constr Constraint
 
-		if cur.Decode(&constr) != nil {
+		if err := cur.Decode(&constr); err == nil {
 			constraints = append(constraints, &constr)
 		}
 	}
