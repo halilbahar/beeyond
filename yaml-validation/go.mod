@@ -6,12 +6,18 @@ require (
 	dmitri.shuralyov.com/go/generated v0.0.0-20170818220700-b1254a446363 // indirect
 	github.com/PuerkitoBio/goquery v1.6.1 // indirect
 	github.com/armon/consul-api v0.0.0-20180202201655-eb2c6b5be1b6 // indirect
+	github.com/asaskevich/govalidator v0.0.0-20200907205600-7a23bdc65eef // indirect
 	github.com/coreos/go-etcd v2.0.0+incompatible // indirect
 	github.com/cpuguy83/go-md2man v1.0.10 // indirect
 	github.com/gin-gonic/gin v1.6.3
 	github.com/go-ini/ini v1.62.0
+	github.com/go-ozzo/ozzo-validation v3.6.0+incompatible // indirect
+	github.com/google/uuid v1.1.2
+	github.com/influxdata/influxdb v1.8.4 // indirect
 	github.com/instrumenta/kubeval v0.0.0-20201118090229-529b532b1ea1
+	github.com/jmoiron/sqlx v1.3.1 // indirect
 	github.com/kisielk/gotool v1.0.0 // indirect
+	github.com/lib/pq v1.9.0 // indirect
 	github.com/microcosm-cc/bluemonday v1.0.4 // indirect
 	github.com/mitchellh/go-homedir v1.1.0 // indirect
 	github.com/neelance/astrewrite v0.0.0-20160511093645-99348263ae86 // indirect
@@ -32,6 +38,7 @@ require (
 	github.com/sourcegraph/annotate v0.0.0-20160123013949-f4cad6c6324d // indirect
 	github.com/sourcegraph/syntaxhighlight v0.0.0-20170531221838-bd320f5d308e // indirect
 	github.com/stretchr/testify v1.6.1
+	github.com/testcontainers/testcontainers-go v0.9.0
 	github.com/xordataexchange/crypt v0.0.2 // indirect
 	go.mongodb.org/mongo-driver v1.4.4
 	gopkg.in/ini.v1 v1.62.0 // indirect
