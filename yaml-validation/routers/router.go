@@ -17,6 +17,7 @@ func Init() {
 		// constraints
 		api.GET("/constraints", listRootConstraints)
 		api.POST("/constraints", createConstraint)
+		api.GET("/constraints/*path", getConstraintsByPath)
 	}
 
 	_ = router.Run(setting.ServerSetting.HttpPort)

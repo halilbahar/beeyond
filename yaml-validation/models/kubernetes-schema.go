@@ -7,15 +7,15 @@ import (
 )
 
 type SchemaCollection struct {
-	Schema map[string]Schema `json:"definitions"`
+	Schemas map[string]*Schema `json:"definitions"`
 }
 
 type Schema struct {
-	Description      string              `json:"description"`
-	Required         []string            `json:"required"`
-	Type             string              `json:"type"`
-	Properties       map[string]Property `json:"properties"`
-	GroupKindVersion []GroupKindVersion  `json:"x-kubernetes-group-version-kind,omitempty"`
+	Description      string               `json:"description"`
+	Required         []string             `json:"required"`
+	Type             string               `json:"type"`
+	Properties       map[string]*Property `json:"properties"`
+	GroupKindVersion []GroupKindVersion   `json:"x-kubernetes-group-version-kind,omitempty"`
 }
 
 type Property struct {
