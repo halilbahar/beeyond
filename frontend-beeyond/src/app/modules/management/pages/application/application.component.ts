@@ -36,8 +36,8 @@ export class ApplicationComponent implements OnInit {
     this.filterForm = this.fb.group({
       username: [''],
       status: [ApplicationStatus.PENDING],
-      fromDate: Date,
-      toDate: Date
+      fromDate: [null],
+      toDate: [null]
     });
 
     this.availableUsername = this.applications
@@ -59,7 +59,7 @@ export class ApplicationComponent implements OnInit {
       const date = new Date(createdAt);
 
       let fromDateFilter = false;
-      if (typeof form.fromDate.getTime !== 'undefined') {
+      if (form.fromDate != null) {
         if (date.getTime() >= form.fromDate.getTime()) {
           fromDateFilter = true;
         }
@@ -68,7 +68,7 @@ export class ApplicationComponent implements OnInit {
       }
 
       let toDateFilter = false;
-      if (form.toDate !== null && typeof form.toDate.getTime !== 'undefined') {
+      if (form.toDate != null) {
         if (date.getTime() <= form.toDate.getTime()) {
           toDateFilter = true;
         }
