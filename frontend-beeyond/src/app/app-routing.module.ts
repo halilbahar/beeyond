@@ -21,13 +21,18 @@ const routes: Routes = [
       import('./modules/accounting/accounting.module').then(m => m.AccountingModule)
   },
   {
+    path: 'management',
+    loadChildren: () =>
+      import('./modules/management/management.module').then(m => m.ManagementModule)
+  },
+  {
     path: 'template',
     loadChildren: () => import('./modules/template/template.module').then(m => m.TemplateModule)
   },
   {
-    path: 'management',
+    path: 'constraint',
     loadChildren: () =>
-      import('./modules/management/management.module').then(m => m.ManagementModule)
+      import('./modules/constraint/constraint.module').then(m => m.ConstraintModule)
   },
   { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
   {
