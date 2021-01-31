@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from 'src/app/core/services/api.service';
+import { BackendApiService } from 'src/app/core/services/backend-api.service';
 import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
@@ -18,7 +18,11 @@ export class ApplicationReviewComponent implements OnInit {
 
   isPending = false;
 
-  constructor(private route: ActivatedRoute, private router: Router, private service: ApiService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private backendApiService: BackendApiService
+  ) {}
 
   ngOnInit(): void {
     const application = this.route.snapshot.data.application;
@@ -31,13 +35,13 @@ export class ApplicationReviewComponent implements OnInit {
   }
 
   deny(): void {
-    this.service.denyApplicationById(this.application.id).subscribe(() => {
+    this.backendApiService.denyApplicationById(this.application.id).subscribe(() => {
       this.router.navigate(['/management']);
     });
   }
 
   approve(): void {
-    this.service.approveApplicationById(this.application.id).subscribe(() => {
+    this.backendApiService.approveApplicationById(this.application.id).subscribe(() => {
       this.router.navigate(['/management']);
     });
   }

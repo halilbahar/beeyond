@@ -10,7 +10,7 @@ import { TemplateApplication } from 'src/app/shared/models/template.application.
 @Injectable({
   providedIn: 'root'
 })
-export class ApiService {
+export class BackendApiService {
   constructor(private http: HttpClient) {}
 
   getTemplates(): Observable<Template[]> {
