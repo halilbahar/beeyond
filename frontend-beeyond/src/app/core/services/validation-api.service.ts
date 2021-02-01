@@ -10,7 +10,11 @@ import { environment } from 'src/environments/environment';
 export class ValidationApiService {
   constructor(private http: HttpClient) {}
 
-  getRootConstraints(): Observable<Schema[]> {
-    return this.http.get<Schema[]>(`${environment.validationApiUrl}/constraints`);
+  getConstraintForPath(path: string): Observable<Schema[] | Schema> {
+    if (path !== '') {
+      path = `/${path}`;
+    }
+
+    return this.http.get<Schema[] | Schema>(`${environment.validationApiUrl}/constraints` + path);
   }
 }

@@ -1,5 +1,33 @@
 <mat-card class="card-entire-page">
   <mat-card-content>
-    <app-constraint-accordion [schemas]="schemas"></app-constraint-accordion>
+    <mat-accordion *ngIf="!fetching">
+      <ng-container *ngIf="schemas != null; else singleSchemaView">
+        <mat-expansion-panel hideToggle *ngFor="let schema of schemas">
+          <mat-expansion-panel-header>
+            {{ getGroupKindVersionName(schema) }}
+            <div (click)="navigateFromSchema(schema)" class="navigation-arrow">
+              <mat-icon>arrow_forward_ios</mat-icon>
+            </div>
+          </mat-expansion-panel-header>
+          <p>{{ schema.description }}</p>
+        </mat-expansion-panel>
+      </ng-container>
+
+      <ng-template #singleSchemaView>
+        <mat-expansion-panel hideToggle *ngFor="let property of propertyKeys">
+          <mat-expansion-panel-header>
+            {{ property }}
+            <div
+              (click)="navigateFromProperty(property)"
+              class="navigation-arrow"
+              *ngIf="singleSchema.properties[property].type == null"
+            >
+              <mat-icon>arrow_forward_ios</mat-icon>
+            </div>
+          </mat-expansion-panel-header>
+          <p>{{ singleSchema.properties[property].description }}</p>
+        </mat-expansion-panel>
+      </ng-template>
+    </mat-accordion>
   </mat-card-content>
 </mat-card>
