@@ -1,10 +1,11 @@
 #!/bin/bash
 
+COMMIT="link:https://github.com/halilbahar/beeyond/commit/$1[$1]"
 DATE=$(date +'%d.%m.%Y %H:%M')
 KARATE="link:$1/karate/karate-summary.html[hier]"
 BACKEND=$([ -f $1/backend/index.html ] && echo "link:$1/backend/index.html[hier]" || echo "Kein Report")
 VALIDATION=$([ -f $1/validation/index.html ] && echo "link:$1/validation/index.html[hier]" || echo "Kein Report")
 
-ROW="| $1 | $DATE | $KARATE | $BACKEND | $VALIDATION"
+ROW="| $COMMIT | $DATE | $KARATE | $BACKEND | $VALIDATION"
 
-sed  "/\/\/ insert-new-line-please-here/a\ $ROW" ./asciidoctor/reports.adoc
+sed -i "/\/\/ insert-new-line-please-here/a\\$ROW" ./asciidoctor/reports.adoc
