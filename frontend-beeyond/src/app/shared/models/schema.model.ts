@@ -3,7 +3,7 @@ export interface Schema {
   required: string[] | null;
   type: string;
   properties: Property;
-  'x-kubernetes-group-version-kind': GroupKindVersion;
+  'x-kubernetes-group-version-kind': GroupKindVersion[];
 }
 
 export interface Property {
