@@ -9,10 +9,13 @@ import (
 )
 
 type Constraint struct {
-	Path     string `json:"path"`
-	Kind     string `json:"kind"`
-	Regex    string `json:"regex"`
-	Disabled bool   `json:"disabled"`
+	Path     string   `json:"path,omitempty"`
+	Kind     string   `json:"kind,omitempty"`
+	Min      float32  `json:"min,omitempty"`
+	Max      float32  `json:"max,omitempty"`
+	Enum     []string `json:"enum,omitempty"`
+	Regex    string   `json:"regex,omitempty"`
+	Disabled bool     `json:"disabled,omitempty"`
 }
 
 func SaveConstraint(constraint Constraint) error {
@@ -42,4 +45,20 @@ func GetConstraints() []*Constraint {
 
 	_ = cur.Close(context.TODO())
 	return constraints
+}
+
+func GetConstraint(path string, kind string) *Constraint {
+	var constraint Constraint
+
+	err := services.GetClient().
+		Database(setting.DatabaseSetting.Name).
+		Collection("Constraints").
+		FindOne(context.TODO(), bson.M{"path": path, "kind": kind}).
+		Decode(&constraint)
+
+	if err != nil {
+		return nil
+	}
+
+	return &constraint
 }
