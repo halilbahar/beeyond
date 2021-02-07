@@ -25,6 +25,7 @@ type Property struct {
 	Reference   string        `json:"$ref,omitempty"`
 	Items       *PropertyItem `json:"items,omitempty"`
 	Enum        []string      `json:"enum,omitempty"`
+	Constraint  *Constraint   `json:"constraint,omitempty"`
 }
 
 type PropertyItem struct {

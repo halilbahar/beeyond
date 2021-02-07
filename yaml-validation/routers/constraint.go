@@ -35,6 +35,7 @@ func listRootConstraints(c *gin.Context) {
 		groupKindVersions := definition.GroupKindVersion
 		if len(groupKindVersions) > 0 && groupKindVersions[0].Kind != "" {
 			kubernetesRootDefinitions = append(kubernetesRootDefinitions, definition)
+
 		}
 	}
 
@@ -114,7 +115,12 @@ func getConstraintsByPath(c *gin.Context) {
 		}
 	}
 
-	// TODO: Add the constraints to currentSchema
+	kind := strings.Split(trimmedPath, "-")[0]
+	constraintPath := strings.ReplaceAll(trimmedPath[len(kind)+1:], "/", ".")
+
+	for k, prop := range currentSchema.Properties {
+		prop.Constraint = models.GetConstraint(constraintPath+"."+k, kind)
+	}
 
 	c.JSON(http.StatusOK, currentSchema)
 }
