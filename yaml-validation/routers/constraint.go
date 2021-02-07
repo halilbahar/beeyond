@@ -10,11 +10,17 @@ import (
 func createConstraint(c *gin.Context) {
 	var constraint models.Constraint
 
+	path := c.Param("path")
+	trimmedPath := strings.Trim(path, "/")
+
 	if err := c.ShouldBindJSON(&constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 
+	constraint.Kind, constraint.Path = getKindAndConstraintPathFromPath(trimmedPath)
+
+	models.DeleteConstraint(constraint.Path, constraint.Kind)
 	if err := models.SaveConstraint(constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
@@ -115,12 +121,17 @@ func getConstraintsByPath(c *gin.Context) {
 		}
 	}
 
-	kind := strings.Split(trimmedPath, "-")[0]
-	constraintPath := strings.ReplaceAll(trimmedPath[len(kind)+1:], "/", ".")
+	kind, constraintPath := getKindAndConstraintPathFromPath(trimmedPath)
 
 	for k, prop := range currentSchema.Properties {
 		prop.Constraint = models.GetConstraint(constraintPath+"."+k, kind)
 	}
 
 	c.JSON(http.StatusOK, currentSchema)
+}
+
+func getKindAndConstraintPathFromPath(path string) (string, string) {
+	kind := strings.Split(path, "-")[0]
+	constraintPath := strings.ReplaceAll(path[len(kind)+1:], "/", ".")
+	return kind, constraintPath
 }

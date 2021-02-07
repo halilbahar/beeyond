@@ -16,7 +16,7 @@ func Init() {
 
 		// constraints
 		api.GET("/constraints", listRootConstraints)
-		api.POST("/constraints", createConstraint)
+		api.POST("/constraints/*path", createConstraint)
 		api.GET("/constraints/*path", getConstraintsByPath)
 	}
 

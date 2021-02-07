@@ -62,3 +62,10 @@ func GetConstraint(path string, kind string) *Constraint {
 
 	return &constraint
 }
+
+func DeleteConstraint(path string, kind string) {
+	services.GetClient().
+		Database(setting.DatabaseSetting.Name).
+		Collection("Constraints").
+		DeleteMany(context.TODO(), bson.M{"path": path, "kind": kind})
+}
