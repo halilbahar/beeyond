@@ -74,8 +74,7 @@ func createConstraint(c *gin.Context) {
 				referencePath = property.Items.Reference
 			}
 
-			// If the specified path of the user does not exist, return
-			// This means the user requested something other than object (string, int, ...)
+			// If the specified path of the user does not exist, break
 			if referencePath == "" {
 				break
 			}
