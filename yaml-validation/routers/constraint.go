@@ -10,17 +10,24 @@ import (
 func createConstraint(c *gin.Context) {
 	var constraint models.Constraint
 
-	path := c.Param("path")
-	trimmedPath := strings.Trim(path, "/")
+	segments := c.GetStringSlice("pathSegments")
 
 	if err := c.ShouldBindJSON(&constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 
-	constraint.Kind, constraint.Path = getKindAndConstraintPathFromPath(trimmedPath)
+	if isInValid(&constraint) {
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
 
-	models.DeleteConstraint(constraint.Path, constraint.Kind)
+	var gkv models.GroupKindVersion
+	gkv, constraint.Path = getGroupKindVersionAndPathFromPath(segments)
+
+	constraint.GroupKindVersion = append(constraint.GroupKindVersion, gkv)
+
+	models.DeleteConstraint(constraint.Path, &constraint.GroupKindVersion[0])
 	if err := models.SaveConstraint(constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
@@ -51,11 +58,7 @@ func listRootConstraints(c *gin.Context) {
 }
 
 func getConstraintsByPath(c *gin.Context) {
-	path := c.Param("path")
-	// Simplify path so it is easier to split and find the object
-	// /deployment-apps-v1/metadata/ -> deployment-apps-v1/metadata
-	trimmedPath := strings.Trim(path, "/")
-	segments := strings.Split(trimmedPath, "/")
+	segments := c.GetStringSlice("pathSegments")
 
 	collection, err := models.GetSchemaCollection()
 	if err != nil {
@@ -107,6 +110,7 @@ func getConstraintsByPath(c *gin.Context) {
 			}
 
 			// If the specified path of the user does not exist, return
+			// This means the user requested something other than object (string, int, ...)
 			if referencePath == "" {
 				c.Writer.WriteHeader(http.StatusBadRequest)
 				return
@@ -121,17 +125,38 @@ func getConstraintsByPath(c *gin.Context) {
 		}
 	}
 
-	kind, constraintPath := getKindAndConstraintPathFromPath(trimmedPath)
+	gkv, constraintPath := getGroupKindVersionAndPathFromPath(segments)
 
 	for k, prop := range currentSchema.Properties {
-		prop.Constraint = models.GetConstraint(constraintPath+"."+k, kind)
+		prop.Constraint = models.GetConstraint(constraintPath+"."+k, &gkv)
 	}
 
 	c.JSON(http.StatusOK, currentSchema)
 }
 
-func getKindAndConstraintPathFromPath(path string) (string, string) {
-	kind := strings.Split(path, "-")[0]
-	constraintPath := strings.ReplaceAll(path[len(kind)+1:], "/", ".")
-	return kind, constraintPath
+func getGroupKindVersionAndPathFromPath(segments []string) (models.GroupKindVersion, string) {
+	var gkv models.GroupKindVersion
+	parts := strings.Split(segments[0], "-")
+	gkv.Kind = parts[0]
+	if len(parts) == 3 {
+		gkv.Group = parts[1]
+		gkv.Version = parts[2]
+	} else {
+		gkv.Version = parts[1]
+	}
+
+	constraintPath := strings.Join(segments[1:], ".")
+	return gkv, constraintPath
+}
+
+func isInValid(c *models.Constraint) bool {
+	return c.Enum != nil && (c.Min != nil || c.Max != nil || c.Regex != "") ||
+		(c.Min != nil || c.Max != nil) && (c.Enum != nil || c.Regex != "") ||
+		c.Regex != "" && (c.Min != nil || c.Max != nil || c.Enum != nil)
+
+}
+
+func getAll(c *gin.Context) {
+	constr := models.GetConstraints()
+	c.JSON(http.StatusOK, constr)
 }

@@ -9,13 +9,13 @@ import (
 )
 
 type Constraint struct {
-	Path     string   `json:"path,omitempty"`
-	Kind     string   `json:"kind,omitempty"`
-	Min      float32  `json:"min,omitempty"`
-	Max      float32  `json:"max,omitempty"`
-	Enum     []string `json:"enum,omitempty"`
-	Regex    string   `json:"regex,omitempty"`
-	Disabled bool     `json:"disabled,omitempty"`
+	Path             string             `json:"path,omitempty"`
+	Min              *float32           `json:"min,omitempty"`
+	Max              *float32           `json:"max,omitempty"`
+	Enum             []string           `json:"enum,omitempty"`
+	Regex            string             `json:"regex,omitempty"`
+	Disabled         bool               `json:"disabled,omitempty"`
+	GroupKindVersion []GroupKindVersion `json:"x-kubernetes-group-version-kind,omitempty"`
 }
 
 func SaveConstraint(constraint Constraint) error {
@@ -47,13 +47,13 @@ func GetConstraints() []*Constraint {
 	return constraints
 }
 
-func GetConstraint(path string, kind string) *Constraint {
+func GetConstraint(path string, gkv *GroupKindVersion) *Constraint {
 	var constraint Constraint
 
 	err := services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		FindOne(context.TODO(), bson.M{"path": path, "kind": kind}).
+		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": gkv}}).
 		Decode(&constraint)
 
 	if err != nil {
@@ -63,9 +63,9 @@ func GetConstraint(path string, kind string) *Constraint {
 	return &constraint
 }
 
-func DeleteConstraint(path string, kind string) {
+func DeleteConstraint(path string, gkv *GroupKindVersion) {
 	services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		DeleteMany(context.TODO(), bson.M{"path": path, "kind": kind})
+		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": gkv}})
 }
