@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"strings"
 	"yaml-validation/pkg/setting"
 	"yaml-validation/services"
 
@@ -49,11 +50,12 @@ func GetConstraints() []*Constraint {
 
 func GetConstraint(path string, gkv *GroupKindVersion) *Constraint {
 	var constraint Constraint
+	gkvLower := GkvToLower(gkv)
 
 	err := services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": gkv}}).
+		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": gkvLower}}).
 		Decode(&constraint)
 
 	if err != nil {
@@ -64,8 +66,19 @@ func GetConstraint(path string, gkv *GroupKindVersion) *Constraint {
 }
 
 func DeleteConstraint(path string, gkv *GroupKindVersion) {
+	gkvLower := GkvToLower(gkv)
+
 	services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": gkv}})
+		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": gkvLower}})
+}
+
+func GkvToLower(gkv *GroupKindVersion) *GroupKindVersion {
+	var gkvLower GroupKindVersion
+	gkvLower.Group = strings.ToLower(gkv.Group)
+	gkvLower.Kind = strings.ToLower(gkv.Kind)
+	gkvLower.Version = strings.ToLower(gkv.Version)
+
+	return &gkvLower
 }
