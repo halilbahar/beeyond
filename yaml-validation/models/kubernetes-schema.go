@@ -16,6 +16,7 @@ type Schema struct {
 	Type             string               `json:"type"`
 	Properties       map[string]*Property `json:"properties"`
 	GroupKindVersion []GroupKindVersion   `json:"x-kubernetes-group-version-kind,omitempty"`
+	Constraint       *Constraint          `json:"x-constraint,omitempty"`
 }
 
 type Property struct {
@@ -25,7 +26,7 @@ type Property struct {
 	Reference   string        `json:"$ref,omitempty"`
 	Items       *PropertyItem `json:"items,omitempty"`
 	Enum        []string      `json:"enum,omitempty"`
-	Constraint  *Constraint   `json:"constraint,omitempty"`
+	Constraint  *Constraint   `json:"x-constraint,omitempty"`
 }
 
 type PropertyItem struct {
