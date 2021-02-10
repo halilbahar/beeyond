@@ -82,3 +82,11 @@ body {
   width: 5px !important;
   margin-left: 3px;
 }
+
+.item-hover {
+  transition: background-color 100ms ease-in-out;
+}
+
+.item-hover:hover {
+  background-color: #f1f1f1;
+}

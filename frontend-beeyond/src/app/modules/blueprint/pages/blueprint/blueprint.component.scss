@@ -18,3 +18,16 @@ mat-tab-group {
 .monaco-editor {
   flex: 1;
 }
+
+.center {
+  font-size: 1.5rem;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+app-template-list {
+  overflow: auto;
+  height: 80%;
+}

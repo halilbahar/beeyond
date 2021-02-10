@@ -9,5 +9,8 @@ Feature: Deny application endpoint
   @teacher
   Scenario: Deny a approved application
 
+  @teacher
+  Scenario: Deny a denied application
+
   @student
   Scenario: Deny a application as a student

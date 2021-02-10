@@ -25,6 +25,16 @@
         </mat-option>
       </mat-select>
     </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Pick a date range...</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input formControlName="fromDate" matStartDate placeholder="From" />
+        <input formControlName="toDate" matEndDate placeholder="To" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
   </div>
 
   <mat-table [dataSource]="applicationDataSource" class="applications-table">
@@ -50,6 +60,7 @@
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
     <mat-row
+      class="item-hover"
       *matRowDef="let row; columns: columnsToDisplay; let i = index"
       (click)="selectedRow = i"
       [ngClass]="{ 'selected-row': selectedRow === i }"

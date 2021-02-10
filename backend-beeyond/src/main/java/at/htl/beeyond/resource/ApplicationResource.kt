@@ -14,12 +14,13 @@ import javax.inject.Inject
 import javax.transaction.Transactional
 import javax.ws.rs.*
 import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
 
 @Path("/application")
-@Consumes("application/json")
-@Produces("application/json")
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
 class ApplicationResource {
 
     @Inject
@@ -38,7 +39,7 @@ class ApplicationResource {
         }
 
         val applications = if (ctx.isUserInRole("teacher")) {
-            Application.streamAll<PanacheEntityBase>().map(mapToDto).collect(Collectors.toList<Any>())
+            Application.streamAll<Application>().map(mapToDto).collect(Collectors.toList<Any>())
         } else {
             Application.streamAll<Application>().filter {
                 it.owner.name == ctx.userPrincipal.name
@@ -55,6 +56,7 @@ class ApplicationResource {
     fun getApplicationById(@PathParam("id") id: Long?): Response? {
         val application = Application.findById<Application>(id)
                 ?: return Response.status(Response.Status.NOT_FOUND).build()
+
         return if (application is CustomApplication) {
             Response.ok(CustomApplicationDto(application)).build()
         } else {
@@ -66,11 +68,11 @@ class ApplicationResource {
     @Path("/approve/{id}")
     @RolesAllowed("teacher")
     @Transactional
-    fun approve(@PathParam("id") id: Long?): Response? {
+    fun approveApplication(@PathParam("id") id: Long?): Response? {
         val application = Application.findById<Application>(id)
-                ?: return Response.status(404).build()
+                ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        deploymentService.deploy(application)
+        this.deploymentService.deploy(application)
         application.status = ApplicationStatus.RUNNING
         return Response.noContent().build()
     }
@@ -79,7 +81,7 @@ class ApplicationResource {
     @Path("/deny/{id}")
     @RolesAllowed("teacher")
     @Transactional
-    fun deny(@PathParam("id") id: Long?): Response? {
+    fun denyApplication(@PathParam("id") id: Long?): Response? {
         val application = Application.findById<Application>(id)
                 ?: return Response.status(404).build()
 

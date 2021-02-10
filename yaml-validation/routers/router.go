@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"yaml-validation/middleware"
 	"yaml-validation/pkg/setting"
 
 	"github.com/gin-gonic/gin"
@@ -15,8 +16,15 @@ func GetRouter() *gin.Engine {
 		api.POST("/validate", getValidationResult)
 
 		// constraints
-		api.GET("/constraints", listConstraints)
-		api.POST("/constraints", createConstraint)
+		constraints := api.Group("/constraints")
+		{
+			constraints.Use(middleware.KubernetesPath())
+			constraints.GET("", listRootConstraints)
+			constraints.POST("/*path", createConstraint)
+			constraints.GET("/*path", getConstraintsByPath)
+
+		}
+		api.GET("/constraintsall/", getAll)
 	}
 
 	return router

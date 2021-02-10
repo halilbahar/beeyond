@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Entity
 public class TemplateApplication extends Application {
@@ -17,10 +18,15 @@ public class TemplateApplication extends Application {
     @OneToMany(mappedBy = "templateApplication", cascade = CascadeType.PERSIST)
     private List<TemplateFieldValue> fieldValues;
 
-    public TemplateApplication(String note, User owner, Template template, List<TemplateFieldValue> fieldValues) {
-        super(note, owner);
-        this.template = template;
-        this.setFieldValues(fieldValues);
+    public TemplateApplication(TemplateApplicationDto templateApplicationDto, User owner) {
+        super(templateApplicationDto.getNote(), owner);
+        this.template = Template.findById(templateApplicationDto.getTemplateId());
+        List<TemplateFieldValue> templateFieldValues = templateApplicationDto.getFieldValues()
+                .stream()
+                .map(TemplateFieldValue::new)
+                .collect(Collectors.toList());
+
+        this.setFieldValues(templateFieldValues);
     }
 
     public TemplateApplication() {
@@ -41,9 +47,5 @@ public class TemplateApplication extends Application {
     public void setFieldValues(List<TemplateFieldValue> fieldValues) {
         fieldValues.forEach(templateFieldValue -> templateFieldValue.setTemplateApplication(this));
         this.fieldValues = fieldValues;
-    }
-
-    public static TemplateApplicationDto getDto(TemplateApplication templateApplication) {
-        return new TemplateApplicationDto(templateApplication);
     }
 }

@@ -1,6 +1,6 @@
 <div class="unselectable">
   <div *ngFor="let template of templates; let i = index">
-    <div class="list-item" matRipple (click)="route(template.id)">
+    <div class="list-item item-hover" matRipple (click)="route(template.id)">
       <div class="list-item-text">
         <span class="label">{{ template.name }}</span>
         <span class="description">{{ template.description }}</span>
