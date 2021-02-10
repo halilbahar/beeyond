@@ -27,6 +27,7 @@ jobs:
       - name: Build
         run: ./mvnw verify -B
       - name: Commit report files
+        if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
           name: report-files
@@ -61,6 +62,7 @@ jobs:
     needs:
       - quarkus-backend
       - angular-frontend
+    if: always()
     steps:
       - name: Download report files
         uses: actions/download-artifact@v2
