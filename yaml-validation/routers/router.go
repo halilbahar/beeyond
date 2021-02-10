@@ -17,9 +17,15 @@ func Init() {
 		api.POST("/validate", getValidationResult)
 
 		// constraints
-		api.GET("/constraints", listRootConstraints)
-		api.POST("/constraints", createConstraint)
-		api.GET("/constraints/*path", getConstraintsByPath)
+		constraints := api.Group("/constraints")
+		{
+			constraints.Use(middleware.KubernetesPath())
+			constraints.GET("", listRootConstraints)
+			constraints.POST("/*path", createConstraint)
+			constraints.GET("/*path", getConstraintsByPath)
+
+		}
+		api.GET("/constraintsall/", getAll)
 	}
 
 	_ = router.Run(setting.ServerSetting.HttpPort)
