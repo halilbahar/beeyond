@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { RootConstraintComponent } from './root-constraint.component';
+import { ConstraintComponent } from './constraint.component';
 
-describe('RootConstraintComponent', () => {
-  let component: RootConstraintComponent;
-  let fixture: ComponentFixture<RootConstraintComponent>;
+describe('ConstraintComponent', () => {
+  let component: ConstraintComponent;
+  let fixture: ComponentFixture<ConstraintComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ RootConstraintComponent ]
+      declarations: [ ConstraintComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(RootConstraintComponent);
+    fixture = TestBed.createComponent(ConstraintComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

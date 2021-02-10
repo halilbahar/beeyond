@@ -4,11 +4,11 @@ import { ValidationApiService } from 'src/app/core/services/validation-api.servi
 import { Schema } from 'src/app/shared/models/schema.model';
 
 @Component({
-  selector: 'app-root-constraint',
-  templateUrl: './root-constraint.component.html',
-  styleUrls: ['./root-constraint.component.scss']
+  selector: 'app-constraint',
+  templateUrl: './constraint.component.html',
+  styleUrls: ['./constraint.component.scss']
 })
-export class RootConstraintComponent implements OnInit {
+export class ConstraintComponent implements OnInit {
   fetching = true;
   schemas: Schema[];
   singleSchema: Schema;
