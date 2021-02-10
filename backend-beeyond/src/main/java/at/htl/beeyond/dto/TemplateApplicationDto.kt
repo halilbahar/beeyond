@@ -10,10 +10,12 @@ import javax.validation.GroupSequence
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 import at.htl.beeyond.entity.TemplateFieldValue
+import at.htl.beeyond.validation.ValidKubernetes
 import java.time.LocalDateTime
 
-@GroupSequence(value = [TemplateApplicationDto::class, Checks.TemplateField::class])
+@GroupSequence(value = [TemplateApplicationDto::class, Checks.TemplateField::class, Checks.KubernetesContent::class])
 @TemplateFieldsComplete(groups = [Checks.TemplateField::class])
+@ValidKubernetes(groups = [Checks.KubernetesContent::class])
 class TemplateApplicationDto(
         id: Long? = null,
         note: String? = null,
@@ -39,6 +41,18 @@ class TemplateApplicationDto(
             templateApplication.template.id,
             templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList()
     )
+
+    fun getContent(): String {
+        val template = Template.findById<Template>(this.templateId)
+        val fieldValues = this.fieldValues
+        var content = template.content
+        for (fieldValue in fieldValues) {
+            val wildcard = TemplateField.findById<TemplateField>(fieldValue.fieldId).wildcard
+            content = content.replace("%$wildcard%", fieldValue.value!!)
+        }
+
+        return content;
+    }
 
     override fun toString(): String {
         return ""
