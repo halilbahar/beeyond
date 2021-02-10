@@ -41,7 +41,7 @@ require (
 	github.com/testcontainers/testcontainers-go v0.9.0
 	github.com/xordataexchange/crypt v0.0.2 // indirect
 	go.mongodb.org/mongo-driver v1.4.4
-	gopkg.in/ini.v1 v1.62.0 // indirect
+	gopkg.in/ini.v1 v1.62.0
 	gopkg.in/pipe.v2 v2.0.0-20140414041502-3c2ca4d52544 // indirect
 	honnef.co/go/js/dom v0.0.0-20200509013220-d4405f7ab4d8 // indirect
 )
