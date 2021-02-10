@@ -5,7 +5,7 @@ import { Component, Input, OnInit } from '@angular/core';
   templateUrl: './side-navigation.component.html',
   styleUrls: ['./side-navigation.component.scss']
 })
-export class SideNavigationComponent implements OnInit {
+export class SideNavigationComponent {
   @Input() name = 'default';
 
   agenda = [
@@ -14,10 +14,7 @@ export class SideNavigationComponent implements OnInit {
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
     { name: 'Accounting', icon: 'account_balance', router: '/accounting' },
     { name: 'Management', icon: 'desktop_windows', router: '/management' },
-    { name: 'Template', icon: 'bakery_dining', router: '/template' }
+    { name: 'Template', icon: 'bakery_dining', router: '/template' },
+    { name: 'Constraint', icon: 'attach_file', router: '/constraint' }
   ];
-
-  constructor() {}
-
-  ngOnInit(): void {}
 }

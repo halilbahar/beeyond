@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiService } from '../../../../core/services/api.service';
+import { BackendApiService } from '../../../../core/services/backend-api.service';
 import { Template } from '../../../../shared/models/template.model';
 
 @Component({
@@ -10,10 +10,10 @@ import { Template } from '../../../../shared/models/template.model';
 export class TemplateComponent implements OnInit {
   templates: Template[] = [];
 
-  constructor(private apiService: ApiService) {}
+  constructor(private backendApiService: BackendApiService) {}
 
   ngOnInit(): void {
-    this.apiService
+    this.backendApiService
       .getTemplates()
       .subscribe(templates => (this.templates = templates.filter(template => !template.deleted)));
   }

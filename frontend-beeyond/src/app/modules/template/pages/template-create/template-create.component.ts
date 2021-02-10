@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ApiService } from '../../../../core/services/api.service';
+import { BackendApiService } from '../../../../core/services/backend-api.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -21,7 +21,7 @@ export class TemplateCreateComponent implements OnInit {
   constructor(
     private router: Router,
     private fb: FormBuilder,
-    private apiService: ApiService,
+    private backendApiService: BackendApiService,
     private snackBar: MatSnackBar
   ) {}
 
@@ -62,7 +62,7 @@ export class TemplateCreateComponent implements OnInit {
       ...this.secondFormGroup.value,
       ...this.thirdFormGroup.value
     };
-    this.apiService.createTemplate(template).subscribe(() => {
+    this.backendApiService.createTemplate(template).subscribe(() => {
       this.router.navigate(['template']).then(navigated => {
         if (navigated) {
           this.snackBar.open('Your Template was created', 'close', {

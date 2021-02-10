@@ -20,7 +20,7 @@ import { environment } from '../../environments/environment';
     MatIconModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: [environment.apiUrl],
+        allowedUrls: [environment.backendApiUrl],
         sendAccessToken: true
       }
     })

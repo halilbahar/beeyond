@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"yaml-validation/middleware"
 	"yaml-validation/pkg/setting"
 
 	"github.com/gin-gonic/gin"
@@ -8,6 +9,7 @@ import (
 
 func Init() {
 	router := gin.Default()
+	router.Use(middleware.Cors())
 
 	api := router.Group("/api")
 	{
