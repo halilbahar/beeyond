@@ -38,6 +38,9 @@ function fn() {
         config: karate.tags
     };
 
+    var DatabaseCleanup = Java.type('at.htl.beeyond.integration.util.DatabaseCleanup');
+    DatabaseCleanup.cleanUp();
+
     karate.configure('connectTimeout', 5000);
     karate.configure('readTimeout', 5000);
     return config;
