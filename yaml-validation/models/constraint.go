@@ -31,17 +31,21 @@ func SaveConstraint(constraint Constraint) error {
 func GetConstraints() []*Constraint {
 	var constraints []*Constraint
 
-	// TODO: error handling?
-	cur, _ := services.GetClient().
+	cur, err := services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
 		Find(context.TODO(), bson.D{})
 
+	if err != nil {
+		return nil
+	}
+
 	for cur.Next(context.TODO()) {
 		var constr Constraint
-		_ = cur.Decode(&constr)
-		// TODO: append only when there is no error?
-		constraints = append(constraints, &constr)
+
+		if err := cur.Decode(&constr); err == nil {
+			constraints = append(constraints, &constr)
+		}
 	}
 
 	_ = cur.Close(context.TODO())

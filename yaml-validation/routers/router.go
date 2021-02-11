@@ -7,7 +7,7 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func Init() {
+func GetRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(middleware.Cors())
 
@@ -28,5 +28,10 @@ func Init() {
 		api.GET("/constraintsall/", getAll)
 	}
 
+	return router
+}
+
+func Init() {
+	router := GetRouter()
 	_ = router.Run(setting.ServerSetting.HttpPort)
 }

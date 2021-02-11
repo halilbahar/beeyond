@@ -1,10 +1,11 @@
 package routers
 
 import (
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"strings"
 	"yaml-validation/models"
+
+	"github.com/gin-gonic/gin"
 )
 
 func createConstraint(c *gin.Context) {
@@ -33,7 +34,11 @@ func createConstraint(c *gin.Context) {
 
 	var currentSchema *models.Schema
 
-	for i, segment := range segments[0 : len(segments)-1] {
+	if len(segments) != 1 {
+		segments = segments[0 : len(segments)-1]
+	}
+
+	for i, segment := range segments {
 		// On the first element search for the GroupKindVersion
 		if i == 0 {
 		schemaLoop:
@@ -198,9 +203,9 @@ func getConstraintsByPath(c *gin.Context) {
 
 	for k, prop := range currentSchema.Properties {
 		if constraintPath == "" {
-			prop.Constraint = models.GetConstraint(k, &gkv)
+			prop.Constraint = models.GetConstraint(strings.ToLower(k), &gkv)
 		} else {
-			prop.Constraint = models.GetConstraint(constraintPath+"."+k, &gkv)
+			prop.Constraint = models.GetConstraint(constraintPath+"."+strings.ToLower(k), &gkv)
 		}
 	}
 
