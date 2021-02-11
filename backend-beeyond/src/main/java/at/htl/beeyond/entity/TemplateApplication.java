@@ -48,16 +48,4 @@ public class TemplateApplication extends Application {
         fieldValues.forEach(templateFieldValue -> templateFieldValue.setTemplateApplication(this));
         this.fieldValues = fieldValues;
     }
-
-    public String getContent() {
-        List<TemplateFieldValue> fieldValues = this.fieldValues;
-        String content = this.template.getContent();
-
-        for (TemplateFieldValue fieldValue : fieldValues) {
-            String wildcard = fieldValue.getField().getWildcard();
-            content = content.replace("%" + wildcard + "%", fieldValue.getValue());
-        }
-
-        return content;
-    }
 }
