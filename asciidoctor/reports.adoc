@@ -5,6 +5,7 @@
 |===
 | | Datum | Karate | Backend | Validation
 // insert-new-line-please-here
+| link:https://github.com/halilbahar/beeyond/commit/652f19da05d26fb006ed7818bb6edd94cb370274[652f19da05d26fb006ed7818bb6edd94cb370274] | 12.02.2021 16:19 | link:652f19da05d26fb006ed7818bb6edd94cb370274/karate/karate-summary.html[hier] | Kein Report | Kein Report
 | link:https://github.com/halilbahar/beeyond/commit/810bccfa43a3208f94f20cc72bd1bc6a255ef7ff[810bccfa43a3208f94f20cc72bd1bc6a255ef7ff] | 12.02.2021 16:16 | link:810bccfa43a3208f94f20cc72bd1bc6a255ef7ff/karate/karate-summary.html[hier] | Kein Report | Kein Report
 | link:https://github.com/halilbahar/beeyond/commit/a2ba6295f13ca8d33106c3cba43483b2f2eda0f7[a2ba6295f13ca8d33106c3cba43483b2f2eda0f7] | 11.02.2021 01:36 | link:a2ba6295f13ca8d33106c3cba43483b2f2eda0f7/karate/karate-summary.html[hier] | Kein Report | Kein Report
 | link:https://github.com/halilbahar/beeyond/commit/a2ba6295f13ca8d33106c3cba43483b2f2eda0f7[a2ba6295f13ca8d33106c3cba43483b2f2eda0f7] | 10.02.2021 21:57 | link:a2ba6295f13ca8d33106c3cba43483b2f2eda0f7/karate/karate-summary.html[hier] | Kein Report | Kein Report
