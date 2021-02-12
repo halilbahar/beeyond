@@ -67,12 +67,55 @@ Feature: Custom application creation endpoint
 
   @student
   Scenario: Create a custom application with id set
+    Given request
+    """
+    {
+      "id": 9999,
+      "note": "Nginx Deployment",
+      "content": "#(nginxDeployment)",
+    }
+    """
+    When method POST
+    Then status 204
 
   @student
   Scenario: Create a custom application with application status set
+    Given request
+    """
+    {
+      "status": "APPROVED",
+      "note": "Nginx Deployment",
+      "content": "#(nginxDeployment)",
+    }
+    """
+    When method POST
+    Then status 204
 
   @student
   Scenario: Create a custom application with owner set
+    Given request
+    """
+    {
+      "owner": {
+        "name": "stuetz",
+        "id": 9
+      },
+      "note": "Nginx Deployment",
+      "content": "#(nginxDeployment)",
+    }
+    """
+    When method POST
+    Then status 204
 
   @student
   Scenario: Create a custom application with created at set
+    Given request
+    """
+    {
+      "createdAt": "2021-02-10T22:42:57.620598",
+      "note": "Nginx Deployment",
+      "content": "#(nginxDeployment)",
+    }
+    """
+    When method POST
+    Then status 204
