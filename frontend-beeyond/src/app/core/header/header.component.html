@@ -6,7 +6,7 @@
   <ng-container *ngFor="let crumb of breadcrumbs; let i = index">
     <span
       *ngIf="crumb.link; else noLinkBreadcrumb"
-      [routerLink]="crumb.link"
+      (click)="navigateFromBreadcrumb(crumb.link)"
       class="cursor-pointer no-outline"
     >
       {{ crumb.title | titlecase }}

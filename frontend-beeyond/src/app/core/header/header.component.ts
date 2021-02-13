@@ -26,7 +26,6 @@ export class HeaderComponent implements OnInit {
 
       if (event instanceof NavigationEnd) {
         const breadcrumbs: Breadcrumb[] = [];
-
         let link = '';
         for (const segment of segements) {
           let path = segment.path;
@@ -34,21 +33,31 @@ export class HeaderComponent implements OnInit {
             continue;
           }
 
-          // Remove any path param associated with the path: /path/:id => /path
-          const title = path.replace(/\/:\w+/, '');
+          if (path === '**') {
+            const remainingUrl = event.url.replace(link, '').slice(1);
+            const remainingUrlArray = remainingUrl.split('/');
 
-          // Itterate over the object that contains the path param and
-          // replace the placeholder with the actual value: /path/:id => /path/1
-          const params = segment.params;
-          for (const key in params) {
-            if (params.hasOwnProperty(key)) {
-              const value = segment.params[key];
-              path = path.replace(`:${key}`, value);
+            for (const remainingSegment of remainingUrlArray) {
+              link += `/${remainingSegment}`;
+              breadcrumbs.push({ link, title: remainingSegment });
             }
-          }
+          } else {
+            // Remove any path param associated with the path: /path/:id => /path
+            const title = path.replace(/\/:\w+/, '');
 
-          link += `/${path}`;
-          breadcrumbs.push({ link, title });
+            // Itterate over the object that contains the path param and
+            // replace the placeholder with the actual value: /path/:id => /path/1
+            const params = segment.params;
+            for (const key in params) {
+              if (params.hasOwnProperty(key)) {
+                const value = segment.params[key];
+                path = path.replace(`:${key}`, value);
+              }
+            }
+
+            link += `/${path}`;
+            breadcrumbs.push({ link, title });
+          }
         }
 
         breadcrumbs[breadcrumbs.length - 1].link = '';
@@ -56,6 +65,12 @@ export class HeaderComponent implements OnInit {
         segements = [];
       }
     });
+  }
+
+  navigateFromBreadcrumb(url: string): void {
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([url]);
   }
 
   toggleSideNavigation(): void {
