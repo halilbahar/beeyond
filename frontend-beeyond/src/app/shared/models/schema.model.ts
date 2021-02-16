@@ -11,7 +11,8 @@ export interface Property {
   type: string;
   format: string | null;
   items: PropertyItem;
-  enum: string[] | null;
+  // TODO: Replace $ref with a custom type "x-..." where we indicate if this a kubernetes object or another other type
+  $ref: string;
 }
 
 export interface PropertyItem {
