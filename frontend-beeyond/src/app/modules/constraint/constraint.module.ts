@@ -6,9 +6,10 @@ import { MatCardModule } from '@angular/material/card';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { ConstraintDetailComponent } from './components/constraint-detail/constraint-detail.component';
+import { ConstraintEditDialogComponent } from './components/constraint-edit-dialog/constraint-edit-dialog.component';
 
 @NgModule({
-  declarations: [ConstraintComponent, ConstraintDetailComponent],
+  declarations: [ConstraintComponent, ConstraintDetailComponent, ConstraintEditDialogComponent],
   imports: [CommonModule, ConstraintRoutingModule, MatCardModule, MatExpansionModule, MatIconModule]
 })
 export class ConstraintModule {}
