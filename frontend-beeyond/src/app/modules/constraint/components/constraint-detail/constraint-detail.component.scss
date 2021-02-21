@@ -12,7 +12,6 @@ $body-space: 0.8rem;
 .header {
   cursor: pointer;
   height: 1rem;
-  padding-bottom: $body-space;
   display: flex;
   align-items: center;
 
@@ -26,5 +25,6 @@ $body-space: 0.8rem;
 }
 
 .body {
+  padding: $body-space / 2 0 0 0;
   overflow: hidden;
 }

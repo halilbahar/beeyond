@@ -12,8 +12,8 @@ const DEFAULT_DURATION = 300;
   styleUrls: ['./constraint-detail.component.scss'],
   animations: [
     trigger('collapse', [
-      state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE })),
-      state('true', style({ height: '0', visibility: 'hidden' })),
+      state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE, padding: AUTO_STYLE })),
+      state('true', style({ height: '0', visibility: 'hidden', padding: '0' })),
       transition('false => true', animate(DEFAULT_DURATION + 'ms ease-in')),
       transition('true => false', animate(DEFAULT_DURATION + 'ms ease-out'))
     ])
