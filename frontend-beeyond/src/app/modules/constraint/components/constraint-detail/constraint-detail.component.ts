@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { AUTO_STYLE, animate, state, style, transition, trigger } from '@angular/animations';
-import { Schema } from 'src/app/shared/models/schema.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatDialog } from '@angular/material/dialog';
+import { ConstraintEditDialogComponent } from '../constraint-edit-dialog/constraint-edit-dialog.component';
 
 const DEFAULT_DURATION = 300;
 
@@ -18,7 +19,7 @@ const DEFAULT_DURATION = 300;
     ])
   ]
 })
-export class ConstraintDetailComponent implements OnInit {
+export class ConstraintDetailComponent {
   @Input() title: string;
   @Input() description: string;
   @Input() type: string;
@@ -26,22 +27,21 @@ export class ConstraintDetailComponent implements OnInit {
 
   collapsed = true;
 
-  constructor(private router: Router, private route: ActivatedRoute) {}
+  constructor(private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {}
 
-  ngOnInit(): void {}
+  openEditDialog(): void {
+    const path = this.route.snapshot.url
+      .map(segment => segment.path)
+      .reduce((previous, current) => previous + current, '') + '/' + this.title;
 
-  getGroupKindVersionName(schema: Schema) {
-    const { group, kind, version } = schema['x-kubernetes-group-version-kind'][0];
-
-    let groupString = '';
-    if (group !== '') {
-      groupString = '-' + group;
-    }
-
-    return kind + groupString + '-' + version;
+    this.dialog.open(ConstraintEditDialogComponent, {
+      autoFocus: false,
+      minWidth: '50%',
+      data: { type: this.type, path }
+    });
   }
 
-  navigate(path: string) {
+  navigate(path: string): void {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate([path], { relativeTo: this.route });
