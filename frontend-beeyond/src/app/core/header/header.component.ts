@@ -37,6 +37,10 @@ export class HeaderComponent implements OnInit {
             const remainingUrl = event.url.replace(link, '').slice(1);
             const remainingUrlArray = remainingUrl.split('/');
 
+            if (remainingUrl === '') {
+              continue;
+            }
+
             for (const remainingSegment of remainingUrlArray) {
               link += `/${remainingSegment}`;
               breadcrumbs.push({ link, title: remainingSegment });
