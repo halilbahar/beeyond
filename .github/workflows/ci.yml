@@ -78,6 +78,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           ref: 'docs'
+      - run: echo ${{ github.head_ref }}
       - name: Insert report into table
         run: ./insert-report ${{ github.sha }} $([ ${{ github.head_ref }} -eq "" ] && echo ${{ github.head_ref }} || echo "Master") ${{ github.actor }}
       - run: cat asciidoctor/reports.adoc
