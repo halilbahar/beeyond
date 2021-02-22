@@ -5,4 +5,5 @@
 |===
 | | Branch | User | Datum | Karate | Backend | Validation
 // insert-new-line-please-here
+| link:https://github.com/halilbahar/beeyond/commit/e047c15f6bf86ea3c55786d2075934f677a447b2[e047c15f6bf86ea3c55786d2075934f677a447b2] | link:https://github.com/halilbahar/beeyond[Master] | link:https://github.com/EminaSljivic[EminaSljivic] | 22.02.2021 23:24 | link:e047c15f6bf86ea3c55786d2075934f677a447b2/karate/karate-summary.html[hier] | Kein Report | Kein Report
 |===
