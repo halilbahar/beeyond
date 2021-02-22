@@ -5,7 +5,7 @@ DATE=$(TZ=":Europe/Berlin" date +'%d.%m.%Y %H:%M')
 KARATE="link:$1/karate/karate-summary.html[hier]"
 BACKEND=$([ -f $1/backend/index.html ] && echo "link:$1/backend/index.html[hier]" || echo "Kein Report")
 VALIDATION=$([ -f $1/validation/index.html ] && echo "link:$1/validation/index.html[hier]" || echo "Kein Report")
-BRANCH=$([ $2 -eq "master" ] && "link:https://github.com/halilbahar/beeyond/tree/$2[$2]" || echo "link:https://github.com/halilbahar/beeyond[Master]")
+BRANCH=$([ $2 -eq "master" ] && "link:https://github.com/halilbahar/beeyond/tree/$2[$2]" || echo "link:https://github.com/halilbahar/beeyond[master]")
 USER="link:https://github.com/$3[$3]"
 
 ROW="| $COMMIT | $BRANCH | $USER | $DATE | $KARATE | $BACKEND | $VALIDATION"
