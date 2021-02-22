@@ -18,6 +18,18 @@ type Constraint struct {
 	GroupKindVersion []GroupKindVersion
 }
 
+func (constraint Constraint) IsValid() bool {
+	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == "" {
+		return false
+	}
+
+	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == ""
+	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == ""
+	isValidRegex := constraint.Enum == nil && constraint.Regex != "" && constraint.Min == nil && constraint.Max == nil
+
+	return isValidEnum || isValidMinMax || isValidRegex
+}
+
 func SaveConstraint(constraint Constraint) error {
 	collection := services.GetClient().
 		Database(setting.DatabaseSetting.Name).

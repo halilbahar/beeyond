@@ -16,7 +16,7 @@ func createConstraint(c *gin.Context) {
 		return
 	}
 
-	if !isValid(&constraint) {
+	if !constraint.IsValid() {
 		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
@@ -82,25 +82,6 @@ func getConstraintsByPath(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, schema)
-}
-
-func isValid(c *models.Constraint) bool {
-	if c.Enum == nil && c.Min == nil && c.Max == nil && c.Regex == "" {
-		return false
-	}
-
-	return isEnumValid(c) || isMinMaxValid(c) || isRegexValid(c)
-}
-
-func isEnumValid(c *models.Constraint) bool {
-	return c.Enum != nil && c.Min == nil && c.Max == nil && c.Regex == ""
-}
-
-func isMinMaxValid(c *models.Constraint) bool {
-	return c.Min != nil && c.Max != nil && c.Enum == nil && c.Regex == ""
-}
-func isRegexValid(c *models.Constraint) bool {
-	return c.Regex != "" && c.Enum == nil && c.Min == nil && c.Max == nil
 }
 
 func getAll(c *gin.Context) {
