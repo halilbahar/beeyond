@@ -1,33 +1,25 @@
 <mat-card class="card-entire-page">
   <mat-card-content>
-    <mat-accordion *ngIf="!fetching">
+    <div *ngIf="!fetching">
       <ng-container *ngIf="schemas != null; else singleSchemaView">
-        <mat-expansion-panel hideToggle *ngFor="let schema of schemas">
-          <mat-expansion-panel-header>
-            {{ getGroupKindVersionName(schema) }}
-            <div (click)="navigateFromSchema(schema)" class="navigation-arrow">
-              <mat-icon>arrow_forward_ios</mat-icon>
-            </div>
-          </mat-expansion-panel-header>
-          <p>{{ schema.description }}</p>
-        </mat-expansion-panel>
+        <app-constraint-detail
+          *ngFor="let schema of schemas"
+          [title]="getGroupKindVersionName(schema)"
+          [description]="schema.description"
+          [type]="schema.type"
+          hasRef="true"
+        ></app-constraint-detail>
       </ng-container>
 
       <ng-template #singleSchemaView>
-        <mat-expansion-panel hideToggle *ngFor="let property of propertyKeys">
-          <mat-expansion-panel-header>
-            {{ property }}
-            <div
-              (click)="navigateFromProperty(property)"
-              class="navigation-arrow"
-              *ngIf="singleSchema.properties[property].type == null"
-            >
-              <mat-icon>arrow_forward_ios</mat-icon>
-            </div>
-          </mat-expansion-panel-header>
-          <p>{{ singleSchema.properties[property].description }}</p>
-        </mat-expansion-panel>
+        <app-constraint-detail
+          *ngFor="let property of propertyKeys"
+          [title]="property"
+          [description]="singleSchema.properties[property].description"
+          [type]="singleSchema.properties[property].type"
+          [hasRef]="singleSchema.properties[property].$ref != null"
+        ></app-constraint-detail>
       </ng-template>
-    </mat-accordion>
+    </div>
   </mat-card-content>
 </mat-card>

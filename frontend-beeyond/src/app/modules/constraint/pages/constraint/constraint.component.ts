@@ -15,8 +15,7 @@ export class ConstraintComponent implements OnInit {
 
   constructor(
     private validationApiService: ValidationApiService,
-    private route: ActivatedRoute,
-    private router: Router
+    private route: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
@@ -46,20 +45,5 @@ export class ConstraintComponent implements OnInit {
     }
 
     return kind + groupString + '-' + version;
-  }
-
-  navigateFromSchema(schema: Schema) {
-    const groupKindVersionNameString = this.getGroupKindVersionName(schema);
-    this.navigate(groupKindVersionNameString);
-  }
-
-  navigateFromProperty(property: string) {
-    this.navigate(property);
-  }
-
-  private navigate(path: string) {
-    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
-    this.router.onSameUrlNavigation = 'reload';
-    this.router.navigate([path], { relativeTo: this.route });
   }
 }

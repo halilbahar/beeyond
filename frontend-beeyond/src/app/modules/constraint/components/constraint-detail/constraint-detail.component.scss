@@ -1,0 +1,30 @@
+$body-space: 0.8rem;
+
+:host {
+  padding: $body-space 0 $body-space;
+  display: block;
+}
+
+:host-context(:not(:last-of-type)) {
+  box-shadow: inset 0 -10px 3px -10px rgba(0, 0, 0, 0.4);
+}
+
+.header {
+  cursor: pointer;
+  height: 1rem;
+  display: flex;
+  align-items: center;
+
+  .title {
+    font-size: 1.2rem;
+  }
+
+  .navigation-arrow {
+    margin-left: auto;
+  }
+}
+
+.body {
+  padding: $body-space / 2 0 0 0;
+  overflow: hidden;
+}

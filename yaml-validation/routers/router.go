@@ -21,8 +21,8 @@ func GetRouter() *gin.Engine {
 		{
 			constraints.Use(middleware.KubernetesPath())
 			constraints.GET("", listRootConstraints)
-			constraints.POST("/*path", createConstraint)
 			constraints.GET("/*path", getConstraintsByPath)
+			constraints.POST("/*path", createConstraint)
 
 		}
 		api.GET("/constraintsall/", getAll)
