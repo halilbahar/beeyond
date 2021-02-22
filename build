@@ -1,4 +1,6 @@
 #!/bin/bash
 
 rm -rf out
+cp -r ./continuous-integration-report/* out/
+mkdir out
 asciidoctor -r asciidoctor-diagram -D ./out ./asciidoctor/*.adoc
