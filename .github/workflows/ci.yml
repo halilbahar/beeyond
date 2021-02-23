@@ -79,12 +79,11 @@ jobs:
         with:
           ref: 'docs'
       - name: Insert report into table
-        run: ./insert-report ${{ github.sha }}
-      - run: cat asciidoctor/reports.adoc
+        run: ./insert-report ${{ github.sha }} $([ ${{ github.head_ref }} -eq "" ] && echo "master" || echo ${{ github.head_ref }}) ${{ github.actor }}
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
+          github_token: ${{ secrets.BEEYOND_PAT }}
           publish_branch: docs
           publish_dir: asciidoctor
           destination_dir: asciidoctor
