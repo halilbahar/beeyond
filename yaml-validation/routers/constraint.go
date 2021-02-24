@@ -88,3 +88,19 @@ func getAll(c *gin.Context) {
 	constr := models.GetConstraints()
 	c.JSON(http.StatusOK, constr)
 }
+
+func disableConstraint(c *gin.Context) {
+	var constraint *models.Constraint
+
+	gkv, path := models.GetGroupKindVersionAndPathFromSegments(c.GetStringSlice("pathSegments"))
+
+	if constraint = models.GetConstraint(path, &gkv); constraint == nil{
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+	constraint.Disabled = true
+	models.DeleteConstraint(constraint.Path, &constraint.GroupKindVersion[0])
+	models.SaveConstraint(*constraint)
+
+	c.Writer.WriteHeader(http.StatusOK)
+}
