@@ -1,6 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { AUTO_STYLE, state, style, trigger } from '@angular/animations';
 import { SidenavToggleService } from '../services/sidenav-toggle.service';
+import { AuthenticationService } from '../authentification/authentication.service';
 
 @Component({
   selector: 'app-side-navigation',
@@ -14,8 +15,6 @@ import { SidenavToggleService } from '../services/sidenav-toggle.service';
   ]
 })
 export class SideNavigationComponent implements OnInit {
-  @Input() name = 'default';
-
   agenda = [
     { name: 'Dashboard', icon: 'speed', router: '/dashboard' },
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
@@ -25,7 +24,10 @@ export class SideNavigationComponent implements OnInit {
     { name: 'Template', icon: 'bakery_dining', router: '/template' }
   ];
 
-  constructor(public sidenavToggleService: SidenavToggleService) {}
+  constructor(
+    public sidenavToggleService: SidenavToggleService,
+    public authenticationService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {}
 }
