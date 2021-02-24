@@ -1,9 +1,17 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { AUTO_STYLE, state, style, trigger } from '@angular/animations';
+import { SidenavToggleService } from '../services/sidenav-toggle.service';
 
 @Component({
   selector: 'app-side-navigation',
   templateUrl: './side-navigation.component.html',
-  styleUrls: ['./side-navigation.component.scss']
+  styleUrls: ['./side-navigation.component.scss'],
+  animations: [
+    trigger('minimized', [
+      state('false', style({ width: AUTO_STYLE, display: AUTO_STYLE })),
+      state('true', style({ width: '0', display: 'none' }))
+    ])
+  ]
 })
 export class SideNavigationComponent implements OnInit {
   @Input() name = 'default';
@@ -17,7 +25,7 @@ export class SideNavigationComponent implements OnInit {
     { name: 'Template', icon: 'bakery_dining', router: '/template' }
   ];
 
-  constructor() {}
+  constructor(public sidenavToggleService: SidenavToggleService) {}
 
   ngOnInit(): void {}
 }
