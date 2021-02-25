@@ -21,13 +21,14 @@ type Schema struct {
 }
 
 type Property struct {
-	Description string        `json:"description,omitempty"`
-	Type        string        `json:"type,omitempty"`
-	Format      string        `json:"format,omitempty"`
-	Reference   string        `json:"$ref,omitempty"`
-	Items       *PropertyItem `json:"items,omitempty"`
-	Enum        []string      `json:"enum,omitempty"`
-	Constraint  *Constraint   `json:"x-constraint,omitempty"`
+	Description        string        `json:"description,omitempty"`
+	Type               string        `json:"type,omitempty"`
+	Format             string        `json:"format,omitempty"`
+	Reference          string        `json:"$ref,omitempty"`
+	Items              *PropertyItem `json:"items,omitempty"`
+	Enum               []string      `json:"enum,omitempty"`
+	Constraint         *Constraint   `json:"x-constraint,omitempty"`
+	IsKubernetesObject bool          `json:"x-is-kubernetes-object"`
 }
 
 type PropertyItem struct {
@@ -136,6 +137,21 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 	groupKindVersion, constraintPath := GetGroupKindVersionAndPathFromSegments(segments)
 
 	for propertyName, property := range currentSchema.Properties {
+		var referencePath string
+		if property.Reference != "" {
+			referencePath = property.Reference
+		} else if property.Type == "array"{
+			referencePath = property.Items.Reference
+		}
+
+		if referencePath != "" {
+			split := strings.Split(referencePath, "/")
+			definitionName := split[len(split)-1]
+
+			if collection.Schemas[definitionName].Type == "object" && collection.Schemas[definitionName].Properties != nil{
+				property.IsKubernetesObject = true
+			}
+		}
 		if constraintPath == "" {
 			property.Constraint = GetConstraint(strings.ToLower(propertyName), &groupKindVersion)
 		} else {
