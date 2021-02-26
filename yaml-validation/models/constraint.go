@@ -79,6 +79,30 @@ func GetConstraint(path string, groupKindVersion *GroupKindVersion) *Constraint 
 	return &constraint
 }
 
+func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
+	var constraints []*Constraint
+
+	cur, err := services.GetClient().
+		Database(setting.DatabaseSetting.Name).
+		Collection("Constraints").
+		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": bson.M{"$elemMatch": groupKindVersion.ToLower()}})
+
+	if err != nil {
+		return nil
+	}
+
+	for cur.Next(context.TODO()) {
+		var constr Constraint
+
+		if err := cur.Decode(&constr); err == nil {
+			constraints = append(constraints, &constr)
+		}
+	}
+
+	_ = cur.Close(context.TODO())
+	return constraints
+}
+
 func DeleteConstraint(path string, groupKindVersion *GroupKindVersion) {
 	_, _ = services.GetClient().
 		Database(setting.DatabaseSetting.Name).

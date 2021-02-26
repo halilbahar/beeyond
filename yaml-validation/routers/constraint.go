@@ -2,6 +2,7 @@ package routers
 
 import (
 	"net/http"
+	"strings"
 	"yaml-validation/models"
 
 	"github.com/gin-gonic/gin"
@@ -67,6 +68,23 @@ func listRootConstraints(c *gin.Context) {
 		if len(groupKindVersions) > 0 && groupKindVersions[0].Kind != "" {
 			definition.Constraint = models.GetConstraint("", &groupKindVersions[0])
 			kubernetesRootDefinitions = append(kubernetesRootDefinitions, definition)
+		}
+		for _, property := range definition.Properties {
+			var referencePath string
+			if property.Reference != "" {
+				referencePath = property.Reference
+			} else if property.Type == "array"{
+				referencePath = property.Items.Reference
+			}
+
+			if referencePath != "" {
+				split := strings.Split(referencePath, "/")
+				definitionName := split[len(split)-1]
+
+				if collection.Schemas[definitionName].Type == "object" && collection.Schemas[definitionName].Properties != nil{
+					property.IsKubernetesObject = true
+				}
+			}
 		}
 	}
 
