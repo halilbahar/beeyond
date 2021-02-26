@@ -8,12 +8,20 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//
+// @Summary Creates a new constraint
+// @Description creates a new constraint and adds it to the database. If the constraint already exists it gets replaced.
+// @Accept  json
+// @Param  "path"     path    string     true        "path"
+// @Success 201 {string} string	"created"
+// @Failure 400 {string} string "bad request"
+// @Router /api/constraints/{path} [post]
 func createConstraint(c *gin.Context) {
 	var constraint models.Constraint
 	segments := c.GetStringSlice("pathSegments")
 
 	if err := c.ShouldBindJSON(&constraint); err != nil {
-		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 

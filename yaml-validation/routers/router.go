@@ -1,10 +1,13 @@
 package routers
 
 import (
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
 	"yaml-validation/middleware"
 	"yaml-validation/pkg/setting"
 
 	"github.com/gin-gonic/gin"
+	_ "yaml-validation/docs"
 )
 
 func GetRouter() *gin.Engine {
@@ -16,6 +19,8 @@ func GetRouter() *gin.Engine {
 		// validate
 		api.POST("/validate", getValidationResult)
 		api.Use(middleware.KubernetesPath())
+		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
+		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 		// constraints
 		constraints := api.Group("/constraints")
