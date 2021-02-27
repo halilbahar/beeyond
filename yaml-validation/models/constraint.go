@@ -63,7 +63,7 @@ func GetConstraints() []*Constraint {
 	return constraints
 }
 
-func GetConstraint(path string, groupKindVersion *GroupKindVersion) *Constraint {
+func GetConstraint(path string, groupKindVersion GroupKindVersion) *Constraint {
 	var constraint Constraint
 
 	err := services.GetClient().
