@@ -176,3 +176,15 @@ func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion
 	constraintPath := strings.Join(segments[1:], ".")
 	return groupKindVersion, constraintPath
 }
+
+func IsValidConstraintPath(segments []string) bool {
+	var lastSegment string
+	if len(segments) != 1 {
+		lastSegment = segments[len(segments)-1]
+		segments = segments[0 : len(segments)-1]
+	}
+
+	currentSchema, err := GetSchemaBySegments(segments)
+	// Check if schema was not found or the property was not found. Use the last segment for checking a property
+	return err == nil && currentSchema.Properties[lastSegment] != nil
+}
