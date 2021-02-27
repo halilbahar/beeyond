@@ -140,7 +140,7 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 		var referencePath string
 		if property.Reference != "" {
 			referencePath = property.Reference
-		} else if property.Type == "array"{
+		} else if property.Type == "array" {
 			referencePath = property.Items.Reference
 		}
 
@@ -148,14 +148,14 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 			split := strings.Split(referencePath, "/")
 			definitionName := split[len(split)-1]
 
-			if collection.Schemas[definitionName].Type == "object" && collection.Schemas[definitionName].Properties != nil{
+			if collection.Schemas[definitionName].Type == "object" && collection.Schemas[definitionName].Properties != nil {
 				property.IsKubernetesObject = true
 			}
 		}
 		if constraintPath == "" {
-			property.Constraint = GetConstraint(strings.ToLower(propertyName), &groupKindVersion)
+			property.Constraint = GetConstraint(strings.ToLower(propertyName), groupKindVersion)
 		} else {
-			property.Constraint = GetConstraint(constraintPath+"."+strings.ToLower(propertyName), &groupKindVersion)
+			property.Constraint = GetConstraint(constraintPath+"."+strings.ToLower(propertyName), groupKindVersion)
 		}
 	}
 
