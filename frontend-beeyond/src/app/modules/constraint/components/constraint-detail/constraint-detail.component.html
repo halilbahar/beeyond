@@ -1,6 +1,6 @@
-<div class="header" (click)="collapsed = !collapsed">
-  <mat-icon (click)="openEditDialog()">edit</mat-icon>
-  <div class="title">{{ title }}</div>
+<div class="header">
+  <mat-icon class="edit-icon" (click)="openEditDialog()">edit</mat-icon>
+  <div class="title" (click)="collapsed = !collapsed">{{ title }}</div>
   <mat-icon class="navigation-arrow" *ngIf="isKubernetesObject" (click)="navigate(title)"> arrow_forward_ios </mat-icon>
 </div>
 <div class="body-wrapper" [@collapse]="collapsed">

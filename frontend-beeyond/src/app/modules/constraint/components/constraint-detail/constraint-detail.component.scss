@@ -11,17 +11,19 @@ $body-space: 0.8rem;
 }
 
 .header {
-  cursor: pointer;
   min-height: 1rem;
   display: flex;
   align-items: center;
 
-  .title {
-    font-size: 1.2rem;
+  .edit-icon {
+    cursor: pointer;
   }
 
-  .navigation-arrow {
-    margin-left: auto;
+  .title {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: 0.45rem;
+    flex: 1;
   }
 }
 
