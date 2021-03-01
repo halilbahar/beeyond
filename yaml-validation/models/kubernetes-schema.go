@@ -95,7 +95,7 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 					}
 
 					groupKindVersionString := groupKindVersion.Kind + group + "-" + groupKindVersion.Version
-					if strings.ToLower(segment) == strings.ToLower(groupKindVersionString) {
+					if segment == groupKindVersionString {
 						currentSchema = schema
 						break schemaLoop
 					}
@@ -136,6 +136,7 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 
 	groupKindVersion, constraintPath := GetGroupKindVersionAndPathFromSegments(segments)
 
+	// Attach constraint to the properties if the exist
 	for propertyName, property := range currentSchema.Properties {
 		var referencePath string
 		if property.Reference != "" {
@@ -145,23 +146,29 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 		}
 
 		if referencePath != "" {
+			// turn: #/definitions/xxx
+			// into this: xxx
 			split := strings.Split(referencePath, "/")
 			definitionName := split[len(split)-1]
 
+			// If the reference is of type object and has properties we declare it as kubernetes object
+			// Add new checks if type object and properties are not enough to determine a kubernetes object
 			if collection.Schemas[definitionName].Type == "object" && collection.Schemas[definitionName].Properties != nil {
 				property.IsKubernetesObject = true
 			}
 		}
+
 		if constraintPath == "" {
-			property.Constraint = GetConstraint(strings.ToLower(propertyName), groupKindVersion)
+			property.Constraint = GetConstraint(propertyName, groupKindVersion)
 		} else {
-			property.Constraint = GetConstraint(constraintPath+"."+strings.ToLower(propertyName), groupKindVersion)
+			property.Constraint = GetConstraint(constraintPath+"."+propertyName, groupKindVersion)
 		}
 	}
 
 	return currentSchema, nil
 }
 
+// TODO: Based on the groupKindVersion in the segment return all available groupKindVersions instead of the only one in the segment
 func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion, string) {
 	var groupKindVersion GroupKindVersion
 	parts := strings.Split(segments[0], "-")
@@ -178,13 +185,12 @@ func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion
 }
 
 func IsValidConstraintPath(segments []string) bool {
-	var lastSegment string
+	var lastSegment *string
 	if len(segments) != 1 {
-		lastSegment = segments[len(segments)-1]
+		lastSegment = &segments[len(segments)-1]
 		segments = segments[0 : len(segments)-1]
 	}
 
 	currentSchema, err := GetSchemaBySegments(segments)
-	// Check if schema was not found or the property was not found. Use the last segment for checking a property
-	return err == nil && currentSchema.Properties[lastSegment] != nil
+	return err == nil && (lastSegment == nil || currentSchema.Properties[*lastSegment] != nil)
 }

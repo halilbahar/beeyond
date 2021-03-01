@@ -8,7 +8,6 @@ import (
 func KubernetesPath() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		path := c.Param("path")
-		path = strings.ToLower(path)
 		// Simplify path so it is easier to split and find the object
 		// /deployment-apps-v1/metadata/ -> deployment-apps-v1/metadata
 		trimmedPath := strings.Trim(path, "/")

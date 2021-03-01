@@ -27,9 +27,9 @@ func GetRouter() *gin.Engine {
 		{
 			constraints.GET("", listRootConstraints)
 			constraints.GET("/*path", getConstraintsByPath)
-			constraints.POST("/*path", createConstraint)
+			constraints.POST("/*path", createConstraintByPath)
+			constraints.PATCH("/*path", toggleDisableConstraintByPath)
 		}
-		api.POST("/disable-constraint/*path", disableConstraint)
 		api.GET("/constraintsall/", getAll)
 	}
 

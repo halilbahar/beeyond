@@ -69,7 +69,7 @@ func GetConstraint(path string, groupKindVersion GroupKindVersion) *Constraint {
 	err := services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion.ToLower()}}).
+		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}}).
 		Decode(&constraint)
 
 	if err != nil {
@@ -107,5 +107,5 @@ func DeleteConstraint(path string, groupKindVersion *GroupKindVersion) {
 	_, _ = services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion.ToLower()}})
+		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}})
 }
