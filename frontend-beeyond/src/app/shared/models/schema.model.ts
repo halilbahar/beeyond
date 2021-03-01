@@ -11,8 +11,7 @@ export interface Property {
   type: string;
   format: string | null;
   items: PropertyItem;
-  // TODO: Replace $ref with a custom type "x-..." where we indicate if this a kubernetes object or another other type
-  $ref: string;
+  'x-is-kubernetes-object': boolean;
 }
 
 export interface PropertyItem {

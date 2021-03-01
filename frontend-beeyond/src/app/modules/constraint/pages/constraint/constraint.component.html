@@ -7,7 +7,7 @@
           [title]="getGroupKindVersionName(schema)"
           [description]="schema.description"
           [type]="schema.type"
-          hasRef="true"
+          isKubernetesObject="true"
         ></app-constraint-detail>
       </ng-container>
 
@@ -17,7 +17,7 @@
           [title]="property"
           [description]="singleSchema.properties[property].description"
           [type]="singleSchema.properties[property].type"
-          [hasRef]="singleSchema.properties[property].$ref != null"
+          [isKubernetesObject]="singleSchema.properties[property]['x-is-kubernetes-object']"
         ></app-constraint-detail>
       </ng-template>
     </div>

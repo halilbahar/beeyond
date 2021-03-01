@@ -23,7 +23,7 @@ export class ConstraintDetailComponent {
   @Input() title: string;
   @Input() description: string;
   @Input() type: string;
-  @Input() hasRef: boolean;
+  @Input() isKubernetesObject: boolean;
 
   collapsed = true;
 
@@ -32,7 +32,7 @@ export class ConstraintDetailComponent {
   openEditDialog(): void {
     const path = this.route.snapshot.url
       .map(segment => segment.path)
-      .reduce((previous, current) => previous + current, '') + '/' + this.title;
+      .join('/') + '/' + this.title;
 
     this.dialog.open(ConstraintEditDialogComponent, {
       autoFocus: false,
