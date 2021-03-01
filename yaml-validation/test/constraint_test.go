@@ -276,6 +276,24 @@ func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
 	assert.Equal(t, constraint.Enum[1], "4")
 }
 
+func TestConstraintDelete_ValidConstraint_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintDelete_NoConstraint_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintDelete_InvalidPath_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
 func TestConstraintToggle_DisableInteger_Valid(t *testing.T) {
 	// Given
 	// When
