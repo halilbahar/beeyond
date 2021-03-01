@@ -3,6 +3,7 @@ import { AUTO_STYLE, animate, state, style, transition, trigger } from '@angular
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConstraintEditDialogComponent } from '../constraint-edit-dialog/constraint-edit-dialog.component';
+import { Constraint } from 'src/app/shared/models/constraint.model';
 
 const DEFAULT_DURATION = 300;
 
@@ -24,6 +25,7 @@ export class ConstraintDetailComponent {
   @Input() description: string;
   @Input() type: string;
   @Input() isKubernetesObject: boolean;
+  @Input() constraint?: Constraint;
 
   collapsed = true;
 
@@ -37,7 +39,7 @@ export class ConstraintDetailComponent {
     this.dialog.open(ConstraintEditDialogComponent, {
       autoFocus: false,
       minWidth: '50%',
-      data: { type: this.type, path }
+      data: { type: this.type, path, constraint: this.constraint }
     });
   }
 

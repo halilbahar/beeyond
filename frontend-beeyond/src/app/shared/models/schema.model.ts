@@ -1,9 +1,12 @@
+import { Constraint } from './constraint.model';
+
 export interface Schema {
   description: string;
   required: string[] | null;
   type: string;
   properties: Property;
   'x-kubernetes-group-version-kind': GroupKindVersion[];
+  'x-constraint'?: Constraint;
 }
 
 export interface Property {
@@ -12,6 +15,7 @@ export interface Property {
   format: string | null;
   items: PropertyItem;
   'x-is-kubernetes-object': boolean;
+  'x-constraint'?: Constraint;
 }
 
 export interface PropertyItem {

@@ -3,4 +3,5 @@ export interface Constraint {
   max?: number;
   enum?: string[];
   regex?: string;
+  disabled?: boolean;
 }

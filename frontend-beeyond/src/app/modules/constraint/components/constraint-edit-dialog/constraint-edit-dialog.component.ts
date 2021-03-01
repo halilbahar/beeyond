@@ -25,7 +25,7 @@ export class ConstraintEditDialogComponent implements OnInit {
   private disablingForm = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) private data: { path: string; type: string },
+    @Inject(MAT_DIALOG_DATA) public data: { path: string; type: string; constraint: Constraint | null },
     private dialogRef: MatDialogRef<ConstraintEditDialogComponent>,
     private fb: FormBuilder,
     private validationApiService: ValidationApiService
@@ -75,9 +75,15 @@ export class ConstraintEditDialogComponent implements OnInit {
     return this.form.get('enum') as FormControl;
   }
 
-  createConstraint() {
+  createConstraint(): void {
     this.validationApiService
       .createConstraint(this.data.path, this.form.value as Constraint)
+      .subscribe(() => this.dialogRef.close());
+  }
+
+  toggleConstraint(): void {
+    this.validationApiService
+      .toggleConstraint(this.data.path)
       .subscribe(() => this.dialogRef.close());
   }
 

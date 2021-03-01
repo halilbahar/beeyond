@@ -22,4 +22,8 @@ export class ValidationApiService {
   createConstraint(path: string, constraint: Constraint): Observable<any> {
     return this.http.post(`${environment.validationApiUrl}/constraints/` + path, constraint);
   }
+
+  toggleConstraint(path: string): Observable<void> {
+    return this.http.patch<void>(`${environment.validationApiUrl}/constraints/` + path, null);
+  }
 }

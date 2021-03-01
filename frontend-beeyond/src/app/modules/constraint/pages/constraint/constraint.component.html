@@ -8,6 +8,7 @@
           [description]="schema.description"
           [type]="schema.type"
           isKubernetesObject="true"
+          [constraint]="schema['x-constraint']"
         ></app-constraint-detail>
       </ng-container>
 
@@ -18,6 +19,7 @@
           [description]="singleSchema.properties[property].description"
           [type]="singleSchema.properties[property].type"
           [isKubernetesObject]="singleSchema.properties[property]['x-is-kubernetes-object']"
+          [constraint]="singleSchema.properties[property]['x-constraint']"
         ></app-constraint-detail>
       </ng-template>
     </div>
