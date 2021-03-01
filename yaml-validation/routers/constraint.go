@@ -33,7 +33,7 @@ func createConstraintByPath(c *gin.Context) {
 	groupKindVersion, constraint.Path = models.GetGroupKindVersionAndPathFromSegments(segments)
 	constraint.GroupKindVersion = append(constraint.GroupKindVersion, groupKindVersion)
 
-	models.DeleteConstraint(constraint.Path, &constraint.GroupKindVersion[0])
+	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion[0])
 	if err := models.SaveConstraint(constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
@@ -93,7 +93,7 @@ func toggleDisableConstraintByPath(c *gin.Context) {
 	segments := c.GetStringSlice("pathSegments")
 
 	// check if the path exists for kubernetes
-	if models.IsValidConstraintPath(segments) {
+	if !models.IsValidConstraintPath(segments) {
 		c.Writer.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -111,6 +111,7 @@ func toggleDisableConstraintByPath(c *gin.Context) {
 	}
 
 	constraint.Disabled = !constraint.Disabled
+	models.DeleteConstraint(path, groupKindVersion)
 	if models.SaveConstraint(*constraint) != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return

@@ -103,7 +103,7 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 	return constraints
 }
 
-func DeleteConstraint(path string, groupKindVersion *GroupKindVersion) {
+func DeleteConstraint(path string, groupKindVersion GroupKindVersion) {
 	_, _ = services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
