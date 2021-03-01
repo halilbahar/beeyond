@@ -8,40 +8,6 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func createConstraintByPath(c *gin.Context) {
-	var constraint models.Constraint
-	segments := c.GetStringSlice("pathSegments")
-
-	if err := c.ShouldBindJSON(&constraint); err != nil {
-		c.Writer.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	// Check if the constraint is valid (enum or min-max or regex based on type)
-	if !constraint.IsValid() {
-		c.Writer.WriteHeader(http.StatusBadRequest)
-		return
-	}
-
-	// check if the path exists for kubernetes
-	if !models.IsValidConstraintPath(segments) {
-		c.Writer.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	var groupKindVersion models.GroupKindVersion
-	groupKindVersion, constraint.Path = models.GetGroupKindVersionAndPathFromSegments(segments)
-	constraint.GroupKindVersion = append(constraint.GroupKindVersion, groupKindVersion)
-
-	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion[0])
-	if err := models.SaveConstraint(constraint); err != nil {
-		c.Writer.WriteHeader(http.StatusInternalServerError)
-		return
-	}
-
-	c.Writer.WriteHeader(http.StatusCreated)
-}
-
 func listRootConstraints(c *gin.Context) {
 	collection, err := models.GetSchemaCollection()
 	if err != nil {
@@ -87,6 +53,53 @@ func getConstraintsByPath(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, schema)
+}
+
+func createConstraintByPath(c *gin.Context) {
+	var constraint models.Constraint
+	segments := c.GetStringSlice("pathSegments")
+
+	if err := c.ShouldBindJSON(&constraint); err != nil {
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// Check if the constraint is valid (enum or min-max or regex based on type)
+	if !constraint.IsValid() {
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
+
+	// check if the path exists for kubernetes
+	if !models.IsValidConstraintPath(segments) {
+		c.Writer.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	var groupKindVersion models.GroupKindVersion
+	groupKindVersion, constraint.Path = models.GetGroupKindVersionAndPathFromSegments(segments)
+	constraint.GroupKindVersion = append(constraint.GroupKindVersion, groupKindVersion)
+
+	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion[0])
+	if err := models.SaveConstraint(constraint); err != nil {
+		c.Writer.WriteHeader(http.StatusInternalServerError)
+		return
+	}
+
+	c.Writer.WriteHeader(http.StatusCreated)
+}
+
+func deleteConstraintByPath(c *gin.Context) {
+	segments := c.GetStringSlice("pathSegments")
+
+	if !models.IsValidConstraintPath(segments) {
+		c.Writer.WriteHeader(http.StatusNotFound)
+		return
+	}
+
+	groupKindVersion, path := models.GetGroupKindVersionAndPathFromSegments(segments)
+	models.DeleteConstraint(path, groupKindVersion)
+	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
 func toggleDisableConstraintByPath(c *gin.Context) {
