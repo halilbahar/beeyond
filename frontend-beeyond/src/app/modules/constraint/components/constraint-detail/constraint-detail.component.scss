@@ -27,11 +27,17 @@ $body-space: 0.8rem;
     cursor: pointer;
   }
 
+  $spacing: 0.45rem;
   .title {
     cursor: pointer;
     font-size: 1.2rem;
-    margin-left: 0.45rem;
+    margin-left: $spacing;
     flex: 1;
+  }
+
+  .navigation-arrow {
+    margin-left: $spacing;
+    cursor: pointer;
   }
 }
 
