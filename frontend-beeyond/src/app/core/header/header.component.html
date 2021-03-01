@@ -1,7 +1,7 @@
 <div class="header-left">
-  <!-- <mat-icon [inline]="true" class="unselectable cursor-pointer" (click)="toggleSideNavigation()">
-    reorder
-  </mat-icon> -->
+  <mat-icon [inline]="true" class="unselectable cursor-pointer" (click)="toggleSideNavigation()">
+    menu
+  </mat-icon>
 
   <ng-container *ngFor="let crumb of breadcrumbs; let i = index">
     <span
@@ -17,3 +17,7 @@
     </mat-icon>
   </ng-container>
 </div>
+<button mat-raised-button color="primary" style="margin-left: auto" (click)="logOut()">
+  <mat-icon>logout</mat-icon>
+  Log out
+</button>

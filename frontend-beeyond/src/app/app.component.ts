@@ -10,6 +10,6 @@ export class AppComponent {
   title = 'beeyond';
 
   constructor(private authenticationService: AuthenticationService) {
-    this.authenticationService.initializeLogin();
+    this.authenticationService.initializeLogin().then(r => console.log());
   }
 }

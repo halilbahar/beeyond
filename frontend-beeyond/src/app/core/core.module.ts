@@ -8,6 +8,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { environment } from '../../environments/environment';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [SideNavigationComponent, HeaderComponent],
@@ -23,7 +24,8 @@ import { environment } from '../../environments/environment';
         allowedUrls: [environment.backendApiUrl],
         sendAccessToken: true
       }
-    })
+    }),
+    MatButtonModule
   ]
 })
 export class CoreModule {}
