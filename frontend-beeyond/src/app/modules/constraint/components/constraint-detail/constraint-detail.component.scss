@@ -3,6 +3,7 @@ $body-space: 0.8rem;
 :host {
   padding: $body-space 0 $body-space;
   display: block;
+  box-sizing: border-box;
 }
 
 :host-context(:not(:last-of-type)) {

@@ -13,8 +13,8 @@ const DEFAULT_DURATION = 300;
   styleUrls: ['./constraint-detail.component.scss'],
   animations: [
     trigger('collapse', [
-      state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE, padding: AUTO_STYLE })),
-      state('true', style({ height: '0', visibility: 'hidden', padding: '0' })),
+      state('false', style({ height: AUTO_STYLE, visibility: AUTO_STYLE })),
+      state('true', style({ height: '0', visibility: 'hidden' })),
       transition('false => true', animate(DEFAULT_DURATION + 'ms ease-in')),
       transition('true => false', animate(DEFAULT_DURATION + 'ms ease-out'))
     ])
@@ -32,9 +32,7 @@ export class ConstraintDetailComponent {
   constructor(private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {}
 
   openEditDialog(): void {
-    const path = this.route.snapshot.url
-      .map(segment => segment.path)
-      .join('/') + '/' + this.title;
+    const path = this.route.snapshot.url.map(segment => segment.path).join('/') + '/' + this.title;
 
     this.dialog.open(ConstraintEditDialogComponent, {
       autoFocus: false,
