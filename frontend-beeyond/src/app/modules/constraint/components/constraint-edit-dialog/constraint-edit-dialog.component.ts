@@ -25,7 +25,8 @@ export class ConstraintEditDialogComponent implements OnInit {
   private disablingForm = false;
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: { path: string; type: string; constraint: Constraint | null },
+    @Inject(MAT_DIALOG_DATA)
+    public data: { path: string; type: string; constraint: Constraint | null },
     private dialogRef: MatDialogRef<ConstraintEditDialogComponent>,
     private fb: FormBuilder,
     private validationApiService: ValidationApiService
@@ -84,6 +85,12 @@ export class ConstraintEditDialogComponent implements OnInit {
   toggleConstraint(): void {
     this.validationApiService
       .toggleConstraint(this.data.path)
+      .subscribe(() => this.dialogRef.close());
+  }
+
+  deleteConstraint(): void {
+    this.validationApiService
+      .deleteConstraint(this.data.path)
       .subscribe(() => this.dialogRef.close());
   }
 

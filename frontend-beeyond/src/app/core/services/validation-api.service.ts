@@ -19,8 +19,12 @@ export class ValidationApiService {
     return this.http.get<Schema[] | Schema>(`${environment.validationApiUrl}/constraints` + path);
   }
 
-  createConstraint(path: string, constraint: Constraint): Observable<any> {
-    return this.http.post(`${environment.validationApiUrl}/constraints/` + path, constraint);
+  createConstraint(path: string, constraint: Constraint): Observable<void> {
+    return this.http.post<void>(`${environment.validationApiUrl}/constraints/` + path, constraint);
+  }
+
+  deleteConstraint(path: string): Observable<void> {
+    return this.http.delete<void>(`${environment.validationApiUrl}/constraints/` + path);
   }
 
   toggleConstraint(path: string): Observable<void> {

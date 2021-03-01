@@ -55,6 +55,6 @@
   <ng-template #enableConstraint>
     <button mat-stroked-button (click)="toggleConstraint()" [disabled]="form.valid">Enable</button>
   </ng-template>
-  <!-- <button mat-stroked-button color="warn">Remove Constraint</button> -->
+  <button mat-stroked-button color="warn" (click)="deleteConstraint()">Delete</button>
   <button mat-stroked-button (click)="createConstraint()" [disabled]="form.invalid">Create</button>
 </mat-dialog-actions>
