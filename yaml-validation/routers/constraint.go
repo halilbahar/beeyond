@@ -89,11 +89,6 @@ func getConstraintsByPath(c *gin.Context) {
 	c.JSON(http.StatusOK, schema)
 }
 
-func getAll(c *gin.Context) {
-	constr := models.GetConstraints()
-	c.JSON(http.StatusOK, constr)
-}
-
 func toggleDisableConstraintByPath(c *gin.Context) {
 	segments := c.GetStringSlice("pathSegments")
 

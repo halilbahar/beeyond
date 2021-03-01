@@ -30,7 +30,6 @@ func GetRouter() *gin.Engine {
 			constraints.POST("/*path", createConstraintByPath)
 			constraints.PATCH("/*path", toggleDisableConstraintByPath)
 		}
-		api.GET("/constraintsall/", getAll)
 	}
 
 	return router
