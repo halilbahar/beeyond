@@ -2,6 +2,10 @@ package models
 
 import (
 	"github.com/instrumenta/kubeval/kubeval"
+	"github.com/smallfish/simpleyaml"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
 type ValidationError struct {
@@ -35,6 +39,79 @@ func ValidateContent(content string) ([]ValidationError, error) {
 				Description: resultError.Description(),
 				Value:       resultError.Value().(string),
 				Field:       field,
+			})
+		}
+	}
+
+//name: smallfish
+//age: 99
+//bool: true
+//bb:
+//	cc:
+//		dd:
+//			- 111
+//			- 222
+//			- 333
+//
+
+	y, err := simpleyaml.NewYaml([]byte(content))
+	if err != nil {
+		panic(err)
+	}
+
+	var gkv GroupKindVersion
+
+	gkv.Kind, _ = y.Get("kind").String()
+	groupversion, _ := y.Get("apiVersion").String()
+	gkv.Group = strings.Split(groupversion, "/")[0]
+	gkv.Version = strings.Split(groupversion, "/")[1]
+
+	constraints := GetConstraintsByGKV(&gkv)
+
+
+	for _, cur := range constraints{
+		pathSegments := strings.Split(cur.Path, ".")
+		p := y
+		for _, seg := range pathSegments {
+			p = p.Get(seg)
+		}
+		actual, err := p.String()
+		if err != nil {
+			actualInt, _ := p.Int()
+			actual = strconv.Itoa(actualInt)
+		}
+
+		errorDescription := ""
+
+		if cur.Max != nil {
+			actualFloat, _ := strconv.ParseFloat(actual, 32)
+			if actualFloat > float64(*cur.Max) || actualFloat < float64(*cur.Min) {
+				errorDescription = "Given value out of range"
+			}
+		} else if cur.Enum != nil {
+			found := false
+			for _, s := range cur.Enum{
+				if s == actual {
+					found = true
+				}
+			}
+			if !found {
+				errorDescription = "Constraint enum does not contain given value"
+			}
+		} else {
+			matched, _ := regexp.MatchString("^" + cur.Regex + "$", actual)
+
+			if !matched {
+				errorDescription = "Given value does not match regex"
+			}
+
+		}
+
+		if errorDescription != "" {
+			validationError = append(validationError, ValidationError{
+				Description: errorDescription,
+				Value:       actual,
+				Field:       cur.Path,
 			})
 		}
 	}

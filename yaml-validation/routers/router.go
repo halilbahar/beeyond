@@ -1,23 +1,42 @@
 package routers
 
 import (
+	swaggerFiles "github.com/swaggo/files"
+	ginSwagger "github.com/swaggo/gin-swagger"
+	"yaml-validation/middleware"
 	"yaml-validation/pkg/setting"
 
 	"github.com/gin-gonic/gin"
+	_ "yaml-validation/docs"
 )
 
-func Init() {
+func GetRouter() *gin.Engine {
 	router := gin.Default()
+	router.Use(middleware.Cors())
 
 	api := router.Group("/api")
 	{
 		// validate
 		api.POST("/validate", getValidationResult)
+		api.Use(middleware.KubernetesPath())
+		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
+		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 		// constraints
-		api.GET("/constraints", listConstraints)
-		api.POST("/constraints", createConstraint)
+		constraints := api.Group("/constraints")
+		{
+			constraints.GET("", listRootConstraints)
+			constraints.GET("/*path", getConstraintsByPath)
+			constraints.POST("/*path", createConstraintByPath)
+			constraints.DELETE("/*path", deleteConstraintByPath)
+			constraints.PATCH("/*path", toggleDisableConstraintByPath)
+		}
 	}
 
+	return router
+}
+
+func Init() {
+	router := GetRouter()
 	_ = router.Run(setting.ServerSetting.HttpPort)
 }

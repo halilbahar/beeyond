@@ -1,7 +1,7 @@
 package setting
 
 import (
-	"github.com/go-ini/ini"
+	"gopkg.in/ini.v1"
 	"log"
 )
 
@@ -16,10 +16,18 @@ type Database struct {
 	User     string
 	Password string
 	Host     string
+	Port     string
 	Name     string
 }
 
 var DatabaseSetting = &Database{}
+
+type KubernetesJsonschema struct {
+	KubernetesVersion string
+	Url               string
+}
+
+var KubernetesJsonschemaSetting = &KubernetesJsonschema{}
 
 var cfg *ini.File
 
@@ -33,6 +41,7 @@ func Init() {
 
 	mapTo("server", ServerSetting)
 	mapTo("database", DatabaseSetting)
+	mapTo("kubernetes-jsonschema", KubernetesJsonschemaSetting)
 }
 
 func mapTo(section string, v interface{}) {

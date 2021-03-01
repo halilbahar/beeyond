@@ -21,7 +21,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatIconModule,
     OAuthModule.forRoot({
       resourceServer: {
-        allowedUrls: [environment.apiUrl],
+        allowedUrls: [environment.backendApiUrl],
         sendAccessToken: true
       }
     }),

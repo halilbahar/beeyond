@@ -1,0 +1,50 @@
+$body-space: 0.8rem;
+
+:host {
+  padding: $body-space 0 $body-space;
+  display: block;
+  box-sizing: border-box;
+
+  &.constraint {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+
+  &.disabled {
+    background-color: rgba(255, 0, 0, 0.2);
+  }
+}
+
+:host-context(:not(:last-of-type)) {
+  box-shadow: inset 0 -10px 3px -10px rgba(0, 0, 0, 0.4);
+}
+
+.header {
+  min-height: 1rem;
+  display: flex;
+  align-items: center;
+
+  .edit-icon {
+    cursor: pointer;
+  }
+
+  $spacing: 0.45rem;
+  .title {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: $spacing;
+    flex: 1;
+  }
+
+  .navigation-arrow {
+    margin-left: $spacing;
+    cursor: pointer;
+  }
+}
+
+.body-wrapper {
+  overflow: hidden;
+}
+
+.body {
+  padding-top: $body-space / 2;
+}

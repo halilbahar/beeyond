@@ -1,0 +1,27 @@
+<mat-card class="card-entire-page">
+  <mat-card-content>
+    <div *ngIf="!fetching">
+      <ng-container *ngIf="schemas != null; else singleSchemaView">
+        <app-constraint-detail
+          *ngFor="let schema of schemas"
+          [title]="getGroupKindVersionName(schema)"
+          [description]="schema.description"
+          [type]="schema.type"
+          isKubernetesObject="true"
+          [constraint]="schema['x-constraint']"
+        ></app-constraint-detail>
+      </ng-container>
+
+      <ng-template #singleSchemaView>
+        <app-constraint-detail
+          *ngFor="let property of propertyKeys"
+          [title]="property"
+          [description]="singleSchema.properties[property].description"
+          [type]="singleSchema.properties[property].type"
+          [isKubernetesObject]="singleSchema.properties[property]['x-is-kubernetes-object']"
+          [constraint]="singleSchema.properties[property]['x-constraint']"
+        ></app-constraint-detail>
+      </ng-template>
+    </div>
+  </mat-card-content>
+</mat-card>

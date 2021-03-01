@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Template } from '../../../../shared/models/template.model';
-import { ApiService } from '../../../../core/services/api.service';
+import { BackendApiService } from '../../../../core/services/backend-api.service';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,13 +18,13 @@ export class BlueprintComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private apiService: ApiService,
+    private backendApiService: BackendApiService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
-    this.apiService.getTemplates().subscribe(templates => {
+    this.backendApiService.getTemplates().subscribe(templates => {
       this.templates = templates.filter(template => !template.deleted);
       if (this.templates.length === 0) {
         this.message =
@@ -39,16 +39,18 @@ export class BlueprintComponent implements OnInit {
   }
 
   sendCustomTemplate(): void {
-    this.apiService.createCustomApplication(this.customApplicationForm.value).subscribe(() => {
-      this.router.navigate(['dashboard']).then(navigated => {
-        if (navigated) {
-          this.snackBar.open(
-            'Your application was sent will be reviewed as soon as possible',
-            'close',
-            { duration: undefined }
-          );
-        }
+    this.backendApiService
+      .createCustomApplication(this.customApplicationForm.value)
+      .subscribe(() => {
+        this.router.navigate(['dashboard']).then(navigated => {
+          if (navigated) {
+            this.snackBar.open(
+              'Your application was sent will be reviewed as soon as possible',
+              'close',
+              { duration: undefined }
+            );
+          }
+        });
       });
-    });
   }
 }

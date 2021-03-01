@@ -2,14 +2,16 @@
 
 ::ng-deep router-outlet + * {
   position: relative;
-  display: block;
-  box-sizing: border-box;
-  width: $router-content-width;
-  min-height: $router-content-height;
   top: $router-content-top;
   left: (100% - $router-content-width) / 2;
-  // The height in percentage takes the height of the parent.
-  // Due to not having height but min-height it seems like the child can't calulcate the height
-  // Setting the height to 0 fixes that. Due to min-height the height will never be 0
-  height: 0;
+  display: table;
+  box-sizing: border-box;
+  width: $router-content-width;
+  height: $router-content-height;
+}
+
+.bottom-spacer {
+  height: $router-content-top;
+  position: relative;
+  top: $router-content-top;
 }

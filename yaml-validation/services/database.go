@@ -18,7 +18,7 @@ func initDatabase() {
 	}
 
 	clientOpts := options.Client().
-		ApplyURI(setting.DatabaseSetting.Type + "://" + setting.DatabaseSetting.Host).
+		ApplyURI(setting.DatabaseSetting.Type + "://" + setting.DatabaseSetting.Host + ":" + setting.DatabaseSetting.Port).
 		SetAuth(credential)
 
 	mongoClient, _ = mongo.Connect(context.TODO(), clientOpts)

@@ -37,6 +37,12 @@ export class SideNavigationComponent implements OnInit {
       icon: 'bakery_dining',
       router: '/template',
       requiredRoles: [config.adminRole]
+    },
+    {
+      name: 'Constraint',
+      icon: 'attach_file',
+      router: '/constraint',
+      requiredRoles: [config.adminRole]
     }
   ];
   actualAgenda = [];

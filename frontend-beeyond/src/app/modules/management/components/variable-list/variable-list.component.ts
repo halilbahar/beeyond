@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
-import { ApiService } from 'src/app/core/services/api.service';
+import { BackendApiService } from 'src/app/core/services/backend-api.service';
 import { ApplicationRange } from 'src/app/shared/models/application-range.model';
 import { TemplateFieldValue } from 'src/app/shared/models/template-field-value.model';
 import { Template } from 'src/app/shared/models/template.model';
@@ -19,10 +19,10 @@ export class VariableListComponent implements OnInit {
 
   private template: Template;
 
-  constructor(private service: ApiService, private dialog: MatDialog) {}
+  constructor(private backendApiService: BackendApiService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    this.service.getTemplateById(this.templateId).subscribe(template => {
+    this.backendApiService.getTemplateById(this.templateId).subscribe(template => {
       this.template = template;
       for (const fieldValue of this.fieldValues) {
         const { label, wildcard, description } = template.fields.find(
