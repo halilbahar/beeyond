@@ -267,9 +267,79 @@ Feature: Template creation endpoint
 
   @teacher
   Scenario: Create a template where id is set
+    Given request
+    """
+    {
+      "id": 9999,
+      "name": "Nginx Deployment",
+      "description": "Static Webserver",
+      "content": "#(nginxDeployment)",
+      "fields": [
+        {
+          "label": "Server count",
+          "wildcard": "replica",
+          "description": "How many server should there be?"
+        },
+        {
+          "label": "Port of your saver",
+          "wildcard": "port",
+          "description": "This will be the port that will be exposed to the world"
+        }
+      ]
+    }
+    """
+    When method POST
+    Then status 201
 
   @teacher
   Scenario: Create a template where deleted is set
+    Given request
+    """
+    {
+      "deleted": true,
+      "name": "Nginx Deployment",
+      "description": "Static Webserver",
+      "content": "#(nginxDeployment)",
+      "fields": [
+        {
+          "label": "Server count",
+          "wildcard": "replica",
+          "description": "How many server should there be?"
+        },
+        {
+          "label": "Port of your saver",
+          "wildcard": "port",
+          "description": "This will be the port that will be exposed to the world"
+        }
+      ]
+    }
+    """
+    When method POST
+    Then status 201
 
   @teacher
   Scenario: Create a template where field id is set
+    Given request
+    """
+    {
+      "name": "Nginx Deployment",
+      "description": "Static Webserver",
+      "content": "#(nginxDeployment)",
+      "fields": [
+        {
+          "id": 9998,
+          "label": "Server count",
+          "wildcard": "replica",
+          "description": "How many server should there be?"
+        },
+        {
+          "id": 9999,
+          "label": "Port of your saver",
+          "wildcard": "port",
+          "description": "This will be the port that will be exposed to the world"
+        }
+      ]
+    }
+    """
+    When method POST
+    Then status 201

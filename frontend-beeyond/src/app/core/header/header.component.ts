@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Params, Router } from '@angular/router';
 import { Breadcrumb } from 'src/app/shared/models/breadcrumb.model';
+import { AuthenticationService } from '../authentification/authentication.service';
+import { SidenavToggleService } from '../services/sidenav-toggle.service';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +12,11 @@ import { Breadcrumb } from 'src/app/shared/models/breadcrumb.model';
 export class HeaderComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
 
-  constructor(private router: Router) {}
+  constructor(
+    private router: Router,
+    private sidenavToggleService: SidenavToggleService,
+    private oAuthService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
     let segements: { path: string; params: Params }[] = [];
@@ -78,6 +84,11 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleSideNavigation(): void {
-    // TODO: close / open sidenav
+    const minimized = this.sidenavToggleService.minimized;
+    minimized.next(!minimized.value);
+  }
+
+  logOut(): void {
+    this.oAuthService.logOut();
   }
 }
