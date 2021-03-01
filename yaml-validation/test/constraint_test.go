@@ -143,13 +143,25 @@ func TestConstraintCreation_ValidPathWithWrongCases_Fail(t *testing.T) {
 	// Then
 }
 
-func TestConstraintCreation_ConstraintWith(t *testing.T) {
+func TestConstraintCreation_TwoConstraintDifferentGroupKindVersion_Create(t *testing.T) {
 	// Given
 	// When
 	// Then
 }
 
-func TestConstraintGet_Valid(t *testing.T) {
+func TestConstraintCreation_ConstraintOnApiVersion_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintCreation_ConstraintOnKind_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
 	// Given
 	var constraint = models.Constraint{
 		Enum: []string{"1", "4"},
@@ -177,6 +189,12 @@ func TestConstraintGet_Valid(t *testing.T) {
 	assert.Equal(t, len(schema.Properties["minReadySeconds"].Constraint.Enum), 2)
 	assert.Equal(t, schema.Properties["minReadySeconds"].Constraint.Enum[0], "1")
 	assert.Equal(t, schema.Properties["minReadySeconds"].Constraint.Enum[1], "4")
+}
+
+func TestConstraintGet_WithoutConstraint_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
 }
 
 func TestConstraintGet_InvalidPath_Fail(t *testing.T) {
@@ -256,4 +274,82 @@ func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
 	assert.Equal(t, len(constraint.Enum), 2)
 	assert.Equal(t, constraint.Enum[0], "1")
 	assert.Equal(t, constraint.Enum[1], "4")
+}
+
+func TestConstraintToggle_DisableInteger_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_EnableInteger_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableString_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_EnableString_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableObject_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_EnableObject_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableRootObject_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_EnableRootObject_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableRequiredString_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableRequiredInteger_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableRequiredObject_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableApiVersion_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintToggle_DisableKind_Fail(t *testing.T) {
+	// Given
+	// When
+	// Then
 }
