@@ -13,10 +13,7 @@ export class ConstraintComponent implements OnInit {
   schemas: Schema[];
   singleSchema: Schema;
 
-  constructor(
-    private validationApiService: ValidationApiService,
-    private route: ActivatedRoute
-  ) {}
+  constructor(private validationApiService: ValidationApiService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const segments = this.route.snapshot.url.map(segment => segment.path);

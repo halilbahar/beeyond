@@ -35,7 +35,7 @@ export class ConstraintDetailComponent implements OnInit {
   constructor(private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {}
 
   ngOnInit(): void {
-    const {enum: enumArray, regex, min, max, disabled} = this.constraint || {};
+    const { enum: enumArray, regex, min, max, disabled } = this.constraint || {};
     this.hasConstraint = this.constraint != null && (enumArray || regex || min || max) != null;
     this.isDisabled = disabled;
   }
