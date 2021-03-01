@@ -12,7 +12,7 @@ $body-space: 0.8rem;
 
 .header {
   cursor: pointer;
-  height: 1rem;
+  min-height: 1rem;
   display: flex;
   align-items: center;
 
@@ -25,7 +25,10 @@ $body-space: 0.8rem;
   }
 }
 
-.body {
-  padding: $body-space / 2 0 0 0;
+.body-wrapper {
   overflow: hidden;
+}
+
+.body {
+  padding-top: $body-space / 2;
 }
