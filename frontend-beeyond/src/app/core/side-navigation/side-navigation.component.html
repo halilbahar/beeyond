@@ -1,19 +1,19 @@
-<mat-sidenav-container class="side-nav-container" autosize="true">
-  <mat-sidenav mode="side" class="primary-bg-color side-nav" opened>
-    <div class="secondary-bg-color side-nav-header">
-      <span [@minimized]="sidenavToggleService.minimized | async">
+<mat-sidenav-container class='side-nav-container' autosize='true'>
+  <mat-sidenav mode='side' class='primary-bg-color side-nav' opened>
+    <div class='secondary-bg-color side-nav-header'>
+      <span [@minimized]='sidenavToggleService.minimized | async'>
         {{ authenticationService.username | async }}
       </span>
     </div>
-    <mat-nav-list class="side-nav-list">
+    <mat-nav-list class='side-nav-list'>
       <mat-list-item
         mat-list-item
-        class="unselectable"
-        *ngFor="let item of agenda"
-        [routerLink]="item.router"
+        class='unselectable'
+        *ngFor='let item of actualAgenda'
+        [routerLink]='item.router'
       >
         <mat-icon>{{ item.icon }}</mat-icon>
-        <span class="nav-list-item" [@minimized]="sidenavToggleService.minimized | async">
+        <span class='nav-list-item' [@minimized]='sidenavToggleService.minimized | async'>
           {{ item.name }}
         </span>
       </mat-list-item>

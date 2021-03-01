@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { AUTO_STYLE, state, style, trigger } from '@angular/animations';
 import { SidenavToggleService } from '../services/sidenav-toggle.service';
 import { AuthenticationService } from '../authentification/authentication.service';
+import { config } from '../config/user-role.config';
 
 @Component({
   selector: 'app-side-navigation',
@@ -19,15 +20,30 @@ export class SideNavigationComponent implements OnInit {
     { name: 'Dashboard', icon: 'speed', router: '/dashboard' },
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
-    { name: 'Accounting', icon: 'account_balance', router: '/accounting' },
-    { name: 'Management', icon: 'desktop_windows', router: '/management' },
-    { name: 'Template', icon: 'bakery_dining', router: '/template' }
+    { name: 'Accounting', icon: 'account_balance', router: '/accounting', requiredRoles: [config.adminRole] },
+    { name: 'Management', icon: 'desktop_windows', router: '/management', requiredRoles: [config.adminRole] },
+    { name: 'Template', icon: 'bakery_dining', router: '/template', requiredRoles: [config.adminRole] }
   ];
+  actualAgenda = [];
 
   constructor(
     public sidenavToggleService: SidenavToggleService,
     public authenticationService: AuthenticationService
   ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.authenticationService.roles.subscribe(res => {
+      if (this.agenda) {
+        this.actualAgenda = this.agenda.filter(item => {
+          let found = true;
+          if (item.requiredRoles) {
+            item.requiredRoles.forEach(requiredRole =>
+              found = !!res.find(role => role === requiredRole)
+            );
+          }
+          return found;
+        });
+      }
+    });
+  }
 }
