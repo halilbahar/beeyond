@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
 import { AUTO_STYLE, animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -20,16 +20,25 @@ const DEFAULT_DURATION = 300;
     ])
   ]
 })
-export class ConstraintDetailComponent {
+export class ConstraintDetailComponent implements OnInit {
   @Input() title: string;
   @Input() description: string;
   @Input() type: string;
   @Input() isKubernetesObject: boolean;
   @Input() constraint?: Constraint;
 
+  @HostBinding('class.constraint') hasConstraint = false;
+  @HostBinding('class.disabled') isDisabled = false;
+
   collapsed = true;
 
   constructor(private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {}
+
+  ngOnInit(): void {
+    const {enum: enumArray, regex, min, max, disabled} = this.constraint || {};
+    this.hasConstraint = this.constraint != null && (enumArray || regex || min || max) != null;
+    this.isDisabled = disabled;
+  }
 
   openEditDialog(): void {
     const path = this.route.snapshot.url.map(segment => segment.path).join('/') + '/' + this.title;
