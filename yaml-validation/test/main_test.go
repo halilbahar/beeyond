@@ -14,24 +14,23 @@ import (
 
 var Router *gin.Engine
 var mongoDbContainer testcontainers.Container
-var mongoDbContext context.Context
 
 func TestMain(m *testing.M) {
 	setting.Init()
 	services.Init()
 
-	//setupMongoDbContainer()
+	setupMongoDbContainer()
 	Router = routers.GetRouter()
 
 	code := m.Run()
-	//mongoDbContainer.Terminate(mongoDbContext)
+	mongoDbContainer.Terminate(context.Background())
 	os.Exit(code)
 }
 
 func setupMongoDbContainer() {
-	mongoDbContext = context.Background()
+	mongoDbContext := context.Background()
 	req := testcontainers.ContainerRequest{
-		Image:        "mongodb",
+		Image:        "mongo",
 		ExposedPorts: []string{"27017/tcp"},
 		WaitingFor:   wait.ForLog("Waiting for connections"),
 	}
@@ -41,6 +40,6 @@ func setupMongoDbContainer() {
 		Started:          true,
 	})
 
-	//_, _ = mongoDbContainer.Host(mongoDbContext)
-	//_, _ = mongoDbContainer.MappedPort(mongoDbContext, "27017")
+	_, _ = mongoDbContainer.Host(mongoDbContext)
+	_, _ = mongoDbContainer.MappedPort(mongoDbContext, "27017")
 }
