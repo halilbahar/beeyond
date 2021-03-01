@@ -18,7 +18,9 @@ export class AuthenticationService {
 
   async initializeLogin(): Promise<void> {
     this.oAuthService.configure(authConfig);
-    await this.oAuthService.loadDiscoveryDocumentAndTryLogin({ customHashFragment: window.location.search });
+    await this.oAuthService.loadDiscoveryDocumentAndTryLogin({
+      customHashFragment: window.location.search
+    });
 
     if (!this.oAuthService.hasValidAccessToken()) {
       this.oAuthService.initLoginFlow();
@@ -34,10 +36,15 @@ export class AuthenticationService {
   private parseJwt(token): any {
     const base64Url = token.split('.')[1];
     const base64 = base64Url.replace(/-/g, '+').replace(/_/g, '/');
-    const jsonPayload = decodeURIComponent(atob(base64).split('').map((c) => {
-      return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
-    }).join(''));
+    const jsonPayload = decodeURIComponent(
+      atob(base64)
+        .split('')
+        .map(c => {
+          return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2);
+        })
+        .join('')
+    );
 
     return JSON.parse(jsonPayload);
-  };
+  }
 }

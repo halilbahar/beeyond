@@ -12,7 +12,11 @@ import { SidenavToggleService } from '../services/sidenav-toggle.service';
 export class HeaderComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
 
-  constructor(private router: Router, private sidenavToggleService: SidenavToggleService, private oAuthService: AuthenticationService) {}
+  constructor(
+    private router: Router,
+    private sidenavToggleService: SidenavToggleService,
+    private oAuthService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
     let segements: { path: string; params: Params }[] = [];

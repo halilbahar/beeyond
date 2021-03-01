@@ -20,9 +20,24 @@ export class SideNavigationComponent implements OnInit {
     { name: 'Dashboard', icon: 'speed', router: '/dashboard' },
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
-    { name: 'Accounting', icon: 'account_balance', router: '/accounting', requiredRoles: [config.adminRole] },
-    { name: 'Management', icon: 'desktop_windows', router: '/management', requiredRoles: [config.adminRole] },
-    { name: 'Template', icon: 'bakery_dining', router: '/template', requiredRoles: [config.adminRole] }
+    {
+      name: 'Accounting',
+      icon: 'account_balance',
+      router: '/accounting',
+      requiredRoles: [config.adminRole]
+    },
+    {
+      name: 'Management',
+      icon: 'desktop_windows',
+      router: '/management',
+      requiredRoles: [config.adminRole]
+    },
+    {
+      name: 'Template',
+      icon: 'bakery_dining',
+      router: '/template',
+      requiredRoles: [config.adminRole]
+    }
   ];
   actualAgenda = [];
 
@@ -37,8 +52,8 @@ export class SideNavigationComponent implements OnInit {
         this.actualAgenda = this.agenda.filter(item => {
           let found = true;
           if (item.requiredRoles) {
-            item.requiredRoles.forEach(requiredRole =>
-              found = !!res.find(role => role === requiredRole)
+            item.requiredRoles.forEach(
+              requiredRole => (found = !!res.find(role => role === requiredRole))
             );
           }
           return found;
