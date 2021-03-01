@@ -43,10 +43,16 @@ export class ConstraintDetailComponent implements OnInit {
   openEditDialog(): void {
     const path = this.route.snapshot.url.map(segment => segment.path).join('/') + '/' + this.title;
 
-    this.dialog.open(ConstraintEditDialogComponent, {
+    const dialogRef = this.dialog.open(ConstraintEditDialogComponent, {
       autoFocus: false,
       minWidth: '50%',
       data: { type: this.type, path, constraint: this.constraint }
+    });
+
+    dialogRef.afterClosed().subscribe(cancelled => {
+      if (!cancelled) {
+        this.navigate('./');
+      }
     });
   }
 
