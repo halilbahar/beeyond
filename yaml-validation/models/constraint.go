@@ -39,30 +39,6 @@ func SaveConstraint(constraint Constraint) error {
 	return err
 }
 
-func GetConstraints() []*Constraint {
-	var constraints []*Constraint
-
-	cur, err := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
-		Collection("Constraints").
-		Find(context.TODO(), bson.D{})
-
-	if err != nil {
-		return nil
-	}
-
-	for cur.Next(context.TODO()) {
-		var constr Constraint
-
-		if err := cur.Decode(&constr); err == nil {
-			constraints = append(constraints, &constr)
-		}
-	}
-
-	_ = cur.Close(context.TODO())
-	return constraints
-}
-
 func GetConstraint(path string, groupKindVersion GroupKindVersion) *Constraint {
 	var constraint Constraint
 
