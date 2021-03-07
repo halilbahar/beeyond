@@ -16,13 +16,14 @@ func listRootConstraints(c *gin.Context) {
 	}
 
 	var kubernetesRootDefinitions []*models.Schema
-	for _, definition := range collection.Schemas {
-		groupKindVersions := definition.GroupKindVersion
-		if len(groupKindVersions) > 0 && groupKindVersions[0].Kind != "" {
-			definition.Constraint = models.GetConstraint("", groupKindVersions[0])
-			kubernetesRootDefinitions = append(kubernetesRootDefinitions, definition)
+	for _, schema := range collection.Schemas {
+		groupKindVersions := schema.GroupKindVersion
+		if len(groupKindVersions) > 0 {
+			schema.Constraint = models.GetConstraint("", groupKindVersions[0])
+			kubernetesRootDefinitions = append(kubernetesRootDefinitions, schema)
 		}
-		for _, property := range definition.Properties {
+
+		for _, property := range schema.Properties {
 			var referencePath string
 			if property.Reference != "" {
 				referencePath = property.Reference
@@ -66,7 +67,7 @@ func createConstraintByPath(c *gin.Context) {
 
 	// Check if the constraint is valid (enum or min-max or regex based on type)
 	if !constraint.IsValid() {
-		c.Writer.WriteHeader(http.StatusBadRequest)
+		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 
@@ -78,9 +79,9 @@ func createConstraintByPath(c *gin.Context) {
 
 	var groupKindVersion models.GroupKindVersion
 	groupKindVersion, constraint.Path = models.GetGroupKindVersionAndPathFromSegments(segments)
-	constraint.GroupKindVersion = append(constraint.GroupKindVersion, groupKindVersion)
+	constraint.GroupKindVersion = groupKindVersion
 
-	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion[0])
+	models.DeleteConstraint(constraint.Path, groupKindVersion)
 	if err := models.SaveConstraint(constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
@@ -102,6 +103,7 @@ func deleteConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
+// TODO: Delete later
 func toggleDisableConstraintByPath(c *gin.Context) {
 	segments := c.GetStringSlice("pathSegments")
 
@@ -119,7 +121,7 @@ func toggleDisableConstraintByPath(c *gin.Context) {
 		constraint = &models.Constraint{
 			Path:             path,
 			Disabled:         false,
-			GroupKindVersion: []models.GroupKindVersion{groupKindVersion},
+			GroupKindVersion: groupKindVersion,
 		}
 	}
 

@@ -15,7 +15,7 @@ type Constraint struct {
 	Enum             []string `json:"enum,omitempty"`
 	Regex            string   `json:"regex,omitempty"`
 	Disabled         bool     `json:"disabled,omitempty"`
-	GroupKindVersion []GroupKindVersion
+	GroupKindVersion GroupKindVersion
 }
 
 func (constraint Constraint) IsValid() bool {
@@ -69,7 +69,7 @@ func GetConstraint(path string, groupKindVersion GroupKindVersion) *Constraint {
 	err := services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}}).
+		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion}).
 		Decode(&constraint)
 
 	if err != nil {
@@ -107,5 +107,5 @@ func DeleteConstraint(path string, groupKindVersion GroupKindVersion) {
 	_, _ = services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}})
+		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion})
 }
