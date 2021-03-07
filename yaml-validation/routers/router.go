@@ -18,7 +18,7 @@ func GetRouter() *gin.Engine {
 	{
 		// validate
 		api.POST("/validate", getValidationResult)
-		api.Use(middleware.KubernetesPath())
+		api.Use(middleware.PathSegments())
 		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 

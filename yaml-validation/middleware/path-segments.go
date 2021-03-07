@@ -5,7 +5,7 @@ import (
 	"strings"
 )
 
-func KubernetesPath() gin.HandlerFunc {
+func PathSegments() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		path := c.Param("path")
 		// Simplify path so it is easier to split and find the object
