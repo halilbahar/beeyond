@@ -21,7 +21,6 @@ FROM alpine:3.9
 RUN apk add ca-certificates
 
 COPY --from=build_base /tmp/yaml-validation /app/yaml-validation
-RUN ls -l /app/yaml-validation
 
 EXPOSE 8180
 
