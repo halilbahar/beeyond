@@ -1,20 +1,12 @@
 package models
 
-import (
-	"github.com/instrumenta/kubeval/kubeval"
-	"github.com/smallfish/simpleyaml"
-	"regexp"
-	"strconv"
-	"strings"
-)
-
 type ValidationError struct {
 	Description string `json:"description"`
 	Value       string `json:"value"`
 	Field       string `json:"field"`
 }
 
-func ValidateContent(content string) ([]ValidationError, error) {
+/*func ValidateContent(content string) ([]ValidationError, error) {
 	config := kubeval.NewDefaultConfig()
 
 	contentBytes := []byte(content)
@@ -83,9 +75,9 @@ func ValidateContent(content string) ([]ValidationError, error) {
 
 		errorDescription := ""
 
-		if cur.Max != nil {
+		if cur.Maximum != nil {
 			actualFloat, _ := strconv.ParseFloat(actual, 32)
-			if actualFloat > float64(*cur.Max) || actualFloat < float64(*cur.Min) {
+			if actualFloat > float64(*cur.Maximum) || actualFloat < float64(*cur.Minimum) {
 				errorDescription = "Given value out of range"
 			}
 		} else if cur.Enum != nil {
@@ -99,7 +91,7 @@ func ValidateContent(content string) ([]ValidationError, error) {
 				errorDescription = "Constraint enum does not contain given value"
 			}
 		} else {
-			matched, _ := regexp.MatchString("^" + cur.Regex + "$", actual)
+			matched, _ := regexp.MatchString("^" + cur.Pattern + "$", actual)
 
 			if !matched {
 				errorDescription = "Given value does not match regex"
@@ -118,3 +110,4 @@ func ValidateContent(content string) ([]ValidationError, error) {
 
 	return validationError, nil
 }
+*/
