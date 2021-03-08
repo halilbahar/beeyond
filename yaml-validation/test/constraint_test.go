@@ -30,8 +30,20 @@ func TestConstraintCreation_ConstraintWithRegexForStringProperty_Create(t *testi
 
 func TestConstraintCreation_ConstraintWithEnumForStringProperty_Create(t *testing.T) {
 	// Given
+	var constraint = models.Constraint{
+		Enum: []string{"test", "case"},
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/template/metadata/clusterName", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusCreated, responseRecorder.Code)
+	request, _ = http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/spec/template/metadata/clusterName", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
 }
 
 func TestConstraintCreation_ConstraintWithRegexAndEnumForStringProperty_Fail(t *testing.T) {
@@ -68,14 +80,37 @@ func TestConstraintCreation_ConstraintWithRegexAndMinMaxForStringProperty_Fail(t
 
 func TestConstraintCreation_ConstraintWithMinMaxForIntegerProperty_Create(t *testing.T) {
 	// Given
+	min, max := float32(1), float32(2)
+	var constraint = models.Constraint{
+		Min: &min,
+		Max: &max,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusCreated, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintWithEnumForIntegerProperty_Create(t *testing.T) {
 	// Given
+	var constraint = models.Constraint{
+		Enum: []string{"1", "2"},
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusCreated, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintWithRegexForIntegerProperty_Create(t *testing.T) {
@@ -105,8 +140,22 @@ func TestConstraintCreation_ConstraintWithEnumAndMinMax_Fail(t *testing.T) {
 
 func TestConstraintCreation_ConstraintWithRegexAndMinMaxForIntegerProperty_Fail(t *testing.T) {
 	// Given
+	min, max := float32(1), float32(2)
+	regex := "abc"
+	var constraint = models.Constraint{
+		Regex: &regex,
+		Min:   &min,
+		Max:   &max,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintCreation_EmptyConstraint_Fail(t *testing.T) {
@@ -124,9 +173,13 @@ func TestConstraintCreation_EmptyConstraint_Fail(t *testing.T) {
 }
 
 func TestConstraintCreation_EmptyBody_Fail(t *testing.T) {
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-Apps-v1/spec/replicas", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintCreation_InvalidPath_Fail(t *testing.T) {

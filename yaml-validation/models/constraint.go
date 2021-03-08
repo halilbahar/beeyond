@@ -61,7 +61,7 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 	cur, err := services.GetClient().
 		Database(setting.DatabaseSetting.Name).
 		Collection("Constraints").
-		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": bson.M{"$elemMatch": groupKindVersion.ToLower()}})
+		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}})
 
 	if err != nil {
 		return nil
