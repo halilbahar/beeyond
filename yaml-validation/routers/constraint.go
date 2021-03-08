@@ -70,8 +70,7 @@ func createConstraintByPath(c *gin.Context) {
 
 	groupKindVersionInterface, _ := c.Get("groupKindVersion")
 	constraint.Path = c.GetString("propertyPath")
-	groupKindVersion := groupKindVersionInterface.(models.GroupKindVersion)
-	constraint.GroupKindVersion = groupKindVersion
+	constraint.GroupKindVersion = groupKindVersionInterface.(models.GroupKindVersion)
 
 	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion)
 	if err := models.SaveConstraint(constraint); err != nil {
@@ -90,30 +89,23 @@ func deleteConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
-// TODO: Delete later
 func toggleDisableConstraintByPath(c *gin.Context) {
-	segments := c.GetStringSlice("pathSegments")
+	groupKindVersionInterface, _ := c.Get("groupKindVersion")
+	propertyPath := c.GetString("propertyPath")
+	groupKindVersion := groupKindVersionInterface.(models.GroupKindVersion)
 
-	// check if the path exists for kubernetes
-	if !models.IsValidConstraintPath(segments) {
-		c.Writer.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	// Get the group kind and version and fetch the constraint from the database with that information
-	groupKindVersion, path := models.GetGroupKindVersionAndPathFromSegments(segments)
-	constraint := models.GetConstraint(path, groupKindVersion)
+	constraint := models.GetConstraint(propertyPath, groupKindVersion)
 	// If the no constraint exits and the user wants to disable the path, create a new constraint
 	if constraint == nil {
 		constraint = &models.Constraint{
-			Path:             path,
+			Path:             propertyPath,
 			Disabled:         false,
 			GroupKindVersion: groupKindVersion,
 		}
 	}
 
 	constraint.Disabled = !constraint.Disabled
-	models.DeleteConstraint(path, groupKindVersion)
+	models.DeleteConstraint(propertyPath, groupKindVersion)
 	if models.SaveConstraint(*constraint) != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
