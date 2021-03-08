@@ -58,30 +58,22 @@ func getConstraintsByPath(c *gin.Context) {
 
 func createConstraintByPath(c *gin.Context) {
 	var constraint models.Constraint
-	segments := c.GetStringSlice("pathSegments")
-
 	if err := c.ShouldBindJSON(&constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	// Check if the constraint is valid (enum or min-max or regex based on type)
 	if !constraint.IsValid() {
 		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
 
-	// check if the path exists for kubernetes
-	if !models.IsValidConstraintPath(segments) {
-		c.Writer.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	var groupKindVersion models.GroupKindVersion
-	groupKindVersion, constraint.Path = models.GetGroupKindVersionAndPathFromSegments(segments)
+	groupKindVersionInterface, _ := c.Get("groupKindVersion")
+	constraint.Path = c.GetString("propertyPath")
+	groupKindVersion := groupKindVersionInterface.(models.GroupKindVersion)
 	constraint.GroupKindVersion = groupKindVersion
 
-	models.DeleteConstraint(constraint.Path, groupKindVersion)
+	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion)
 	if err := models.SaveConstraint(constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
@@ -91,15 +83,10 @@ func createConstraintByPath(c *gin.Context) {
 }
 
 func deleteConstraintByPath(c *gin.Context) {
-	segments := c.GetStringSlice("pathSegments")
+	groupKindVersion, _ := c.Get("groupKindVersion")
+	propertyPath := c.GetString("propertyPath")
 
-	if !models.IsValidConstraintPath(segments) {
-		c.Writer.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	groupKindVersion, path := models.GetGroupKindVersionAndPathFromSegments(segments)
-	models.DeleteConstraint(path, groupKindVersion)
+	models.DeleteConstraint(propertyPath, groupKindVersion.(models.GroupKindVersion))
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 

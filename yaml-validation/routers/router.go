@@ -27,8 +27,8 @@ func GetRouter() *gin.Engine {
 		{
 			constraints.GET("", listRootConstraints)
 			constraints.GET("/*path", getConstraintsByPath)
-			constraints.POST("/*path", createConstraintByPath)
-			constraints.DELETE("/*path", deleteConstraintByPath)
+			constraints.POST("/*path", middleware.PathValid(), createConstraintByPath)
+			constraints.DELETE("/*path", middleware.PathValid(), deleteConstraintByPath)
 			constraints.PATCH("/*path", toggleDisableConstraintByPath)
 		}
 	}
