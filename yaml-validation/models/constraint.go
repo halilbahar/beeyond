@@ -9,23 +9,23 @@ import (
 )
 
 type Constraint struct {
-	Path             string
-	Min              *float32 `json:"min,omitempty"`
-	Max              *float32 `json:"max,omitempty"`
-	Enum             []string `json:"enum,omitempty"`
-	Regex            string   `json:"regex,omitempty"`
-	Disabled         bool     `json:"disabled,omitempty"`
-	GroupKindVersion GroupKindVersion
+	Path             string           `json:"-"`
+	Min              *float32         `json:"min,omitempty"`
+	Max              *float32         `json:"max,omitempty"`
+	Enum             []string         `json:"enum,omitempty"`
+	Regex            *string          `json:"regex,omitempty"`
+	Disabled         bool             `json:"disabled,omitempty"`
+	GroupKindVersion GroupKindVersion `json:"-"`
 }
 
 func (constraint Constraint) IsValid() bool {
-	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == "" {
+	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil {
 		return false
 	}
 
-	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == ""
-	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == ""
-	isValidRegex := constraint.Enum == nil && constraint.Regex != "" && constraint.Min == nil && constraint.Max == nil
+	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil
+	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == nil
+	isValidRegex := constraint.Enum == nil && constraint.Regex != nil && constraint.Min == nil && constraint.Max == nil
 
 	return isValidEnum || isValidMinMax || isValidRegex
 }

@@ -12,8 +12,9 @@ import (
 
 func TestConstraintCreation_ConstraintWithRegexForStringProperty_Create(t *testing.T) {
 	// Given
+	regex := "[0-9]"
 	var constraint = models.Constraint{
-		Regex: "[0-9]",
+		Regex: &regex,
 	}
 	b, _ := json.Marshal(constraint)
 
@@ -35,8 +36,9 @@ func TestConstraintCreation_ConstraintWithEnumForStringProperty_Create(t *testin
 
 func TestConstraintCreation_ConstraintWithRegexAndEnumForStringProperty_Fail(t *testing.T) {
 	// Given
+	regex := "[0-9]"
 	var constraint = models.Constraint{
-		Regex: "[0-9]",
+		Regex: &regex,
 		Enum:  []string{"1", "4"},
 	}
 	b, _ := json.Marshal(constraint)
@@ -71,6 +73,12 @@ func TestConstraintCreation_ConstraintWithMinMaxForIntegerProperty_Create(t *tes
 }
 
 func TestConstraintCreation_ConstraintWithEnumForIntegerProperty_Create(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
+func TestConstraintCreation_ConstraintWithRegexForIntegerProperty_Create(t *testing.T) {
 	// Given
 	// When
 	// Then
@@ -123,8 +131,9 @@ func TestConstraintCreation_EmptyBody_Fail(t *testing.T) {
 
 func TestConstraintCreation_InvalidPath_Fail(t *testing.T) {
 	// Given
+	regex := "abc"
 	var constraint = models.Constraint{
-		Regex: "abc",
+		Regex: &regex,
 	}
 	b, _ := json.Marshal(constraint)
 
