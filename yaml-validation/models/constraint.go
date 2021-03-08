@@ -18,14 +18,14 @@ type Constraint struct {
 	GroupKindVersion GroupKindVersion `json:"-"`
 }
 
-func (constraint Constraint) IsValid() bool {
+func (constraint Constraint) IsValid(valueType string) bool {
 	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil {
 		return false
 	}
 
 	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil
-	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == nil
-	isValidRegex := constraint.Enum == nil && constraint.Regex != nil && constraint.Min == nil && constraint.Max == nil
+	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == nil && valueType == "integer"
+	isValidRegex := constraint.Enum == nil && constraint.Regex != nil && constraint.Min == nil && constraint.Max == nil && valueType == "string"
 
 	return isValidEnum || isValidMinMax || isValidRegex
 }

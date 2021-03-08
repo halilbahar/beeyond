@@ -63,7 +63,16 @@ func createConstraintByPath(c *gin.Context) {
 		return
 	}
 
-	if !constraint.IsValid() {
+	segments := c.GetStringSlice("pathSegments")
+	var lastSegment string
+	if len(segments) != 1 {
+		lastSegment = segments[len(segments)-1]
+		segments = segments[0 : len(segments)-1]
+	}
+
+	schema, _ := models.GetSchemaBySegments(segments)
+
+	if schema.Properties[lastSegment].IsKubernetesObject || !constraint.IsValid(schema.Properties[lastSegment].Type) {
 		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
 		return
 	}
