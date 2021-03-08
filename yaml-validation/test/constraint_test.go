@@ -285,6 +285,12 @@ func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
 	assert.Equal(t, constraint.Enum[1], "4")
 }
 
+func TestConstraintGet_RootElementWithoutApiVersionAndKind_Valid(t *testing.T) {
+	// Given
+	// When
+	// Then
+}
+
 func TestConstraintDelete_ValidConstraint_Valid(t *testing.T) {
 	// Given
 	// When
