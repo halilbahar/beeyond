@@ -25,7 +25,7 @@ func (constraint Constraint) IsValid(valueType string) bool {
 
 	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil
 	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == nil && valueType == "integer"
-	isValidRegex := constraint.Enum == nil && constraint.Regex != nil && constraint.Min == nil && constraint.Max == nil && valueType == "string"
+	isValidRegex := constraint.Enum == nil && constraint.Regex != nil && constraint.Min == nil && constraint.Max == nil
 
 	return isValidEnum || isValidMinMax || isValidRegex
 }
