@@ -20,8 +20,7 @@ func TestConstraintCreation_ConstraintWithRegexForStringProperty_Create(t *testi
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	// TODO: change replicas (integer) to something with string
-	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	request, _ := http.NewRequest("POST", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", bytes.NewBuffer(b))
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -57,8 +56,7 @@ func TestConstraintCreation_ConstraintWithRegexAndEnumForStringProperty_Fail(t *
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	// TODO: change replicas (integer) to something with string
-	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	request, _ := http.NewRequest("POST", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", bytes.NewBuffer(b))
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -66,16 +64,41 @@ func TestConstraintCreation_ConstraintWithRegexAndEnumForStringProperty_Fail(t *
 }
 
 func TestConstraintCreation_ConstraintWithMinMaxForStringProperty_Fail(t *testing.T) {
-	// Strings can only have enum and regex
 	// Given
+	min, max := float32(1), float32(2)
+	var constraint = models.Constraint{
+		Min: &min,
+		Max: &max,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintWithRegexAndMinMaxForStringProperty_Fail(t *testing.T) {
 	// Given
+	min, max := float32(1), float32(2)
+	regex := "abc"
+	var constraint = models.Constraint{
+		Regex: &regex,
+		Min:   &min,
+		Max:   &max,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintWithMinMaxForIntegerProperty_Create(t *testing.T) {
@@ -115,8 +138,19 @@ func TestConstraintCreation_ConstraintWithEnumForIntegerProperty_Create(t *testi
 
 func TestConstraintCreation_ConstraintWithRegexForIntegerProperty_Create(t *testing.T) {
 	// Given
+	regex := "[0-9]"
+	var constraint = models.Constraint{
+		Regex: &regex,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusCreated, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintWithEnumAndMinMax_Fail(t *testing.T) {
@@ -165,7 +199,7 @@ func TestConstraintCreation_EmptyConstraint_Fail(t *testing.T) {
 
 	// When
 	responseRecorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-Apps-v1/spec/replicas", bytes.NewBuffer(b))
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -175,7 +209,7 @@ func TestConstraintCreation_EmptyConstraint_Fail(t *testing.T) {
 func TestConstraintCreation_EmptyBody_Fail(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-Apps-v1/spec/replicas", nil)
+	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/replicas", nil)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -201,26 +235,54 @@ func TestConstraintCreation_InvalidPath_Fail(t *testing.T) {
 
 func TestConstraintCreation_ValidPathWithWrongCases_Fail(t *testing.T) {
 	// Given
-	// When
-	// Then
-}
+	min, max := float32(1), float32(2)
+	var constraint = models.Constraint{
+		Min: &min,
+		Max: &max,
+	}
+	b, _ := json.Marshal(constraint)
 
-func TestConstraintCreation_TwoConstraintDifferentGroupKindVersion_Create(t *testing.T) {
-	// Given
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "/api/constraints/deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintOnApiVersion_Fail(t *testing.T) {
 	// Given
+	regex := "abc"
+	var constraint = models.Constraint{
+		Regex: &regex,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "http://localhost:8180/api/constraints/Deployment-apps-v1/apiVersion", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintOnKind_Fail(t *testing.T) {
 	// Given
+	regex := "abc"
+	var constraint = models.Constraint{
+		Regex: &regex,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "http://localhost:8180/api/constraints/Deployment-apps-v1/kind", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
@@ -254,9 +316,15 @@ func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
 }
 
 func TestConstraintGet_WithoutConstraint_Valid(t *testing.T) {
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	var schema models.Schema
+	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
 }
 
 func TestConstraintGet_InvalidPath_Fail(t *testing.T) {
@@ -281,22 +349,34 @@ func TestConstraintGet_IntegerPropertyPath_Fail(t *testing.T) {
 }
 
 func TestConstraintGet_StringPropertyPath_Fail(t *testing.T) {
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 func TestConstraintGet_IntOrStringPath_Fail(t *testing.T) {
 	// io.k8s.apimachinery.pkg.util.intstr.IntOrString
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/PodDisruptionBudget-policy-v1beta1/spec/maxUnavailable", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 func TestConstraintGet_RootElement_Valid(t *testing.T) {
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
 }
 
 func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
