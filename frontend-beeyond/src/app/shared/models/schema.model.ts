@@ -4,7 +4,7 @@ export interface Schema {
   description: string;
   required: string[] | null;
   type: string;
-  properties: Property;
+  properties: { [key: string]: Property };
   'x-kubernetes-group-version-kind': GroupKindVersion[];
   'x-constraint'?: Constraint;
 }
