@@ -12,11 +12,13 @@ export class ConstraintComponent implements OnInit {
   fetching = true;
   schemas: Schema[];
   singleSchema: Schema;
+  singleSchemaTitle: string;
 
   constructor(private validationApiService: ValidationApiService, private route: ActivatedRoute) {}
 
   ngOnInit(): void {
     const segments = this.route.snapshot.url.map(segment => segment.path);
+    this.singleSchemaTitle = segments[segments.length - 1];
     const constraintPath = segments.join('/');
 
     this.validationApiService.getConstraintForPath(constraintPath).subscribe(schemas => {

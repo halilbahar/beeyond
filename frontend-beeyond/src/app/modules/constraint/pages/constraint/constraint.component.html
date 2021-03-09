@@ -2,6 +2,8 @@
   <mat-card-content>
     <div *ngIf="!fetching">
       <ng-container *ngIf="schemas != null; else singleSchemaView">
+        <mat-card-title>All Kubernetes Object Types ({{ schemas.length }} Types)</mat-card-title>
+
         <app-constraint-detail
           *ngFor="let schema of schemas"
           [title]="getGroupKindVersionName(schema)"
@@ -13,6 +15,11 @@
       </ng-container>
 
       <ng-template #singleSchemaView>
+        <mat-card-title>
+          {{ singleSchemaTitle }} ({{ propertyKeys.length }} Properties)
+        </mat-card-title>
+        <mat-card-subtitle>{{ singleSchema.description }}</mat-card-subtitle>
+
         <app-constraint-detail
           *ngFor="let property of propertyKeys"
           [title]="property"
