@@ -18,13 +18,13 @@ type Constraint struct {
 	GroupKindVersion GroupKindVersion `json:"-"`
 }
 
-func (constraint Constraint) IsValid() bool {
+func (constraint Constraint) IsValid(valueType string) bool {
 	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil {
 		return false
 	}
 
 	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil
-	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == nil
+	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == nil && valueType == "integer"
 	isValidRegex := constraint.Enum == nil && constraint.Regex != nil && constraint.Min == nil && constraint.Max == nil
 
 	return isValidEnum || isValidMinMax || isValidRegex
@@ -61,7 +61,7 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 	cur, err := services.GetClient().
 		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
-		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": bson.M{"$elemMatch": groupKindVersion.ToLower()}})
+		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}})
 
 	if err != nil {
 		return nil

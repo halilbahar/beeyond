@@ -63,13 +63,28 @@ func createConstraintByPath(c *gin.Context) {
 		return
 	}
 
-	if !constraint.IsValid() {
-		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
+	segments := c.GetStringSlice("pathSegments")
+	var lastSegment string
+	if len(segments) != 1 {
+		lastSegment = segments[len(segments)-1]
+		segments = segments[0 : len(segments)-1]
+	}
+
+	schema, _ := models.GetSchemaBySegments(segments)
+
+	if schema.Properties[lastSegment] != nil && !schema.Properties[lastSegment].IsKubernetesObject && !constraint.IsValid(schema.Properties[lastSegment].Type) {
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
 	groupKindVersionInterface, _ := c.Get("groupKindVersion")
 	constraint.Path = c.GetString("propertyPath")
+
+	// check if constraint on apiVersion or kind
+	if strings.HasSuffix(constraint.Path, "apiVersion") || strings.HasSuffix(constraint.Path, "kind") {
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	constraint.GroupKindVersion = groupKindVersionInterface.(models.GroupKindVersion)
 
 	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion)
