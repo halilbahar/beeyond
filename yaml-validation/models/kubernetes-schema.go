@@ -170,7 +170,11 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 		property.Constraint = GetConstraint(path, groupKindVersion)
 	}
 
-	return currentSchema, nil
+	if currentSchema.Type != "" {
+		return currentSchema, nil
+	} else {
+		return nil, PathNotFoundError{}
+	}
 }
 
 func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion, string) {

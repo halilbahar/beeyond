@@ -270,8 +270,19 @@ func TestConstraintCreation_ConstraintOnApiVersion_Fail(t *testing.T) {
 
 func TestConstraintCreation_ConstraintOnKind_Fail(t *testing.T) {
 	// Given
+	regex := "abc"
+	var constraint = models.Constraint{
+		Regex: &regex,
+	}
+	b, _ := json.Marshal(constraint)
+
 	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("POST", "http://localhost:8180/api/constraints/Deployment-apps-v1/kind", bytes.NewBuffer(b))
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
@@ -305,9 +316,15 @@ func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
 }
 
 func TestConstraintGet_WithoutConstraint_Valid(t *testing.T) {
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	var schema models.Schema
+	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
 }
 
 func TestConstraintGet_InvalidPath_Fail(t *testing.T) {
@@ -332,22 +349,34 @@ func TestConstraintGet_IntegerPropertyPath_Fail(t *testing.T) {
 }
 
 func TestConstraintGet_StringPropertyPath_Fail(t *testing.T) {
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 func TestConstraintGet_IntOrStringPath_Fail(t *testing.T) {
 	// io.k8s.apimachinery.pkg.util.intstr.IntOrString
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/PodDisruptionBudget-policy-v1beta1/spec/maxUnavailable", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 func TestConstraintGet_RootElement_Valid(t *testing.T) {
-	// Given
-	// When
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
 }
 
 func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
