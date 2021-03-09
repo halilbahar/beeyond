@@ -1,13 +1,12 @@
 package routers
 
 import (
+	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"yaml-validation/middleware"
-	"yaml-validation/pkg/setting"
-
-	"github.com/gin-gonic/gin"
+	"yaml-validation/conf"
 	_ "yaml-validation/docs"
+	"yaml-validation/middleware"
 )
 
 func GetRouter() *gin.Engine {
@@ -40,5 +39,5 @@ func GetRouter() *gin.Engine {
 
 func Init() {
 	router := GetRouter()
-	_ = router.Run(setting.ServerSetting.HttpPort)
+	_ = router.Run(conf.Configuration.Server.HttpPort)
 }

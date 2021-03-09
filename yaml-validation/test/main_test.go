@@ -7,7 +7,7 @@ import (
 	"github.com/testcontainers/testcontainers-go/wait"
 	"os"
 	"testing"
-	"yaml-validation/pkg/setting"
+	"yaml-validation/conf"
 	"yaml-validation/routers"
 	"yaml-validation/services"
 )
@@ -16,7 +16,7 @@ var Router *gin.Engine
 var mongoDbContainer testcontainers.Container
 
 func TestMain(m *testing.M) {
-	setting.Init()
+	conf.Init()
 	services.Init()
 
 	setupMongoDbContainer()

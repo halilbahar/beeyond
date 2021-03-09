@@ -2,7 +2,7 @@ package models
 
 import (
 	"context"
-	"yaml-validation/pkg/setting"
+	"yaml-validation/conf"
 	"yaml-validation/services"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -32,7 +32,7 @@ func (constraint Constraint) IsValid() bool {
 
 func SaveConstraint(constraint Constraint) error {
 	collection := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints")
 
 	_, err := collection.InsertOne(context.TODO(), constraint)
@@ -43,7 +43,7 @@ func GetConstraint(path string, groupKindVersion GroupKindVersion) *Constraint {
 	var constraint Constraint
 
 	err := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
 		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion}).
 		Decode(&constraint)
@@ -59,7 +59,7 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 	var constraints []*Constraint
 
 	cur, err := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
 		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": bson.M{"$elemMatch": groupKindVersion.ToLower()}})
 
@@ -81,7 +81,7 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 
 func DeleteConstraint(path string, groupKindVersion GroupKindVersion) {
 	_, _ = services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
 		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion})
 }

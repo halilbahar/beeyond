@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-	"yaml-validation/pkg/setting"
+	"yaml-validation/conf"
 )
 
 type SchemaCollection struct {
@@ -58,8 +58,8 @@ func (groupKindVersion GroupKindVersion) ToLower() GroupKindVersion {
 }
 
 func GetSchemaCollection() (*SchemaCollection, error) {
-	baseUrl := setting.KubernetesJsonschemaSetting.Url
-	kubernetesVersion := setting.KubernetesJsonschemaSetting.KubernetesVersion
+	baseUrl := conf.Configuration.KubernetesJsonschema.Url
+	kubernetesVersion := conf.Configuration.KubernetesJsonschema.KubernetesVersion
 	versionType := kubernetesVersion + "-standalone-strict"
 	url := baseUrl + "/" + versionType + "/_definitions.json"
 

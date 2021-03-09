@@ -2,8 +2,7 @@ package services
 
 import (
 	"context"
-
-	"yaml-validation/pkg/setting"
+	"yaml-validation/conf"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
@@ -13,12 +12,12 @@ var mongoClient *mongo.Client
 
 func initDatabase() {
 	credential := options.Credential{
-		Username: setting.DatabaseSetting.User,
-		Password: setting.DatabaseSetting.Password,
+		Username: conf.Configuration.Database.User,
+		Password: conf.Configuration.Database.Password,
 	}
 
 	clientOpts := options.Client().
-		ApplyURI(setting.DatabaseSetting.Type + "://" + setting.DatabaseSetting.Host + ":" + setting.DatabaseSetting.Port).
+		ApplyURI(conf.Configuration.Database.Type + "://" + conf.Configuration.Database.Host + ":" + conf.Configuration.Database.Port).
 		SetAuth(credential)
 
 	mongoClient, _ = mongo.Connect(context.TODO(), clientOpts)
