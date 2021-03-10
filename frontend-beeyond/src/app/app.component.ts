@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { AuthenticationService } from './core/authentification/authentication.service';
 import { ProgressBarService } from './core/services/progress-bar.service';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
+import { combineLatest, forkJoin, from, timer } from 'rxjs';
 
 const DEFAULT_DURATION = 300;
 
@@ -26,6 +27,8 @@ export class AppComponent {
     private authenticationService: AuthenticationService,
     public progressBarService: ProgressBarService
   ) {
-    this.authenticationService.initializeLogin().then(r => (this.oidcLoaded = true));
+    forkJoin([from(this.authenticationService.initializeLogin()), timer(500)]).subscribe(
+      () => (this.oidcLoaded = true)
+    );
   }
 }
