@@ -16,9 +16,9 @@ import kotlin.streams.toList
 @Produces(MediaType.APPLICATION_JSON)
 class TemplateResource {
 
-    @Transactional
-    @RolesAllowed("student", "teacher")
     @GET
+    @RolesAllowed("student", "teacher")
+    @Transactional
     fun getAllTemplates(): Response = Response.ok(Template.streamAll<Template>().map { TemplateDto(it) }.toList()).build()
 
     @POST
