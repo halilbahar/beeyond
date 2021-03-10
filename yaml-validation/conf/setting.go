@@ -9,10 +9,15 @@ type Configurations struct {
 	Server               Server
 	Database             Database
 	KubernetesJsonschema KubernetesJsonschema
+	TestDataBase		 TestDataBase
 }
 
 type Server struct {
 	HttpPort string
+}
+
+type TestDataBase struct {
+	Port string
 }
 
 type Database struct {
@@ -30,18 +35,30 @@ type KubernetesJsonschema struct {
 }
 
 var Configuration Configurations
+var V *viper.Viper
+var EnvVarPrefix = "BEEYOND_KUBERNETES_VALIDATION"
+var EnvVarBindVar = "DB_PORT"
+var EnvVar = EnvVarPrefix+"_"+EnvVarBindVar
+var defaultDbPort = "27017"
 
 func Init() {
-	viper.SetConfigName("config")
-	viper.AddConfigPath("./conf")
-	viper.AutomaticEnv()
-	viper.SetConfigType("yml")
+	V = viper.New()
+	V.SetConfigName("config")
+	V.SetConfigType("yml")
+	V.AddConfigPath("./conf")
+	V.AutomaticEnv()
 
-	if err := viper.ReadInConfig(); err != nil {
+	if err := V.ReadInConfig(); err != nil {
 		fmt.Printf("Error reading config file, %s", err)
 	}
 
-	err := viper.Unmarshal(&Configuration)
+	//if _, ok := os.LookupEnv(EnvVar); ok{
+	//	v := os.Getenv(EnvVar)
+	//	fmt.Println("-------------------------------------ENV VAR VALUE: "+v)
+	//	V.Set("Database.Port", os.Getenv(EnvVar))
+	//}
+
+	err := V.Unmarshal(&Configuration)
 	if err != nil {
 		fmt.Printf("Unable to decode into struct, %v", err)
 	}

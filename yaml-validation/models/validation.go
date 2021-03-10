@@ -87,6 +87,7 @@ func ValidateContent(content string) ([]ValidationError, error) {
 				errorDescription = "Constraint enum does not contain given value"
 			}
 		} else {
+			// TODO: "^"+*cur.Regex+"$"
 			matched, _ := regexp.MatchString("^"+*cur.Regex+"$", actual)
 
 			if !matched {

@@ -284,6 +284,15 @@ func TestConstraintCreation_ConstraintOnKind_Fail(t *testing.T) {
 	// Then
 	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
+// TODO: jaja
+func TestConstraintCreation_IgnoreDisabledProperty_Create(t *testing.T) {
+	// Given
+
+	// When
+
+	// Then
+
+}
 
 func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
 	// Given
@@ -419,15 +428,11 @@ func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
 }
 
 func TestConstraintGet_RootElementWithoutApiVersionAndKind_Valid(t *testing.T) {
-	// Given
-	// When
-	// Then
+
 }
 
 func TestConstraintDelete_ValidConstraint_Valid(t *testing.T) {
-	// Given
-	// When
-	// Then
+
 }
 
 func TestConstraintDelete_NoConstraint_Fail(t *testing.T) {

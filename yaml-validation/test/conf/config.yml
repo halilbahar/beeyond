@@ -6,7 +6,7 @@ Database:
   User: beeyond
   Password: beeyond
   Host: localhost
-  beeyond_kubernetes_validation_db_port: 27017
+  Port: 27117
   Name: beeyond_validation_db
 
 KubernetesJsonschema:

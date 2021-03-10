@@ -63,14 +63,9 @@ func createConstraintByPath(c *gin.Context) {
 		return
 	}
 
-	segments := c.GetStringSlice("pathSegments")
-	var lastSegment string
-	if len(segments) != 1 {
-		lastSegment = segments[len(segments)-1]
-		segments = segments[0 : len(segments)-1]
-	}
-
-	schema, _ := models.GetSchemaBySegments(segments)
+	lastSegment := c.GetString("lastPropertyName")
+	schemaInterface, _:= c.Get("schema")
+	schema := schemaInterface.(*models.Schema)
 
 	if schema.Properties[lastSegment] != nil && !schema.Properties[lastSegment].IsKubernetesObject && !constraint.IsValid(schema.Properties[lastSegment].Type) {
 		c.Writer.WriteHeader(http.StatusBadRequest)
@@ -110,12 +105,23 @@ func toggleDisableConstraintByPath(c *gin.Context) {
 	groupKindVersion := groupKindVersionInterface.(models.GroupKindVersion)
 
 	constraint := models.GetConstraint(propertyPath, groupKindVersion)
-	// If the no constraint exits and the user wants to disable the path, create a new constraint
+	// If no constraint exits and the user wants to disable the path, create a new constraint
 	if constraint == nil {
 		constraint = &models.Constraint{
 			Path:             propertyPath,
 			Disabled:         false,
 			GroupKindVersion: groupKindVersion,
+		}
+	}
+
+	lastSegment := c.GetString("lastPropertyName")
+	schemaInterface, _:= c.Get("schema")
+	schema := schemaInterface.(*models.Schema)
+
+	for _, req := range schema.Required{
+		if req == lastSegment {
+			c.Writer.WriteHeader(http.StatusBadRequest)
+			return
 		}
 	}
 

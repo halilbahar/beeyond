@@ -1,6 +1,9 @@
 Server:
   HttpPort: :8180
 
+TestDatabase:
+  Port:
+
 Database:
   Type: mongodb
   User: beeyond

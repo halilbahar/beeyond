@@ -18,6 +18,7 @@ func GetRouter() *gin.Engine {
 		// validate
 		api.POST("/validate", getValidationResult)
 		api.Use(middleware.PathSegments())
+		api.Use(middleware.ProvideSchema())
 		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
