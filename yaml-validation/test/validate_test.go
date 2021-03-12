@@ -11,7 +11,7 @@ import (
 
 func TestValidateEndpointShouldWork(t *testing.T) {
 	resp := httptest.NewRecorder()
-	c, _ := ioutil.ReadFile("resources/valid.yaml")
+	c, _ := ioutil.ReadFile("test/resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
@@ -20,7 +20,7 @@ func TestValidateEndpointShouldWork(t *testing.T) {
 
 func TestValidateEndpointShouldReturnError(t *testing.T) {
 	resp := httptest.NewRecorder()
-	c, _ := ioutil.ReadFile("resources/invalid.yaml")
+	c, _ := ioutil.ReadFile("test/resources/invalid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
