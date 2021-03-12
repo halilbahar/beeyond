@@ -171,6 +171,8 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 	}
 
 	if currentSchema.Type != "" {
+		delete(currentSchema.Properties, "apiVersion")
+		delete(currentSchema.Properties, "kind")
 		return currentSchema, nil
 	} else {
 		return nil, PathNotFoundError{}

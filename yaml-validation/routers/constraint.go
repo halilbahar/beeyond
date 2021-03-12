@@ -23,6 +23,9 @@ func listRootConstraints(c *gin.Context) {
 			kubernetesRootDefinitions = append(kubernetesRootDefinitions, schema)
 		}
 
+		delete(schema.Properties, "apiVersion")
+		delete(schema.Properties, "kind")
+
 		for _, property := range schema.Properties {
 			var referencePath string
 			if property.Reference != "" {
@@ -64,7 +67,7 @@ func createConstraintByPath(c *gin.Context) {
 	}
 
 	lastSegment := c.GetString("lastPropertyName")
-	schemaInterface, _:= c.Get("schema")
+	schemaInterface, _ := c.Get("schema")
 	schema := schemaInterface.(*models.Schema)
 
 	if schema.Properties[lastSegment] != nil && !schema.Properties[lastSegment].IsKubernetesObject && !constraint.IsValid(schema.Properties[lastSegment].Type) {
@@ -115,10 +118,10 @@ func toggleDisableConstraintByPath(c *gin.Context) {
 	}
 
 	lastSegment := c.GetString("lastPropertyName")
-	schemaInterface, _:= c.Get("schema")
+	schemaInterface, _ := c.Get("schema")
 	schema := schemaInterface.(*models.Schema)
 
-	for _, req := range schema.Required{
+	for _, req := range schema.Required {
 		if req == lastSegment {
 			c.Writer.WriteHeader(http.StatusBadRequest)
 			return
