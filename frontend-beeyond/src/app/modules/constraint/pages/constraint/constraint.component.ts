@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidationApiService } from 'src/app/core/services/validation-api.service';
-import { Schema } from 'src/app/shared/models/schema.model';
+import { Property, Schema } from 'src/app/shared/models/schema.model';
 import { ConstraintControlChange } from '../../components/constraint-control/constraint-control.component';
 
 @Component({
@@ -60,6 +60,20 @@ export class ConstraintComponent implements OnInit {
     schema['x-constraint'].disabled = disabledValue;
 
     schemas[index] = schema;
+  }
+
+  onSingleSchemaDisableToggled(
+    schemaProperties: Record<string, Property>,
+    keyName: string,
+    disabledValue: boolean
+  ): void {
+    const property = { ...schemaProperties[keyName] };
+    if (property['x-constraint'] == null) {
+      property['x-constraint'] = {};
+    }
+    property['x-constraint'].disabled = disabledValue;
+
+    schemaProperties[keyName] = property;
   }
 
   onSchemaListControlChange(changes: ConstraintControlChange): void {

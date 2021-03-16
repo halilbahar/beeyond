@@ -36,6 +36,7 @@
           [type]="item.value.type"
           [isKubernetesObject]="item.value['x-is-kubernetes-object']"
           [constraint]="item.value['x-constraint']"
+          (constraintDisabledToggled)="onSingleSchemaDisableToggled(singleSchemaFiltered.properties, item.key, $event)"
         ></app-constraint-detail>
       </ng-template>
     </div>
