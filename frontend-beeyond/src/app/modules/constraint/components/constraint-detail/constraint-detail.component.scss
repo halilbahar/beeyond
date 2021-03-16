@@ -1,7 +1,9 @@
 $body-space: 0.8rem;
+$body-margin: 0.4rem;
+$spacing: 0.4rem;
 
 :host {
-  padding: $body-space 0 $body-space;
+  padding: $body-space $body-margin $body-space;
   display: block;
   box-sizing: border-box;
 
@@ -23,21 +25,25 @@ $body-space: 0.8rem;
   display: flex;
   align-items: center;
 
-  .edit-icon {
-    cursor: pointer;
+  & > *:not(:first-child) {
+    margin-left: $spacing;
   }
 
-  $spacing: 0.45rem;
+  .mat-icon-button {
+    width: unset;
+    height: unset;
+    line-height: unset;
+  }
+
+  .enable-icon {
+    color: green;
+  }
+
   .title {
     cursor: pointer;
     font-size: 1.2rem;
     margin-left: $spacing;
     flex: 1;
-  }
-
-  .navigation-arrow {
-    margin-left: $spacing;
-    cursor: pointer;
   }
 }
 
