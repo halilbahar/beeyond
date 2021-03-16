@@ -3,8 +3,14 @@
     <mat-icon (click)="openEditDialog()">edit</mat-icon>
   </button>
   <span>
-    <button mat-icon-button color="warn" matTooltip="Disable this" (click)="toggleConstraint()">
-      <mat-icon *ngIf="!constraint?.disabled; else enableButton">block</mat-icon>
+    <button
+      mat-icon-button
+      color="warn"
+      matTooltip="Disable this"
+      (click)="toggleConstraint()"
+      *ngIf="!constraint?.disabled; else enableButton"
+    >
+      <mat-icon>block</mat-icon>
     </button>
     <ng-template #enableButton>
       <button
