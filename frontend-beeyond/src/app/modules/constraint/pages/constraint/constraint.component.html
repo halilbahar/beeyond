@@ -12,8 +12,9 @@
           [title]="getGroupKindVersionName(schema)"
           [description]="schema.description"
           [type]="schema.type"
-          isKubernetesObject="true"
+          [isKubernetesObject]="true"
           [constraint]="schema['x-constraint']"
+          [isRequired]="false"
           (constraintDisabledToggled)="onSchemaDisableToggled(schemasFiltered, i, $event)"
         ></app-constraint-detail>
       </ng-container>
@@ -34,6 +35,7 @@
           [type]="item.value.type"
           [isKubernetesObject]="item.value['x-is-kubernetes-object']"
           [constraint]="item.value['x-constraint']"
+          [isRequired]="singleSchemaFiltered.required.includes(item.key)"
           (constraintDisabledToggled)="
             onSingleSchemaDisableToggled(singleSchemaFiltered.properties, item.key, $event)
           "

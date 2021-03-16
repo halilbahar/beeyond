@@ -31,6 +31,10 @@ $spacing: 0.4rem;
     line-height: unset;
   }
 
+  .hidden-icons {
+    visibility: hidden;
+  }
+
   .enable-icon {
     color: green;
   }

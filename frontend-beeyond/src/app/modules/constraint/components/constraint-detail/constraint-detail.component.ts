@@ -27,6 +27,7 @@ export class ConstraintDetailComponent implements OnInit {
   @Input() type: string;
   @Input() isKubernetesObject: boolean;
   @Input() constraint?: Constraint;
+  @Input() isRequired: boolean;
   @Output() constraintDisabledToggled: EventEmitter<boolean> = new EventEmitter();
 
   @HostBinding('class.constraint') hasConstraint = false;
