@@ -68,6 +68,7 @@ export class ConstraintComponent implements OnInit {
     disabledValue: boolean
   ): void {
     const property = { ...schemaProperties[keyName] };
+
     if (property['x-constraint'] == null) {
       property['x-constraint'] = {};
     }
