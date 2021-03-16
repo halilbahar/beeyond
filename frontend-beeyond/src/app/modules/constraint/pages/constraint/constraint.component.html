@@ -4,9 +4,8 @@
       <ng-container *ngIf="schemas != null; else singleSchemaView">
         <mat-card-title>All Kubernetes Object Types ({{ schemas.length }} Types)</mat-card-title>
 
-        <app-constraint-control
-          (controlChange)="onSchemaListControlChange($event)"
-        ></app-constraint-control>
+        <app-constraint-control (controlChange)="onSchemaListControlChange($event)">
+        </app-constraint-control>
 
         <app-constraint-detail
           *ngFor="let schema of schemasFiltered; let i = index"
@@ -25,9 +24,8 @@
         </mat-card-title>
         <mat-card-subtitle>{{ singleSchema.description }}</mat-card-subtitle>
 
-        <app-constraint-control
-          (controlChange)="onSingleSchemaControlChange($event)"
-        ></app-constraint-control>
+        <app-constraint-control (controlChange)="onSingleSchemaControlChange($event)">
+        </app-constraint-control>
 
         <app-constraint-detail
           *ngFor="let item of singleSchemaFiltered.properties | keyvalue"
