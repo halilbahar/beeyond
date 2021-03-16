@@ -9,13 +9,13 @@
         ></app-constraint-control>
 
         <app-constraint-detail
-          *ngFor="let schema of schemasFiltered"
+          *ngFor="let schema of schemasFiltered; let i = index"
           [title]="getGroupKindVersionName(schema)"
           [description]="schema.description"
           [type]="schema.type"
           isKubernetesObject="true"
           [constraint]="schema['x-constraint']"
-          (constraintDisabledToggled)="onSchemaDisableToggled(schema, $event)"
+          (constraintDisabledToggled)="onSchemaDisableToggled(schemasFiltered, i, $event)"
         ></app-constraint-detail>
       </ng-container>
 

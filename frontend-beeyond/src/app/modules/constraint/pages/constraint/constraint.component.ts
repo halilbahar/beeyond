@@ -51,11 +51,15 @@ export class ConstraintComponent implements OnInit {
     return Object.keys(this.singleSchema.properties).length;
   }
 
-  onSchemaDisableToggled(schema: Schema, disabledValue: boolean): void {
+  onSchemaDisableToggled(schemas: Schema[], index: number, disabledValue: boolean): void {
+    const schema = { ...schemas[index] };
+
     if (schema['x-constraint'] == null) {
       schema['x-constraint'] = {};
     }
     schema['x-constraint'].disabled = disabledValue;
+
+    schemas[index] = schema;
   }
 
   onSchemaListControlChange(changes: ConstraintControlChange): void {
