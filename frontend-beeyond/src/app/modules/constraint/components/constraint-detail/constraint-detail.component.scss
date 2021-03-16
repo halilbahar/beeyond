@@ -10,10 +10,6 @@ $spacing: 0.4rem;
   &.constraint {
     background-color: rgba(0, 0, 0, 0.05);
   }
-
-  &.disabled {
-    background-color: rgba(255, 0, 0, 0.2);
-  }
 }
 
 :host-context(:not(:last-of-type)) {

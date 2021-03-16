@@ -30,7 +30,6 @@ export class ConstraintDetailComponent implements OnInit {
   @Output() constraintDisabledToggled: EventEmitter<boolean> = new EventEmitter();
 
   @HostBinding('class.constraint') hasConstraint = false;
-  @HostBinding('class.disabled') isDisabled = false;
 
   collapsed = true;
 
@@ -43,8 +42,7 @@ export class ConstraintDetailComponent implements OnInit {
 
   ngOnInit(): void {
     const { enum: enumArray, regex, min, max, disabled } = this.constraint || {};
-    this.hasConstraint = this.constraint != null && (enumArray || regex || min || max) != null;
-    this.isDisabled = disabled;
+    this.hasConstraint = this.constraint != null && (enumArray || regex || min || max) != null || disabled;
   }
 
   openEditDialog(): void {
