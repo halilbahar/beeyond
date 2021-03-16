@@ -1,4 +1,4 @@
-import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { AUTO_STYLE, animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -27,6 +27,7 @@ export class ConstraintDetailComponent implements OnInit {
   @Input() type: string;
   @Input() isKubernetesObject: boolean;
   @Input() constraint?: Constraint;
+  @Output() constraintDisabledToggled: EventEmitter<boolean> = new EventEmitter();
 
   @HostBinding('class.constraint') hasConstraint = false;
   @HostBinding('class.disabled') isDisabled = false;
@@ -70,9 +71,9 @@ export class ConstraintDetailComponent implements OnInit {
 
   toggleConstraint(): void {
     const path = this.getPath();
-    this.validationApiService.toggleConstraint(path).subscribe(() => {
-      console.log('toggled!!!!', path);
-    });
+    this.validationApiService
+      .toggleConstraint(path)
+      .subscribe(() => this.constraintDisabledToggled.emit(!this.constraint?.disabled));
   }
 
   private getPath(): string {

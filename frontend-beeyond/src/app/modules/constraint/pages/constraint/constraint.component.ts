@@ -51,6 +51,13 @@ export class ConstraintComponent implements OnInit {
     return Object.keys(this.singleSchema.properties).length;
   }
 
+  onSchemaDisableToggled(schema: Schema, disabledValue: boolean): void {
+    if (schema['x-constraint'] == null) {
+      schema['x-constraint'] = {};
+    }
+    schema['x-constraint'].disabled = disabledValue;
+  }
+
   onSchemaListControlChange(changes: ConstraintControlChange): void {
     this.schemasFiltered = this.schemas
       // Filter deleted items

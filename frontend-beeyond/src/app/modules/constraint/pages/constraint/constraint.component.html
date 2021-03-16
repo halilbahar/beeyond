@@ -15,6 +15,7 @@
           [type]="schema.type"
           isKubernetesObject="true"
           [constraint]="schema['x-constraint']"
+          (constraintDisabledToggled)="onSchemaDisableToggled(schema, $event)"
         ></app-constraint-detail>
       </ng-container>
 
