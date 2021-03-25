@@ -169,6 +169,13 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 
 		property.Constraint = GetConstraint(path, groupKindVersion)
 	}
+	if len(segments) > 1 {
+		constraintPath = strings.Join(segments[1:], ".")
+	} else {
+		constraintPath = ""
+	}
+
+	currentSchema.Constraint = GetConstraint(constraintPath, groupKindVersion)
 
 	if currentSchema.Type != "" {
 		return currentSchema, nil

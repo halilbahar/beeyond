@@ -64,7 +64,7 @@ func createConstraintByPath(c *gin.Context) {
 	}
 
 	lastSegment := c.GetString("lastPropertyName")
-	schemaInterface, _:= c.Get("schema")
+	schemaInterface, _ := c.Get("schema")
 	schema := schemaInterface.(*models.Schema)
 
 	if schema.Properties[lastSegment] != nil && !schema.Properties[lastSegment].IsKubernetesObject && !constraint.IsValid(schema.Properties[lastSegment].Type) {
@@ -95,7 +95,10 @@ func deleteConstraintByPath(c *gin.Context) {
 	groupKindVersion, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
 
-	models.DeleteConstraint(propertyPath, groupKindVersion.(models.GroupKindVersion))
+	if models.DeleteConstraint(propertyPath, groupKindVersion.(models.GroupKindVersion)).DeletedCount == 0 {
+		c.Writer.WriteHeader(http.StatusBadRequest)
+		return
+	}
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
@@ -115,10 +118,10 @@ func toggleDisableConstraintByPath(c *gin.Context) {
 	}
 
 	lastSegment := c.GetString("lastPropertyName")
-	schemaInterface, _:= c.Get("schema")
+	schemaInterface, _ := c.Get("schema")
 	schema := schemaInterface.(*models.Schema)
 
-	for _, req := range schema.Required{
+	for _, req := range schema.Required {
 		if req == lastSegment {
 			c.Writer.WriteHeader(http.StatusBadRequest)
 			return
@@ -131,6 +134,6 @@ func toggleDisableConstraintByPath(c *gin.Context) {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
+	schema.Constraint = constraint
 	c.Writer.WriteHeader(http.StatusOK)
 }

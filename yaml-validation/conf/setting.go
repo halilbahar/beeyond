@@ -9,7 +9,7 @@ type Configurations struct {
 	Server               Server
 	Database             Database
 	KubernetesJsonschema KubernetesJsonschema
-	TestDataBase		 TestDataBase
+	TestDataBase         TestDataBase
 }
 
 type Server struct {
@@ -36,10 +36,6 @@ type KubernetesJsonschema struct {
 
 var Configuration Configurations
 var V *viper.Viper
-var EnvVarPrefix = "BEEYOND_KUBERNETES_VALIDATION"
-var EnvVarBindVar = "DB_PORT"
-var EnvVar = EnvVarPrefix+"_"+EnvVarBindVar
-var defaultDbPort = "27017"
 
 func Init() {
 	V = viper.New()
@@ -51,12 +47,6 @@ func Init() {
 	if err := V.ReadInConfig(); err != nil {
 		fmt.Printf("Error reading config file, %s", err)
 	}
-
-	//if _, ok := os.LookupEnv(EnvVar); ok{
-	//	v := os.Getenv(EnvVar)
-	//	fmt.Println("-------------------------------------ENV VAR VALUE: "+v)
-	//	V.Set("Database.Port", os.Getenv(EnvVar))
-	//}
 
 	err := V.Unmarshal(&Configuration)
 	if err != nil {

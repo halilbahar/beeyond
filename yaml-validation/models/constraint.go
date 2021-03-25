@@ -2,6 +2,7 @@ package models
 
 import (
 	"context"
+	"go.mongodb.org/mongo-driver/mongo"
 	"yaml-validation/conf"
 	"yaml-validation/services"
 
@@ -79,9 +80,10 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 	return constraints
 }
 
-func DeleteConstraint(path string, groupKindVersion GroupKindVersion) {
-	_, _ = services.GetClient().
+func DeleteConstraint(path string, groupKindVersion GroupKindVersion) *mongo.DeleteResult {
+	deleteResult, _ := services.GetClient().
 		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
 		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion})
+	return deleteResult
 }
