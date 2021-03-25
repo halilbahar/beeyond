@@ -14,6 +14,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
 import { ConstraintControlComponent } from './components/constraint-control/constraint-control.component';
 import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
     MatButtonModule,
     MatChipsModule,
     MatCheckboxModule,
-    FormsModule
+    FormsModule,
+    MatTooltipModule
   ]
 })
 export class ConstraintModule {}

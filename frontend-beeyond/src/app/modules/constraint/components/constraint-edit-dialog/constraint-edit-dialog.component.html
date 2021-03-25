@@ -43,18 +43,6 @@
 
 <mat-dialog-actions align="end">
   <button mat-stroked-button mat-dialog-close="true">Cancel</button>
-  <button
-    mat-stroked-button
-    color="warn"
-    (click)="toggleConstraint()"
-    [disabled]="form.valid"
-    *ngIf="!data.constraint?.disabled; else enableConstraint"
-  >
-    Disable
-  </button>
-  <ng-template #enableConstraint>
-    <button mat-stroked-button (click)="toggleConstraint()" [disabled]="form.valid">Enable</button>
-  </ng-template>
   <button mat-stroked-button color="warn" (click)="deleteConstraint()">Delete</button>
   <button mat-stroked-button (click)="createConstraint()" [disabled]="form.invalid">Create</button>
 </mat-dialog-actions>

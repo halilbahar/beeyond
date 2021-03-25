@@ -65,12 +65,6 @@ export class ConstraintEditDialogComponent implements OnInit {
       .subscribe(() => this.dialogRef.close());
   }
 
-  toggleConstraint(): void {
-    this.validationApiService
-      .toggleConstraint(this.data.path)
-      .subscribe(() => this.dialogRef.close());
-  }
-
   deleteConstraint(): void {
     this.validationApiService
       .deleteConstraint(this.data.path)

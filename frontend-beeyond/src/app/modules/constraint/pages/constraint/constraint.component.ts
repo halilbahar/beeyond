@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ValidationApiService } from 'src/app/core/services/validation-api.service';
-import { Schema } from 'src/app/shared/models/schema.model';
+import { Property, Schema } from 'src/app/shared/models/schema.model';
 import { ConstraintControlChange } from '../../components/constraint-control/constraint-control.component';
 
 @Component({
@@ -28,7 +28,7 @@ export class ConstraintComponent implements OnInit {
       this.fetching = false;
       if (schemas instanceof Array) {
         this.schemas = schemas;
-        this.schemasFiltered = this.schemas;
+        this.schemasFiltered = this.schemas.sort(this.groupKindVersionSorter());
       } else {
         this.singleSchema = schemas;
         this.singleSchemaFiltered = this.singleSchema;
@@ -51,6 +51,32 @@ export class ConstraintComponent implements OnInit {
     return Object.keys(this.singleSchema.properties).length;
   }
 
+  onSchemaDisableToggled(schemas: Schema[], index: number, disabledValue: boolean): void {
+    const schema = { ...schemas[index] };
+
+    if (schema['x-constraint'] == null) {
+      schema['x-constraint'] = {};
+    }
+    schema['x-constraint'].disabled = disabledValue;
+
+    schemas[index] = schema;
+  }
+
+  onSingleSchemaDisableToggled(
+    schemaProperties: Record<string, Property>,
+    keyName: string,
+    disabledValue: boolean
+  ): void {
+    const property = { ...schemaProperties[keyName] };
+
+    if (property['x-constraint'] == null) {
+      property['x-constraint'] = {};
+    }
+    property['x-constraint'].disabled = disabledValue;
+
+    schemaProperties[keyName] = property;
+  }
+
   onSchemaListControlChange(changes: ConstraintControlChange): void {
     this.schemasFiltered = this.schemas
       // Filter deleted items
@@ -63,7 +89,8 @@ export class ConstraintComponent implements OnInit {
       // Filter search
       .filter(schema =>
         this.getGroupKindVersionName(schema).toLowerCase().includes(changes.search.toLowerCase())
-      );
+      )
+      .sort(this.groupKindVersionSorter());
   }
 
   onSingleSchemaControlChange(changes: ConstraintControlChange): void {
@@ -86,5 +113,9 @@ export class ConstraintComponent implements OnInit {
 
     // Create a new schema with the new filtered properties
     this.singleSchemaFiltered = { ...this.singleSchema, properties: filteredProperties };
+  }
+
+  private groupKindVersionSorter(): (a: Schema, b: Schema) => number {
+    return (a, b) => (this.getGroupKindVersionName(b) > this.getGroupKindVersionName(a) ? -1 : 1);
   }
 }

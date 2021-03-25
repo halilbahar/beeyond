@@ -1,9 +1,37 @@
 <div class="header">
-  <mat-icon class="edit-icon" (click)="openEditDialog()">edit</mat-icon>
+  <button mat-icon-button matTooltip="Edit this">
+    <mat-icon (click)="openEditDialog()">edit</mat-icon>
+  </button>
+  <span [ngClass]="{ 'hidden-icons': isRequired }">
+    <button
+      mat-icon-button
+      color="warn"
+      matTooltip="Disable this"
+      (click)="toggleConstraint()"
+      *ngIf="!constraint?.disabled; else enableButton"
+    >
+      <mat-icon>block</mat-icon>
+    </button>
+    <ng-template #enableButton>
+      <button
+        mat-icon-button
+        class="enable-icon"
+        matTooltip="Enable this"
+        (click)="toggleConstraint()"
+      >
+        <mat-icon>check</mat-icon>
+      </button>
+    </ng-template>
+  </span>
   <div class="title" (click)="collapsed = !collapsed">{{ title }}</div>
-  <mat-icon class="navigation-arrow" *ngIf="isKubernetesObject" (click)="navigate(title)">
-    arrow_forward_ios
-  </mat-icon>
+  <button
+    mat-icon-button
+    matTooltip="Navigate into"
+    matTooltipShowDelay="500"
+    *ngIf="isKubernetesObject"
+  >
+    <mat-icon (click)="navigate(title)">arrow_forward_ios</mat-icon>
+  </button>
 </div>
 <div class="body-wrapper" [@collapse]="collapsed">
   <div class="body">{{ description }}</div>

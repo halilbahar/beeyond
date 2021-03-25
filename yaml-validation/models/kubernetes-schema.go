@@ -178,6 +178,8 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 	currentSchema.Constraint = GetConstraint(constraintPath, groupKindVersion)
 
 	if currentSchema.Type != "" {
+		delete(currentSchema.Properties, "apiVersion")
+		delete(currentSchema.Properties, "kind")
 		return currentSchema, nil
 	} else {
 		return nil, PathNotFoundError{}

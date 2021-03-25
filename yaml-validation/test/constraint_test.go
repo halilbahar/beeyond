@@ -21,6 +21,7 @@ func TestConstraintCreation_ConstraintWithRegexForStringProperty_Create(t *testi
 
 	// When
 	responseRecorder := httptest.NewRecorder()
+	fmt.Print("hello")
 	request, _ := http.NewRequest("POST", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", bytes.NewBuffer(b))
 	Router.ServeHTTP(responseRecorder, request)
 
@@ -266,7 +267,7 @@ func TestConstraintCreation_ConstraintOnApiVersion_Fail(t *testing.T) {
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
-	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 func TestConstraintCreation_ConstraintOnKind_Fail(t *testing.T) {
@@ -283,7 +284,7 @@ func TestConstraintCreation_ConstraintOnKind_Fail(t *testing.T) {
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
-	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 // TODO: jaja
@@ -336,6 +337,58 @@ func TestConstraintGet_WithoutConstraint_Valid(t *testing.T) {
 	var schema models.Schema
 	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
 	assert.Equal(t, http.StatusOK, responseRecorder.Code)
+}
+
+func TestConstraintGet_ShouldNotContainKind(t *testing.T) {
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
+	// Then
+	var schema models.Schema
+	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
+	assert.Nil(t, schema.Properties["kind"])
+}
+
+func TestConstraintGet_ShouldNotContainApiVersion(t *testing.T) {
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
+	// Then
+	var schema models.Schema
+	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
+	assert.Nil(t, schema.Properties["apiVersion"])
+}
+
+func TestConstraintGet_RootElementShouldNotContainKind(t *testing.T) {
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
+	// Then
+	var schemas []*models.Schema
+	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schemas)
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
+	assert.Nil(t, schemas[0].Properties["kind"])
+}
+
+func TestConstraintGet_RootElementShouldNotContainApiVersion(t *testing.T) {
+	// Given When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("GET", "/api/constraints", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
+	// Then
+	var schemas []*models.Schema
+	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schemas)
+	assert.Equal(t, http.StatusOK, responseRecorder.Code)
+	assert.Nil(t, schemas[0].Properties["apiVersion"])
 }
 
 func TestConstraintGet_InvalidPath_Fail(t *testing.T) {

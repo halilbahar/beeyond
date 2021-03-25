@@ -23,6 +23,9 @@ func listRootConstraints(c *gin.Context) {
 			kubernetesRootDefinitions = append(kubernetesRootDefinitions, schema)
 		}
 
+		delete(schema.Properties, "apiVersion")
+		delete(schema.Properties, "kind")
+
 		for _, property := range schema.Properties {
 			var referencePath string
 			if property.Reference != "" {
