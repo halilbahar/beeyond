@@ -5,6 +5,7 @@ import org.hibernate.validator.constraintvalidation.HibernateConstraintValidator
 
 import javax.validation.ConstraintValidator;
 import javax.validation.ConstraintValidatorContext;
+import java.util.List;
 
 public class ExistsValidator implements ConstraintValidator<Exists, Object> {
 
@@ -21,7 +22,18 @@ public class ExistsValidator implements ConstraintValidator<Exists, Object> {
             return true;
         }
 
-        boolean isValid = JpaOperations.count(this.exists.entity(), this.exists.fieldName(), value) != 0;
+        boolean isValid = true;
+
+        if (value instanceof List) {
+            for (var v : (List<?>) value){
+                if(JpaOperations.count(this.exists.entity(), this.exists.fieldName(), v) == 0){
+                    isValid = false;
+                    break;
+                }
+            }
+        } else {
+            isValid = JpaOperations.count(this.exists.entity(), this.exists.fieldName(), value) != 0;
+        }
 
         if (!isValid) {
             HibernateConstraintValidatorContext ctx = context.unwrap(HibernateConstraintValidatorContext.class);
