@@ -10,5 +10,7 @@ abstract class ApplicationDto(
         @field:Size(max = 255) var note: String? = null,
         @set:JsonbTransient var status: ApplicationStatus? = null,
         @set:JsonbTransient var owner: UserDto? = null,
-        @set:JsonbTransient var createdAt: LocalDateTime? = null
+        @set:JsonbTransient var createdAt: LocalDateTime? = null,
+        @set:JsonbTransient var startedAt: LocalDateTime? = null,
+        @set:JsonbTransient var finishedAt: LocalDateTime? = null
 )
