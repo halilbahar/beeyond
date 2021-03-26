@@ -88,4 +88,18 @@ class ApplicationResource {
         application.status = ApplicationStatus.DENIED
         return Response.noContent().build()
     }
+
+    @PATCH
+    @Path("/stop/{id}")
+    @RolesAllowed("teacher")
+    @Transactional
+    fun stopApplication(@PathParam("id") id: Long?): Response? {
+        val application = Application.findById<Application>(id)
+                ?: return Response.status(404).build()
+
+        deploymentService.stop(application)
+        application.status = ApplicationStatus.FINISHED
+        
+        return Response.noContent().build()
+    }
 }

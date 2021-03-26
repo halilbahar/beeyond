@@ -38,7 +38,15 @@ class DeploymentService {
         }
     }
 
-    fun executeYaml(content: String, applicationId: Long) {
+    fun stop(application: Application?) {
+        if (application is CustomApplication) {
+            this.executeYaml(application.content, application.id, delete = true)
+        } else if (application is TemplateApplication) {
+            this.executeYaml(application.content, application.id, delete = true)
+        }
+    }
+
+    fun executeYaml(content: String, applicationId: Long, delete: Boolean = false) {
         val yamlArray: MutableList<JsonObject> = mutableListOf()
         val yamlIterator: MutableIterator<Any> = this.yaml.loadAll(content).iterator()
 
@@ -63,6 +71,10 @@ class DeploymentService {
                 .joinToString("---\n")
 
         // If problems occur: https://stackoverflow.com/a/25750748/11125147
-        client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace("default").createOrReplace()
+        if(!delete) {
+            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace("default").createOrReplace()
+        } else {
+            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace("default").delete()
+        }
     }
 }
