@@ -8,6 +8,7 @@ import at.htl.beeyond.entity.CustomApplication
 import at.htl.beeyond.entity.TemplateApplication
 import at.htl.beeyond.service.DeploymentService
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
+import java.time.LocalDateTime
 import java.util.stream.Collectors
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
@@ -74,6 +75,8 @@ class ApplicationResource {
 
         this.deploymentService.deploy(application)
         application.status = ApplicationStatus.RUNNING
+        application.startedAt = LocalDateTime.now()
+
         return Response.noContent().build()
     }
 
@@ -99,6 +102,7 @@ class ApplicationResource {
 
         deploymentService.stop(application)
         application.status = ApplicationStatus.FINISHED
+        application.finishedAt = LocalDateTime.now()
         
         return Response.noContent().build()
     }
