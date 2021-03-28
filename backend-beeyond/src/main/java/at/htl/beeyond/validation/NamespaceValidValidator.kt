@@ -8,7 +8,7 @@ import javax.validation.ConstraintValidatorContext
 class NamespaceValidValidator : ConstraintValidator<NamespaceValid, String> {
     override fun isValid(namespace: String?, context: ConstraintValidatorContext): Boolean {
         if (namespace == null) {
-            return false
+            return true
         }
 
         if (User.find<User>("name", namespace).firstResult<User>() != null ||
