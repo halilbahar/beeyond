@@ -9,7 +9,4 @@ public interface Checks {
 
     interface TemplateFieldExists {
     }
-
-    interface UserListExists {
-    }
 }

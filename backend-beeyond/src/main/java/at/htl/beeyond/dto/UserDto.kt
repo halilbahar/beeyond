@@ -7,5 +7,4 @@ data class UserDto(
     var name: String? = null
 ) {
     constructor(user: User) : this(user.id, user.name)
-    constructor() : this(null, null)
 }

@@ -25,8 +25,8 @@ public class ExistsValidator implements ConstraintValidator<Exists, Object> {
         boolean isValid = true;
 
         if (value instanceof List) {
-            for (var v : (List<?>) value){
-                if(JpaOperations.count(this.exists.entity(), this.exists.fieldName(), v) == 0){
+            for (var itemValue : (List<?>) value){
+                if(JpaOperations.count(this.exists.entity(), this.exists.fieldName(), itemValue) == 0){
                     isValid = false;
                     break;
                 }

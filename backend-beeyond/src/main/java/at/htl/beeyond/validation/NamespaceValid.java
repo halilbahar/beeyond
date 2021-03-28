@@ -10,7 +10,7 @@ import java.lang.annotation.*;
 @Documented
 public @interface NamespaceValid {
 
-    String message() default "{at.htl.beeyond.validation.Namespace.message}";
+    String message() default "{at.htl.beeyond.validation.NamespaceValid.message}";
 
     Class<?>[] groups() default {};
 
