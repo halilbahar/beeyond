@@ -876,7 +876,13 @@ func TestConstraintToggle_EnableRootObject_Valid(t *testing.T) {
 }
 
 func TestConstraintToggle_DisableRequiredString_Fail(t *testing.T) {
+	// Given
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("PATCH", "/api/constraints/MutatingWebhookConfiguration-admissionregistration.k8s.io-v1/webhooks/name", nil)
+	Router.ServeHTTP(responseRecorder, request)
 
+	// Then
+	assert.Equal(t, http.StatusBadRequest, responseRecorder.Code)
 }
 
 func TestConstraintToggle_DisableRequiredInteger_Fail(t *testing.T) {
@@ -901,12 +907,20 @@ func TestConstraintToggle_DisableRequiredObject_Fail(t *testing.T) {
 
 func TestConstraintToggle_DisableApiVersion_Fail(t *testing.T) {
 	// Given
-	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/apiVersion", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }
 
 func TestConstraintToggle_DisableKind_Fail(t *testing.T) {
 	// Given
-	// When
+	responseRecorder := httptest.NewRecorder()
+	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/kind", nil)
+	Router.ServeHTTP(responseRecorder, request)
+
 	// Then
+	assert.Equal(t, http.StatusNotFound, responseRecorder.Code)
 }

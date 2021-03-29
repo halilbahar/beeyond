@@ -48,9 +48,6 @@ func setupMongoDbContainer() {
 	//	client.Disconnect(context.TODO())
 	//	return
 	//}
-	// polleichtner, wos// 10 min nu donn kinan ma e doa, jo i check nd warum wia erm jz zuahochn miasn ergibt e kan sinn wei ma e nd ds von gestan wissn, voi oba i was warum di
-	// tests nd gaunga san warum? jo wegen dem drüba do, ds woa ds wos er ma augsogt hod wos passt do leicht nd, i was a nd euso do schaut ma afoch noch falls di normal db nd rennt
-	// dass er si glei mid port 27017 vabindet
 
 	mongoDbContext := context.Background()
 	req := testcontainers.ContainerRequest{
