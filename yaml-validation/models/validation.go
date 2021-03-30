@@ -2,7 +2,7 @@ package models
 
 import (
 	"github.com/instrumenta/kubeval/kubeval"
-	"github.com/smallfish/simpleyaml"
+	"gopkg.in/yaml.v2"
 	"regexp"
 	"strconv"
 	"strings"
@@ -43,42 +43,38 @@ func ValidateContent(content string) ([]ValidationError, error) {
 		}
 	}
 
-	y, err := simpleyaml.NewYaml([]byte(content))
-	if err != nil {
-		panic(err)
-	}
+	var groupKindVersion GroupKindVersion
 
-	var gkv GroupKindVersion
+	yamlMap := make(map[interface{}]interface{})
 
-	gkv.Kind, _ = y.Get("kind").String()
-	groupversion, _ := y.Get("apiVersion").String()
-	gkv.Group = strings.Split(groupversion, "/")[0]
-	gkv.Version = strings.Split(groupversion, "/")[1]
+	err = yaml.Unmarshal([]byte(content), &yamlMap)
 
-	constraints := GetConstraintsByGKV(&gkv)
+	groupKindVersion.Kind = getValueFromPath(yamlMap, "kind").(string)
+	groupversion := getValueFromPath(yamlMap, "apiVersion").(string)
 
-	for _, cur := range constraints {
-		pathSegments := strings.Split(cur.Path, ".")
-		p := y
-		for _, seg := range pathSegments {
-			p = p.Get(seg)
-		}
-		actual, err := p.String()
-		if err != nil {
-			actualInt, _ := p.Int()
-			actual = strconv.Itoa(actualInt)
-		}
+	groupKindVersion.Group = strings.Split(groupversion, "/")[0]
+	groupKindVersion.Version = strings.Split(groupversion, "/")[1]
 
+	constraints := GetConstraintsByGKV(&groupKindVersion)
+
+	for _, currentConstraint := range constraints {
 		errorDescription := ""
+		value := getValueFromPath(yamlMap, currentConstraint.Path)
 
-		if cur.Max != nil {
-			actualFloat, _ := strconv.ParseFloat(actual, 32)
-			if actualFloat > float64(*cur.Max) || actualFloat < float64(*cur.Min) {
+		var actual string
+		var ok bool
+		if actual, ok = value.(string); !ok {
+			actual = strconv.Itoa(value.(int))
+		}
+
+		if currentConstraint.Max != nil {
+			actualFloat, _ := getValueFromPath(yamlMap, currentConstraint.Path).(float64)
+			if actualFloat > float64(*currentConstraint.Max) || actualFloat < float64(*currentConstraint.Min) {
 				errorDescription = "Given value out of range"
 			}
-		} else if cur.Enum != nil {
+		} else if currentConstraint.Enum != nil {
 			found := false
-			for _, s := range cur.Enum {
+			for _, s := range currentConstraint.Enum {
 				if s == actual {
 					found = true
 				}
@@ -87,8 +83,8 @@ func ValidateContent(content string) ([]ValidationError, error) {
 				errorDescription = "Constraint enum does not contain given value"
 			}
 		} else {
-			// TODO: "^"+*cur.Regex+"$"
-			matched, _ := regexp.MatchString("^"+*cur.Regex+"$", actual)
+			// TODO: "^"+*currentConstraint.Regex+"$"
+			matched, _ := regexp.MatchString("^"+*currentConstraint.Regex+"$", actual)
 
 			if !matched {
 				errorDescription = "Given value does not match regex"
@@ -100,10 +96,27 @@ func ValidateContent(content string) ([]ValidationError, error) {
 			validationError = append(validationError, ValidationError{
 				Description: errorDescription,
 				Value:       actual,
-				Field:       cur.Path,
+				Field:       currentConstraint.Path,
 			})
 		}
 	}
 
 	return validationError, nil
+}
+
+func getValueFromPath(m map[interface{}]interface{}, path string) interface{} {
+	var obj interface{} = m
+	var val interface{} = nil
+
+	parts := strings.Split(path, ".")
+	for _, p := range parts {
+		if v, ok := obj.(map[interface{}]interface{}); ok {
+			obj = v[p]
+			val = obj
+		} else {
+			return nil
+		}
+	}
+
+	return val
 }
