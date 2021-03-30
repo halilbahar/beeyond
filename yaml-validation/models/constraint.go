@@ -87,3 +87,11 @@ func DeleteConstraint(path string, groupKindVersion GroupKindVersion) *mongo.Del
 		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion})
 	return deleteResult
 }
+
+func DeleteAll() *mongo.DeleteResult {
+	deleteResult, _ := services.GetClient().
+		Database(conf.Configuration.Database.Name).
+		Collection("Constraints").
+		DeleteMany(context.TODO(), bson.M{})
+	return deleteResult
+}
