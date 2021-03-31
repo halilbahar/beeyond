@@ -3,6 +3,7 @@ package at.htl.beeyond.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 public class Namespace extends PanacheEntityBase {
@@ -13,8 +14,8 @@ public class Namespace extends PanacheEntityBase {
 
     private String namespace;
 
-    @ManyToOne
-    private User user;
+    @ManyToMany(mappedBy = "namespaces")
+    private List<User> users;
 
     public Namespace(String namespace) {
         this.namespace = namespace;
@@ -35,11 +36,11 @@ public class Namespace extends PanacheEntityBase {
         this.namespace = namespace;
     }
 
-    public User getUser() {
-        return user;
+    public List<User> getUsers() {
+        return users;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setUsers(List<User> users) {
+        this.users = users;
     }
 }
