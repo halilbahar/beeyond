@@ -23,4 +23,9 @@ public class ApplicationTest {
     Karate testDeny() {
         return Karate.run("application-deny").relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testFinish() {
+        return Karate.run("application-finish").relativeTo(getClass());
+    }
 }
