@@ -2,11 +2,8 @@ package at.htl.beeyond.resource
 
 import at.htl.beeyond.dto.UserListDto
 import at.htl.beeyond.entity.Namespace
-import at.htl.beeyond.entity.TemplateField
 import at.htl.beeyond.entity.User
 import at.htl.beeyond.service.NamespaceService
-import at.htl.beeyond.validation.Checks
-import at.htl.beeyond.validation.Exists
 import at.htl.beeyond.validation.NamespaceValid
 import org.hibernate.validator.constraints.Length
 import javax.inject.Inject
@@ -24,12 +21,12 @@ class NamespaceResource {
     @Inject
     lateinit var namespaceService: NamespaceService
 
-    @POST
+    @PUT
     @Path("/{namespace}")
     @Transactional
     fun assignNamespace(
-        @PathParam("namespace") @Length(min = 1, max = 50) @NamespaceValid namespaceName: String,
-        @Valid userList: UserListDto
+            @PathParam("namespace") @Length(min = 1, max = 50) @NamespaceValid namespaceName: String,
+            @Valid userList: UserListDto
     ): Response {
         var namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResult<Namespace>()
 
@@ -39,7 +36,7 @@ class NamespaceResource {
             Namespace.persist(namespace)
         }
 
-        userList.users?.forEach {
+        userList.users.forEach {
             User.find<User>("name", it).firstResult<User>()?.namespaces?.add(namespace);
         }
 
