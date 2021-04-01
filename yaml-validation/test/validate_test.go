@@ -196,9 +196,9 @@ func TestValidateEndpoint_WithEnumAndObjectValue_ShouldReturnError(t *testing.T)
 	// Then
 }
 
-////////////////////////////
-// Min & Max array values //
-////////////////////////////
+///////////////////////
+// Enum array values //
+///////////////////////
 
 func TestValidateEndpoint_WithEnumAndIntegerArrayValue_ShouldReturnError(t *testing.T) {
 	// Given
