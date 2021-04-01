@@ -2,74 +2,51 @@ package models
 
 import (
 	"context"
-	"yaml-validation/pkg/setting"
+	"go.mongodb.org/mongo-driver/mongo"
+	"yaml-validation/conf"
 	"yaml-validation/services"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
 
 type Constraint struct {
-	Path             string
-	Min              *float32 `json:"min,omitempty"`
-	Max              *float32 `json:"max,omitempty"`
-	Enum             []string `json:"enum,omitempty"`
-	Regex            string   `json:"regex,omitempty"`
-	Disabled         bool     `json:"disabled,omitempty"`
-	GroupKindVersion []GroupKindVersion
+	Path             string           `json:"-"`
+	Min              *float32         `json:"min,omitempty"`
+	Max              *float32         `json:"max,omitempty"`
+	Enum             []string         `json:"enum,omitempty"`
+	Regex            *string          `json:"regex,omitempty"`
+	Disabled         bool             `json:"disabled,omitempty"`
+	GroupKindVersion GroupKindVersion `json:"-"`
 }
 
-func (constraint Constraint) IsValid() bool {
-	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == "" {
+func (constraint Constraint) IsValid(valueType string) bool {
+	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil {
 		return false
 	}
 
-	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == ""
-	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == ""
-	isValidRegex := constraint.Enum == nil && constraint.Regex != "" && constraint.Min == nil && constraint.Max == nil
+	isValidEnum := constraint.Enum != nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil
+	isValidMinMax := constraint.Enum == nil && constraint.Min != nil && constraint.Max != nil && constraint.Regex == nil && valueType == "integer"
+	isValidRegex := constraint.Enum == nil && constraint.Regex != nil && constraint.Min == nil && constraint.Max == nil
 
 	return isValidEnum || isValidMinMax || isValidRegex
 }
 
 func SaveConstraint(constraint Constraint) error {
 	collection := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints")
 
 	_, err := collection.InsertOne(context.TODO(), constraint)
 	return err
 }
 
-func GetConstraints() []*Constraint {
-	var constraints []*Constraint
-
-	cur, err := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
-		Collection("Constraints").
-		Find(context.TODO(), bson.D{})
-
-	if err != nil {
-		return nil
-	}
-
-	for cur.Next(context.TODO()) {
-		var constr Constraint
-
-		if err := cur.Decode(&constr); err == nil {
-			constraints = append(constraints, &constr)
-		}
-	}
-
-	_ = cur.Close(context.TODO())
-	return constraints
-}
-
 func GetConstraint(path string, groupKindVersion GroupKindVersion) *Constraint {
 	var constraint Constraint
 
 	err := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
-		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}}).
+		FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion}).
 		Decode(&constraint)
 
 	if err != nil {
@@ -83,9 +60,9 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 	var constraints []*Constraint
 
 	cur, err := services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
-		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": bson.M{"$elemMatch": groupKindVersion.ToLower()}})
+		Find(context.TODO(), bson.M{"disabled": false, "groupkindversion": groupKindVersion})
 
 	if err != nil {
 		return nil
@@ -103,9 +80,18 @@ func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint {
 	return constraints
 }
 
-func DeleteConstraint(path string, groupKindVersion GroupKindVersion) {
-	_, _ = services.GetClient().
-		Database(setting.DatabaseSetting.Name).
+func DeleteConstraint(path string, groupKindVersion GroupKindVersion) *mongo.DeleteResult {
+	deleteResult, _ := services.GetClient().
+		Database(conf.Configuration.Database.Name).
 		Collection("Constraints").
-		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": bson.M{"$elemMatch": groupKindVersion}})
+		DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion})
+	return deleteResult
+}
+
+func DeleteAll() *mongo.DeleteResult {
+	deleteResult, _ := services.GetClient().
+		Database(conf.Configuration.Database.Name).
+		Collection("Constraints").
+		DeleteMany(context.TODO(), bson.M{})
+	return deleteResult
 }

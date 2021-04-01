@@ -4,7 +4,7 @@ import (
 	"encoding/json"
 	"net/http"
 	"strings"
-	"yaml-validation/pkg/setting"
+	"yaml-validation/conf"
 )
 
 type SchemaCollection struct {
@@ -58,8 +58,8 @@ func (groupKindVersion GroupKindVersion) ToLower() GroupKindVersion {
 }
 
 func GetSchemaCollection() (*SchemaCollection, error) {
-	baseUrl := setting.KubernetesJsonschemaSetting.Url
-	kubernetesVersion := setting.KubernetesJsonschemaSetting.KubernetesVersion
+	baseUrl := conf.Configuration.KubernetesJsonschema.Url
+	kubernetesVersion := conf.Configuration.KubernetesJsonschema.KubernetesVersion
 	versionType := kubernetesVersion + "-standalone-strict"
 	url := baseUrl + "/" + versionType + "/_definitions.json"
 
@@ -86,7 +86,8 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 		if i == 0 {
 		schemaLoop:
 			for _, schema := range collection.Schemas {
-				for _, groupKindVersion := range schema.GroupKindVersion {
+				if len(schema.GroupKindVersion) > 0 {
+					groupKindVersion := schema.GroupKindVersion[0]
 					var group string
 					if groupKindVersion.Group == "" {
 						group = ""
@@ -105,6 +106,7 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 			if currentSchema == nil {
 				return nil, PathNotFoundError{}
 			}
+
 		} else {
 			property := currentSchema.Properties[segment]
 
@@ -136,7 +138,7 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 
 	groupKindVersion, constraintPath := GetGroupKindVersionAndPathFromSegments(segments)
 
-	// Attach constraint to the properties if the exist
+	// Attach constraint to the properties if it exists
 	for propertyName, property := range currentSchema.Properties {
 		var referencePath string
 		if property.Reference != "" {
@@ -158,17 +160,32 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 			}
 		}
 
+		var path string
 		if constraintPath == "" {
-			property.Constraint = GetConstraint(propertyName, groupKindVersion)
+			path = propertyName
 		} else {
-			property.Constraint = GetConstraint(constraintPath+"."+propertyName, groupKindVersion)
+			path = constraintPath + "." + propertyName
 		}
+
+		property.Constraint = GetConstraint(path, groupKindVersion)
+	}
+	if len(segments) > 1 {
+		constraintPath = strings.Join(segments[1:], ".")
+	} else {
+		constraintPath = ""
 	}
 
-	return currentSchema, nil
+	currentSchema.Constraint = GetConstraint(constraintPath, groupKindVersion)
+
+	if currentSchema.Type != "" {
+		delete(currentSchema.Properties, "apiVersion")
+		delete(currentSchema.Properties, "kind")
+		return currentSchema, nil
+	} else {
+		return nil, PathNotFoundError{}
+	}
 }
 
-// TODO: Based on the groupKindVersion in the segment return all available groupKindVersions instead of the only one in the segment
 func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion, string) {
 	var groupKindVersion GroupKindVersion
 	parts := strings.Split(segments[0], "-")

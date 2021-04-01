@@ -1,9 +1,10 @@
-import { Component, HostBinding, HostListener, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 import { AUTO_STYLE, animate, state, style, transition, trigger } from '@angular/animations';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { ConstraintEditDialogComponent } from '../constraint-edit-dialog/constraint-edit-dialog.component';
 import { Constraint } from 'src/app/shared/models/constraint.model';
+import { ValidationApiService } from 'src/app/core/services/validation-api.service';
 
 const DEFAULT_DURATION = 300;
 
@@ -26,22 +27,28 @@ export class ConstraintDetailComponent implements OnInit {
   @Input() type: string;
   @Input() isKubernetesObject: boolean;
   @Input() constraint?: Constraint;
+  @Input() isRequired: boolean;
+  @Output() constraintDisabledToggled: EventEmitter<boolean> = new EventEmitter();
 
   @HostBinding('class.constraint') hasConstraint = false;
-  @HostBinding('class.disabled') isDisabled = false;
 
   collapsed = true;
 
-  constructor(private router: Router, private route: ActivatedRoute, private dialog: MatDialog) {}
+  constructor(
+    private router: Router,
+    private route: ActivatedRoute,
+    private dialog: MatDialog,
+    private validationApiService: ValidationApiService
+  ) {}
 
   ngOnInit(): void {
     const { enum: enumArray, regex, min, max, disabled } = this.constraint || {};
-    this.hasConstraint = this.constraint != null && (enumArray || regex || min || max) != null;
-    this.isDisabled = disabled;
+    this.hasConstraint =
+      (this.constraint != null && (enumArray || regex || min || max) != null) || disabled;
   }
 
   openEditDialog(): void {
-    const path = this.route.snapshot.url.map(segment => segment.path).join('/') + '/' + this.title;
+    const path = this.getPath();
 
     const dialogRef = this.dialog.open(ConstraintEditDialogComponent, {
       autoFocus: false,
@@ -60,5 +67,16 @@ export class ConstraintDetailComponent implements OnInit {
     this.router.routeReuseStrategy.shouldReuseRoute = () => false;
     this.router.onSameUrlNavigation = 'reload';
     this.router.navigate([path], { relativeTo: this.route });
+  }
+
+  toggleConstraint(): void {
+    const path = this.getPath();
+    this.validationApiService
+      .toggleConstraint(path)
+      .subscribe(() => this.constraintDisabledToggled.emit(!this.constraint?.disabled));
+  }
+
+  private getPath(): string {
+    return this.route.snapshot.url.map(segment => segment.path).join('/') + '/' + this.title;
   }
 }

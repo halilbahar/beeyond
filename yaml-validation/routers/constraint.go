@@ -16,13 +16,17 @@ func listRootConstraints(c *gin.Context) {
 	}
 
 	var kubernetesRootDefinitions []*models.Schema
-	for _, definition := range collection.Schemas {
-		groupKindVersions := definition.GroupKindVersion
-		if len(groupKindVersions) > 0 && groupKindVersions[0].Kind != "" {
-			definition.Constraint = models.GetConstraint("", groupKindVersions[0])
-			kubernetesRootDefinitions = append(kubernetesRootDefinitions, definition)
+	for _, schema := range collection.Schemas {
+		groupKindVersions := schema.GroupKindVersion
+		if len(groupKindVersions) > 0 {
+			schema.Constraint = models.GetConstraint("", groupKindVersions[0])
+			kubernetesRootDefinitions = append(kubernetesRootDefinitions, schema)
 		}
-		for _, property := range definition.Properties {
+
+		delete(schema.Properties, "apiVersion")
+		delete(schema.Properties, "kind")
+
+		for _, property := range schema.Properties {
 			var referencePath string
 			if property.Reference != "" {
 				referencePath = property.Reference
@@ -57,30 +61,31 @@ func getConstraintsByPath(c *gin.Context) {
 
 func createConstraintByPath(c *gin.Context) {
 	var constraint models.Constraint
-	segments := c.GetStringSlice("pathSegments")
-
 	if err := c.ShouldBindJSON(&constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	// Check if the constraint is valid (enum or min-max or regex based on type)
-	if !constraint.IsValid() {
+	lastSegment := c.GetString("lastPropertyName")
+	schemaInterface, _ := c.Get("schema")
+	schema := schemaInterface.(*models.Schema)
+
+	if schema.Properties[lastSegment] != nil && !schema.Properties[lastSegment].IsKubernetesObject && !constraint.IsValid(schema.Properties[lastSegment].Type) {
 		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
 
-	// check if the path exists for kubernetes
-	if !models.IsValidConstraintPath(segments) {
-		c.Writer.WriteHeader(http.StatusNotFound)
+	groupKindVersionInterface, _ := c.Get("groupKindVersion")
+	constraint.Path = c.GetString("propertyPath")
+
+	// check if constraint on apiVersion or kind
+	if strings.HasSuffix(constraint.Path, "apiVersion") || strings.HasSuffix(constraint.Path, "kind") {
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
+	constraint.GroupKindVersion = groupKindVersionInterface.(models.GroupKindVersion)
 
-	var groupKindVersion models.GroupKindVersion
-	groupKindVersion, constraint.Path = models.GetGroupKindVersionAndPathFromSegments(segments)
-	constraint.GroupKindVersion = append(constraint.GroupKindVersion, groupKindVersion)
-
-	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion[0])
+	models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion)
 	if err := models.SaveConstraint(constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
@@ -90,45 +95,48 @@ func createConstraintByPath(c *gin.Context) {
 }
 
 func deleteConstraintByPath(c *gin.Context) {
-	segments := c.GetStringSlice("pathSegments")
+	groupKindVersion, _ := c.Get("groupKindVersion")
+	propertyPath := c.GetString("propertyPath")
 
-	if !models.IsValidConstraintPath(segments) {
-		c.Writer.WriteHeader(http.StatusNotFound)
+	if models.DeleteConstraint(propertyPath, groupKindVersion.(models.GroupKindVersion)).DeletedCount == 0 {
+		c.Writer.WriteHeader(http.StatusBadRequest)
 		return
 	}
-
-	groupKindVersion, path := models.GetGroupKindVersionAndPathFromSegments(segments)
-	models.DeleteConstraint(path, groupKindVersion)
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
 func toggleDisableConstraintByPath(c *gin.Context) {
-	segments := c.GetStringSlice("pathSegments")
+	groupKindVersionInterface, _ := c.Get("groupKindVersion")
+	propertyPath := c.GetString("propertyPath")
+	groupKindVersion := groupKindVersionInterface.(models.GroupKindVersion)
 
-	// check if the path exists for kubernetes
-	if !models.IsValidConstraintPath(segments) {
-		c.Writer.WriteHeader(http.StatusNotFound)
-		return
-	}
-
-	// Get the group kind and version and fetch the constraint from the database with that information
-	groupKindVersion, path := models.GetGroupKindVersionAndPathFromSegments(segments)
-	constraint := models.GetConstraint(path, groupKindVersion)
-	// If the no constraint exits and the user wants to disable the path, create a new constraint
+	constraint := models.GetConstraint(propertyPath, groupKindVersion)
+	// If no constraint exits and the user wants to disable the path, create a new constraint
 	if constraint == nil {
 		constraint = &models.Constraint{
-			Path:             path,
+			Path:             propertyPath,
 			Disabled:         false,
-			GroupKindVersion: []models.GroupKindVersion{groupKindVersion},
+			GroupKindVersion: groupKindVersion,
+		}
+	}
+
+	lastSegment := c.GetString("lastPropertyName")
+	schemaInterface, _ := c.Get("schema")
+	schema := schemaInterface.(*models.Schema)
+
+	for _, req := range schema.Required {
+		if req == lastSegment {
+			c.Writer.WriteHeader(http.StatusBadRequest)
+			return
 		}
 	}
 
 	constraint.Disabled = !constraint.Disabled
-	models.DeleteConstraint(path, groupKindVersion)
+	models.DeleteConstraint(propertyPath, groupKindVersion)
 	if models.SaveConstraint(*constraint) != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-
+	schema.Constraint = constraint
 	c.Writer.WriteHeader(http.StatusOK)
 }

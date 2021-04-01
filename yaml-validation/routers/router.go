@@ -1,13 +1,12 @@
 package routers
 
 import (
+	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"yaml-validation/middleware"
-	"yaml-validation/pkg/setting"
-
-	"github.com/gin-gonic/gin"
+	"yaml-validation/conf"
 	_ "yaml-validation/docs"
+	"yaml-validation/middleware"
 )
 
 func GetRouter() *gin.Engine {
@@ -18,7 +17,8 @@ func GetRouter() *gin.Engine {
 	{
 		// validate
 		api.POST("/validate", getValidationResult)
-		api.Use(middleware.KubernetesPath())
+		api.Use(middleware.PathSegments())
+		api.Use(middleware.ProvideSchema())
 		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
@@ -27,9 +27,11 @@ func GetRouter() *gin.Engine {
 		{
 			constraints.GET("", listRootConstraints)
 			constraints.GET("/*path", getConstraintsByPath)
-			constraints.POST("/*path", createConstraintByPath)
-			constraints.DELETE("/*path", deleteConstraintByPath)
-			constraints.PATCH("/*path", toggleDisableConstraintByPath)
+
+			pathValid := middleware.PathValid()
+			constraints.POST("/*path", pathValid, createConstraintByPath)
+			constraints.DELETE("/*path", pathValid, deleteConstraintByPath)
+			constraints.PATCH("/*path", pathValid, toggleDisableConstraintByPath)
 		}
 	}
 
@@ -38,5 +40,5 @@ func GetRouter() *gin.Engine {
 
 func Init() {
 	router := GetRouter()
-	_ = router.Run(setting.ServerSetting.HttpPort)
+	_ = router.Run(conf.Configuration.Server.HttpPort)
 }

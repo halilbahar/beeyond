@@ -1,7 +1,6 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   AbstractControl,
-  FormArray,
   FormBuilder,
   FormControl,
   FormGroup,
@@ -63,12 +62,6 @@ export class ConstraintEditDialogComponent implements OnInit {
   createConstraint(): void {
     this.validationApiService
       .createConstraint(this.data.path, this.form.value as Constraint)
-      .subscribe(() => this.dialogRef.close());
-  }
-
-  toggleConstraint(): void {
-    this.validationApiService
-      .toggleConstraint(this.data.path)
       .subscribe(() => this.dialogRef.close());
   }
 

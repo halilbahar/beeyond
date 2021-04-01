@@ -8,13 +8,21 @@ import { MatIconModule } from '@angular/material/icon';
 import { ConstraintDetailComponent } from './components/constraint-detail/constraint-detail.component';
 import { ConstraintEditDialogComponent } from './components/constraint-edit-dialog/constraint-edit-dialog.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatChipsModule } from '@angular/material/chips';
+import { ConstraintControlComponent } from './components/constraint-control/constraint-control.component';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [ConstraintComponent, ConstraintDetailComponent, ConstraintEditDialogComponent],
+  declarations: [
+    ConstraintComponent,
+    ConstraintDetailComponent,
+    ConstraintEditDialogComponent,
+    ConstraintControlComponent
+  ],
   imports: [
     CommonModule,
     ConstraintRoutingModule,
@@ -25,7 +33,10 @@ import { MatChipsModule } from '@angular/material/chips';
     ReactiveFormsModule,
     MatInputModule,
     MatButtonModule,
-    MatChipsModule
+    MatChipsModule,
+    MatCheckboxModule,
+    FormsModule,
+    MatTooltipModule
   ]
 })
 export class ConstraintModule {}

@@ -3,13 +3,13 @@ package routers
 import (
 	"github.com/gin-gonic/gin"
 	"net/http"
-	. "yaml-validation/models"
+	"yaml-validation/models"
 )
 
 func getValidationResult(c *gin.Context) {
 	data, _ := c.GetRawData()
 	yamlContent := string(data)
-	results, err := ValidateContent(yamlContent)
+	results, err := models.ValidateContent(yamlContent)
 
 	if err != nil {
 		// TODO: find what errors can occur and return them if ok
