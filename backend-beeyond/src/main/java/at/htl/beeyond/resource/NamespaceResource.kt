@@ -37,9 +37,9 @@ class NamespaceResource {
         }
 
         userList.users.forEach {
-            User.find<User>("name", it).firstResult<User>()?.namespaces?.add(namespace);
+            User.find<User>("name", it).firstResult<User>()?.namespaces?.add(namespace)
         }
 
-        return Response.noContent().build();
+        return Response.noContent().build()
     }
 }
