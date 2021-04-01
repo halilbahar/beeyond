@@ -12,9 +12,4 @@ public class NamespaceTest {
     Karate testAssign() {
         return Karate.run("namespace-assign").relativeTo(getClass());
     }
-
-    @Karate.Test
-    Karate testRevoke() {
-        return Karate.run("namespace-revoke").relativeTo(getClass());
-    }
 }
