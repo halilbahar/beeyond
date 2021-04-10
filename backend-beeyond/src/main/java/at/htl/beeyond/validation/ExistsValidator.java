@@ -26,13 +26,13 @@ public class ExistsValidator implements ConstraintValidator<Exists, Object> {
 
         if (value instanceof List) {
             for (var itemValue : (List<?>) value){
-                if(JpaOperations.count(this.exists.entity(), this.exists.fieldName(), itemValue) == 0){
+                if(JpaOperations.INSTANCE.count(this.exists.entity(), this.exists.fieldName(), itemValue) == 0){
                     isValid = false;
                     break;
                 }
             }
         } else {
-            isValid = JpaOperations.count(this.exists.entity(), this.exists.fieldName(), value) != 0;
+            isValid = JpaOperations.INSTANCE.count(this.exists.entity(), this.exists.fieldName(), value) != 0;
         }
 
         if (!isValid) {

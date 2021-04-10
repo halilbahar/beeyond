@@ -2,6 +2,7 @@ package at.htl.beeyond.service;
 
 import io.fabric8.kubernetes.api.model.Namespace;
 import io.fabric8.kubernetes.api.model.NamespaceList;
+import io.fabric8.kubernetes.api.model.ObjectMeta;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.inject.Inject;
@@ -19,13 +20,15 @@ public class NamespaceService {
         return namespaces.getItems();
     }
 
-    public void createNamespace(String namespace) {
-        this.deploymentYamlService.getClient().namespaces().createNew()
-                .withNewMetadata()
-                .withName(namespace)
-                .withLabels(Collections.singletonMap("managment", "beeyond"))
-                .endMetadata()
-                .done();
+    public void createNamespace(String name) {
+        Namespace namespace = new Namespace();
+        ObjectMeta metadata = new ObjectMeta();
+
+        metadata.setName(name);
+        metadata.setLabels(Collections.singletonMap("managment", "beeyond"));
+        namespace.setMetadata(metadata);
+
+        this.deploymentYamlService.getClient().namespaces().create(namespace);
     }
 
     public void deleteNamespace(String namespace) {
