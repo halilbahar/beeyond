@@ -1,6 +1,7 @@
 package models
 
 import (
+	"fmt"
 	"github.com/instrumenta/kubeval/kubeval"
 	"gopkg.in/yaml.v2"
 	"regexp"
@@ -68,7 +69,8 @@ func ValidateContent(content string) ([]ValidationError, error) {
 		}
 
 		if currentConstraint.Max != nil {
-			actualFloat, _ := getValueFromPath(yamlMap, currentConstraint.Path).(float64)
+			actualFloat := float64(getValueFromPath(yamlMap, currentConstraint.Path).(int))
+			fmt.Print(err)
 			if actualFloat > float64(*currentConstraint.Max) || actualFloat < float64(*currentConstraint.Min) {
 				errorDescription = "Given value out of range"
 			}
