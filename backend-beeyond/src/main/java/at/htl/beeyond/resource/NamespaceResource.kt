@@ -36,6 +36,10 @@ class NamespaceResource {
         json.add("id", 1)
         json.add("users", Json.createArrayBuilder().add(user).build())
 
+        json.add("namespace", "namespace-2")
+        json.add("id", 2)
+        json.add("users", Json.createArrayBuilder().add(user).build())
+
         return Response.ok(listOf(json.build())).build();
     }
 
