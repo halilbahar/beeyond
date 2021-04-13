@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html lang="en">
+      
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            
+        <meta charset="utf-8">
+            
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+            
+        <link href="res/bootstrap.min.css" rel="stylesheet" type="text/css">
+            
+        <link href="res/karate-report.css" rel="stylesheet" type="text/css">
+            
+        <link href="favicon.ico" rel="shortcut icon">
+            <script src="res/jquery.min.js" type="text/javascript"></script>
+    <script src="res/jquery.tablesorter.min.js" type="text/javascript"></script>
+    <script src="res/bootstrap.min.js" type="text/javascript"></script>
+    <script src="res/karate-report.js" type="text/javascript"></script>
+    
+        <title>at.htl.beeyond.integration.template.template-deletion</title>
+          
+    </head>
+      
+    <body>
+            
+        <div id="root-container">
+                  
+            <div id="leftnav">
+                        
+                <div class="nav-logo">
+                              <a href="karate-summary.html">
+            <img alt="Karate" src="res/karate-logo.svg">
+          </a>
+          
+                    <div class="nav-count">
+                                    
+                        <div class="bg-success" id="nav-pass">2</div>
+                                    
+                        <div class="bg-danger" id="nav-fail">0</div>
+                                  
+                    </div>
+                            
+                </div>
+                        
+                <div id="nav-type">Scenarios</div>
+                         
+        
+                <div id="nav-date">2021-04-13 08:47:36 PM</div>
+                        
+      
+                <div class="nav-container">
+                    <div class="nav-item passed">
+                        <a href="#[1:11]">[1:11] Delete a template </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[2:21]">[2:21] Delete a template that does not exist </a>
+                    </div>
+                </div>
+            </div>
+                  
+            <div id="content">
+                      
+                <div class="page-heading alert alert-primary">
+                    <a href="karate-summary.html">Summary</a><span class="feature-label">|</span><a href="karate-tags.html">Tags</a><span class="feature-label">|</span><span class="feature-label">Feature:</span><span class="feature-name">at/htl/beeyond/integration/template/template-deletion.feature</span><span class="feature-description">Template deletion endpoint</span>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[1:11]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [1:11]</span><span class="scenario-name">Delete a template </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 62</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[1:11]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="1">
+                            <div class="step-ref bg-step">1</div>
+                            <div class="step-cell passed">* url baseUrl + '/template'</div>
+                        </div>
+                        <div class="time-cell passed">6</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="2">
+                            <div class="step-ref bg-step">2</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="3">
+                            <div class="step-ref bg-step">3</div>
+                            <div class="step-cell passed">* def insertTemplate = read('classpath:at/htl/beeyond/integration/util/create-template.feature')</div>
+                        </div>
+                        <div class="time-cell passed">1</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="4">
+                            <div class="step-ref bg-step">4</div>
+                            <div class="step-cell passed">* def insertTemplateResponse = call insertTemplate</div>
+                        </div>
+                        <div class="time-cell passed">31</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="4.1">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">at/htl/beeyond/integration/util/create-template.feature</div>
+                        </div>
+                        <div class="time-cell passed">28</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="5">
+                            <div class="step-ref bg-step">5</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* url baseUrl</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="6">
+                            <div class="step-ref bg-step">6</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* path 'template'</div>
+                        </div>
+                        <div class="time-cell passed">1</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="7">
+                            <div class="step-ref bg-step">7</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* configure headers = {Authorization: '#(auth(karate.tags))'}</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="8">
+                            <div class="step-ref bg-step">8</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* def content = read('classpath:at/htl/beeyond/integration/util/nginx-deployment-template.yml.txt')</div>
+                        </div>
+                        <div class="time-cell passed">1</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="9">
+                            <div class="step-ref bg-step">9</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="9">{
+  "name": "Nginx Deployment",
+  "description": "Static Webserver",
+  "content": "#(content)",
+  "fields": [
+    {
+      "label": "Server count",
+      "wildcard": "replica",
+      "description": "How many server should there be?"
+    },
+    {
+      "label": "Port of your saver",
+      "wildcard": "port",
+      "description": "This will be the port that will be exposed to the world"
+    }
+  ]
+}</div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="10">
+                            <div class="step-ref bg-step">10</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">When method POST</div>
+                        </div>
+                        <div class="time-cell passed">13</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="11">
+                            <div class="step-ref bg-step">11</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">And status 201</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="12">
+                            <div class="step-ref bg-step">12</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">Given url responseHeaders['Location'][0]</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="13">
+                            <div class="step-ref bg-step">13</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">12</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="14">
+                            <div class="step-ref bg-step">14</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">Then def template = response</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:11]bg">
+                        <div class="step-container" id="15">
+                            <div class="step-ref bg-step">15</div>
+                            <div class="step-cell passed">* def template = insertTemplateResponse.template</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="16">
+                            <div class="step-ref passed">16</div>
+                            <div class="step-cell passed">Given path template.id</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="17">
+                            <div class="step-ref passed">17</div>
+                            <div class="step-cell passed">When method DELETE</div>
+                        </div>
+                        <div class="time-cell passed">12</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="18">
+                            <div class="step-ref passed">18</div>
+                            <div class="step-cell passed">Then status 204</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="19">
+                            <div class="step-ref passed">19</div>
+                            <div class="step-cell passed">Given path template.id</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="20">
+                            <div class="step-ref passed">20</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">9</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="21">
+                            <div class="step-ref passed">21</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="22">
+                            <div class="step-ref passed">22</div>
+                            <div class="step-cell passed">And match response.deleted == true</div>
+                        </div>
+                        <div class="time-cell passed">2</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[2:21]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [2:21]</span><span class="scenario-name">Delete a template that does not exist </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 39</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[2:21]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="23">
+                            <div class="step-ref bg-step">23</div>
+                            <div class="step-cell passed">* url baseUrl + '/template'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="24">
+                            <div class="step-ref bg-step">24</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="25">
+                            <div class="step-ref bg-step">25</div>
+                            <div class="step-cell passed">* def insertTemplate = read('classpath:at/htl/beeyond/integration/util/create-template.feature')</div>
+                        </div>
+                        <div class="time-cell passed">3</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="26">
+                            <div class="step-ref bg-step">26</div>
+                            <div class="step-cell passed">* def insertTemplateResponse = call insertTemplate</div>
+                        </div>
+                        <div class="time-cell passed">28</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="26.1">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">at/htl/beeyond/integration/util/create-template.feature</div>
+                        </div>
+                        <div class="time-cell passed">26</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="27">
+                            <div class="step-ref bg-step">27</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* url baseUrl</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="28">
+                            <div class="step-ref bg-step">28</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* path 'template'</div>
+                        </div>
+                        <div class="time-cell passed">1</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="29">
+                            <div class="step-ref bg-step">29</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* configure headers = {Authorization: '#(auth(karate.tags))'}</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="30">
+                            <div class="step-ref bg-step">30</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">* def content = read('classpath:at/htl/beeyond/integration/util/nginx-deployment-template.yml.txt')</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="31">
+                            <div class="step-ref bg-step">31</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="31">{
+  "name": "Nginx Deployment",
+  "description": "Static Webserver",
+  "content": "#(content)",
+  "fields": [
+    {
+      "label": "Server count",
+      "wildcard": "replica",
+      "description": "How many server should there be?"
+    },
+    {
+      "label": "Port of your saver",
+      "wildcard": "port",
+      "description": "This will be the port that will be exposed to the world"
+    }
+  ]
+}</div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="32">
+                            <div class="step-ref bg-step">32</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">When method POST</div>
+                        </div>
+                        <div class="time-cell passed">16</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="33">
+                            <div class="step-ref bg-step">33</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">And status 201</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="34">
+                            <div class="step-ref bg-step">34</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">Given url responseHeaders['Location'][0]</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="35">
+                            <div class="step-ref bg-step">35</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">8</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="36">
+                            <div class="step-ref bg-step">36</div>
+                            <div class="step-indent"> </div>
+                            <div class="step-cell passed">Then def template = response</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:21]bg">
+                        <div class="step-container" id="37">
+                            <div class="step-ref bg-step">37</div>
+                            <div class="step-cell passed">* def template = insertTemplateResponse.template</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="38">
+                            <div class="step-ref passed">38</div>
+                            <div class="step-cell passed">Given path '1000'</div>
+                        </div>
+                        <div class="time-cell passed">2</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="39">
+                            <div class="step-ref passed">39</div>
+                            <div class="step-cell passed">When method DELETE</div>
+                        </div>
+                        <div class="time-cell passed">6</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="40">
+                            <div class="step-ref passed">40</div>
+                            <div class="step-cell passed">Then status 404</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+           
+  
+    </body>
+    
+</html>
