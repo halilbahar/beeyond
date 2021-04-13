@@ -14,7 +14,7 @@ public class Namespace extends PanacheEntityBase {
 
     private String namespace;
 
-    @ManyToMany(mappedBy = "namespaces")
+    @ManyToMany
     private List<User> users;
 
     public Namespace(String namespace) {
