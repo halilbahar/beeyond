@@ -13,7 +13,7 @@ import { ApplicationStatus } from 'src/app/shared/models/application-status.enum
 export class ApplicationComponent implements OnInit {
   applications: Application[];
   applicationDataSource: MatTableDataSource<Application>;
-  columnsToDisplay = ['id', 'owner', 'status'];
+  columnsToDisplay = ['id', 'owner', 'status', 'startedAt', 'finishedAt'];
 
   filterForm: FormGroup;
   availableUsername: string[];

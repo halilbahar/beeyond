@@ -7,4 +7,6 @@ export abstract class Application {
   note: string;
   owner: User;
   createdAt: string;
+  startedAt: string;
+  finishedAt: string;
 }
