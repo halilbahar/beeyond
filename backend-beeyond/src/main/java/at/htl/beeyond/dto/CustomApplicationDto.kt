@@ -17,13 +17,17 @@ class CustomApplicationDto(
         status: ApplicationStatus? = null,
         owner: UserDto? = null,
         createdAt: LocalDateTime? = null,
+        startedAt: LocalDateTime? = null,
+        finishedAt: LocalDateTime? = null,
         content: String? = null
 ) : ApplicationDto(
         id,
         note,
         status,
         owner,
-        createdAt
+        createdAt,
+        startedAt,
+        finishedAt
 ) {
     constructor(customApplication: CustomApplication) : this(
             customApplication.id,
@@ -31,6 +35,8 @@ class CustomApplicationDto(
             customApplication.status,
             UserDto(customApplication.owner),
             customApplication.createdAt,
+            customApplication.startedAt,
+            customApplication.finishedAt,
             customApplication.content
     )
 
