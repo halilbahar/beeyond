@@ -1,0 +1,1715 @@
+<!DOCTYPE html>
+<html lang="en">
+      
+    <head>
+        <META http-equiv="Content-Type" content="text/html; charset=UTF-8">
+            
+        <meta charset="utf-8">
+            
+        <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport">
+            
+        <link href="res/bootstrap.min.css" rel="stylesheet" type="text/css">
+            
+        <link href="res/karate-report.css" rel="stylesheet" type="text/css">
+            
+        <link href="favicon.ico" rel="shortcut icon">
+            <script src="res/jquery.min.js" type="text/javascript"></script>
+    <script src="res/jquery.tablesorter.min.js" type="text/javascript"></script>
+    <script src="res/bootstrap.min.js" type="text/javascript"></script>
+    <script src="res/karate-report.js" type="text/javascript"></script>
+    
+        <title>at.htl.beeyond.integration.namespace.namespace-assign</title>
+          
+    </head>
+      
+    <body>
+            
+        <div id="root-container">
+                  
+            <div id="leftnav">
+                        
+                <div class="nav-logo">
+                              <a href="karate-summary.html">
+            <img alt="Karate" src="res/karate-logo.svg">
+          </a>
+          
+                    <div class="nav-count">
+                                    
+                        <div class="bg-success" id="nav-pass">16</div>
+                                    
+                        <div class="bg-danger" id="nav-fail">0</div>
+                                  
+                    </div>
+                            
+                </div>
+                        
+                <div id="nav-type">Scenarios</div>
+                         
+        
+                <div id="nav-date">2021-04-13 08:47:38 PM</div>
+                        
+      
+                <div class="nav-container">
+                    <div class="nav-item passed">
+                        <a href="#[1:8]">[1:8] Assign 1 user to a valid namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[2:26]">[2:26] Assign 2 user to a valid namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[3:45]">[3:45] Assign 3 user to a valid namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[4:65]">[4:65] Assign 2 user to a invalid namespace (wrong characters) </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[5:82]">[5:82] Assign 2 user to a invalid namespace (too long) </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[6:100]">[6:100] Assign 2 user to a invalid namespace (name of user) </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[7:116]">[7:116] Assign a nonexistent user to a valid namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[8:131]">[8:131] Assign a user to its own namespace (name of user) </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[9:146]">[9:146] Assign 2 user to a valid namespace where one of them already belongs to that namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[10:175]">[10:175] Assign 2 user to a valid namespace where both of them already belong to that namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[11:205]">[11:205] Assign 2 user with the same name (same user) to a valid namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[12:235]">[12:235] Assign 2 user with the same name (same user) to a invalid namespace (name of user) </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[13:250]">[13:250] Assign 1 user and remove 1 from a valid namespace </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[14:279]">[14:279] Remove 1 from a valid namespace (1 user exists already) </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[15:304]">[15:304] Assign 1 to a valid namespace (1 user exists already) </a>
+                    </div>
+                    <div class="nav-item passed">
+                        <a href="#[16:333]">[16:333] Replace 2 users with 2 other users (A, B -&gt; C, D) </a>
+                    </div>
+                </div>
+            </div>
+                  
+            <div id="content">
+                      
+                <div class="page-heading alert alert-primary">
+                    <a href="karate-summary.html">Summary</a><span class="feature-label">|</span><a href="karate-tags.html">Tags</a><span class="feature-label">|</span><span class="feature-label">Feature:</span><span class="feature-name">at/htl/beeyond/integration/namespace/namespace-assign.feature</span><span class="feature-description">Namespace assigning endpoint</span>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[1:8]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [1:8]</span><span class="scenario-name">Assign 1 user to a valid namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 213</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[1:8]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[1:8]bg">
+                        <div class="step-container" id="1">
+                            <div class="step-ref bg-step">1</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">7</div>
+                    </div>
+                    <div class="step-row" data-parent="[1:8]bg">
+                        <div class="step-container" id="2">
+                            <div class="step-ref bg-step">2</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="3">
+                            <div class="step-ref passed">3</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">4</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="4">
+                            <div class="step-ref passed">4</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="4">{
+  "users": [
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="5">
+                            <div class="step-ref passed">5</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">183</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="6">
+                            <div class="step-ref passed">6</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="7">
+                            <div class="step-ref passed">7</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">13</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="8">
+                            <div class="step-ref passed">8</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="9">
+                            <div class="step-ref passed">9</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="10">
+                            <div class="step-ref passed">10</div>
+                            <div class="step-cell passed">And match response.users == '#[1]'</div>
+                        </div>
+                        <div class="time-cell passed">5</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[2:26]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [2:26]</span><span class="scenario-name">Assign 2 user to a valid namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 32</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[2:26]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[2:26]bg">
+                        <div class="step-container" id="11">
+                            <div class="step-ref bg-step">11</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[2:26]bg">
+                        <div class="step-container" id="12">
+                            <div class="step-ref bg-step">12</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="13">
+                            <div class="step-ref passed">13</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="14">
+                            <div class="step-ref passed">14</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="14">{
+  "users": [
+    "emina",
+    "moritz"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="15">
+                            <div class="step-ref passed">15</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">20</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="16">
+                            <div class="step-ref passed">16</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="17">
+                            <div class="step-ref passed">17</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">7</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="18">
+                            <div class="step-ref passed">18</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="19">
+                            <div class="step-ref passed">19</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="20">
+                            <div class="step-ref passed">20</div>
+                            <div class="step-cell passed">And match response.users == '#[2]'</div>
+                        </div>
+                        <div class="time-cell passed">4</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[3:45]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [3:45]</span><span class="scenario-name">Assign 3 user to a valid namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 33</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[3:45]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[3:45]bg">
+                        <div class="step-container" id="21">
+                            <div class="step-ref bg-step">21</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[3:45]bg">
+                        <div class="step-container" id="22">
+                            <div class="step-ref bg-step">22</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="23">
+                            <div class="step-ref passed">23</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="24">
+                            <div class="step-ref passed">24</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="24">{
+  "users": [
+    "emina",
+    "moritz",
+    "marc"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="25">
+                            <div class="step-ref passed">25</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">20</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="26">
+                            <div class="step-ref passed">26</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="27">
+                            <div class="step-ref passed">27</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">9</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="28">
+                            <div class="step-ref passed">28</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="29">
+                            <div class="step-ref passed">29</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="30">
+                            <div class="step-ref passed">30</div>
+                            <div class="step-cell passed">And match response.users == '#[3]'</div>
+                        </div>
+                        <div class="time-cell passed">4</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[4:65]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [4:65]</span><span class="scenario-name">Assign 2 user to a invalid namespace (wrong characters) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 20</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[4:65]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[4:65]bg">
+                        <div class="step-container" id="31">
+                            <div class="step-ref bg-step">31</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[4:65]bg">
+                        <div class="step-container" id="32">
+                            <div class="step-ref bg-step">32</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="33">
+                            <div class="step-ref passed">33</div>
+                            <div class="step-cell passed">Given path 'b&eacute;&eacute;yond'</div>
+                        </div>
+                        <div class="time-cell passed">3</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="34">
+                            <div class="step-ref passed">34</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="34">{
+  "users": [
+    "emina",
+    "moritz"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="35">
+                            <div class="step-ref passed">35</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">11</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="36">
+                            <div class="step-ref passed">36</div>
+                            <div class="step-cell passed">Then status 422</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="37">
+                            <div class="step-ref passed">37</div>
+                            <div class="step-cell passed">* print response</div>
+                        </div>
+                        <div class="time-cell passed">4</div>
+                    </div>
+                    <div class="preformatted" data-parent="37">20:47:37.327 [print] [
+  {
+    "message": "Not a valid namespace name",
+    "value": "b&eacute;&eacute;yond",
+    "key": "namespaceName"
+  }
+]</div>
+                    <div class="step-row">
+                        <div class="step-container" id="38">
+                            <div class="step-ref passed">38</div>
+                            <div class="step-cell passed">And match response[0].message == 'Not a valid namespace name'</div>
+                        </div>
+                        <div class="time-cell passed">2</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[5:82]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [5:82]</span><span class="scenario-name">Assign 2 user to a invalid namespace (too long) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 32</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[5:82]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[5:82]bg">
+                        <div class="step-container" id="39">
+                            <div class="step-ref bg-step">39</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[5:82]bg">
+                        <div class="step-container" id="40">
+                            <div class="step-ref bg-step">40</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="41">
+                            <div class="step-ref passed">41</div>
+                            <div class="step-cell passed">* def generateString = read('string-generator.js')</div>
+                        </div>
+                        <div class="time-cell passed">2</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="42">
+                            <div class="step-ref passed">42</div>
+                            <div class="step-cell passed">Given path generateString()</div>
+                        </div>
+                        <div class="time-cell passed">5</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="43">
+                            <div class="step-ref passed">43</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="43">{
+  "users": [
+    "emina",
+    "moritz"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="44">
+                            <div class="step-ref passed">44</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">16</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="45">
+                            <div class="step-ref passed">45</div>
+                            <div class="step-cell passed">Then status 422</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="46">
+                            <div class="step-ref passed">46</div>
+                            <div class="step-cell passed">* print response</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="46">20:47:37.387 [print] [
+  {
+    "message": "This field needs to be between 1 and 50 characters",
+    "value": "NYD4wko6s5F83JS2an8z8vT9xOsvyMEVdvkMUl9TEEVm82Ecqcc04USCFvbD8dWZ0mjOvfxeJljBzw3Om0FUNMVQi8D6Ij5vikHEvBp7Wm7q1R3iGX95LVqbqB0Ar3LR5tlWFS4sa4v8HKRaZJQPqBgTU3Jp0F7WbvoLBoiQ4P1FKbpeTHK1gn2nTyHMi7EHAidK0pNrJ8mOLUtMdtdiI82ea6lGxvAuazV5nXkMOz8EWpETDwJ3ggHyoSanHnACOOYnU33oW4tbdiTpriQ5ZJYJi70qPOPSqgq5DFsicFQS",
+    "key": "namespaceName"
+  }
+]</div>
+                    <div class="step-row">
+                        <div class="step-container" id="47">
+                            <div class="step-ref passed">47</div>
+                            <div class="step-cell passed">And match response[0].message == 'This field needs to be between 1 and 50 characters'</div>
+                        </div>
+                        <div class="time-cell passed">9</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[6:100]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [6:100]</span><span class="scenario-name">Assign 2 user to a invalid namespace (name of user) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 13</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[6:100]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[6:100]bg">
+                        <div class="step-container" id="48">
+                            <div class="step-ref bg-step">48</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[6:100]bg">
+                        <div class="step-container" id="49">
+                            <div class="step-ref bg-step">49</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="50">
+                            <div class="step-ref passed">50</div>
+                            <div class="step-cell passed">Given path 'marc'</div>
+                        </div>
+                        <div class="time-cell passed">2</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="51">
+                            <div class="step-ref passed">51</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="51">{
+  "users": [
+    "emina",
+    "moritz"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="52">
+                            <div class="step-ref passed">52</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">10</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="53">
+                            <div class="step-ref passed">53</div>
+                            <div class="step-cell passed">Then status 422</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="54">
+                            <div class="step-ref passed">54</div>
+                            <div class="step-cell passed">And match response[0].message == 'Not a valid namespace name'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[7:116]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [7:116]</span><span class="scenario-name">Assign a nonexistent user to a valid namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 18</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[7:116]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[7:116]bg">
+                        <div class="step-container" id="55">
+                            <div class="step-ref bg-step">55</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[7:116]bg">
+                        <div class="step-container" id="56">
+                            <div class="step-ref bg-step">56</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="57">
+                            <div class="step-ref passed">57</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="58">
+                            <div class="step-ref passed">58</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="58">{
+  "users": [
+     "test"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="59">
+                            <div class="step-ref passed">59</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">11</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="60">
+                            <div class="step-ref passed">60</div>
+                            <div class="step-cell passed">Then status 422</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="61">
+                            <div class="step-ref passed">61</div>
+                            <div class="step-cell passed">And match response[0].message == 'User with name [test] does not exist'</div>
+                        </div>
+                        <div class="time-cell passed">6</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[8:131]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [8:131]</span><span class="scenario-name">Assign a user to its own namespace (name of user) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 17</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[8:131]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[8:131]bg">
+                        <div class="step-container" id="62">
+                            <div class="step-ref bg-step">62</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[8:131]bg">
+                        <div class="step-container" id="63">
+                            <div class="step-ref bg-step">63</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="64">
+                            <div class="step-ref passed">64</div>
+                            <div class="step-cell passed">Given path 'emina'</div>
+                        </div>
+                        <div class="time-cell passed">4</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="65">
+                            <div class="step-ref passed">65</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="65">{
+  "users": [
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="66">
+                            <div class="step-ref passed">66</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">12</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="67">
+                            <div class="step-ref passed">67</div>
+                            <div class="step-cell passed">Then status 422</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="68">
+                            <div class="step-ref passed">68</div>
+                            <div class="step-cell passed">And match response[0].message == 'Not a valid namespace name'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[9:146]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [9:146]</span><span class="scenario-name">Assign 2 user to a valid namespace where one of them already belongs to that namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 47</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[9:146]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[9:146]bg">
+                        <div class="step-container" id="69">
+                            <div class="step-ref bg-step">69</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[9:146]bg">
+                        <div class="step-container" id="70">
+                            <div class="step-ref bg-step">70</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="71">
+                            <div class="step-ref passed">71</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="72">
+                            <div class="step-ref passed">72</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="72">{
+  "users": [
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="73">
+                            <div class="step-ref passed">73</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">19</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="74">
+                            <div class="step-ref passed">74</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="75">
+                            <div class="step-ref passed">75</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="75">{
+  "users": [
+    "emina",
+    "marc"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="76">
+                            <div class="step-ref passed">76</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">16</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="77">
+                            <div class="step-ref passed">77</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="78">
+                            <div class="step-ref passed">78</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">11</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="79">
+                            <div class="step-ref passed">79</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="80">
+                            <div class="step-ref passed">80</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="81">
+                            <div class="step-ref passed">81</div>
+                            <div class="step-cell passed">And match response.users == '#[2]'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[10:175]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [10:175]</span><span class="scenario-name">Assign 2 user to a valid namespace where both of them already belong to that namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 52</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[10:175]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[10:175]bg">
+                        <div class="step-container" id="82">
+                            <div class="step-ref bg-step">82</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[10:175]bg">
+                        <div class="step-container" id="83">
+                            <div class="step-ref bg-step">83</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="84">
+                            <div class="step-ref passed">84</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="85">
+                            <div class="step-ref passed">85</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="85">{
+  "users": [
+    "emina",
+    "marc"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="86">
+                            <div class="step-ref passed">86</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">30</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="87">
+                            <div class="step-ref passed">87</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="88">
+                            <div class="step-ref passed">88</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="88">{
+  "users": [
+    "emina",
+    "marc"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="89">
+                            <div class="step-ref passed">89</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">15</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="90">
+                            <div class="step-ref passed">90</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="91">
+                            <div class="step-ref passed">91</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">7</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="92">
+                            <div class="step-ref passed">92</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="93">
+                            <div class="step-ref passed">93</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="94">
+                            <div class="step-ref passed">94</div>
+                            <div class="step-cell passed">And match response.users == '#[2]'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[11:205]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [11:205]</span><span class="scenario-name">Assign 2 user with the same name (same user) to a valid namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 40</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[11:205]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[11:205]bg">
+                        <div class="step-container" id="95">
+                            <div class="step-ref bg-step">95</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[11:205]bg">
+                        <div class="step-container" id="96">
+                            <div class="step-ref bg-step">96</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="97">
+                            <div class="step-ref passed">97</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="98">
+                            <div class="step-ref passed">98</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="98">{
+  "users": [
+    "emina",
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="99">
+                            <div class="step-ref passed">99</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">16</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="100">
+                            <div class="step-ref passed">100</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="101">
+                            <div class="step-ref passed">101</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="101">{
+  "users": [
+    "emina",
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="102">
+                            <div class="step-ref passed">102</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">13</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="103">
+                            <div class="step-ref passed">103</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="104">
+                            <div class="step-ref passed">104</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">9</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="105">
+                            <div class="step-ref passed">105</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="106">
+                            <div class="step-ref passed">106</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="107">
+                            <div class="step-ref passed">107</div>
+                            <div class="step-cell passed">And match response.users == '#[1]'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[12:235]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [12:235]</span><span class="scenario-name">Assign 2 user with the same name (same user) to a invalid namespace (name of user) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 14</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[12:235]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[12:235]bg">
+                        <div class="step-container" id="108">
+                            <div class="step-ref bg-step">108</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[12:235]bg">
+                        <div class="step-container" id="109">
+                            <div class="step-ref bg-step">109</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="110">
+                            <div class="step-ref passed">110</div>
+                            <div class="step-cell passed">Given path 'emina'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="111">
+                            <div class="step-ref passed">111</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="111">{
+  "users": [
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="112">
+                            <div class="step-ref passed">112</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">13</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="113">
+                            <div class="step-ref passed">113</div>
+                            <div class="step-cell passed">Then status 422</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="114">
+                            <div class="step-ref passed">114</div>
+                            <div class="step-cell passed">And match response[0].message == 'Not a valid namespace name'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[13:250]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [13:250]</span><span class="scenario-name">Assign 1 user and remove 1 from a valid namespace </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 36</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[13:250]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[13:250]bg">
+                        <div class="step-container" id="115">
+                            <div class="step-ref bg-step">115</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[13:250]bg">
+                        <div class="step-container" id="116">
+                            <div class="step-ref bg-step">116</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="117">
+                            <div class="step-ref passed">117</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="118">
+                            <div class="step-ref passed">118</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="118">{
+  "users": [
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="119">
+                            <div class="step-ref passed">119</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">17</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="120">
+                            <div class="step-ref passed">120</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="121">
+                            <div class="step-ref passed">121</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="121">{
+  "users": [
+    "marc"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="122">
+                            <div class="step-ref passed">122</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">10</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="123">
+                            <div class="step-ref passed">123</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="124">
+                            <div class="step-ref passed">124</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">8</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="125">
+                            <div class="step-ref passed">125</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="126">
+                            <div class="step-ref passed">126</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="127">
+                            <div class="step-ref passed">127</div>
+                            <div class="step-cell passed">And match response.users == '#[1]'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="128">
+                            <div class="step-ref passed">128</div>
+                            <div class="step-cell passed">And match response.users[0].name == 'marc'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[14:279]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [14:279]</span><span class="scenario-name">Remove 1 from a valid namespace (1 user exists already) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 45</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[14:279]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[14:279]bg">
+                        <div class="step-container" id="129">
+                            <div class="step-ref bg-step">129</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[14:279]bg">
+                        <div class="step-container" id="130">
+                            <div class="step-ref bg-step">130</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="131">
+                            <div class="step-ref passed">131</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="132">
+                            <div class="step-ref passed">132</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="132">{
+  "users": [
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="133">
+                            <div class="step-ref passed">133</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">17</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="134">
+                            <div class="step-ref passed">134</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="135">
+                            <div class="step-ref passed">135</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="135">{
+  "users": [
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="136">
+                            <div class="step-ref passed">136</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">22</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="137">
+                            <div class="step-ref passed">137</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="138">
+                            <div class="step-ref passed">138</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">6</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="139">
+                            <div class="step-ref passed">139</div>
+                            <div class="step-cell passed">Then status 404</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[15:304]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [15:304]</span><span class="scenario-name">Assign 1 to a valid namespace (1 user exists already) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 40</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[15:304]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[15:304]bg">
+                        <div class="step-container" id="140">
+                            <div class="step-ref bg-step">140</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[15:304]bg">
+                        <div class="step-container" id="141">
+                            <div class="step-ref bg-step">141</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="142">
+                            <div class="step-ref passed">142</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="143">
+                            <div class="step-ref passed">143</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="143">{
+  "users": [
+    "emina"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="144">
+                            <div class="step-ref passed">144</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">17</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="145">
+                            <div class="step-ref passed">145</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="146">
+                            <div class="step-ref passed">146</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="146">{
+  "users": [
+    "emina",
+    "marc"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="147">
+                            <div class="step-ref passed">147</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">13</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="148">
+                            <div class="step-ref passed">148</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="149">
+                            <div class="step-ref passed">149</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">8</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="150">
+                            <div class="step-ref passed">150</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="151">
+                            <div class="step-ref passed">151</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="152">
+                            <div class="step-ref passed">152</div>
+                            <div class="step-cell passed">And match response.users == '#[2]'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+                <div class="scenario">
+                    <div class="scenario-heading" id="[16:333]">
+                        <div class="heading-container">
+                            <div class="scenario-tags">
+                                <a class="badge badge-primary" href="karate-tags.html">teacher</a>
+                            </div>
+                            <span class="scenario-keyword">Scenario: [16:333]</span><span class="scenario-name">Replace 2 users with 2 other users (A, B -&gt; C, D) </span>
+                        </div>
+                        <div class="scenario-time passed">ms: 39</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="[16:333]bg">
+                            <div class="step-ref bg-step">&gt;&gt;</div>
+                            <div class="step-cell passed">Background:</div>
+                        </div>
+                        <div class="time-cell passed"></div>
+                    </div>
+                    <div class="step-row" data-parent="[16:333]bg">
+                        <div class="step-container" id="153">
+                            <div class="step-ref bg-step">153</div>
+                            <div class="step-cell passed">* url baseUrl + '/namespace'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row" data-parent="[16:333]bg">
+                        <div class="step-container" id="154">
+                            <div class="step-ref bg-step">154</div>
+                            <div class="step-cell passed">* configure headers = { Authorization: '#(auth(karate.tags))' }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="155">
+                            <div class="step-ref passed">155</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="156">
+                            <div class="step-ref passed">156</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="156">{
+  "users": [
+    "emina",
+    "marc"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="157">
+                            <div class="step-ref passed">157</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">17</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="158">
+                            <div class="step-ref passed">158</div>
+                            <div class="step-cell passed">Given path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="159">
+                            <div class="step-ref passed">159</div>
+                            <div class="step-cell passed">Given request</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="preformatted" data-parent="159">{
+  "users": [
+    "moritz",
+    "stuetz"
+  ]
+}</div>
+                    <div class="step-row">
+                        <div class="step-container" id="160">
+                            <div class="step-ref passed">160</div>
+                            <div class="step-cell passed">When method PUT</div>
+                        </div>
+                        <div class="time-cell passed">14</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="161">
+                            <div class="step-ref passed">161</div>
+                            <div class="step-cell passed">And path 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="162">
+                            <div class="step-ref passed">162</div>
+                            <div class="step-cell passed">When method GET</div>
+                        </div>
+                        <div class="time-cell passed">6</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="163">
+                            <div class="step-ref passed">163</div>
+                            <div class="step-cell passed">Then status 200</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="164">
+                            <div class="step-ref passed">164</div>
+                            <div class="step-cell passed">And match response.namespace == 'beeyond'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="165">
+                            <div class="step-ref passed">165</div>
+                            <div class="step-cell passed">And match response.users == '#[2]'</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="166">
+                            <div class="step-ref passed">166</div>
+                            <div class="step-cell passed">And match response.users contains { 'name': 'moritz', 'id': #number }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                    <div class="step-row">
+                        <div class="step-container" id="167">
+                            <div class="step-ref passed">167</div>
+                            <div class="step-cell passed">And match response.users contains { 'name': 'stuetz', 'id': #number }</div>
+                        </div>
+                        <div class="time-cell passed">0</div>
+                    </div>
+                </div>
+            </div>
+                
+        </div>
+           
+  
+    </body>
+    
+</html>
