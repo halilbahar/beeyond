@@ -8,8 +8,6 @@ import at.htl.beeyond.validation.NamespaceValid
 import org.hibernate.validator.constraints.Length
 import javax.inject.Inject
 import javax.json.Json
-import javax.json.JsonArrayBuilder
-import javax.json.JsonObject
 import javax.transaction.Transactional
 import javax.validation.Valid
 import javax.ws.rs.*
@@ -31,16 +29,17 @@ class NamespaceResource {
         user.add("id", 1)
         user.add("name", "user-1")
 
-        val json = Json.createObjectBuilder()
-        json.add("namespace", "namespace-1")
-        json.add("id", 1)
-        json.add("users", Json.createArrayBuilder().add(user).build())
+        val namespace1 = Json.createObjectBuilder()
+        namespace1.add("namespace", "namespace-1")
+        namespace1.add("id", 1)
+        namespace1.add("users", Json.createArrayBuilder().add(user).build())
 
-        json.add("namespace", "namespace-2")
-        json.add("id", 2)
-        json.add("users", Json.createArrayBuilder().add(user).build())
+        val namespace2 = Json.createObjectBuilder()
+        namespace2.add("namespace", "namespace-2")
+        namespace2.add("id", 2)
+        namespace2.add("users", Json.createArrayBuilder().add(user).build())
 
-        return Response.ok(listOf(json.build())).build();
+        return Response.ok(listOf(namespace1.build(), namespace2.build())).build();
     }
 
     @PUT
