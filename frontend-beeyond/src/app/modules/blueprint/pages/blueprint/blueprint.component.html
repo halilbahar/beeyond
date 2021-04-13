@@ -31,17 +31,8 @@
             <mat-select
               formControlName="namespace"
             >
-              <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
-                {{food.viewValue}}
-              </mat-option> -->
-              <mat-option value="nspc-1">
-                NSPC-1
-              </mat-option>
-              <mat-option value="nspc-2">
-                NSPC-2
-              </mat-option>
-              <mat-option value="nspc-3">
-                NSPC-3
+              <mat-option *ngFor="let namespace of namespaces" [value]="namespace.namespace">
+                {{ namespace.namespace }}}
               </mat-option>
             </mat-select>
           </mat-form-field>

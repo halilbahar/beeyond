@@ -4,6 +4,7 @@ import { BackendApiService } from '../../../../core/services/backend-api.service
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Namespace } from '../../../../shared/models/namespace.model';
 
 @Component({
   selector: 'app-blueprint',
@@ -12,6 +13,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 })
 export class BlueprintComponent implements OnInit {
   templates: Template[] = [];
+  namespaces: Namespace[] = [];
   customApplicationForm: FormGroup;
   monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
   message = '';
@@ -30,6 +32,10 @@ export class BlueprintComponent implements OnInit {
         this.message =
           'There are currently no templates available. Wait until your administrator creates one.';
       }
+    });
+
+    this.backendApiService.getNamespaces().subscribe(namespaces => {
+      this.namespaces = namespaces;
     });
 
     this.customApplicationForm = this.fb.group({

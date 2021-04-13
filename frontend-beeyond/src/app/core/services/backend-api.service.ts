@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { Application } from 'src/app/shared/models/application.model';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
+import { Namespace } from '../../shared/models/namespace.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,5 +57,9 @@ export class BackendApiService {
 
   denyApplicationById(id: number): Observable<null> {
     return this.http.patch<any>(`${environment.backendApiUrl}/application/deny/${id}`, null);
+  }
+
+  getNamespaces(): Observable<Namespace[]> {
+    return this.http.get<Namespace[]>(`${environment.backendApiUrl}/namespace`);
   }
 }
