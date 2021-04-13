@@ -7,6 +7,9 @@ import at.htl.beeyond.service.NamespaceService
 import at.htl.beeyond.validation.NamespaceValid
 import org.hibernate.validator.constraints.Length
 import javax.inject.Inject
+import javax.json.Json
+import javax.json.JsonArrayBuilder
+import javax.json.JsonObject
 import javax.transaction.Transactional
 import javax.validation.Valid
 import javax.ws.rs.*
@@ -20,6 +23,21 @@ class NamespaceResource {
 
     @Inject
     lateinit var namespaceService: NamespaceService
+
+    @GET
+    @Path("")
+    fun getNamespaces(): Response {
+        val user = Json.createObjectBuilder()
+        user.add("id", 1)
+        user.add("name", "user-1")
+
+        val json = Json.createObjectBuilder()
+        json.add("namespace", "namespace-1")
+        json.add("id", 1)
+        json.add("users", Json.createArrayBuilder().add(user).build())
+
+        return Response.ok(listOf(json.build())).build();
+    }
 
     @PUT
     @Path("/{namespace}")
