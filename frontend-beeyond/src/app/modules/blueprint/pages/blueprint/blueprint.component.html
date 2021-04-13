@@ -25,6 +25,26 @@
               The note must not be longer than 255 characters
             </mat-error>
           </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Namespace</mat-label>
+            <mat-select
+              formControlName="namespace"
+            >
+              <!-- <mat-option *ngFor="let food of foods" [value]="food.value">
+                {{food.viewValue}}
+              </mat-option> -->
+              <mat-option value="nspc-1">
+                NSPC-1
+              </mat-option>
+              <mat-option value="nspc-2">
+                NSPC-2
+              </mat-option>
+              <mat-option value="nspc-3">
+                NSPC-3
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </ng-container>
 
         <div class="button-container">

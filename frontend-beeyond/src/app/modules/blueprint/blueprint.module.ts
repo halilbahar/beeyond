@@ -14,24 +14,26 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import {MatSelectModule} from "@angular/material/select";
 
 @NgModule({
   declarations: [BlueprintComponent, BlueprintTemplateComponent],
-  imports: [
-    CommonModule,
-    BlueprintRoutingModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTabsModule,
-    FormsModule,
-    SharedModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    MonacoEditorModule
-  ]
+    imports: [
+        CommonModule,
+        BlueprintRoutingModule,
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTabsModule,
+        FormsModule,
+        SharedModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MonacoEditorModule,
+        MatSelectModule
+    ]
 })
 export class BlueprintModule {}

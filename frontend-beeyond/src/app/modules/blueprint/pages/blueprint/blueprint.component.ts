@@ -34,7 +34,8 @@ export class BlueprintComponent implements OnInit {
 
     this.customApplicationForm = this.fb.group({
       content: ['', Validators.required],
-      note: ['', Validators.maxLength(255)]
+      note: ['', Validators.maxLength(255)],
+      namespace: ['', Validators.required]
     });
   }
 
