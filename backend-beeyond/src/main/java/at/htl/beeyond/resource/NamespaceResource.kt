@@ -48,9 +48,9 @@ class NamespaceResource {
     ): Response {
         val namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResultOptional<Namespace>();
 
-        return if(namespace.isEmpty){
+        return if (namespace.isEmpty) {
             Response.status(Response.Status.NOT_FOUND).build()
-        } else{
+        } else {
             Response.ok(NamespaceDto(namespace.get())).build()
         }
     }
@@ -66,10 +66,7 @@ class NamespaceResource {
         var namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResult<Namespace>()
 
         if (namespace == null) {
-            if (namespaceService.allNamespaces.find { it.metadata.name == namespaceName } == null) {
-                namespaceService.createNamespace(namespaceName)
-            }
-
+            namespaceService.createNamespace(namespaceName)
             namespace = Namespace(namespaceName)
             Namespace.persist(namespace)
         }
