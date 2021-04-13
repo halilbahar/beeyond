@@ -106,7 +106,7 @@ jobs:
         with:
           ref: 'docs'
       - name: Insert report into table
-        run: ./insert-report ${{ github.sha }} $([ ${{ github.head_ref }} -eq "" ] && echo "master" || echo ${{ github.head_ref }}) ${{ github.actor }}
+        run: ./insert-report ${{ github.sha }} $([ -z "${{ github.head_ref }}" ] && echo "master" || echo "${{ github.head_ref }}") ${{ github.actor }}
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
