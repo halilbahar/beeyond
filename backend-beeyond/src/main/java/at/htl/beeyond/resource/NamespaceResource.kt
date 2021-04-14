@@ -13,7 +13,10 @@ import javax.inject.Inject
 import javax.transaction.Transactional
 import javax.validation.Valid
 import javax.ws.rs.*
-import javax.ws.rs.core.*
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+import javax.ws.rs.core.SecurityContext
 
 @Path("/namespace")
 @Consumes(MediaType.APPLICATION_JSON)

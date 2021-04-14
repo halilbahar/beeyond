@@ -103,7 +103,7 @@ class ApplicationResource {
         deploymentService.stop(application)
         application.status = ApplicationStatus.FINISHED
         application.finishedAt = LocalDateTime.now()
-        
+
         return Response.noContent().build()
     }
 }

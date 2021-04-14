@@ -2,7 +2,6 @@ package at.htl.beeyond.dto
 
 import at.htl.beeyond.entity.ApplicationStatus
 import at.htl.beeyond.entity.CustomApplication
-import at.htl.beeyond.entity.User
 import java.time.LocalDateTime
 import javax.validation.constraints.NotBlank
 

@@ -1,11 +1,9 @@
 package at.htl.beeyond.resource
 
 import at.htl.beeyond.dto.TemplateDto
-import at.htl.beeyond.entity.Application
 import at.htl.beeyond.entity.Template
 import at.htl.beeyond.entity.User
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
-import java.util.stream.Collectors
 import javax.annotation.security.RolesAllowed
 import javax.transaction.Transactional
 import javax.validation.Valid
@@ -21,7 +19,7 @@ class TemplateResource {
     @GET
     @Transactional
     @RolesAllowed("student", "teacher")
-    fun getAllTemplates(@Context ctx: SecurityContext): Response{
+    fun getAllTemplates(@Context ctx: SecurityContext): Response {
         return if (ctx.isUserInRole("teacher")) {
             Response.ok(Template.streamAll<Template>().map { TemplateDto(it) }.toList()).build()
         } else {
@@ -53,7 +51,7 @@ class TemplateResource {
         val template = Template.findById<Template>(id)
                 ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if (ctx.isUserInRole("student") && template.deleted){
+        if (ctx.isUserInRole("student") && template.deleted) {
             return Response.status(Response.Status.NOT_FOUND).build()
         }
 
