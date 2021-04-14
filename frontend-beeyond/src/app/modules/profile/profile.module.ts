@@ -23,4 +23,4 @@ import { MatButtonModule } from '@angular/material/button';
     MatButtonModule
   ]
 })
-export class ProfileModule { }
+export class ProfileModule {}
