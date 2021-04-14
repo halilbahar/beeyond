@@ -3,7 +3,7 @@ import { TemplateFieldValue } from './template-field-value.model';
 
 export interface TemplateApplication extends Application {
   note: string;
-  fieldValues: TemplateFieldValue[]; //TODO;
+  fieldValues: TemplateFieldValue[];
   id: number;
   templateId: number;
 }

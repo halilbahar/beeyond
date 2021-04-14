@@ -25,6 +25,15 @@
               The note must not be longer than 255 characters
             </mat-error>
           </mat-form-field>
+
+          <mat-form-field [ngClass]="{ 'hidden-field': namespaces.length <= 1 }">
+            <mat-label>Namespace</mat-label>
+            <mat-select formControlName="namespace">
+              <mat-option *ngFor="let namespace of namespaces" [value]="namespace.namespace">
+                {{ namespace.label }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
         </ng-container>
 
         <div class="button-container">

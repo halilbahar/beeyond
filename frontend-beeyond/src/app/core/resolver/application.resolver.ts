@@ -1,16 +1,22 @@
 import { Injectable } from '@angular/core';
-import { ApiService } from '../services/api.service';
+import { BackendApiService } from '../services/backend-api.service';
 import { Resolve } from '@angular/router';
 import { Application } from 'src/app/shared/models/application.model';
 import { Observable } from 'rxjs';
-import { TemplateApplication } from 'src/app/shared/models/template.application.model';
-import { CustomApplication } from 'src/app/shared/models/custom.application.model';
+import { ProgressBarService } from '../services/progress-bar.service';
+import { tap } from 'rxjs/operators';
 
 @Injectable({ providedIn: 'root' })
 export class ApplicationResolver implements Resolve<Application[]> {
-  constructor(private service: ApiService) {}
+  constructor(
+    private backendApiService: BackendApiService,
+    private progressBarService: ProgressBarService
+  ) {}
 
   resolve(): Observable<Application[]> {
-    return this.service.getApplications();
+    this.progressBarService.start();
+    return this.backendApiService
+      .getApplications()
+      .pipe(tap(() => this.progressBarService.finish()));
   }
 }

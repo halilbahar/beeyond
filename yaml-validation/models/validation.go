@@ -2,6 +2,10 @@ package models
 
 import (
 	"github.com/instrumenta/kubeval/kubeval"
+	"gopkg.in/yaml.v2"
+	"regexp"
+	"strconv"
+	"strings"
 )
 
 type ValidationError struct {
@@ -39,5 +43,80 @@ func ValidateContent(content string) ([]ValidationError, error) {
 		}
 	}
 
+	var groupKindVersion GroupKindVersion
+
+	yamlMap := make(map[interface{}]interface{})
+
+	err = yaml.Unmarshal([]byte(content), &yamlMap)
+
+	groupKindVersion.Kind = getValueFromPath(yamlMap, "kind").(string)
+	groupversion := getValueFromPath(yamlMap, "apiVersion").(string)
+
+	groupKindVersion.Group = strings.Split(groupversion, "/")[0]
+	groupKindVersion.Version = strings.Split(groupversion, "/")[1]
+
+	constraints := GetConstraintsByGKV(&groupKindVersion)
+
+	for _, currentConstraint := range constraints {
+		errorDescription := ""
+		value := getValueFromPath(yamlMap, currentConstraint.Path)
+
+		var actual string
+		var ok bool
+		if actual, ok = value.(string); !ok {
+			actual = strconv.Itoa(value.(int))
+		}
+
+		if currentConstraint.Max != nil {
+			actualFloat, _ := getValueFromPath(yamlMap, currentConstraint.Path).(float64)
+			if actualFloat > float64(*currentConstraint.Max) || actualFloat < float64(*currentConstraint.Min) {
+				errorDescription = "Given value out of range"
+			}
+		} else if currentConstraint.Enum != nil {
+			found := false
+			for _, s := range currentConstraint.Enum {
+				if s == actual {
+					found = true
+				}
+			}
+			if !found {
+				errorDescription = "Constraint enum does not contain given value"
+			}
+		} else {
+			// TODO: "^"+*currentConstraint.Regex+"$"
+			matched, _ := regexp.MatchString("^"+*currentConstraint.Regex+"$", actual)
+
+			if !matched {
+				errorDescription = "Given value does not match regex"
+			}
+
+		}
+
+		if errorDescription != "" {
+			validationError = append(validationError, ValidationError{
+				Description: errorDescription,
+				Value:       actual,
+				Field:       currentConstraint.Path,
+			})
+		}
+	}
+
 	return validationError, nil
+}
+
+func getValueFromPath(m map[interface{}]interface{}, path string) interface{} {
+	var obj interface{} = m
+	var val interface{} = nil
+
+	parts := strings.Split(path, ".")
+	for _, p := range parts {
+		if v, ok := obj.(map[interface{}]interface{}); ok {
+			obj = v[p]
+			val = obj
+		} else {
+			return nil
+		}
+	}
+
+	return val
 }

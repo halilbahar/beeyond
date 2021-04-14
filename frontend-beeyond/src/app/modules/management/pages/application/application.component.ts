@@ -69,10 +69,8 @@ export class ApplicationComponent implements OnInit {
 
       let toDateFilter = false;
       if (form.toDate != null) {
-        if (date.getTime() <= form.toDate.getTime()) {
+        if (date.getTime() <= form.toDate.getTime() + 86400000 - 1) {
           toDateFilter = true;
-          console.log(date);
-          console.log(form.toDate);
         }
       } else {
         toDateFilter = true;

@@ -1,0 +1,6 @@
+<mat-form-field appearance="standard" class="search-field">
+  <mat-label>Search...</mat-label>
+  <input matInput [(ngModel)]="searchValue" (input)="sendChanges()" />
+  <mat-icon matSuffix>search</mat-icon>
+</mat-form-field>
+<mat-checkbox [(ngModel)]="hideDeleted" (change)="sendChanges()">Hide Deleted</mat-checkbox>

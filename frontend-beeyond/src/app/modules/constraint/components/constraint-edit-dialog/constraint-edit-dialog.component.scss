@@ -1,0 +1,13 @@
+mat-dialog-content {
+  display: flex;
+  flex-direction: column;
+}
+
+.min-max-container {
+  display: flex;
+  justify-content: space-between;
+
+  mat-form-field {
+    width: percentage(0.96 / 2);
+  }
+}

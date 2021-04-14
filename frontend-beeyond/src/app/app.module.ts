@@ -7,6 +7,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { CoreModule } from './core/core.module';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @NgModule({
   declarations: [AppComponent],
@@ -16,7 +17,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     AppRoutingModule,
     HttpClientModule,
     CoreModule,
-    MonacoEditorModule.forRoot()
+    MonacoEditorModule.forRoot(),
+    MatProgressBarModule
   ],
   providers: [],
   bootstrap: [AppComponent]

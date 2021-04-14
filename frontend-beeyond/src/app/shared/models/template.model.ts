@@ -7,4 +7,5 @@ export interface Template {
   content: string;
   fields: TemplateField[];
   deleted: boolean;
+  namespace: string;
 }

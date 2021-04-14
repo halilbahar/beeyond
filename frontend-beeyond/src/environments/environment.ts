@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://localhost:8080',
+  backendApiUrl: 'http://localhost:8080',
+  validationApiUrl: 'http://localhost:8180/api',
   identityProviderIssuer: 'http://localhost:8280/auth/realms/school'
 };
 

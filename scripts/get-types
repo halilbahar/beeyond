@@ -1,0 +1,13 @@
+#!/bin/sh
+
+URL=https://kubernetesjsonschema.dev/v1.17.0-standalone-strict/_definitions.json
+
+for type in `curl -s $URL | grep '"type": "*"' | sed -e 's/^[ \t]*//' | sed 's/"type": "/''/' | sed 's/".*/''/' | sort --unique`
+do
+  echo "$type [\c"
+  for format in `curl -s $URL | grep '"type": "*"' -B1 | sed -e 's/^[ \t]*//' | grep $type -B1 | grep format | sed 's/"format": "/''/' | sed 's/".*/''/' | sort --unique`
+  do
+    echo " $format\c"
+  done
+  echo " ]"
+done

@@ -14,6 +14,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { SharedModule } from '../../shared/shared.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [BlueprintComponent, BlueprintTemplateComponent],
@@ -31,7 +32,8 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
     SharedModule,
     ReactiveFormsModule,
     MatSnackBarModule,
-    MonacoEditorModule
+    MonacoEditorModule,
+    MatSelectModule
   ]
 })
 export class BlueprintModule {}

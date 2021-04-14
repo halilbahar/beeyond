@@ -4,13 +4,13 @@ import javax.validation.Constraint;
 import javax.validation.Payload;
 import java.lang.annotation.*;
 
-@Target(ElementType.TYPE)
+@Target(ElementType.PARAMETER)
 @Retention(RetentionPolicy.RUNTIME)
-@Constraint(validatedBy = ValidKubernetesValidator.class)
+@Constraint(validatedBy = NamespaceValidValidator.class)
 @Documented
-public @interface ValidKubernetes {
+public @interface NamespaceValid {
 
-    String message() default "{at.htl.beeyond.validation.ValidKubernetes.message}";
+    String message() default "{at.htl.beeyond.validation.NamespaceValid.message}";
 
     Class<?>[] groups() default {};
 

@@ -1,13 +1,13 @@
 package main
 
 import (
-	"yaml-validation/pkg/setting"
+	"yaml-validation/conf"
 	"yaml-validation/routers"
 	"yaml-validation/services"
 )
 
 func main() {
-	setting.Init()
+	conf.Init()
 	services.Init()
 	routers.Init()
 }

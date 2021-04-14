@@ -14,7 +14,7 @@ public class User extends PanacheEntityBase {
 
     private String name;
 
-    @OneToMany(mappedBy = "user")
+    @ManyToMany(mappedBy = "users")
     private List<Namespace> namespaces;
 
     @OneToMany(mappedBy = "owner")

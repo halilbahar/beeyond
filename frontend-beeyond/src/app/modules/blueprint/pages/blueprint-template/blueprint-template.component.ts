@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ApiService } from '../../../../core/services/api.service';
+import { BackendApiService } from '../../../../core/services/backend-api.service';
 import { Template } from '../../../../shared/models/template.model';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material/snack-bar';
@@ -18,14 +18,14 @@ export class BlueprintTemplateComponent implements OnInit {
   constructor(
     private router: Router,
     private route: ActivatedRoute,
-    private apiService: ApiService,
+    private backendApiService: BackendApiService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
     this.id = Number(this.route.snapshot.paramMap.get('id'));
-    this.apiService.getTemplateById(this.id).subscribe(template => {
+    this.backendApiService.getTemplateById(this.id).subscribe(template => {
       this.template = template;
 
       const fieldValues = [];
@@ -47,7 +47,7 @@ export class BlueprintTemplateComponent implements OnInit {
   }
 
   submitApplication(): void {
-    this.apiService.createTemplateApplication(this.templateForm.value).subscribe(() => {
+    this.backendApiService.createTemplateApplication(this.templateForm.value).subscribe(() => {
       this.router.navigate(['dashboard']).then(navigated => {
         if (navigated) {
           this.snackBar.open(

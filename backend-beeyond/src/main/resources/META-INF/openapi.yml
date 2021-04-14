@@ -3,6 +3,8 @@ openapi: 3.0.1
 info:
   title: Beeyond API
   version: "1.0"
+security:
+  - OAuth2: []
 paths:
   /authentication/login:
     post:
