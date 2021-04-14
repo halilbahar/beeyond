@@ -8,7 +8,6 @@ import at.htl.beeyond.service.NamespaceService
 import at.htl.beeyond.validation.NamespaceValid
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import org.hibernate.validator.constraints.Length
-import java.util.*
 import java.util.stream.Collectors
 import javax.inject.Inject
 import javax.transaction.Transactional
@@ -44,7 +43,7 @@ class NamespaceResource {
     @GET
     @Path("/{namespace}")
     fun getNamespace(
-        @PathParam("namespace") namespaceName: String
+            @PathParam("namespace") namespaceName: String
     ): Response {
         val namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResultOptional<Namespace>();
 
@@ -59,9 +58,8 @@ class NamespaceResource {
     @Path("/{namespace}")
     @Transactional
     fun assignNamespace(
-        @Context uriInfo: UriInfo,
-        @PathParam("namespace") @Length(min = 1, max = 50) @NamespaceValid namespaceName: String,
-        @Valid userList: UserListDto
+            @PathParam("namespace") @Length(min = 1, max = 50) @NamespaceValid namespaceName: String,
+            @Valid userList: UserListDto
     ): Response {
         var namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResult<Namespace>()
 
