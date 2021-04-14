@@ -9,4 +9,7 @@ public interface Checks {
 
     interface TemplateFieldExists {
     }
+
+    interface KubernetesContent {
+    }
 }

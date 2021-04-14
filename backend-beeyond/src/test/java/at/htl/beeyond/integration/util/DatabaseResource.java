@@ -1,17 +1,14 @@
 package at.htl.beeyond.integration.util;
 
-import com.github.dockerjava.api.exception.InternalServerErrorException;
 import io.quarkus.test.common.QuarkusTestResourceLifecycleManager;
-import org.testcontainers.containers.ContainerLaunchException;
 import org.testcontainers.containers.PostgreSQLContainer;
 
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
 public class DatabaseResource implements QuarkusTestResourceLifecycleManager {
 
-    private static final PostgreSQLContainer<?> DATABASE = new PostgreSQLContainer<>("postgres:10.5")
+    private static final PostgreSQLContainer<?> DATABASE = new PostgreSQLContainer<>("postgres:13.0")
             .withDatabaseName("beeyond_db")
             .withUsername("beeyond")
             .withPassword("beeyond");
@@ -22,14 +19,10 @@ public class DatabaseResource implements QuarkusTestResourceLifecycleManager {
 
         try {
             DATABASE.start();
-        } catch (ContainerLaunchException ex) {
-            if(!ex.getMessage().contains("Container startup failed")) {
-                ex.printStackTrace();
-            }
+        } catch (Exception ignored) {
         }
 
-        String url = DATABASE.getHost() + ":5432";
-        return Collections.singletonMap("beeyond.postgres.host", url);
+        return Collections.singletonMap("beeyond.database.jdbc", "jdbc:postgresql://localhost:5432");
     }
 
     @Override

@@ -7,14 +7,16 @@ import at.htl.beeyond.entity.TemplateField
 import at.htl.beeyond.validation.Checks
 import at.htl.beeyond.validation.Exists
 import at.htl.beeyond.validation.TemplateFieldsComplete
+import at.htl.beeyond.validation.ValidKubernetes
 import java.time.LocalDateTime
 import java.util.*
 import javax.validation.GroupSequence
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 
-@GroupSequence(value = [TemplateApplicationDto::class, Checks.TemplateField::class])
+@GroupSequence(value = [TemplateApplicationDto::class, Checks.TemplateField::class, Checks.KubernetesContent::class])
 @TemplateFieldsComplete(groups = [Checks.TemplateField::class])
+@ValidKubernetes(groups = [Checks.KubernetesContent::class])
 class TemplateApplicationDto(
         id: Long? = null,
         note: String? = null,
@@ -56,7 +58,7 @@ class TemplateApplicationDto(
             content = content.replace("%$wildcard%", fieldValue.value!!)
         }
 
-        return content;
+        return content
     }
 
     override fun toString(): String {

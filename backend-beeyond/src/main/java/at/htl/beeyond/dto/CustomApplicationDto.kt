@@ -2,9 +2,14 @@ package at.htl.beeyond.dto
 
 import at.htl.beeyond.entity.ApplicationStatus
 import at.htl.beeyond.entity.CustomApplication
+import at.htl.beeyond.validation.Checks
+import at.htl.beeyond.validation.ValidKubernetes
 import java.time.LocalDateTime
+import javax.validation.GroupSequence
 import javax.validation.constraints.NotBlank
 
+@GroupSequence(value = [CustomApplicationDto::class, Checks.KubernetesContent::class])
+@ValidKubernetes(groups = [Checks.KubernetesContent::class])
 class CustomApplicationDto(
         id: Long? = null,
         note: String? = null,
