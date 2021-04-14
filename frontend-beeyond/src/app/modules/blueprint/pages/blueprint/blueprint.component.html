@@ -26,13 +26,11 @@
             </mat-error>
           </mat-form-field>
 
-          <mat-form-field *ngIf="namespaces.length > 1">
+          <mat-form-field [ngClass]="{ 'hidden-field': namespaces.length <= 1 }">
             <mat-label>Namespace</mat-label>
-            <mat-select
-              formControlName="namespace"
-            >
+            <mat-select formControlName="namespace">
               <mat-option *ngFor="let namespace of namespaces" [value]="namespace.namespace">
-                {{ namespace.namespace }}
+                {{ namespace.label }}
               </mat-option>
             </mat-select>
           </mat-form-field>

@@ -5,6 +5,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Namespace } from '../../../../shared/models/namespace.model';
+import { AuthenticationService } from 'src/app/core/authentification/authentication.service';
 
 @Component({
   selector: 'app-blueprint',
@@ -22,7 +23,8 @@ export class BlueprintComponent implements OnInit {
     private router: Router,
     private backendApiService: BackendApiService,
     private fb: FormBuilder,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    private authenticationService: AuthenticationService
   ) {}
 
   ngOnInit(): void {
@@ -35,7 +37,16 @@ export class BlueprintComponent implements OnInit {
     });
 
     this.backendApiService.getNamespaces().subscribe(namespaces => {
-      this.namespaces = namespaces;
+      const defaultNamespace = {
+        namespace: this.authenticationService.username.value,
+        label: 'Default'
+      };
+
+      this.namespaces = namespaces.map(namespace => ({ ...namespace, label: namespace.namespace }));
+      this.namespaces.push(defaultNamespace);
+      this.customApplicationForm.patchValue({
+        namespace: defaultNamespace.namespace
+      });
     });
 
     this.customApplicationForm = this.fb.group({
