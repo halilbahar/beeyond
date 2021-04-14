@@ -30,6 +30,10 @@ public class ValidKubernetesValidator implements ConstraintValidator<ValidKubern
             content = ((TemplateApplicationDto) applicationDto).getContent();
         }
 
-        return this.validationRestClient.validateKubernetesYaml(content).getStatus() == 200;
+        try {
+            return this.validationRestClient.validateKubernetesYaml(content).getStatus() == 200;
+        } catch (Exception ignored) {
+            return false;
+        }
     }
 }
