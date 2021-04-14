@@ -21,7 +21,8 @@ export class ApplicationComponent implements OnInit {
     ApplicationStatus.ALL,
     ApplicationStatus.PENDING,
     ApplicationStatus.DENIED,
-    ApplicationStatus.APPROVED
+    ApplicationStatus.RUNNING,
+    ApplicationStatus.FINISHED
   ];
 
   selectedRow: number | null;
