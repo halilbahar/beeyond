@@ -22,6 +22,8 @@ class TemplateApplicationDto(
         status: ApplicationStatus? = null,
         owner: UserDto? = null,
         createdAt: LocalDateTime? = null,
+        startedAt: LocalDateTime? = null,
+        finishedAt: LocalDateTime? = null,
         @field:NotNull @field:Exists(entity = Template::class, fieldName = "id") var templateId: Long? = null,
         @field:Valid var fieldValues: List<TemplateFieldValueDto> = LinkedList()
 ) : ApplicationDto(
@@ -29,7 +31,9 @@ class TemplateApplicationDto(
         note,
         status,
         owner,
-        createdAt
+        createdAt,
+        startedAt,
+        finishedAt
 ) {
 
     constructor(templateApplication: TemplateApplication) : this(
@@ -38,6 +42,8 @@ class TemplateApplicationDto(
             templateApplication.status,
             UserDto(templateApplication.owner),
             templateApplication.createdAt,
+            templateApplication.startedAt,
+            templateApplication.finishedAt,
             templateApplication.template.id,
             templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList()
     )
