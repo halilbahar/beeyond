@@ -1,37 +1,28 @@
-package at.htl.beeyond.service;
+package at.htl.beeyond.service
 
-import io.fabric8.kubernetes.api.model.Namespace;
-import io.fabric8.kubernetes.api.model.NamespaceList;
-import io.fabric8.kubernetes.api.model.ObjectMeta;
-
-import javax.enterprise.context.ApplicationScoped;
-import javax.inject.Inject;
-import java.util.Collections;
-import java.util.List;
+import io.fabric8.kubernetes.api.model.Namespace
+import io.fabric8.kubernetes.api.model.ObjectMeta
+import java.util.*
+import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
 
 @ApplicationScoped
-public class NamespaceService {
+class NamespaceService {
 
     @Inject
-    DeploymentYamlService deploymentYamlService;
+    lateinit var deploymentService: DeploymentService
 
-    public List<Namespace> getAllNamespaces() {
-        NamespaceList namespaces = this.deploymentYamlService.getClient().namespaces().list();
-        return namespaces.getItems();
+    fun createNamespace(name: String?) {
+        val namespace = Namespace()
+        val metadata = ObjectMeta()
+        metadata.name = name
+        metadata.labels = Collections.singletonMap("managment", "beeyond")
+        namespace.metadata = metadata
+
+        deploymentService.client.namespaces().create(namespace)
     }
 
-    public void createNamespace(String name) {
-        Namespace namespace = new Namespace();
-        ObjectMeta metadata = new ObjectMeta();
-
-        metadata.setName(name);
-        metadata.setLabels(Collections.singletonMap("managment", "beeyond"));
-        namespace.setMetadata(metadata);
-
-        this.deploymentYamlService.getClient().namespaces().create(namespace);
-    }
-
-    public void deleteNamespace(String namespace) {
-        this.deploymentYamlService.getClient().namespaces().withName(namespace).delete();
+    fun deleteNamespace(namespace: String?) {
+        deploymentService.client.namespaces().withName(namespace).delete()
     }
 }
