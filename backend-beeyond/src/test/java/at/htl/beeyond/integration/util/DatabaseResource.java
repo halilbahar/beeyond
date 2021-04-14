@@ -15,9 +15,8 @@ public class DatabaseResource implements QuarkusTestResourceLifecycleManager {
 
     @Override
     public Map<String, String> start() {
-        DATABASE.setPortBindings(Collections.singletonList("5432:5432"));
-
         try {
+            DATABASE.setPortBindings(Collections.singletonList("5432:5432"));
             DATABASE.start();
         } catch (Exception ignored) {
         }
