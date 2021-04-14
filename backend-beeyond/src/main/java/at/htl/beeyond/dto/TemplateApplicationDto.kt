@@ -1,16 +1,17 @@
 package at.htl.beeyond.dto
 
-import at.htl.beeyond.entity.*
+import at.htl.beeyond.entity.ApplicationStatus
+import at.htl.beeyond.entity.Template
+import at.htl.beeyond.entity.TemplateApplication
+import at.htl.beeyond.entity.TemplateField
 import at.htl.beeyond.validation.Checks
 import at.htl.beeyond.validation.Exists
 import at.htl.beeyond.validation.TemplateFieldsComplete
+import java.time.LocalDateTime
 import java.util.*
-import java.util.stream.Collectors
 import javax.validation.GroupSequence
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
-import at.htl.beeyond.entity.TemplateFieldValue
-import java.time.LocalDateTime
 
 @GroupSequence(value = [TemplateApplicationDto::class, Checks.TemplateField::class])
 @TemplateFieldsComplete(groups = [Checks.TemplateField::class])
@@ -45,6 +46,18 @@ class TemplateApplicationDto(
             templateApplication.template.id,
             templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList()
     )
+
+    fun getContent(): String {
+        val template = Template.findById<Template>(this.templateId)
+        val fieldValues = this.fieldValues
+        var content = template.content
+        for (fieldValue in fieldValues) {
+            val wildcard = TemplateField.findById<TemplateField>(fieldValue.fieldId).wildcard
+            content = content.replace("%$wildcard%", fieldValue.value!!)
+        }
+
+        return content;
+    }
 
     override fun toString(): String {
         return ""
