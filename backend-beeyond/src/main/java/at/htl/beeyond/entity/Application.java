@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
-public class Application extends PanacheEntityBase {
+public abstract class Application extends PanacheEntityBase {
 
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE)
@@ -22,6 +22,10 @@ public class Application extends PanacheEntityBase {
     private User owner;
 
     private LocalDateTime createdAt;
+
+    private LocalDateTime startedAt;
+
+    private LocalDateTime finishedAt;
 
     public Application(String note, User owner) {
         this.note = note;
@@ -68,4 +72,22 @@ public class Application extends PanacheEntityBase {
     public void setCreatedAt(LocalDateTime createdAt) {
         this.createdAt = createdAt;
     }
+
+    public LocalDateTime getStartedAt() {
+        return startedAt;
+    }
+
+    public void setStartedAt(LocalDateTime startedAt) {
+        this.startedAt = startedAt;
+    }
+
+    public LocalDateTime getFinishedAt() {
+        return finishedAt;
+    }
+
+    public void setFinishedAt(LocalDateTime finishedAt) {
+        this.finishedAt = finishedAt;
+    }
+
+    public abstract String getContent();
 }

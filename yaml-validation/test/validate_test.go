@@ -100,14 +100,52 @@ func TestValidateEndpoint_WithInvalidConstraint_ShouldReturnError(t *testing.T) 
 
 func TestValidateEndpoint_WithMinMaxAndIntegerValue_ShouldWork(t *testing.T) {
 	// Given
-	// When
-	// Then
-}
+	models.DeleteAll()
+	min, max := float32(1), float32(4)
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	var constraint = models.Constraint{
+		Min:              &min,
+		Max:              &max,
+		Path:             "spec.replicas",
+		GroupKindVersion: gkv,
+	}
 
-func TestValidateEndpoint_WithMinMaxAndFloatValue_ShouldWork(t *testing.T) {
-	// Given
+	_ = models.SaveConstraint(constraint)
+
 	// When
+
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("test/resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("spec.replicas", gkv)
+
+	// Given
+	max = float32(2)
+	constraint = models.Constraint{
+		Min:              &min,
+		Max:              &max,
+		Path:             "spec.replicas",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("spec.replicas", gkv)
 }
 
 func TestValidateEndpoint_WithMinMaxAndStringValue_ShouldReturnError(t *testing.T) {

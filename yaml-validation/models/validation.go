@@ -1,6 +1,8 @@
 package models
 
 import (
+	"encoding/json"
+	"fmt"
 	"github.com/instrumenta/kubeval/kubeval"
 	"gopkg.in/yaml.v2"
 	"regexp"
@@ -35,9 +37,11 @@ func ValidateContent(content string) ([]ValidationError, error) {
 				field = ""
 			}
 
+			bytes, _ := json.Marshal(resultError.Value())
+
 			validationError = append(validationError, ValidationError{
 				Description: resultError.Description(),
-				Value:       resultError.Value().(string),
+				Value:       string(bytes),
 				Field:       field,
 			})
 		}
@@ -68,7 +72,8 @@ func ValidateContent(content string) ([]ValidationError, error) {
 		}
 
 		if currentConstraint.Max != nil {
-			actualFloat, _ := getValueFromPath(yamlMap, currentConstraint.Path).(float64)
+			actualFloat := float64(getValueFromPath(yamlMap, currentConstraint.Path).(int))
+			fmt.Print(err)
 			if actualFloat > float64(*currentConstraint.Max) || actualFloat < float64(*currentConstraint.Min) {
 				errorDescription = "Given value out of range"
 			}

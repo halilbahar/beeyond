@@ -1,7 +1,7 @@
 <mat-card class="card-entire-page">
   <div [formGroup]="filterForm" class="filter-controls">
     <mat-form-field>
-      <mat-label>Search for an user...</mat-label>
+      <mat-label>Search for a user...</mat-label>
       <input
         type="text"
         placeholder="Username"
@@ -56,6 +56,18 @@
     <ng-container matColumnDef="status">
       <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
       <mat-cell mat-cell *matCellDef="let application">{{ application.status }}</mat-cell>
+    </ng-container>
+
+    <!-- Started -->
+    <ng-container matColumnDef="startedAt">
+      <mat-header-cell *matHeaderCellDef>Started</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let application">{{ application.startedAt }}</mat-cell>
+    </ng-container>
+
+    <!-- Finished -->
+    <ng-container matColumnDef="finishedAt">
+      <mat-header-cell *matHeaderCellDef>Finished</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let application">{{ application.finishedAt }}</mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
