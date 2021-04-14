@@ -6,7 +6,7 @@ import { Observable } from 'rxjs';
 import { Application } from 'src/app/shared/models/application.model';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
-import { Namespace } from '../../shared/models/namespace.model';
+import { Namespace } from 'src/app/shared/models/namespace.model';
 
 @Injectable({
   providedIn: 'root'
