@@ -1,6 +1,7 @@
 package models
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/instrumenta/kubeval/kubeval"
 	"gopkg.in/yaml.v2"
@@ -36,9 +37,11 @@ func ValidateContent(content string) ([]ValidationError, error) {
 				field = ""
 			}
 
+			bytes, _ := json.Marshal(resultError.Value())
+
 			validationError = append(validationError, ValidationError{
 				Description: resultError.Description(),
-				Value:       resultError.Value().(string),
+				Value:       string(bytes),
 				Field:       field,
 			})
 		}
