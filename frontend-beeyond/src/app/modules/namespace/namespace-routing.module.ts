@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { NamespaceListComponent } from './page/namespace-list/namespace-list.component';
+import { NamespaceListComponent } from './pages/namespace-list/namespace-list.component';
 
 const routes: Routes = [{ path: '', component: NamespaceListComponent }];
 
