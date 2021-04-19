@@ -39,6 +39,12 @@ export class SideNavigationComponent implements OnInit {
       requiredRoles: [config.adminRole]
     },
     {
+      name: 'Namespace',
+      icon: 'dns',
+      router: '/namespace',
+      requiredRoles: [config.adminRole]
+    },
+    {
       name: 'Constraint',
       icon: 'attach_file',
       router: '/constraint',

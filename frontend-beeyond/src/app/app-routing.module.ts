@@ -30,6 +30,10 @@ const routes: Routes = [
     loadChildren: () => import('./modules/template/template.module').then(m => m.TemplateModule)
   },
   {
+    path: 'namespace',
+    loadChildren: () => import('./modules/namespace/namespace.module').then(m => m.NamespaceModule)
+  },
+  {
     path: 'constraint',
     loadChildren: () =>
       import('./modules/constraint/constraint.module').then(m => m.ConstraintModule)
