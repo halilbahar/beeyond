@@ -16,7 +16,7 @@ class UserResource {
 
     @GET
     fun getAllUsers(): Response {
-        val users = User.streamAll<User>().map { UserDto(it) }
+        val users = User.streamAll<User>().map { UserDto(it) }.toArray()
         return Response.ok(users).build()
     }
 }
