@@ -16,6 +16,10 @@ type ValidationError struct {
 	Field       string `json:"field"`
 }
 
+// Validates the content (syntax wise) checks the constraints
+// Parameter: content (string) represents the content of the yaml file,
+// which will be validated.
+// returns all constraint-errors in []ValidationError and the kubeval error
 func ValidateContent(content string) ([]ValidationError, error) {
 	config := kubeval.NewDefaultConfig()
 
@@ -109,6 +113,10 @@ func ValidateContent(content string) ([]ValidationError, error) {
 	return validationError, nil
 }
 
+// Gets the value of the property by the given path from the given k8s specification (map)
+// Parameters:
+// 		- m (map[interface{}]interface{}): Represents the content of the given yaml file as a map
+//		- path (string): Represents the
 func getValueFromPath(m map[interface{}]interface{}, path string) interface{} {
 	var obj interface{} = m
 	var val interface{} = nil

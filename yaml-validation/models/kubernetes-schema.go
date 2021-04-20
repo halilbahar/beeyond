@@ -57,6 +57,8 @@ func (groupKindVersion GroupKindVersion) ToLower() GroupKindVersion {
 	return groupKindVersionLower
 }
 
+// Gets all schemas and return them in the SchemaCollection
+// Returns the SchemaCollection and an error if one occurred
 func GetSchemaCollection() (*SchemaCollection, error) {
 	baseUrl := conf.Configuration.KubernetesJsonschema.Url
 	kubernetesVersion := conf.Configuration.KubernetesJsonschema.KubernetesVersion
@@ -74,6 +76,9 @@ func GetSchemaCollection() (*SchemaCollection, error) {
 	return collection, nil
 }
 
+// Gets the schema corresponding to the given segments
+// Parameter: segments ([]string): Represents the "path" to the schema (e.g.: ["Deployment-apps-v1", "spec"])
+// Returns the schema and any error that occurred
 func GetSchemaBySegments(segments []string) (*Schema, error) {
 	collection, err := GetSchemaCollection()
 	if err != nil {
@@ -186,6 +191,11 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 	}
 }
 
+// Gets the group kind version and the path from segments
+// Parameter: segments ([]string): e.g.: ["Deployment-apps-v1", "spec", "replicas"])
+// Returns:
+// 		- GroupKindVersion (GroupKindVersion) e.g.: group: apps, kind: Deployment, version: v1
+// 		- path (string) e.g.: spec.replicas
 func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion, string) {
 	var groupKindVersion GroupKindVersion
 	parts := strings.Split(segments[0], "-")
