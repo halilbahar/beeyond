@@ -1,7 +1,6 @@
 package at.htl.beeyond.validation
 
 import at.htl.beeyond.entity.User
-import java.nio.charset.Charset
 import javax.validation.ConstraintValidator
 import javax.validation.ConstraintValidatorContext
 
@@ -11,12 +10,6 @@ class NamespaceValidValidator : ConstraintValidator<NamespaceValid, String> {
             return true
         }
 
-        if (User.find<User>("name", namespace).firstResult<User>() != null ||
-            !Charset.forName("US-ASCII").newEncoder().canEncode(namespace)
-        ) {
-            return false
-        }
-
-        return true
+        return User.find<User>("name", namespace).firstResult<User>() == null
     }
 }

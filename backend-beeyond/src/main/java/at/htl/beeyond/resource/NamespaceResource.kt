@@ -5,9 +5,6 @@ import at.htl.beeyond.dto.UserListDto
 import at.htl.beeyond.entity.Namespace
 import at.htl.beeyond.entity.User
 import at.htl.beeyond.service.NamespaceService
-import at.htl.beeyond.validation.NamespaceValid
-import io.quarkus.hibernate.orm.panache.PanacheEntityBase
-import org.hibernate.validator.constraints.Length
 import java.util.stream.Collectors
 import javax.inject.Inject
 import javax.transaction.Transactional
@@ -28,9 +25,7 @@ class NamespaceResource {
 
     @GET
     fun getNamespaces(@Context ctx: SecurityContext, @QueryParam("all") all: Int): Response {
-        val mapToDto = { o: PanacheEntityBase? ->
-            NamespaceDto(o as Namespace)
-        }
+        val mapToDto = { o: Namespace -> NamespaceDto(o) }
 
         val namespaces = if (ctx.isUserInRole("teacher") && all == 1) {
             Namespace.streamAll<Namespace>().map(mapToDto).collect(Collectors.toList<Any>())
@@ -48,7 +43,7 @@ class NamespaceResource {
     fun getNamespace(
             @PathParam("namespace") namespaceName: String
     ): Response {
-        val namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResultOptional<Namespace>();
+        val namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResultOptional<Namespace>()
 
         return if (namespace.isEmpty) {
             Response.status(Response.Status.NOT_FOUND).build()
@@ -58,18 +53,15 @@ class NamespaceResource {
     }
 
     @PUT
-    @Path("/{namespace}")
     @Transactional
-    fun assignNamespace(
-            @PathParam("namespace") @Length(min = 1, max = 50) @NamespaceValid namespaceName: String,
-            @Valid userList: UserListDto
-    ): Response {
+    fun assignNamespace(@Valid userList: UserListDto): Response {
+        val namespaceName = userList.namespace
         var namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResult<Namespace>()
 
         if (namespace == null) {
-            namespaceService.createNamespace(namespaceName)
+            this.namespaceService.createNamespace(namespaceName)
             namespace = Namespace(namespaceName)
-            Namespace.persist(namespace)
+            namespace.persist()
         }
 
         namespace.users = userList.users.distinct().map {
