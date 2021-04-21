@@ -1,9 +1,9 @@
 import { ENTER, COMMA } from '@angular/cdk/keycodes';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit } from '@angular/core';
 import { FormControl, Validators } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
-import { MatDialogRef } from '@angular/material/dialog';
+import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { startWith, map } from 'rxjs/operators';
 import { BackendApiService } from 'src/app/core/services/backend-api.service';
@@ -29,8 +29,15 @@ export class NamespaceDialogComponent implements OnInit {
 
   constructor(
     private backendApiService: BackendApiService,
-    private dialogRef: MatDialogRef<NamespaceDialogComponent>
-  ) {}
+    private dialogRef: MatDialogRef<NamespaceDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) private namespaceToEdit: Namespace | null
+  ) {
+    if (namespaceToEdit != null) {
+      this.nameControl.setValue(namespaceToEdit.namespace);
+      this.nameControl.disable();
+      this.users = namespaceToEdit.users.map(user => user.name);
+    }
+  }
 
   ngOnInit(): void {
     this.backendApiService.getAllUser().subscribe(users => {

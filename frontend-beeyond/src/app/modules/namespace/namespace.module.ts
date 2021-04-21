@@ -12,9 +12,10 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { NamespaceDeleteDialogComponent } from './components/namespace-delete-dialog/namespace-delete-dialog.component';
 
 @NgModule({
-  declarations: [NamespaceListComponent, NamespaceDialogComponent],
+  declarations: [NamespaceListComponent, NamespaceDialogComponent, NamespaceDeleteDialogComponent],
   imports: [
     CommonModule,
     NameSpaceRoutingModule,

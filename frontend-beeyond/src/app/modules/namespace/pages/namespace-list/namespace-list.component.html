@@ -1,7 +1,7 @@
 <mat-card class="card-entire-page">
   <mat-card-content>
     <div class="add-container">
-      <button mat-icon-button color="primary" (click)="createNamespaceDialog()">
+      <button mat-icon-button color="primary" (click)="openCreateNamespaceDialog()">
         <mat-icon>add</mat-icon>
       </button>
     </div>
@@ -9,9 +9,14 @@
     <div *ngFor="let namespace of namespaces" class="namespace-container item-hover">
       <h2 class="title-edit">
         {{ namespace.namespace }}
-        <button mat-icon-button color="primary" (click)="editNamespaceDialog(namespace)">
-          <mat-icon>edit</mat-icon>
-        </button>
+        <div>
+          <button mat-icon-button color="warn" (click)="openDeleteNamespaceDialog(namespace)">
+            <mat-icon>delete</mat-icon>
+          </button>
+          <button mat-icon-button color="primary" (click)="openEditNamespaceDialog(namespace)">
+            <mat-icon>edit</mat-icon>
+          </button>
+        </div>
       </h2>
       <mat-chip-list>
         <mat-chip *ngFor="let user of namespace.users">
