@@ -2,7 +2,6 @@ package at.htl.beeyond.service
 
 import io.fabric8.kubernetes.api.model.Namespace
 import io.fabric8.kubernetes.api.model.ObjectMeta
-import io.fabric8.kubernetes.client.KubernetesClientException
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
