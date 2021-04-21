@@ -20,7 +20,7 @@ export class NamespaceListComponent implements OnInit {
   constructor(private backendApiService: BackendApiService) {}
 
   ngOnInit(): void {
-    this.backendApiService.getNamespaces().subscribe(namespaces => {
+    this.backendApiService.getAllNamespaces().subscribe(namespaces => {
       const tree: NamespaceNode[] = [];
 
       for (const namespace of namespaces) {

@@ -14,7 +14,7 @@ import javax.validation.GroupSequence
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 
-@GroupSequence(value = [TemplateApplicationDto::class, Checks.TemplateField::class, Checks.KubernetesContent::class])
+@GroupSequence(TemplateApplicationDto::class, Checks.TemplateField::class, Checks.KubernetesContent::class)
 @TemplateFieldsComplete(groups = [Checks.TemplateField::class])
 @ValidKubernetes(groups = [Checks.KubernetesContent::class])
 class TemplateApplicationDto(

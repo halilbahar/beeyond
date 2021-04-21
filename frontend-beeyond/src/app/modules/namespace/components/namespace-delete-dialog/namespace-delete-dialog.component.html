@@ -1,0 +1,18 @@
+<h2 mat-dialog-title>
+  Delete <span class="bold-name">{{ namespace.namespace }}</span> ({{ namespace.users.length }})
+</h2>
+<div mat-dialog-content class="content">
+  <div>
+    Do you really want to delete this namespace
+    <span class="bold-name">{{ namespace.namespace }}</span> with the following user:
+  </div>
+  <mat-chip-list class="chip-list">
+    <mat-chip *ngFor="let user of namespace.users">
+      {{ user.name }}
+    </mat-chip>
+  </mat-chip-list>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button mat-dialog-close="true" color="warn">Delete</button>
+</div>

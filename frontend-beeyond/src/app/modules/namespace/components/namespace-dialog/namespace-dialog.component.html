@@ -1,0 +1,42 @@
+<h2 mat-dialog-title>Create / Edit Namespace</h2>
+<div mat-dialog-content class="content">
+  <mat-form-field>
+    <mat-label>Name</mat-label>
+    <input matInput type="text" [formControl]="nameControl" />
+    <!-- <mat-error *ngIf="nameControl.invalid">{{ nameControl.errors | json }}</mat-error> -->
+    <mat-error *ngIf="nameControl.getError('required')">This field is required</mat-error>
+    <mat-error *ngIf="nameControl.getError('maxlength')">The name is too long</mat-error>
+    <mat-error *ngIf="nameControl.getError('pattern')">Not a valid namespace name</mat-error>
+  </mat-form-field>
+
+  <mat-form-field>
+    <mat-label>Users</mat-label>
+    <mat-chip-list #chipList>
+      <mat-chip *ngFor="let user of users" (removed)="remove(user)">
+        {{ user }}
+        <mat-icon matChipRemove>cancel</mat-icon>
+      </mat-chip>
+      <input
+        placeholder="User..."
+        [formControl]="userControl"
+        [matAutocomplete]="auto"
+        [matChipInputFor]="chipList"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        (matChipInputTokenEnd)="add($event)"
+      />
+    </mat-chip-list>
+    <mat-autocomplete
+      #auto="matAutocomplete"
+      autoActiveFirstOption
+      (optionSelected)="selected($event)"
+    >
+      <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+        {{ user }}
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close>Cancel</button>
+  <button mat-button [disabled]="nameControl.invalid" (click)="save()">Save</button>
+</div>

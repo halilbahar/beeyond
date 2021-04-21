@@ -9,7 +9,7 @@ import javax.validation.GroupSequence
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
-@GroupSequence(value = [Checks.TemplateFieldExists::class, TemplateFieldValueDto::class])
+@GroupSequence(Checks.TemplateFieldExists::class, TemplateFieldValueDto::class)
 class TemplateFieldValueDto(
         @set:JsonbTransient var id: Long? = null,
         value: String? = null,

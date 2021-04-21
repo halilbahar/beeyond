@@ -19,10 +19,10 @@ class NamespaceService {
         metadata.labels = Collections.singletonMap("managment", "beeyond")
         namespace.metadata = metadata
 
-        deploymentService.client.namespaces().create(namespace)
+        this.deploymentService.client.namespaces().create(namespace)
     }
 
     fun deleteNamespace(namespace: String?) {
-        deploymentService.client.namespaces().withName(namespace).delete()
+        this.deploymentService.client.namespaces().withName(namespace).delete()
     }
 }
