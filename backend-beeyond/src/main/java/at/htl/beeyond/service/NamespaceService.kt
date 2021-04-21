@@ -24,9 +24,6 @@ class NamespaceService {
     }
 
     fun deleteNamespace(namespace: String?) {
-        try {
-            this.deploymentService.client.namespaces().withName(namespace).delete()
-        } catch (ignored: KubernetesClientException) {
-        }
+        this.deploymentService.client.namespaces().withName(namespace).delete()
     }
 }
