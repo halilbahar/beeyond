@@ -40,9 +40,7 @@ class NamespaceResource {
 
     @GET
     @Path("/{namespace}")
-    fun getNamespace(
-            @PathParam("namespace") namespaceName: String
-    ): Response {
+    fun getNamespace(@PathParam("namespace") namespaceName: String): Response {
         val namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResultOptional<Namespace>()
 
         return if (namespace.isEmpty) {
@@ -59,7 +57,6 @@ class NamespaceResource {
         var namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResult<Namespace>()
 
         if (namespace == null) {
-            this.namespaceService.createNamespace(namespaceName)
             namespace = Namespace(namespaceName)
             namespace.persist()
         }

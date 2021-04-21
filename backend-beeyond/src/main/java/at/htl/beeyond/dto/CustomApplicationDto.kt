@@ -8,7 +8,7 @@ import java.time.LocalDateTime
 import javax.validation.GroupSequence
 import javax.validation.constraints.NotBlank
 
-@GroupSequence(value = [CustomApplicationDto::class, Checks.KubernetesContent::class])
+@GroupSequence(CustomApplicationDto::class, Checks.KubernetesContent::class)
 @ValidKubernetes(groups = [Checks.KubernetesContent::class])
 class CustomApplicationDto(
         id: Long? = null,

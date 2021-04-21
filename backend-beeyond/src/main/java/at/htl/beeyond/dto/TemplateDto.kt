@@ -11,7 +11,7 @@ import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
-@GroupSequence(value = [TemplateDto::class, TemplateContent::class])
+@GroupSequence(TemplateDto::class, TemplateContent::class)
 @TemplateFieldsMatching(groups = [TemplateContent::class])
 class TemplateDto(
         @set:JsonbTransient var id: Long? = null,

@@ -9,7 +9,7 @@ import javax.validation.GroupSequence
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Pattern
 
-@GroupSequence(value = [UserListDto::class])
+@GroupSequence(UserListDto::class)
 data class UserListDto(
         @field:Length(min = 1, max = 253)
         @field:Pattern(regexp = "^[a-z0-9]([-a-z0-9]*[a-z0-9])?$")
