@@ -2,6 +2,7 @@ package at.htl.beeyond.service
 
 import io.fabric8.kubernetes.api.model.Namespace
 import io.fabric8.kubernetes.api.model.ObjectMeta
+import io.fabric8.kubernetes.client.KubernetesClientException
 import java.util.*
 import javax.enterprise.context.ApplicationScoped
 import javax.inject.Inject
@@ -19,10 +20,13 @@ class NamespaceService {
         metadata.labels = Collections.singletonMap("managment", "beeyond")
         namespace.metadata = metadata
 
-        deploymentService.client.namespaces().create(namespace)
+        this.deploymentService.client.namespaces().create(namespace)
     }
 
     fun deleteNamespace(namespace: String?) {
-        deploymentService.client.namespaces().withName(namespace).delete()
+        try {
+            this.deploymentService.client.namespaces().withName(namespace).delete()
+        } catch (ignored: KubernetesClientException) {
+        }
     }
 }
