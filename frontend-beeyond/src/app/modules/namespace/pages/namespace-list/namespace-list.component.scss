@@ -1,0 +1,27 @@
+.add-container {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.namespace-container {
+  box-sizing: border-box;
+  padding: 0.8rem;
+
+  &:first-of-type {
+    border-radius: 5px 5px 0 0;
+  }
+
+  &:last-of-type {
+    border-radius: 0 0 5px 5px;
+  }
+
+  &:nth-child(even) {
+    background-color: rgb(242, 242, 242, 0.7);
+  }
+
+  .title-edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
