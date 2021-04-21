@@ -46,7 +46,7 @@
                 <div id="nav-type">Scenarios</div>
                          
         
-                <div id="nav-date">2021-04-21 07:28:57 AM</div>
+                <div id="nav-date">2021-04-21 07:33:33 AM</div>
                         
       
                 <div class="nav-container">
@@ -72,7 +72,7 @@
                             </div>
                             <span class="scenario-keyword">Scenario: [1:11]</span><span class="scenario-name">Delete a template </span>
                         </div>
-                        <div class="scenario-time passed">ms: 77</div>
+                        <div class="scenario-time passed">ms: 50</div>
                     </div>
                     <div class="step-row">
                         <div class="step-container" id="[1:11]bg">
@@ -86,7 +86,7 @@
                             <div class="step-ref bg-step">1</div>
                             <div class="step-cell passed">* url baseUrl + '/template'</div>
                         </div>
-                        <div class="time-cell passed">5</div>
+                        <div class="time-cell passed">4</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="2">
@@ -100,21 +100,21 @@
                             <div class="step-ref bg-step">3</div>
                             <div class="step-cell passed">* def insertTemplate = read('classpath:at/htl/beeyond/integration/util/create-template.feature')</div>
                         </div>
-                        <div class="time-cell passed">1</div>
+                        <div class="time-cell passed">3</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="4">
                             <div class="step-ref bg-step">4</div>
                             <div class="step-cell passed">* def insertTemplateResponse = call insertTemplate</div>
                         </div>
-                        <div class="time-cell passed">42</div>
+                        <div class="time-cell passed">23</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="4.1">
                             <div class="step-ref bg-step">&gt;&gt;</div>
                             <div class="step-cell passed">at/htl/beeyond/integration/util/create-template.feature</div>
                         </div>
-                        <div class="time-cell passed">39</div>
+                        <div class="time-cell passed">21</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="5">
@@ -138,7 +138,7 @@
                             <div class="step-indent"> </div>
                             <div class="step-cell passed">* configure headers = {Authorization: '#(auth(karate.tags))'}</div>
                         </div>
-                        <div class="time-cell passed">1</div>
+                        <div class="time-cell passed">0</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="8">
@@ -146,7 +146,7 @@
                             <div class="step-indent"> </div>
                             <div class="step-cell passed">* def content = read('classpath:at/htl/beeyond/integration/util/nginx-deployment-template.yml.txt')</div>
                         </div>
-                        <div class="time-cell passed">1</div>
+                        <div class="time-cell passed">0</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="9">
@@ -179,7 +179,7 @@
                             <div class="step-indent"> </div>
                             <div class="step-cell passed">When method POST</div>
                         </div>
-                        <div class="time-cell passed">22</div>
+                        <div class="time-cell passed">11</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="11">
@@ -203,7 +203,7 @@
                             <div class="step-indent"> </div>
                             <div class="step-cell passed">When method GET</div>
                         </div>
-                        <div class="time-cell passed">15</div>
+                        <div class="time-cell passed">8</div>
                     </div>
                     <div class="step-row" data-parent="[1:11]bg">
                         <div class="step-container" id="14">
@@ -232,7 +232,7 @@
                             <div class="step-ref passed">17</div>
                             <div class="step-cell passed">When method DELETE</div>
                         </div>
-                        <div class="time-cell passed">13</div>
+                        <div class="time-cell passed">8</div>
                     </div>
                     <div class="step-row">
                         <div class="step-container" id="18">
@@ -253,7 +253,7 @@
                             <div class="step-ref passed">20</div>
                             <div class="step-cell passed">When method GET</div>
                         </div>
-                        <div class="time-cell passed">12</div>
+                        <div class="time-cell passed">9</div>
                     </div>
                     <div class="step-row">
                         <div class="step-container" id="21">
@@ -267,7 +267,7 @@
                             <div class="step-ref passed">22</div>
                             <div class="step-cell passed">And match response.deleted == true</div>
                         </div>
-                        <div class="time-cell passed">2</div>
+                        <div class="time-cell passed">3</div>
                     </div>
                 </div>
                 <div class="scenario">
@@ -278,7 +278,7 @@
                             </div>
                             <span class="scenario-keyword">Scenario: [2:21]</span><span class="scenario-name">Delete a template that does not exist </span>
                         </div>
-                        <div class="scenario-time passed">ms: 40</div>
+                        <div class="scenario-time passed">ms: 54</div>
                     </div>
                     <div class="step-row">
                         <div class="step-container" id="[2:21]bg">
@@ -292,7 +292,7 @@
                             <div class="step-ref bg-step">23</div>
                             <div class="step-cell passed">* url baseUrl + '/template'</div>
                         </div>
-                        <div class="time-cell passed">1</div>
+                        <div class="time-cell passed">0</div>
                     </div>
                     <div class="step-row" data-parent="[2:21]bg">
                         <div class="step-container" id="24">
@@ -313,14 +313,14 @@
                             <div class="step-ref bg-step">26</div>
                             <div class="step-cell passed">* def insertTemplateResponse = call insertTemplate</div>
                         </div>
-                        <div class="time-cell passed">26</div>
+                        <div class="time-cell passed">41</div>
                     </div>
                     <div class="step-row" data-parent="[2:21]bg">
                         <div class="step-container" id="26.1">
                             <div class="step-ref bg-step">&gt;&gt;</div>
                             <div class="step-cell passed">at/htl/beeyond/integration/util/create-template.feature</div>
                         </div>
-                        <div class="time-cell passed">24</div>
+                        <div class="time-cell passed">33</div>
                     </div>
                     <div class="step-row" data-parent="[2:21]bg">
                         <div class="step-container" id="27">
@@ -385,7 +385,7 @@
                             <div class="step-indent"> </div>
                             <div class="step-cell passed">When method POST</div>
                         </div>
-                        <div class="time-cell passed">12</div>
+                        <div class="time-cell passed">16</div>
                     </div>
                     <div class="step-row" data-parent="[2:21]bg">
                         <div class="step-container" id="33">
@@ -409,7 +409,7 @@
                             <div class="step-indent"> </div>
                             <div class="step-cell passed">When method GET</div>
                         </div>
-                        <div class="time-cell passed">10</div>
+                        <div class="time-cell passed">15</div>
                     </div>
                     <div class="step-row" data-parent="[2:21]bg">
                         <div class="step-container" id="36">
@@ -431,7 +431,7 @@
                             <div class="step-ref passed">38</div>
                             <div class="step-cell passed">Given path '1000'</div>
                         </div>
-                        <div class="time-cell passed">3</div>
+                        <div class="time-cell passed">2</div>
                     </div>
                     <div class="step-row">
                         <div class="step-container" id="39">
