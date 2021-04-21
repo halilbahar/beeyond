@@ -61,8 +61,8 @@ export class BackendApiService {
     return this.http.patch<any>(`${environment.backendApiUrl}/application/deny/${id}`, null);
   }
 
-  getNamespaces(): Observable<Namespace[]> {
-    return this.http.get<Namespace[]>(`${environment.backendApiUrl}/namespace`);
+  getAllNamespaces(): Observable<Namespace[]> {
+    return this.http.get<Namespace[]>(`${environment.backendApiUrl}/namespace?all=1`);
   }
 
   saveNamespace(namespace: NamespaceSave): Observable<void> {
