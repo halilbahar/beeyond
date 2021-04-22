@@ -61,13 +61,17 @@
     <!-- Started -->
     <ng-container matColumnDef="startedAt">
       <mat-header-cell *matHeaderCellDef>Started</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let application">{{ application.startedAt }}</mat-cell>
+      <mat-cell mat-cell *matCellDef="let application">
+        {{ application.startedAt | date: 'short' }}
+      </mat-cell>
     </ng-container>
 
     <!-- Finished -->
     <ng-container matColumnDef="finishedAt">
       <mat-header-cell *matHeaderCellDef>Finished</mat-header-cell>
-      <mat-cell mat-cell *matCellDef="let application">{{ application.finishedAt }}</mat-cell>
+      <mat-cell mat-cell *matCellDef="let application">
+        {{ application.finishedAt | date: 'short' }}
+      </mat-cell>
     </ng-container>
 
     <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
