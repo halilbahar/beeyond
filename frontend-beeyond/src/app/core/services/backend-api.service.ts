@@ -39,8 +39,8 @@ export class BackendApiService {
     return this.http.post<any>(`${environment.backendApiUrl}/template`, body);
   }
 
-  deleteTemplate(id: number): Observable<any> {
-    return this.http.delete<any>(`${environment.backendApiUrl}/template/${id}`);
+  deleteTemplate(id: number): Observable<void> {
+    return this.http.delete<void>(`${environment.backendApiUrl}/template/${id}`);
   }
 
   getApplications(): Observable<Application[]> {
@@ -53,12 +53,16 @@ export class BackendApiService {
     );
   }
 
-  approveApplicationById(id: number): Observable<null> {
-    return this.http.patch<any>(`${environment.backendApiUrl}/application/approve/${id}`, null);
+  approveApplicationById(id: number): Observable<void> {
+    return this.http.patch<void>(`${environment.backendApiUrl}/application/approve/${id}`, null);
   }
 
-  denyApplicationById(id: number): Observable<null> {
-    return this.http.patch<any>(`${environment.backendApiUrl}/application/deny/${id}`, null);
+  denyApplicationById(id: number): Observable<void> {
+    return this.http.patch<void>(`${environment.backendApiUrl}/application/deny/${id}`, null);
+  }
+
+  stopApplicationById(id: number): Observable<void> {
+    return this.http.patch<void>(`${environment.backendApiUrl}/application/stop/${id}`, null);
   }
 
   getAllNamespaces(): Observable<Namespace[]> {

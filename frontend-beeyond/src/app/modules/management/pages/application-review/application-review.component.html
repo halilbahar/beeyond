@@ -25,5 +25,8 @@
     <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">
       Approve
     </button>
+    <button mat-flat-button color="primary" [disabled]="!isRunning" (click)="finish()">
+      Finish
+    </button>
   </div>
 </mat-card>

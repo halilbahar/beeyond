@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendApiService } from 'src/app/core/services/backend-api.service';
 import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
+import { Application } from 'src/app/shared/models/application.model';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 
@@ -17,6 +18,7 @@ export class ApplicationReviewComponent implements OnInit {
   monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
   isPending = false;
+  isRunning = false;
 
   constructor(
     private route: ActivatedRoute,
@@ -25,8 +27,11 @@ export class ApplicationReviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const application = this.route.snapshot.data.application;
+    const application: CustomApplication | TemplateApplication = this.route.snapshot.data
+      .application;
     this.isPending = application.status === ApplicationStatus.PENDING;
+    this.isRunning = application.status === ApplicationStatus.RUNNING;
+
     if ('templateId' in application) {
       this.templateApplication = application;
     } else {
@@ -42,6 +47,12 @@ export class ApplicationReviewComponent implements OnInit {
 
   approve(): void {
     this.backendApiService.approveApplicationById(this.application.id).subscribe(() => {
+      this.router.navigate(['/management']);
+    });
+  }
+
+  finish(): void {
+    this.backendApiService.stopApplicationById(this.application.id).subscribe(() => {
       this.router.navigate(['/management']);
     });
   }
