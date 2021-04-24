@@ -58,6 +58,26 @@ paths:
               schema:
                 $ref: "#/components/schemas/FailedField"
   /template/{id}:
+    get:
+      tags:
+        - template
+      summary: Gets a template with the specified id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDto'
+        "404":
+          description: Template with the specified id does not exist
     delete:
       tags:
         - template
