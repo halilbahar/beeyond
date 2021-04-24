@@ -211,6 +211,28 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/UserDto"
+  /namespace:
+    get:
+      tags:
+        - namespace
+      summary: Gets the current/all namespaces
+      parameters:
+        - name: all
+          in: query
+          schema:
+            format: int32
+            type: integer
+            minimum: 0
+            maximum: 1
+      responses:
+        "200":
+          description: List of namespaces returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NamespaceDto"
 tags:
   - name: authentication
     description: User authentication
@@ -220,6 +242,8 @@ tags:
     description: Managing custom applications and template applications
   - name: user
     description: Manages user accounts
+  - name: namespace
+    description: Namespace management
   - name: default
     description: Not yet (fully) documented endpoints
 components:
@@ -351,3 +375,9 @@ components:
               type: integer
             note:
               type: string
+    NamespaceDto:
+      type: object
+      properties:
+        namespace:
+          type: string
+          nullable: false
