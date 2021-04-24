@@ -108,6 +108,27 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/TemplateApplicationDto"
+  /application/{id}:
+    get:
+      tags:
+        - application
+      summary: Returns a specific application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemplateApplicationDto"
+        "404":
+          description: Application not found
   /application/custom:
     post:
       tags:
