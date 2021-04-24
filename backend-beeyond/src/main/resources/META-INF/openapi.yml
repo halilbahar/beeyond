@@ -180,6 +180,23 @@ paths:
           description: Application has been denied
         "404":
           description: Application with the specified id does not exist
+  /application/stop/{id}:
+    patch:
+      tags:
+        - application
+      summary: Stops the application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "201":
+          description: Application has been stopped
+        "404":
+          description: Application with the specified id does not exist
 tags:
   - name: authentication
     description: User authentication
