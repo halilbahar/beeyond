@@ -233,6 +233,26 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/NamespaceDto"
+  /namespace/{namespace}:
+    get:
+      tags:
+        - namespace
+      summary: Gets info about a specific namespace
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Namespace details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NamespaceDto"
+        "404":
+          description: Namespace not found
 tags:
   - name: authentication
     description: User authentication
