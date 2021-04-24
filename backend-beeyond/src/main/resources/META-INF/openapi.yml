@@ -254,6 +254,18 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/NamespaceDto"
+    put:
+      tags:
+        - namespace
+      summary: Assigns a namespace to users (create it beforehand, if necessary)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListDto'
+      responses:
+        "204":
+          description: Namespace created
   /namespace/{namespace}:
     get:
       tags:
@@ -344,6 +356,15 @@ components:
           type: integer
         name:
           type: string
+    UserListDto:
+      type: object
+      properties:
+        namespace:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserDto"
     TemplateApplicationDto:
       allOf:
         - $ref: "#/components/schemas/Application"
