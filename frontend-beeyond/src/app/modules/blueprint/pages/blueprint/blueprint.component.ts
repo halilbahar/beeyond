@@ -57,9 +57,8 @@ export class BlueprintComponent implements OnInit {
   }
 
   sendCustomTemplate(): void {
-    this.backendApiService
-      .createCustomApplication(this.customApplicationForm.value)
-      .subscribe(() => {
+    this.backendApiService.createCustomApplication(this.customApplicationForm.value).subscribe(
+      () => {
         this.router.navigate(['dashboard']).then(navigated => {
           if (navigated) {
             this.snackBar.open(
@@ -69,6 +68,12 @@ export class BlueprintComponent implements OnInit {
             );
           }
         });
-      });
+      },
+      error => {
+        this.snackBar.open(error.error.map(err => err.message).join('\n'), 'close', {
+          duration: undefined
+        });
+      }
+    );
   }
 }
