@@ -16,18 +16,28 @@ export class ValidationApiService {
       path = `/${path}`;
     }
 
-    return this.http.get<Schema[] | Schema>(`${this.configService.config.validationApiUrl}/constraints` + path);
+    return this.http.get<Schema[] | Schema>(
+      `${this.configService.config.validationApiUrl}/constraints` + path
+    );
   }
 
   createConstraint(path: string, constraint: Constraint): Observable<void> {
-    return this.http.post<void>(`${this.configService.config.validationApiUrl}/constraints/` + path, constraint);
+    return this.http.post<void>(
+      `${this.configService.config.validationApiUrl}/constraints/` + path,
+      constraint
+    );
   }
 
   deleteConstraint(path: string): Observable<void> {
-    return this.http.delete<void>(`${this.configService.config.validationApiUrl}/constraints/` + path);
+    return this.http.delete<void>(
+      `${this.configService.config.validationApiUrl}/constraints/` + path
+    );
   }
 
   toggleConstraint(path: string): Observable<void> {
-    return this.http.patch<void>(`${this.configService.config.validationApiUrl}/constraints/` + path, null);
+    return this.http.patch<void>(
+      `${this.configService.config.validationApiUrl}/constraints/` + path,
+      null
+    );
   }
 }

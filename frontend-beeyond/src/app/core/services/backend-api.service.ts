@@ -26,12 +26,18 @@ export class BackendApiService {
 
   // TODO: type body
   createTemplateApplication(body: Record<string, unknown>): Observable<null> {
-    return this.http.post<null>(`${this.configService.config.backendApiUrl}/application/template`, body);
+    return this.http.post<null>(
+      `${this.configService.config.backendApiUrl}/application/template`,
+      body
+    );
   }
 
   // TODO: type body
   createCustomApplication(body: Record<string, unknown>): Observable<any> {
-    return this.http.post<any>(`${this.configService.config.backendApiUrl}/application/custom`, body);
+    return this.http.post<any>(
+      `${this.configService.config.backendApiUrl}/application/custom`,
+      body
+    );
   }
 
   // TODO: type body
@@ -54,15 +60,24 @@ export class BackendApiService {
   }
 
   approveApplicationById(id: number): Observable<void> {
-    return this.http.patch<void>(`${this.configService.config.backendApiUrl}/application/approve/${id}`, null);
+    return this.http.patch<void>(
+      `${this.configService.config.backendApiUrl}/application/approve/${id}`,
+      null
+    );
   }
 
   denyApplicationById(id: number): Observable<void> {
-    return this.http.patch<void>(`${this.configService.config.backendApiUrl}/application/deny/${id}`, null);
+    return this.http.patch<void>(
+      `${this.configService.config.backendApiUrl}/application/deny/${id}`,
+      null
+    );
   }
 
   stopApplicationById(id: number): Observable<void> {
-    return this.http.patch<void>(`${this.configService.config.backendApiUrl}/application/stop/${id}`, null);
+    return this.http.patch<void>(
+      `${this.configService.config.backendApiUrl}/application/stop/${id}`,
+      null
+    );
   }
 
   getAllNamespaces(): Observable<Namespace[]> {

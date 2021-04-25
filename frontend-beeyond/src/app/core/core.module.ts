@@ -23,5 +23,4 @@ import { authModuleConfig } from './authentification/oauth-module.config';
     MatButtonModule
   ]
 })
-export class CoreModule {
-}
+export class CoreModule {}

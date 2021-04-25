@@ -25,8 +25,8 @@ import { AuthenticationService } from './core/authentification/authentication.se
   providers: [
     {
       provide: APP_INITIALIZER,
-      useFactory: (auth: AuthenticationService, config: ConfigService) =>
-          () => config.init().then(() => auth.initializeLogin().then()),
+      useFactory: (auth: AuthenticationService, config: ConfigService) => () =>
+        config.init().then(() => auth.initializeLogin().then()),
       deps: [AuthenticationService, ConfigService],
       multi: true
     }

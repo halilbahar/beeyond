@@ -8,18 +8,19 @@ import { authModuleConfig } from '../authentification/oauth-module.config';
   providedIn: 'root'
 })
 export class ConfigService {
-
   config: Config;
 
-  constructor(private httpClient: HttpClient) { }
+  constructor(private httpClient: HttpClient) {}
 
   init(): Promise<any> {
     return this.httpClient
       .get<Config>('/assets/config.json')
-      .pipe(tap(config => {
-        this.config = config;
-        authModuleConfig.resourceServer.allowedUrls.push(config.backendApiUrl);
-      }))
+      .pipe(
+        tap(config => {
+          this.config = config;
+          authModuleConfig.resourceServer.allowedUrls.push(config.backendApiUrl);
+        })
+      )
       .toPromise();
   }
 }
