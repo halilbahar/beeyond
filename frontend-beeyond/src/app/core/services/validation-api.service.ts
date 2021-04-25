@@ -9,35 +9,29 @@ import { ConfigService } from './config.service';
   providedIn: 'root'
 })
 export class ValidationApiService {
-  constructor(private http: HttpClient, private configService: ConfigService) {}
+  private readonly validationApiUrl: string;
+
+  constructor(private http: HttpClient, private configService: ConfigService) {
+    this.validationApiUrl = configService.config.validationApiUrl;
+  }
 
   getConstraintForPath(path: string): Observable<Schema[] | Schema> {
     if (path !== '') {
       path = `/${path}`;
     }
 
-    return this.http.get<Schema[] | Schema>(
-      `${this.configService.config.validationApiUrl}/constraints` + path
-    );
+    return this.http.get<Schema[] | Schema>(`${this.validationApiUrl}/constraints` + path);
   }
 
   createConstraint(path: string, constraint: Constraint): Observable<void> {
-    return this.http.post<void>(
-      `${this.configService.config.validationApiUrl}/constraints/` + path,
-      constraint
-    );
+    return this.http.post<void>(`${this.validationApiUrl}/constraints/` + path, constraint);
   }
 
   deleteConstraint(path: string): Observable<void> {
-    return this.http.delete<void>(
-      `${this.configService.config.validationApiUrl}/constraints/` + path
-    );
+    return this.http.delete<void>(`${this.validationApiUrl}/constraints/` + path);
   }
 
   toggleConstraint(path: string): Observable<void> {
-    return this.http.patch<void>(
-      `${this.configService.config.validationApiUrl}/constraints/` + path,
-      null
-    );
+    return this.http.patch<void>(`${this.validationApiUrl}/constraints/` + path, null);
   }
 }
