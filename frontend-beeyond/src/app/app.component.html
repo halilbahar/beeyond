@@ -8,6 +8,6 @@
   <router-outlet></router-outlet>
   <div class="bottom-spacer"></div>
 </app-side-navigation>
-<div id="loadingScreen" [@fadeOut]="oidcLoaded">
+<div id="loadingScreen" [@fadeOut]="authenticationService.oidcLoaded | async">
   <img src="../assets/images/beeyond-logo-with-text.png" alt="Beeyond" />
 </div>

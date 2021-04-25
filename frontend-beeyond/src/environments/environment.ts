@@ -3,10 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false,
-  backendApiUrl: 'http://localhost:8080',
-  validationApiUrl: 'http://localhost:8180/api',
-  identityProviderIssuer: 'http://localhost:8280/auth/realms/school'
+  production: false
 };
 
 /*

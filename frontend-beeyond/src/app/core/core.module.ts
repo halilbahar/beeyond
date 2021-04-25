@@ -7,8 +7,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { RouterModule } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
-import { environment } from '../../environments/environment';
 import { MatButtonModule } from '@angular/material/button';
+import { authModuleConfig } from './authentification/oauth-module.config';
 
 @NgModule({
   declarations: [SideNavigationComponent, HeaderComponent],
@@ -19,12 +19,7 @@ import { MatButtonModule } from '@angular/material/button';
     MatSidenavModule,
     MatListModule,
     MatIconModule,
-    OAuthModule.forRoot({
-      resourceServer: {
-        allowedUrls: [environment.backendApiUrl],
-        sendAccessToken: true
-      }
-    }),
+    OAuthModule.forRoot(authModuleConfig),
     MatButtonModule
   ]
 })
