@@ -1,0 +1,5 @@
+{
+  "backendApiUrl": "http://localhost:8080",
+  "validationApiUrl": "http://localhost:8180/api",
+  "keycloakUrl": "http://localhost:8280/auth/realms/school"
+}

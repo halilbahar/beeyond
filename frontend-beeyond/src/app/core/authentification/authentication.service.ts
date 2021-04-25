@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { OAuthService } from 'angular-oauth2-oidc';
-import { authConfig } from './authentication.config';
-import { BehaviorSubject, identity } from 'rxjs';
+import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
+import { BehaviorSubject} from 'rxjs';
+import { ConfigService } from '../services/config.service';
 
 @Injectable({
   providedIn: 'root'
@@ -9,15 +9,23 @@ import { BehaviorSubject, identity } from 'rxjs';
 export class AuthenticationService {
   username = new BehaviorSubject<string>('');
   roles = new BehaviorSubject<string[]>([]);
+  oidcLoaded = new BehaviorSubject<boolean>(false);
 
-  constructor(private oAuthService: OAuthService) {}
+  constructor(private oAuthService: OAuthService, private configService: ConfigService) {}
 
   logOut() {
     this.oAuthService.logOut();
   }
 
   async initializeLogin(): Promise<void> {
-    this.oAuthService.configure(authConfig);
+    this.oAuthService.configure({
+      issuer: this.configService.config.keycloakUrl,
+      redirectUri: window.location.origin,
+      clientId: 'beeyond-spa',
+      responseType: 'code',
+      scope: 'offline_access',
+      showDebugInformation: true
+    });
     await this.oAuthService.loadDiscoveryDocumentAndTryLogin({
       customHashFragment: window.location.search
     });
@@ -29,6 +37,7 @@ export class AuthenticationService {
       const profile = await this.oAuthService.loadUserProfile();
       this.username.next(profile.preferred_username);
       this.roles.next(this.parseJwt(this.oAuthService.getAccessToken()).realm_access.roles);
+      this.oidcLoaded.next(true);
     }
   }
 
