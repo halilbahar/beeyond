@@ -48,6 +48,10 @@ func (p PathNotFoundError) Error() string {
 	return "Path not found"
 }
 
+// Extension function to GroupKindVersion which just puts the
+// properties Group Kind and Version to lowercase
+// Parameters: groupKindVersion (GroupKindVersion), object which we want to lower
+// Returns: GroupKindVersion: the object containing the lowercase properties
 func (groupKindVersion GroupKindVersion) ToLower() GroupKindVersion {
 	var groupKindVersionLower GroupKindVersion
 	groupKindVersionLower.Group = strings.ToLower(groupKindVersion.Group)
@@ -211,6 +215,9 @@ func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion
 	return groupKindVersion, constraintPath
 }
 
+// Checks if segments represents a valid path for constraints
+// Parameter: segments ([]string): first element represents the Group Kind Version, remaining elements represetn the path
+// returns bool: true when the path is valid
 func IsValidConstraintPath(segments []string) bool {
 	var lastSegment *string
 	if len(segments) != 1 {
