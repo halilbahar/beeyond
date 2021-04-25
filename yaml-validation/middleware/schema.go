@@ -5,6 +5,8 @@ import (
 	"yaml-validation/models"
 )
 
+// Middleware which sets the schema field and
+// lastPropertyName corresponding to the group kind version and path
 func ProvideSchema() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		segments := c.GetStringSlice("pathSegments")
