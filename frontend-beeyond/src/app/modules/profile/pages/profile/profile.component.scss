@@ -1,4 +1,4 @@
-@use '../../../../../assets/scss/styles.scss';
+@use '../../../../../assets/scss/variables.scss';
 
 :host ::ng-deep .mat-tab-body-wrapper {
   flex: 1;
@@ -7,7 +7,7 @@
     margin-top: 1rem;
 
     .mat-tab-body-content {
-      @include styles.flex-column
+      @include variables.flex-column
     }
   }
 }
