@@ -1,0 +1,95 @@
+<div [formGroup]="filterForm" class="filter-controls">
+    <mat-form-field>
+      <mat-label>Search for a user...</mat-label>
+      <input
+        type="text"
+        placeholder="Username"
+        formControlName="username"
+        matInput
+        [matAutocomplete]="usernameAutocomplete"
+      />
+
+      <mat-autocomplete #usernameAutocomplete>
+        <mat-option *ngFor="let username of availableUsername" [value]="username">
+          {{ username }}
+        </mat-option>
+      </mat-autocomplete>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Select a status...</mat-label>
+      <mat-select formControlName="status">
+        <mat-option *ngFor="let status of statuses" [value]="status">
+          {{ status }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <mat-form-field>
+      <mat-label>Pick a date range...</mat-label>
+      <mat-date-range-input [rangePicker]="picker">
+        <input formControlName="fromDate" matStartDate placeholder="From" />
+        <input formControlName="toDate" matEndDate placeholder="To" />
+      </mat-date-range-input>
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-date-range-picker #picker></mat-date-range-picker>
+    </mat-form-field>
+  </div>
+
+  <mat-table [dataSource]="applicationDataSource" class="applications-table">
+    <!-- Id -->
+    <ng-container matColumnDef="id">
+      <mat-header-cell *matHeaderCellDef>Id</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let application">{{ application.id }}</mat-cell>
+    </ng-container>
+
+    <!-- Name -->
+    <ng-container matColumnDef="owner">
+      <mat-header-cell *matHeaderCellDef>User</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let application">
+        {{ application.owner.name }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Status -->
+    <ng-container matColumnDef="status">
+      <mat-header-cell *matHeaderCellDef>Status</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let application">{{ application.status }}</mat-cell>
+    </ng-container>
+
+    <!-- Started -->
+    <ng-container matColumnDef="startedAt">
+      <mat-header-cell *matHeaderCellDef>Started</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let application">
+        {{ application.startedAt | date: 'short' }}
+      </mat-cell>
+    </ng-container>
+
+    <!-- Finished -->
+    <ng-container matColumnDef="finishedAt">
+      <mat-header-cell *matHeaderCellDef>Finished</mat-header-cell>
+      <mat-cell mat-cell *matCellDef="let application">
+        {{ application.finishedAt | date: 'short' }}
+      </mat-cell>
+    </ng-container>
+
+    <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
+    <mat-row
+      class="item-hover"
+      *matRowDef="let row; columns: columnsToDisplay; let i = index"
+      (click)="selectedRow = i"
+      [ngClass]="{ 'selected-row': selectedRow === i }"
+    ></mat-row>
+  </mat-table>
+
+  <div class="button-container">
+    <button
+      mat-flat-button
+      color="primary"
+      class="next-button"
+      [disabled]="selectedRow == null"
+      [routerLink]="['review', applicationDataSource.data[selectedRow]?.id]"
+    >
+      Next
+    </button>
+  </div>

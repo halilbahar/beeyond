@@ -1,0 +1,30 @@
+@use '../../../../../assets/scss/styles.scss';
+
+:host {
+    @include styles.flex-column;
+    flex: 1;
+}
+
+$filter-control-width: 95%;
+.filter-controls {
+  display: flex;
+  justify-content: space-between;
+
+  & > * {
+    flex: 0 0 $filter-control-width / 3;
+    width: 0;
+  }
+}
+
+.applications-table {
+  flex: 1;
+  overflow-y: auto;
+}
+
+.selected-row {
+  background-color: #f1f1f1;
+}
+
+.next-button {
+  width: 5rem;
+}

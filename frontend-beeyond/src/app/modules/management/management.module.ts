@@ -18,13 +18,15 @@ import { ApplicationPreviewDialogComponent } from './components/application-prev
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { ApplicationContentComponent } from './components/application-content/application-content.component';
 
 @NgModule({
   declarations: [
     ApplicationComponent,
     ApplicationReviewComponent,
     VariableListComponent,
-    ApplicationPreviewDialogComponent
+    ApplicationPreviewDialogComponent,
+    ApplicationContentComponent
   ],
   imports: [
     CommonModule,
@@ -43,6 +45,7 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule
-  ]
+  ],
+  exports: [ApplicationComponent, ApplicationReviewComponent]
 })
 export class ManagementModule {}
