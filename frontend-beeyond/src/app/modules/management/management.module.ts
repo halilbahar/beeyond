@@ -46,6 +46,6 @@ import { ApplicationContentComponent } from './components/application-content/ap
     MatDatepickerModule,
     MatNativeDateModule
   ],
-  exports: [ApplicationComponent, ApplicationReviewComponent]
+  exports: [ApplicationContentComponent, ApplicationReviewComponent]
 })
 export class ManagementModule {}

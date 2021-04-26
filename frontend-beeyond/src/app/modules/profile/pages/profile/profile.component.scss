@@ -1,3 +1,5 @@
+@use '../../../../../assets/scss/styles.scss';
+
 :host ::ng-deep .mat-tab-body-wrapper {
   flex: 1;
 
@@ -5,8 +7,11 @@
     margin-top: 1rem;
 
     .mat-tab-body-content {
-      display: flex;
-      flex-direction: column;
+      @include styles.flex-column
     }
   }
+}
+
+mat-tab-group {
+  height: 100%;
 }

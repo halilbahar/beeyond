@@ -9,6 +9,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
+import { ManagementModule } from '../management/management.module';
 
 @NgModule({
   declarations: [ProfileComponent, NamespaceListComponent],
@@ -20,7 +21,8 @@ import { MatButtonModule } from '@angular/material/button';
     MatExpansionModule,
     MatTreeModule,
     MatIconModule,
-    MatButtonModule
+    MatButtonModule,
+    ManagementModule
   ]
 })
 export class ProfileModule {}
