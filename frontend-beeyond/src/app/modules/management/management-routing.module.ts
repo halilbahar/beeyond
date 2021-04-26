@@ -10,7 +10,8 @@ const routes: Routes = [
   {
     path: 'review/:id',
     component: ApplicationReviewComponent,
-    resolve: { application: ApplicationReviewResolver }
+    resolve: { application: ApplicationReviewResolver },
+    data: { isManagement: true, redirectPath: ['/management'] }
   }
 ];
 

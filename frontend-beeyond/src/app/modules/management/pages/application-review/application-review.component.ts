@@ -19,6 +19,8 @@ export class ApplicationReviewComponent implements OnInit {
 
   isPending = false;
   isRunning = false;
+  isManagement: boolean;
+  redirectPath: string[];
 
   constructor(
     private route: ActivatedRoute,
@@ -27,6 +29,8 @@ export class ApplicationReviewComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.isManagement = this.route.snapshot.data.isManagement;
+    this.redirectPath = this.route.snapshot.data.redirectPath;
     const application: CustomApplication | TemplateApplication = this.route.snapshot.data
       .application;
     this.isPending = application.status === ApplicationStatus.PENDING;
@@ -41,19 +45,19 @@ export class ApplicationReviewComponent implements OnInit {
 
   deny(): void {
     this.backendApiService.denyApplicationById(this.application.id).subscribe(() => {
-      this.router.navigate(['/management']);
+      this.router.navigate(this.redirectPath);
     });
   }
 
   approve(): void {
     this.backendApiService.approveApplicationById(this.application.id).subscribe(() => {
-      this.router.navigate(['/management']);
+      this.router.navigate(this.redirectPath);
     });
   }
 
   finish(): void {
     this.backendApiService.stopApplicationById(this.application.id).subscribe(() => {
-      this.router.navigate(['/management']);
+      this.router.navigate(this.redirectPath);
     });
   }
 
