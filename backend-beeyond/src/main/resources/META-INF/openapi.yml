@@ -58,6 +58,26 @@ paths:
               schema:
                 $ref: "#/components/schemas/FailedField"
   /template/{id}:
+    get:
+      tags:
+        - template
+      summary: Gets a template with the specified id
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TemplateDto'
+        "404":
+          description: Template with the specified id does not exist
     delete:
       tags:
         - template
@@ -88,6 +108,27 @@ paths:
                 type: array
                 items:
                   $ref: "#/components/schemas/TemplateApplicationDto"
+  /application/{id}:
+    get:
+      tags:
+        - application
+      summary: Returns a specific application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/TemplateApplicationDto"
+        "404":
+          description: Application not found
   /application/custom:
     post:
       tags:
@@ -160,6 +201,91 @@ paths:
           description: Application has been denied
         "404":
           description: Application with the specified id does not exist
+  /application/stop/{id}:
+    patch:
+      tags:
+        - application
+      summary: Stops the application
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            format: int64
+            type: integer
+      responses:
+        "201":
+          description: Application has been stopped
+        "404":
+          description: Application with the specified id does not exist
+  /user:
+    get:
+      tags:
+        - user
+      summary: Gets details about the current user
+      responses:
+        "200":
+          description: User logged in and details returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/UserDto"
+  /namespace:
+    get:
+      tags:
+        - namespace
+      summary: Gets the current/all namespaces
+      parameters:
+        - name: all
+          in: query
+          schema:
+            format: int32
+            type: integer
+            minimum: 0
+            maximum: 1
+      responses:
+        "200":
+          description: List of namespaces returned
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/NamespaceDto"
+    put:
+      tags:
+        - namespace
+      summary: Assigns a namespace to users (create it beforehand, if necessary)
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserListDto'
+      responses:
+        "204":
+          description: Namespace created
+  /namespace/{namespace}:
+    get:
+      tags:
+        - namespace
+      summary: Gets info about a specific namespace
+      parameters:
+        - name: namespace
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Namespace details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/NamespaceDto"
+        "404":
+          description: Namespace not found
 tags:
   - name: authentication
     description: User authentication
@@ -167,6 +293,12 @@ tags:
     description: Everything about templates
   - name: application
     description: Managing custom applications and template applications
+  - name: user
+    description: Manages user accounts
+  - name: namespace
+    description: Namespace management
+  - name: default
+    description: Not yet (fully) documented endpoints
 components:
   schemas:
     LoginData:
@@ -224,6 +356,15 @@ components:
           type: integer
         name:
           type: string
+    UserListDto:
+      type: object
+      properties:
+        namespace:
+          type: string
+        users:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserDto"
     TemplateApplicationDto:
       allOf:
         - $ref: "#/components/schemas/Application"
@@ -296,3 +437,9 @@ components:
               type: integer
             note:
               type: string
+    NamespaceDto:
+      type: object
+      properties:
+        namespace:
+          type: string
+          nullable: false

@@ -47,16 +47,23 @@ export class BlueprintTemplateComponent implements OnInit {
   }
 
   submitApplication(): void {
-    this.backendApiService.createTemplateApplication(this.templateForm.value).subscribe(() => {
-      this.router.navigate(['dashboard']).then(navigated => {
-        if (navigated) {
-          this.snackBar.open(
-            'Your application was sent will be reviewed as soon as possible',
-            'close',
-            { duration: 2000 }
-          );
-        }
-      });
-    });
+    this.backendApiService.createTemplateApplication(this.templateForm.value).subscribe(
+      () => {
+        this.router.navigate(['dashboard']).then(navigated => {
+          if (navigated) {
+            this.snackBar.open(
+              'Your application was sent will be reviewed as soon as possible',
+              'close',
+              { duration: 2000 }
+            );
+          }
+        });
+      },
+      error => {
+        this.snackBar.open(error.error.map(err => err.message).join('\n'), 'close', {
+          duration: undefined
+        });
+      }
+    );
   }
 }
