@@ -8,6 +8,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+//
+//Parameter: c *gin.Context
 func listRootConstraints(c *gin.Context) {
 	collection, err := models.GetSchemaCollection()
 	if err != nil {
@@ -48,6 +50,10 @@ func listRootConstraints(c *gin.Context) {
 	c.JSON(http.StatusOK, kubernetesRootDefinitions)
 }
 
+// Validates the content (syntax wise) checks the constraints
+// Parameter: content (string) represents the content of the yaml file,
+// which will be validated.
+// returns all constraint-errors in []ValidationError and the kubeval error
 func getConstraintsByPath(c *gin.Context) {
 	segments := c.GetStringSlice("pathSegments")
 	schema, err := models.GetSchemaBySegments(segments)

@@ -150,8 +150,52 @@ func TestValidateEndpoint_WithMinMaxAndIntegerValue_ShouldWork(t *testing.T) {
 
 func TestValidateEndpoint_WithMinMaxAndStringValue_ShouldReturnError(t *testing.T) {
 	// Given
+	models.DeleteAll()
+	min, max := float32(1), float32(4)
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	var constraint = models.Constraint{
+		Min:              &min,
+		Max:              &max,
+		Path:             "metadata.clusterName",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
 	// When
+
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("test/resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("metadata.clusterName", gkv)
+
+	// Given
+	max = float32(2)
+	constraint = models.Constraint{
+		Min:              &min,
+		Max:              &max,
+		Path:             "metadata.clusterName",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("metadata.clusterName", gkv)
 }
 
 func TestValidateEndpoint_WithMinMaxAndBooleanValue_ShouldReturnError(t *testing.T) {
