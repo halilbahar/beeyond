@@ -60,8 +60,13 @@ func ValidateContent(content string) ([]ValidationError, error) {
 	groupKindVersion.Kind = getValueFromPath(yamlMap, "kind").(string)
 	groupversion := getValueFromPath(yamlMap, "apiVersion").(string)
 
-	groupKindVersion.Group = strings.Split(groupversion, "/")[0]
-	groupKindVersion.Version = strings.Split(groupversion, "/")[1]
+	groupVersionSplit := strings.Split(groupversion, "/")
+	if len(groupVersionSplit) == 1 {
+		groupKindVersion.Version = groupVersionSplit[0]
+	} else {
+		groupKindVersion.Group = groupVersionSplit[0]
+		groupKindVersion.Version = groupVersionSplit[1]
+	}
 
 	constraints := GetConstraintsByGKV(&groupKindVersion)
 
@@ -71,16 +76,29 @@ func ValidateContent(content string) ([]ValidationError, error) {
 
 		var actual string
 		var ok bool
+		isArray := false
+
 		if actual, ok = value.(string); !ok {
-			actual = strconv.Itoa(value.(int))
+			if number, ok := value.(int); ok {
+				actual = strconv.Itoa(number)
+			} else if arr, ok := value.([]interface{}); ok {
+				actual = strings.Join(strings.Fields(fmt.Sprint(arr)), ", ")
+				isArray = true
+			}
 		}
 
 		if currentConstraint.Max != nil {
-			actualFloat := float64(getValueFromPath(yamlMap, currentConstraint.Path).(int))
-			fmt.Print(err)
-			if actualFloat > float64(*currentConstraint.Max) || actualFloat < float64(*currentConstraint.Min) {
+			if isArray {
+				for _, currentValue := range value.([]interface{}) {
+					if !isBetweenMinMax(currentConstraint, currentValue.(int)) {
+						errorDescription = "Given value out of range"
+						break
+					}
+				}
+			} else if !isBetweenMinMax(currentConstraint, value.(int)) {
 				errorDescription = "Given value out of range"
 			}
+
 		} else if currentConstraint.Enum != nil {
 			found := false
 			for _, s := range currentConstraint.Enum {
@@ -112,6 +130,17 @@ func ValidateContent(content string) ([]ValidationError, error) {
 
 	return validationError, nil
 }
+
+// Checks whether the given value is between the min and max values given within the currentConstraint
+// Parameters:
+// 		- currentConstraint (*Constraint): Contains the min and max values
+// 		- value (int): integer which should be between min and max
+// Returns: bool: true if value is between min and max, otherwise false
+func isBetweenMinMax(currentConstraint *Constraint, value int) bool {
+	actualFloat := float64(value)
+	return actualFloat <= float64(*currentConstraint.Max) && actualFloat >= float64(*currentConstraint.Min)
+}
+
 
 // Gets the value of the property by the given path from the given k8s specification (map)
 // Parameters:

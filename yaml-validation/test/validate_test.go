@@ -16,7 +16,7 @@ func TestValidateEndpoint_ShouldWork(t *testing.T) {
 
 	// When
 	resp := httptest.NewRecorder()
-	c, _ := ioutil.ReadFile("test/resources/valid.yaml")
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
@@ -30,7 +30,7 @@ func TestValidateEndpoint_ShouldReturnError(t *testing.T) {
 
 	// When
 	resp := httptest.NewRecorder()
-	c, _ := ioutil.ReadFile("test/resources/invalid.yaml")
+	c, _ := ioutil.ReadFile("./resources/invalid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
@@ -57,7 +57,7 @@ func TestValidateEndpoint_WithValidConstraint_ShouldWork(t *testing.T) {
 
 	// When
 	resp := httptest.NewRecorder()
-	c, _ := ioutil.ReadFile("test/resources/valid.yaml")
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
@@ -85,7 +85,7 @@ func TestValidateEndpoint_WithInvalidConstraint_ShouldReturnError(t *testing.T) 
 
 	// When
 	resp := httptest.NewRecorder()
-	c, _ := ioutil.ReadFile("test/resources/valid.yaml")
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
@@ -119,7 +119,7 @@ func TestValidateEndpoint_WithMinMaxAndIntegerValue_ShouldWork(t *testing.T) {
 	// When
 
 	resp := httptest.NewRecorder()
-	c, _ := ioutil.ReadFile("test/resources/valid.yaml")
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
@@ -148,56 +148,58 @@ func TestValidateEndpoint_WithMinMaxAndIntegerValue_ShouldWork(t *testing.T) {
 	models.DeleteConstraint("spec.replicas", gkv)
 }
 
-func TestValidateEndpoint_WithMinMaxAndStringValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
-func TestValidateEndpoint_WithMinMaxAndBooleanValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
-func TestValidateEndpoint_WithMinMaxAndObjectValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
 ////////////////////////////
 // Min & Max array values //
 ////////////////////////////
 
-func TestValidateEndpoint_WithMinMaxAndIntegerArrayValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithMinMaxAndIntegerArrayValue_ShouldWork(t *testing.T) {
 	// Given
-	// When
-	// Then
-}
+	models.DeleteAll()
+	min, max := float32(1), float32(4)
+	gkv := models.GroupKindVersion{
+		Group:   "",
+		Kind:    "Pod",
+		Version: "v1",
+	}
+	var constraint = models.Constraint{
+		Min:              &min,
+		Max:              &max,
+		Path:             "spec.securityContext.supplementalGroups",
+		GroupKindVersion: gkv,
+	}
 
-func TestValidateEndpoint_WithMinMaxAndFloatArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
+	_ = models.SaveConstraint(constraint)
 
-func TestValidateEndpoint_WithMinMaxAndStringArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
 	// When
-	// Then
-}
 
-func TestValidateEndpoint_WithMinMaxAndBooleanArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/validIntegerArray.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
 
-func TestValidateEndpoint_WithMinMaxAndObjectArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
+
+	// Given
+	max = float32(2)
+	constraint = models.Constraint{
+		Min:              &min,
+		Max:              &max,
+		Path:             "spec.securityContext.supplementalGroups",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 }
 
 ////////////////////////
@@ -222,7 +224,7 @@ func TestValidateEndpoint_WithEnumAndStringValue_ShouldWork(t *testing.T) {
 	// Then
 }
 
-func TestValidateEndpoint_WithEnumAndBooleanValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithEnumAndBooleanValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
@@ -238,31 +240,20 @@ func TestValidateEndpoint_WithEnumAndObjectValue_ShouldReturnError(t *testing.T)
 // Enum array values //
 ///////////////////////
 
-func TestValidateEndpoint_WithEnumAndIntegerArrayValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithEnumAndIntegerArrayValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
 }
 
-func TestValidateEndpoint_WithEnumAndFloatArrayValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithEnumAndStringArrayValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
 }
 
-func TestValidateEndpoint_WithEnumAndStringArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
+// TODO: boolean array lookup
 func TestValidateEndpoint_WithEnumAndBooleanArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
-func TestValidateEndpoint_WithEnumAndObjectArrayValue_ShouldReturnError(t *testing.T) {
 	// Given
 	// When
 	// Then
@@ -272,13 +263,7 @@ func TestValidateEndpoint_WithEnumAndObjectArrayValue_ShouldReturnError(t *testi
 // Regex single values //
 /////////////////////////
 
-func TestValidateEndpoint_WithRegexAndIntegerValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
-func TestValidateEndpoint_WithRegexAndFloatValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithRegexAndIntegerValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
@@ -289,14 +274,8 @@ func TestValidateEndpoint_WithRegexAndStringValue_ShouldWork(t *testing.T) {
 	// When
 	// Then
 }
-
-func TestValidateEndpoint_WithRegexAndBooleanValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
-func TestValidateEndpoint_WithRegexAndObjectValue_ShouldReturnError(t *testing.T) {
+// TODO: probleme mit casten -> auslassen
+func TestValidateEndpoint_WithRegexAndBooleanValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
@@ -306,31 +285,25 @@ func TestValidateEndpoint_WithRegexAndObjectValue_ShouldReturnError(t *testing.T
 // Regex array values //
 ////////////////////////
 
-func TestValidateEndpoint_WithRegexAndIntegerArrayValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithRegexAndIntegerArrayValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
 }
 
-func TestValidateEndpoint_WithRegexAndFloatArrayValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithRegexAndStringArrayValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
 }
 
-func TestValidateEndpoint_WithRegexAndStringArrayValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithRegexAndBooleanArrayValue_ShouldWork(t *testing.T) {
 	// Given
 	// When
 	// Then
 }
 
-func TestValidateEndpoint_WithRegexAndBooleanArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
-
-func TestValidateEndpoint_WithRegexAndObjectArrayValue_ShouldReturnError(t *testing.T) {
+func TestValidateEndpoint_WithEmptyYaml_ShouldReturnError(t *testing.T){
 	// Given
 	// When
 	// Then
