@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
@@ -11,9 +11,11 @@ import { Application } from 'src/app/shared/models/application.model';
   styleUrls: ['./application-content.component.scss']
 })
 export class ApplicationContentComponent implements OnInit {
+  @Input() isAdmin = true;
+
   applications: Application[];
   applicationDataSource: MatTableDataSource<Application>;
-  columnsToDisplay = ['id', 'owner', 'status', 'startedAt', 'finishedAt'];
+  columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt'];
 
   filterForm: FormGroup;
   availableUsername: string[];
@@ -30,6 +32,10 @@ export class ApplicationContentComponent implements OnInit {
   constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
 
   ngOnInit(): void {
+    if (this.isAdmin) {
+      this.columnsToDisplay.splice(1, 0, 'owner');
+    }
+
     this.applications = this.route.snapshot.data.applications.sort(
       (a1, a2) => a1.createdAt > a2.createdAt
     );
