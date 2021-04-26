@@ -10,6 +10,7 @@ import at.htl.beeyond.validation.TemplateFieldsComplete
 import at.htl.beeyond.validation.ValidKubernetes
 import java.time.LocalDateTime
 import java.util.*
+import javax.json.bind.annotation.JsonbTransient
 import javax.validation.GroupSequence
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
@@ -49,6 +50,7 @@ class TemplateApplicationDto(
             templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList()
     )
 
+    @JsonbTransient
     fun getContent(): String {
         val template = Template.findById<Template>(this.templateId)
         val fieldValues = this.fieldValues
