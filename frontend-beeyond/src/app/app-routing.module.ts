@@ -4,10 +4,6 @@ import { PageNotFoundComponent } from './shared/components/page-not-found/page-n
 
 const routes: Routes = [
   {
-    path: 'dashboard',
-    loadChildren: () => import('./modules/dashboard/dashboard.module').then(m => m.DashboardModule)
-  },
-  {
     path: 'blueprint',
     loadChildren: () => import('./modules/blueprint/blueprint.module').then(m => m.BlueprintModule)
   },
@@ -38,7 +34,7 @@ const routes: Routes = [
     loadChildren: () =>
       import('./modules/constraint/constraint.module').then(m => m.ConstraintModule)
   },
-  { path: '', redirectTo: '/dashboard', pathMatch: 'full' },
+  { path: '', redirectTo: '/blueprint', pathMatch: 'full' },
   {
     path: '**',
     component: PageNotFoundComponent

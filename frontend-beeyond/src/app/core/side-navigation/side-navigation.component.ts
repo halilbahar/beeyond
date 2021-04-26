@@ -17,7 +17,6 @@ import { config } from '../config/user-role.config';
 })
 export class SideNavigationComponent implements OnInit {
   agenda = [
-    { name: 'Dashboard', icon: 'speed', router: '/dashboard' },
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
     {

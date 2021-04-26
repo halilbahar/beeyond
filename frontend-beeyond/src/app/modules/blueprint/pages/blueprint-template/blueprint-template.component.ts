@@ -49,7 +49,7 @@ export class BlueprintTemplateComponent implements OnInit {
   submitApplication(): void {
     this.backendApiService.createTemplateApplication(this.templateForm.value).subscribe(
       () => {
-        this.router.navigate(['dashboard']).then(navigated => {
+        this.router.navigate(['/profile']).then(navigated => {
           if (navigated) {
             this.snackBar.open(
               'Your application was sent will be reviewed as soon as possible',
