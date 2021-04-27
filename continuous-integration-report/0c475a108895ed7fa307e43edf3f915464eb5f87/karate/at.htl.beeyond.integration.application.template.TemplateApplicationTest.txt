@@ -1,0 +1,19 @@
+-------------------------------------------------------------------------------
+Test set: at.htl.beeyond.integration.application.template.TemplateApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 1.369 s <<< FAILURE! - in at.htl.beeyond.integration.application.template.TemplateApplicationTest
+testCreateTemplateApplicationAsStudent[1][1]  Time elapsed: 0.173 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: template-application-creation.feature:32 - status code was: 422, expected: 204, response time: 20, url: http://localhost:8081/application/template, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
+testCreateTemplateApplicationAsStudent[1][2]  Time elapsed: 0.104 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: template-application-creation.feature:54 - status code was: 422, expected: 204, response time: 18, url: http://localhost:8081/application/template, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
+testCreateTemplateApplicationAsStudent[1][6]  Time elapsed: 0.098 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: template-application-creation.feature:176 - path: $[*], actual: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}], expected: {message=Missing field ids: [12], obsolete field ids: [], value=, key=}, reason: actual value does not contain expected
+
+testCreateTemplateApplicationAsStudent[1][7]  Time elapsed: 0.121 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: template-application-creation.feature:217 - path: $[*], actual: [{"message":"TemplateField with id 10001 does not exist","value":"10001","key":"fieldId"},{"message":"TemplateField with id 9999 does not exist","value":"9999","key":"fieldId"},{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"},{"message":"TemplateField with id 10000 does not exist","value":"10000","key":"fieldId"}], expected: {message=Missing field ids: [14], obsolete field ids: [9999, 10000, 10001], value=, key=}, reason: actual value does not contain expected
+
+testCreateTemplateApplicationAsStudent[1][11]  Time elapsed: 0.101 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: template-application-creation.feature:294 - net.minidev.json.parser.ParseException: Unexpected token " at position 47.
+
