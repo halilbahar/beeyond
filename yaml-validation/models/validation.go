@@ -10,6 +10,12 @@ import (
 	"strings"
 )
 
+type NoContentError struct{}
+
+func (e *NoContentError) Error() string {
+	return "No Content"
+}
+
 type ValidationError struct {
 	Description string `json:"description"`
 	Value       string `json:"value"`
@@ -21,6 +27,9 @@ type ValidationError struct {
 // which will be validated.
 // returns all constraint-errors in []ValidationError and the kubeval error
 func ValidateContent(content string) ([]ValidationError, error) {
+	if len(content) == 0 {
+		return nil, &NoContentError{}
+	}
 	config := kubeval.NewDefaultConfig()
 
 	contentBytes := []byte(content)

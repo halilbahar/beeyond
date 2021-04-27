@@ -683,6 +683,13 @@ func TestValidateEndpoint_WithRegexAndStringArrayValue_ShouldWork(t *testing.T) 
 
 func TestValidateEndpoint_WithEmptyYaml_ShouldReturnError(t *testing.T) {
 	// Given
+	models.DeleteAll()
+
 	// When
+	resp := httptest.NewRecorder()
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(""))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 422, resp.Code)
 }
