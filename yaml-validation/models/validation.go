@@ -117,13 +117,20 @@ func ValidateContent(content string) ([]ValidationError, error) {
 				errorDescription = "Constraint enum does not contain given value"
 			}
 		} else {
-			// TODO: "^"+*currentConstraint.Regex+"$"
-			matched, _ := regexp.MatchString("^"+*currentConstraint.Regex+"$", actual)
+			if isArray {
+				isValid := true
+				for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
+					if !matchesRegex(*currentConstraint.Regex, currentValue) {
+						isValid = false
+					}
+				}
 
-			if !matched {
+				if !isValid {
+					errorDescription = "One or more of the given value does not match the regex"
+				}
+			} else if !matchesRegex(*currentConstraint.Regex, actual) {
 				errorDescription = "Given value does not match regex"
 			}
-
 		}
 
 		if errorDescription != "" {
@@ -150,6 +157,17 @@ func contains(enum []string, searchText string) bool {
 		}
 	}
 	return false
+}
+
+// Checks whether the given text matches the given regex
+// Parameters:
+// 		- regex (string): represents the regex
+// 		- text (string): the text that should match the regex
+// Returns bool: true if the text matches the regex
+func matchesRegex(regex string, text string) bool {
+	// TODO: "^"+*currentConstraint.Regex+"$"
+	matched, _ := regexp.MatchString("^"+regex+"$", text)
+	return matched
 }
 
 // Checks whether the given value is between the min and max values given within the currentConstraint
