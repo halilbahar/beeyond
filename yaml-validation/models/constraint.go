@@ -19,7 +19,7 @@ type Constraint struct {
 	GroupKindVersion GroupKindVersion `json:"-"`
 }
 
-// TODO: onject
+// TODO: object
 func (constraint Constraint) IsValid(valueType string) bool {
 	if constraint.Enum == nil && constraint.Min == nil && constraint.Max == nil && constraint.Regex == nil {
 		return false

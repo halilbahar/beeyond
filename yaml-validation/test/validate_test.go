@@ -351,22 +351,95 @@ func TestValidateEndpoint_WithEnumAndBooleanValue_ShouldWork(t *testing.T) {
 ///////////////////////
 
 func TestValidateEndpoint_WithEnumAndIntegerArrayValue_ShouldWork(t *testing.T) {
-	// Given
+	gkv := models.GroupKindVersion{
+		Group:   "",
+		Kind:    "Pod",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	enum := []string{"1", "2", "5", "4", "3"}
+	var constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "spec.securityContext.supplementalGroups",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
 	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/validIntegerArray.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
+
+	// Given
+	enum = []string{"1", "2", "5", "3"}
+	constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "spec.securityContext.supplementalGroups",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 }
 
 func TestValidateEndpoint_WithEnumAndStringArrayValue_ShouldWork(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
+	gkv := models.GroupKindVersion{
+		Group:   "authorization.k8s.io",
+		Kind:    "SelfSubjectAccessReview",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	enum := []string{"beeyond", "resource", "names", "test", "example"}
+	var constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "status.resourceRules.resourceNames",
+		GroupKindVersion: gkv,
+	}
 
-// TODO: boolean array lookup
-func TestValidateEndpoint_WithEnumAndBooleanArrayValue_ShouldReturnError(t *testing.T) {
-	// Given
+	_ = models.SaveConstraint(constraint)
+
 	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/validStringArray.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("status.resourceRules.resourceNames", gkv)
+
+	// Given
+	enum = []string{"beeyond", "names", "test", "example"}
+	constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "status.resourceRules.resourceNames",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("status.resourceRules.resourceNames", gkv)
 }
 
 /////////////////////////

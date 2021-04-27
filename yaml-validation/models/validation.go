@@ -104,8 +104,7 @@ func ValidateContent(content string) ([]ValidationError, error) {
 		} else if currentConstraint.Enum != nil {
 			if isArray {
 				isValid := true
-				actualValues := strings.Split(actual, ", ")
-				for _, currentValue := range actualValues[1 : len(actualValues)-2] {
+				for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
 					if !contains(currentConstraint.Enum, currentValue) {
 						isValid = false
 					}
