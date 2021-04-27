@@ -19,7 +19,7 @@ export class AuthGuard implements CanActivate {
     next: ActivatedRouteSnapshot,
     state: RouterStateSnapshot
   ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
-    if(this.authenticationService.roles.getValue().includes(next.data.requiredRole)){
+    if (this.authenticationService.roles.getValue().includes(next.data.requiredRole)) {
       return true;
     }
 
