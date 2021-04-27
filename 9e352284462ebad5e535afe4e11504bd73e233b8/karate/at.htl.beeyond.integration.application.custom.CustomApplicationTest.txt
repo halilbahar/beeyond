@@ -1,0 +1,22 @@
+-------------------------------------------------------------------------------
+Test set: at.htl.beeyond.integration.application.custom.CustomApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 0.587 s <<< FAILURE! - in at.htl.beeyond.integration.application.custom.CustomApplicationTest
+testCreateCustomApplication[1][1]  Time elapsed: 0.103 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: custom-application-creation.feature:20 - status code was: 422, expected: 204, response time: 27, url: http://localhost:8081/application/custom, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
+testCreateCustomApplication[1][2]  Time elapsed: 0.058 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: custom-application-creation.feature:32 - status code was: 422, expected: 204, response time: 9, url: http://localhost:8081/application/custom, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
+testCreateCustomApplication[1][7]  Time elapsed: 0.047 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: custom-application-creation.feature:89 - status code was: 422, expected: 204, response time: 13, url: http://localhost:8081/application/custom, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
+testCreateCustomApplication[1][8]  Time elapsed: 0.039 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: custom-application-creation.feature:103 - status code was: 422, expected: 204, response time: 7, url: http://localhost:8081/application/custom, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
+testCreateCustomApplication[1][9]  Time elapsed: 0.045 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: custom-application-creation.feature:120 - status code was: 422, expected: 204, response time: 12, url: http://localhost:8081/application/custom, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
+testCreateCustomApplication[1][10]  Time elapsed: 0.057 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: custom-application-creation.feature:134 - status code was: 422, expected: 204, response time: 7, url: http://localhost:8081/application/custom, response: [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+
