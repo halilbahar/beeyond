@@ -84,6 +84,8 @@ func ValidateContent(content string) ([]ValidationError, error) {
 			} else if arr, ok := value.([]interface{}); ok {
 				actual = strings.Join(strings.Fields(fmt.Sprint(arr)), ", ")
 				isArray = true
+			} else if boolValue, ok := value.(bool); ok {
+				actual = strconv.FormatBool(boolValue)
 			}
 		}
 
@@ -100,13 +102,19 @@ func ValidateContent(content string) ([]ValidationError, error) {
 			}
 
 		} else if currentConstraint.Enum != nil {
-			found := false
-			for _, s := range currentConstraint.Enum {
-				if s == actual {
-					found = true
+			if isArray {
+				isValid := true
+				actualValues := strings.Split(actual, ", ")
+				for _, currentValue := range actualValues[1 : len(actualValues)-2] {
+					if !contains(currentConstraint.Enum, currentValue) {
+						isValid = false
+					}
 				}
-			}
-			if !found {
+
+				if !isValid {
+					errorDescription = "Constraint enum does not contain given one or more of the given values"
+				}
+			} else if !contains(currentConstraint.Enum, actual) {
 				errorDescription = "Constraint enum does not contain given value"
 			}
 		} else {
@@ -131,6 +139,20 @@ func ValidateContent(content string) ([]ValidationError, error) {
 	return validationError, nil
 }
 
+// Checks whether the given string array contains the given searchText
+// Parameters:
+// 		- enum ([]string): array which we search through
+// 		- searchText (string): the string we look for in the array
+// Returns boolean: true if the array contains the searchText
+func contains(enum []string, searchText string) bool {
+	for _, currentValue := range enum {
+		if currentValue == searchText {
+			return true
+		}
+	}
+	return false
+}
+
 // Checks whether the given value is between the min and max values given within the currentConstraint
 // Parameters:
 // 		- currentConstraint (*Constraint): Contains the min and max values
@@ -140,7 +162,6 @@ func isBetweenMinMax(currentConstraint *Constraint, value int) bool {
 	actualFloat := float64(value)
 	return actualFloat <= float64(*currentConstraint.Max) && actualFloat >= float64(*currentConstraint.Min)
 }
-
 
 // Gets the value of the property by the given path from the given k8s specification (map)
 // Parameters:

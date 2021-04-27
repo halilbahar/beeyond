@@ -208,32 +208,142 @@ func TestValidateEndpoint_WithMinMaxAndIntegerArrayValue_ShouldWork(t *testing.T
 
 func TestValidateEndpoint_WithEnumAndIntegerValue_ShouldWork(t *testing.T) {
 	// Given
-	// When
-	// Then
-}
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	enum := []string{"1", "3"}
+	var constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "spec.replicas",
+		GroupKindVersion: gkv,
+	}
 
-func TestValidateEndpoint_WithEnumAndFloatValue_ShouldWork(t *testing.T) {
-	// Given
+	_ = models.SaveConstraint(constraint)
+
 	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("spec.replicas", gkv)
+
+	// Given
+	enum = []string{"1", "2"}
+	constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "spec.replicas",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("spec.replicas", gkv)
 }
 
 func TestValidateEndpoint_WithEnumAndStringValue_ShouldWork(t *testing.T) {
 	// Given
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	enum := []string{"beeyond", "isAwesome"}
+	var constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "metadata.clusterName",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
 	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("metadata.clusterName", gkv)
+
+	// Given
+	enum = []string{"beyond", "isAwesome"}
+	constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "metadata.clusterName",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("metadata.clusterName", gkv)
 }
 
 func TestValidateEndpoint_WithEnumAndBooleanValue_ShouldWork(t *testing.T) {
-	// Given
-	// When
-	// Then
-}
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	enum := []string{"false"}
+	var constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "spec.paused",
+		GroupKindVersion: gkv,
+	}
 
-func TestValidateEndpoint_WithEnumAndObjectValue_ShouldReturnError(t *testing.T) {
-	// Given
+	_ = models.SaveConstraint(constraint)
+
 	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
 	// Then
+	assert.Equal(t, 200, resp.Code)
+	models.DeleteConstraint("spec.paused", gkv)
+
+	// Given
+	enum = []string{"true"}
+	constraint = models.Constraint{
+		Enum:             enum,
+		Path:             "spec.paused",
+		GroupKindVersion: gkv,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp = httptest.NewRecorder()
+	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+
+	// Then
+	assert.Equal(t, 422, resp.Code)
+	models.DeleteConstraint("spec.paused", gkv)
 }
 
 ///////////////////////
@@ -274,6 +384,7 @@ func TestValidateEndpoint_WithRegexAndStringValue_ShouldWork(t *testing.T) {
 	// When
 	// Then
 }
+
 // TODO: probleme mit casten -> auslassen
 func TestValidateEndpoint_WithRegexAndBooleanValue_ShouldWork(t *testing.T) {
 	// Given
@@ -303,7 +414,7 @@ func TestValidateEndpoint_WithRegexAndBooleanArrayValue_ShouldWork(t *testing.T)
 	// Then
 }
 
-func TestValidateEndpoint_WithEmptyYaml_ShouldReturnError(t *testing.T){
+func TestValidateEndpoint_WithEmptyYaml_ShouldReturnError(t *testing.T) {
 	// Given
 	// When
 	// Then
