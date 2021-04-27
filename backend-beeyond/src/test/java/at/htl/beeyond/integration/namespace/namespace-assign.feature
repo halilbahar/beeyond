@@ -292,7 +292,8 @@ Feature: Namespace assigning endpoint
     Then status 204
     And path 'beeyond'
     When method GET
-    Then status 404
+    Then status 200
+    And response.deleted == true
 
   @teacher
   Scenario: Assign 1 to a valid namespace (1 user exists already)

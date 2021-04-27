@@ -13,6 +13,7 @@ Feature: Custom application creation endpoint
     {
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -23,7 +24,8 @@ Feature: Custom application creation endpoint
     Given request
     """
     {
-      "content": "#(nginxDeployment)"
+      "content": "#(nginxDeployment)",
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -31,7 +33,12 @@ Feature: Custom application creation endpoint
 
   @student
   Scenario: Create a custom application with no content
-    Given request { }
+    Given request
+    """
+    {
+      "namespace": "moritz"
+    }
+    """
     When method POST
     Then status 422
     And match response contains { "message": "This field cannot be empty", "value": "", "key": "content" }
@@ -41,7 +48,8 @@ Feature: Custom application creation endpoint
     Given request
     """
     {
-      "content": ""
+      "content": "",
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -58,7 +66,8 @@ Feature: Custom application creation endpoint
     """
     {
       "note": "#(generateString())",
-      "content": "#(content)"
+      "content": "#(content)",
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -73,6 +82,7 @@ Feature: Custom application creation endpoint
       "id": 9999,
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -86,6 +96,7 @@ Feature: Custom application creation endpoint
       "status": "APPROVED",
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -102,6 +113,7 @@ Feature: Custom application creation endpoint
       },
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -115,6 +127,7 @@ Feature: Custom application creation endpoint
       "createdAt": "2021-02-10T22:42:57.620598",
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
+      "namespace": "moritz"
     }
     """
     When method POST

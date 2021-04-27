@@ -19,7 +19,7 @@ public class TemplateApplication extends Application {
     private List<TemplateFieldValue> fieldValues;
 
     public TemplateApplication(TemplateApplicationDto templateApplicationDto, User owner) {
-        super(templateApplicationDto.getNote(), owner);
+        super(templateApplicationDto.getNote(), owner, new Namespace(templateApplicationDto.getNamespace()));
         this.template = Template.findById(templateApplicationDto.getTemplateId());
         List<TemplateFieldValue> templateFieldValues = templateApplicationDto.getFieldValues()
                 .stream()
