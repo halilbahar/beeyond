@@ -1,6 +1,8 @@
 import { NgModule } from '@angular/core';
 import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
 import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
+import { AuthGuard } from './core/guards/auth.guard';
+import { config } from './core/config/user-role.config';
 
 const routes: Routes = [
   {
@@ -14,25 +16,45 @@ const routes: Routes = [
   {
     path: 'accounting',
     loadChildren: () =>
-      import('./modules/accounting/accounting.module').then(m => m.AccountingModule)
+      import('./modules/accounting/accounting.module').then(m => m.AccountingModule),
+    canActivate: [AuthGuard],
+    data: {
+      requiredRole: config.adminRole
+    }
   },
   {
     path: 'management',
     loadChildren: () =>
-      import('./modules/management/management.module').then(m => m.ManagementModule)
+      import('./modules/management/management.module').then(m => m.ManagementModule),
+    canActivate: [AuthGuard],
+    data: {
+      requiredRole: config.adminRole
+    }
   },
   {
     path: 'template',
-    loadChildren: () => import('./modules/template/template.module').then(m => m.TemplateModule)
+    loadChildren: () => import('./modules/template/template.module').then(m => m.TemplateModule),
+    canActivate: [AuthGuard],
+    data: {
+      requiredRole: config.adminRole
+    }
   },
   {
     path: 'namespace',
-    loadChildren: () => import('./modules/namespace/namespace.module').then(m => m.NamespaceModule)
+    loadChildren: () => import('./modules/namespace/namespace.module').then(m => m.NamespaceModule),
+    canActivate: [AuthGuard],
+    data: {
+      requiredRole: config.adminRole
+    }
   },
   {
     path: 'constraint',
     loadChildren: () =>
-      import('./modules/constraint/constraint.module').then(m => m.ConstraintModule)
+      import('./modules/constraint/constraint.module').then(m => m.ConstraintModule),
+    canActivate: [AuthGuard],
+    data: {
+      requiredRole: config.adminRole
+    }
   },
   { path: '', redirectTo: '/blueprint', pathMatch: 'full' },
   {
