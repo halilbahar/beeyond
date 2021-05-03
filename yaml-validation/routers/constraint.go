@@ -8,8 +8,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-//
-//Parameter: c *gin.Context
+// Adds all root elements with their constraints
+// to the body of the current http request
+// Parameter: c *gin.Context
 func listRootConstraints(c *gin.Context) {
 	collection, err := models.GetSchemaCollection()
 	if err != nil {
@@ -50,10 +51,12 @@ func listRootConstraints(c *gin.Context) {
 	c.JSON(http.StatusOK, kubernetesRootDefinitions)
 }
 
-// Validates the content (syntax wise) checks the constraints
-// Parameter: content (string) represents the content of the yaml file,
-// which will be validated.
-// returns all constraint-errors in []ValidationError and the kubeval error
+// Adds the schema according to the current path
+// with its constraints to the body of the current constraint
+// Parameter: c (*gin.Context): Contains the path to the schema
+// Possible status codes:
+// 		- 404, if the path was not valid (doesn't exist)
+// 		- 200, if schema was found
 func getConstraintsByPath(c *gin.Context) {
 	segments := c.GetStringSlice("pathSegments")
 	schema, err := models.GetSchemaBySegments(segments)
@@ -65,6 +68,14 @@ func getConstraintsByPath(c *gin.Context) {
 	c.JSON(http.StatusOK, schema)
 }
 
+// Saves the given constraint, only if the given
+// exists and is valid for constraints.
+// Parameter: c (*gin.Context): Contains the parameters
+// that were sent (path and constraint)
+// Possible status Codes:
+// 		- 201, if constraint was saved
+// 		- 400, invalid constraint / path
+// 		- 500, if constraint / path valid, but saving in database didn't work
 func createConstraintByPath(c *gin.Context) {
 	var constraint models.Constraint
 	if err := c.ShouldBindJSON(&constraint); err != nil {
@@ -100,6 +111,12 @@ func createConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusCreated)
 }
 
+// Deletes the constraint with the given path
+// Parameter: c (*gin.Context): contains the path of
+// the constraint we want to delete
+// Possible status codes:
+// 		- 400, if path was not found
+// 		- 204, if the deletion was successful
 func deleteConstraintByPath(c *gin.Context) {
 	groupKindVersion, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
