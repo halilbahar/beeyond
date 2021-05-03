@@ -128,6 +128,14 @@ func deleteConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
+// Toggles the "disabled" from the constraint with the given path
+// If the given constraint does not exist, it will be created
+// Parameter: c (*gin.Context): Contains the path to the constraint
+// where we want to toggle the "disable" field
+// Possible status codes:
+// 		- 200, if toggle worked
+// 		- 400, if field is required
+// 		- 500, if problems with the database-connection occur
 func toggleDisableConstraintByPath(c *gin.Context) {
 	groupKindVersionInterface, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
