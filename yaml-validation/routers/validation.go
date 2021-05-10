@@ -6,6 +6,11 @@ import (
 	"yaml-validation/models"
 )
 
+// Validates the given content
+// Parameter: c (*gin.Context): contains the content that should be validated
+// Possible status codes:
+// 		- 422, if the content is empty or not valid
+// 		- 200, if no validation errors occurred
 func getValidationResult(c *gin.Context) {
 	data, _ := c.GetRawData()
 	yamlContent := string(data)

@@ -18,6 +18,7 @@ import (
 var Router *gin.Engine
 var mongoDbContainer testcontainers.Container
 
+// Starts all creation and validation tests in a docker test-container
 func TestMain(m *testing.M) {
 	conf.Init()
 
@@ -32,23 +33,8 @@ func TestMain(m *testing.M) {
 	os.Exit(code)
 }
 
+// Sets up a testcontainer (docker)
 func setupMongoDbContainer() {
-	//credential := options.Credential{
-	//	Username: conf.Configuration.Database.User,
-	//	Password: conf.Configuration.Database.Password,
-	//}
-	//
-	//clientOpts := options.Client().
-	//	ApplyURI(conf.Configuration.Database.Type + "://" + conf.Configuration.Database.Host + ":" + conf.Configuration.Database.Port).
-	//	SetAuth(credential)
-	//
-	//client, err := mongo.Connect(context.TODO(), clientOpts)
-	//
-	//if err == nil{
-	//	client.Disconnect(context.TODO())
-	//	return
-	//}
-
 	mongoDbContext := context.Background()
 	req := testcontainers.ContainerRequest{
 		Image:        "mongo",
