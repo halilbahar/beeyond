@@ -1,0 +1,18 @@
+apiVersion: authorization.k8s.io/v1
+kind: SelfSubjectAccessReview
+metadata:
+  creationTimestamp: null
+spec:
+  resourceAttributes:
+    group: apps
+    resource: deployments
+    namespace: dev
+    verb: create
+status:
+  resourceRules:
+    resourceNames:
+      - beeyond
+      - resource
+      - names
+  allowed: true
+  denied: false

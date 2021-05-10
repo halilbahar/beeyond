@@ -2,7 +2,9 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: nginx-deployment
+  clusterName: beeyond
 spec:
+  paused: no
   selector:
     matchLabels:
       app: nginx

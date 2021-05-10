@@ -10,6 +10,12 @@ import (
 	"strings"
 )
 
+type NoContentError struct{}
+
+func (e *NoContentError) Error() string {
+	return "No Content"
+}
+
 type ValidationError struct {
 	Description string `json:"description"`
 	Value       string `json:"value"`
@@ -21,6 +27,9 @@ type ValidationError struct {
 // which will be validated.
 // returns all constraint-errors in []ValidationError and the kubeval error
 func ValidateContent(content string) ([]ValidationError, error) {
+	if len(content) == 0 {
+		return nil, &NoContentError{}
+	}
 	config := kubeval.NewDefaultConfig()
 
 	contentBytes := []byte(content)
@@ -60,8 +69,13 @@ func ValidateContent(content string) ([]ValidationError, error) {
 	groupKindVersion.Kind = getValueFromPath(yamlMap, "kind").(string)
 	groupversion := getValueFromPath(yamlMap, "apiVersion").(string)
 
-	groupKindVersion.Group = strings.Split(groupversion, "/")[0]
-	groupKindVersion.Version = strings.Split(groupversion, "/")[1]
+	groupVersionSplit := strings.Split(groupversion, "/")
+	if len(groupVersionSplit) == 1 {
+		groupKindVersion.Version = groupVersionSplit[0]
+	} else {
+		groupKindVersion.Group = groupVersionSplit[0]
+		groupKindVersion.Version = groupVersionSplit[1]
+	}
 
 	constraints := GetConstraintsByGKV(&groupKindVersion)
 
@@ -71,34 +85,61 @@ func ValidateContent(content string) ([]ValidationError, error) {
 
 		var actual string
 		var ok bool
+		isArray := false
+
 		if actual, ok = value.(string); !ok {
-			actual = strconv.Itoa(value.(int))
+			if number, ok := value.(int); ok {
+				actual = strconv.Itoa(number)
+			} else if arr, ok := value.([]interface{}); ok {
+				actual = strings.Join(strings.Fields(fmt.Sprint(arr)), ", ")
+				isArray = true
+			} else if boolValue, ok := value.(bool); ok {
+				actual = strconv.FormatBool(boolValue)
+			}
 		}
 
 		if currentConstraint.Max != nil {
-			actualFloat := float64(getValueFromPath(yamlMap, currentConstraint.Path).(int))
-			fmt.Print(err)
-			if actualFloat > float64(*currentConstraint.Max) || actualFloat < float64(*currentConstraint.Min) {
+			if isArray {
+				for _, currentValue := range value.([]interface{}) {
+					if !isBetweenMinMax(currentConstraint, currentValue.(int)) {
+						errorDescription = "Given value out of range"
+						break
+					}
+				}
+			} else if !isBetweenMinMax(currentConstraint, value.(int)) {
 				errorDescription = "Given value out of range"
 			}
+
 		} else if currentConstraint.Enum != nil {
-			found := false
-			for _, s := range currentConstraint.Enum {
-				if s == actual {
-					found = true
+			if isArray {
+				isValid := true
+				for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
+					if !contains(currentConstraint.Enum, currentValue) {
+						isValid = false
+					}
 				}
-			}
-			if !found {
+
+				if !isValid {
+					errorDescription = "Constraint enum does not contain given one or more of the given values"
+				}
+			} else if !contains(currentConstraint.Enum, actual) {
 				errorDescription = "Constraint enum does not contain given value"
 			}
 		} else {
-			// TODO: "^"+*currentConstraint.Regex+"$"
-			matched, _ := regexp.MatchString("^"+*currentConstraint.Regex+"$", actual)
+			if isArray {
+				isValid := true
+				for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
+					if !matchesRegex(*currentConstraint.Regex, currentValue) {
+						isValid = false
+					}
+				}
 
-			if !matched {
+				if !isValid {
+					errorDescription = "One or more of the given value does not match the regex"
+				}
+			} else if !matchesRegex(*currentConstraint.Regex, actual) {
 				errorDescription = "Given value does not match regex"
 			}
-
 		}
 
 		if errorDescription != "" {
@@ -111,6 +152,41 @@ func ValidateContent(content string) ([]ValidationError, error) {
 	}
 
 	return validationError, nil
+}
+
+// Checks whether the given string array contains the given searchText
+// Parameters:
+// 		- enum ([]string): array which we search through
+// 		- searchText (string): the string we look for in the array
+// Returns boolean: true if the array contains the searchText
+func contains(enum []string, searchText string) bool {
+	for _, currentValue := range enum {
+		if currentValue == searchText {
+			return true
+		}
+	}
+	return false
+}
+
+// Checks whether the given text matches the given regex
+// Parameters:
+// 		- regex (string): represents the regex
+// 		- text (string): the text that should match the regex
+// Returns bool: true if the text matches the regex
+func matchesRegex(regex string, text string) bool {
+	// TODO: "^"+*currentConstraint.Regex+"$"
+	matched, _ := regexp.MatchString("^"+regex+"$", text)
+	return matched
+}
+
+// Checks whether the given value is between the min and max values given within the currentConstraint
+// Parameters:
+// 		- currentConstraint (*Constraint): Contains the min and max values
+// 		- value (int): integer which should be between min and max
+// Returns: bool: true if value is between min and max, otherwise false
+func isBetweenMinMax(currentConstraint *Constraint, value int) bool {
+	actualFloat := float64(value)
+	return actualFloat <= float64(*currentConstraint.Max) && actualFloat >= float64(*currentConstraint.Min)
 }
 
 // Gets the value of the property by the given path from the given k8s specification (map)
