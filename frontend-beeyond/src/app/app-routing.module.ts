@@ -5,9 +5,13 @@ import { AuthGuard } from './core/guards/auth.guard';
 
 const routes: Routes = [
   {
-    path: '', canActivateChild: [AuthGuard], children: [
+    path: '',
+    canActivateChild: [AuthGuard],
+    children: [
       {
-        path: '', redirectTo: '/blueprint', pathMatch: 'full'
+        path: '',
+        redirectTo: '/blueprint',
+        pathMatch: 'full'
       },
       {
         path: 'accounting',
@@ -25,7 +29,8 @@ const routes: Routes = [
       },
       {
         path: 'namespace',
-        loadChildren: () => import('./modules/namespace/namespace.module').then(m => m.NamespaceModule)
+        loadChildren: () =>
+          import('./modules/namespace/namespace.module').then(m => m.NamespaceModule)
       },
       {
         path: 'constraint',

@@ -3,7 +3,8 @@ import {
   ActivatedRouteSnapshot,
   RouterStateSnapshot,
   UrlTree,
-  Router, CanActivateChild
+  Router,
+  CanActivateChild
 } from '@angular/router';
 import { Observable } from 'rxjs';
 import { AuthenticationService } from '../authentification/authentication.service';
@@ -15,8 +16,10 @@ import { config } from '../config/user-role.config';
 export class AuthGuard implements CanActivateChild {
   constructor(private router: Router, private authenticationService: AuthenticationService) {}
 
-  canActivateChild(childRoute: ActivatedRouteSnapshot, state: RouterStateSnapshot):
-    Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
+  canActivateChild(
+    childRoute: ActivatedRouteSnapshot,
+    state: RouterStateSnapshot
+  ): Observable<boolean | UrlTree> | Promise<boolean | UrlTree> | boolean | UrlTree {
     if (this.authenticationService.roles.getValue().includes(config.adminRole)) {
       return true;
     }
