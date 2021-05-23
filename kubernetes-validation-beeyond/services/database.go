@@ -2,7 +2,7 @@ package services
 
 import (
 	"context"
-	"yaml-validation/conf"
+	"kubernetes-validation-beeyond/conf"
 
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"

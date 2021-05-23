@@ -2,8 +2,8 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
+	"kubernetes-validation-beeyond/models"
 	"net/http"
-	"yaml-validation/models"
 )
 
 // Middleware which checks weather the entered path is valid

@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"kubernetes-validation-beeyond/models"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"yaml-validation/models"
 )
 
 func TestConstraintCreation_ConstraintWithRegexForStringProperty_Create(t *testing.T) {

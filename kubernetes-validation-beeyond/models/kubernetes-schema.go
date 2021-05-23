@@ -2,9 +2,9 @@ package models
 
 import (
 	"encoding/json"
+	"kubernetes-validation-beeyond/conf"
 	"net/http"
 	"strings"
-	"yaml-validation/conf"
 )
 
 type SchemaCollection struct {

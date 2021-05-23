@@ -1,9 +1,9 @@
 package routers
 
 import (
+	"kubernetes-validation-beeyond/models"
 	"net/http"
 	"strings"
-	"yaml-validation/models"
 
 	"github.com/gin-gonic/gin"
 )

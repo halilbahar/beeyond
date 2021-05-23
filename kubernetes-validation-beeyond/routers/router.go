@@ -4,9 +4,9 @@ import (
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
-	"yaml-validation/conf"
-	_ "yaml-validation/docs"
-	"yaml-validation/middleware"
+	"kubernetes-validation-beeyond/conf"
+	_ "kubernetes-validation-beeyond/docs"
+	"kubernetes-validation-beeyond/middleware"
 )
 
 // Creates an Engine with all endpoint, their paths and the used middleware

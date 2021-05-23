@@ -1,4 +1,4 @@
-module yaml-validation
+module kubernetes-validation-beeyond
 
 go 1.15
 

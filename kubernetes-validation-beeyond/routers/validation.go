@@ -2,8 +2,8 @@ package routers
 
 import (
 	"github.com/gin-gonic/gin"
+	"kubernetes-validation-beeyond/models"
 	"net/http"
-	"yaml-validation/models"
 )
 
 // Validates the given content
