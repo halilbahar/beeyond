@@ -6,6 +6,10 @@ import (
 	"yaml-validation/models"
 )
 
+// Middleware which checks weather the entered path is valid
+// and sets the field groupKindVersion and propertyPath if the path
+// is valid
+// if the path is not valid the method will return 404 NotFound
 func PathValid() gin.HandlerFunc {
 	return func(c *gin.Context) {
 		segments := c.GetStringSlice("pathSegments")

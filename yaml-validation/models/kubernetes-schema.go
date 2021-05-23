@@ -48,6 +48,10 @@ func (p PathNotFoundError) Error() string {
 	return "Path not found"
 }
 
+// Extension function to GroupKindVersion which just puts the
+// properties Group Kind and Version to lowercase
+// Parameters: groupKindVersion (GroupKindVersion), object which we want to lower
+// Returns: GroupKindVersion: the object containing the lowercase properties
 func (groupKindVersion GroupKindVersion) ToLower() GroupKindVersion {
 	var groupKindVersionLower GroupKindVersion
 	groupKindVersionLower.Group = strings.ToLower(groupKindVersion.Group)
@@ -57,6 +61,8 @@ func (groupKindVersion GroupKindVersion) ToLower() GroupKindVersion {
 	return groupKindVersionLower
 }
 
+// Gets all schemas and return them in the SchemaCollection
+// Returns the SchemaCollection and an error if one occurred
 func GetSchemaCollection() (*SchemaCollection, error) {
 	baseUrl := conf.Configuration.KubernetesJsonschema.Url
 	kubernetesVersion := conf.Configuration.KubernetesJsonschema.KubernetesVersion
@@ -74,6 +80,9 @@ func GetSchemaCollection() (*SchemaCollection, error) {
 	return collection, nil
 }
 
+// Gets the schema corresponding to the given segments
+// Parameter: segments ([]string): Represents the "path" to the schema (e.g.: ["Deployment-apps-v1", "spec"])
+// Returns the schema and any error that occurred
 func GetSchemaBySegments(segments []string) (*Schema, error) {
 	collection, err := GetSchemaCollection()
 	if err != nil {
@@ -186,6 +195,11 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 	}
 }
 
+// Gets the group kind version and the path from segments
+// Parameter: segments ([]string): e.g.: ["Deployment-apps-v1", "spec", "replicas"])
+// Returns:
+// 		- GroupKindVersion (GroupKindVersion) e.g.: group: apps, kind: Deployment, version: v1
+// 		- path (string) e.g.: spec.replicas
 func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion, string) {
 	var groupKindVersion GroupKindVersion
 	parts := strings.Split(segments[0], "-")
@@ -201,6 +215,9 @@ func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion
 	return groupKindVersion, constraintPath
 }
 
+// Checks if segments represents a valid path for constraints
+// Parameter: segments ([]string): first element represents the Group Kind Version, remaining elements represetn the path
+// returns bool: true when the path is valid
 func IsValidConstraintPath(segments []string) bool {
 	var lastSegment *string
 	if len(segments) != 1 {

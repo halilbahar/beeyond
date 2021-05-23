@@ -8,6 +8,9 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
+// Adds all root elements with their constraints
+// to the body of the current http request
+// Parameter: c *gin.Context
 func listRootConstraints(c *gin.Context) {
 	collection, err := models.GetSchemaCollection()
 	if err != nil {
@@ -48,6 +51,12 @@ func listRootConstraints(c *gin.Context) {
 	c.JSON(http.StatusOK, kubernetesRootDefinitions)
 }
 
+// Adds the schema according to the current path
+// with its constraints to the body of the current constraint
+// Parameter: c (*gin.Context): Contains the path to the schema
+// Possible status codes:
+// 		- 404, if the path was not valid (doesn't exist)
+// 		- 200, if schema was found
 func getConstraintsByPath(c *gin.Context) {
 	segments := c.GetStringSlice("pathSegments")
 	schema, err := models.GetSchemaBySegments(segments)
@@ -59,6 +68,14 @@ func getConstraintsByPath(c *gin.Context) {
 	c.JSON(http.StatusOK, schema)
 }
 
+// Saves the given constraint, only if the given
+// exists and is valid for constraints.
+// Parameter: c (*gin.Context): Contains the parameters
+// that were sent (path and constraint)
+// Possible status Codes:
+// 		- 201, if constraint was saved
+// 		- 400, invalid constraint / path
+// 		- 500, if constraint / path valid, but saving in database didn't work
 func createConstraintByPath(c *gin.Context) {
 	var constraint models.Constraint
 	if err := c.ShouldBindJSON(&constraint); err != nil {
@@ -94,6 +111,12 @@ func createConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusCreated)
 }
 
+// Deletes the constraint with the given path
+// Parameter: c (*gin.Context): contains the path of
+// the constraint we want to delete
+// Possible status codes:
+// 		- 400, if path was not found
+// 		- 204, if the deletion was successful
 func deleteConstraintByPath(c *gin.Context) {
 	groupKindVersion, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
@@ -105,6 +128,14 @@ func deleteConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
+// Toggles the "disabled" from the constraint with the given path
+// If the given constraint does not exist, it will be created
+// Parameter: c (*gin.Context): Contains the path to the constraint
+// where we want to toggle the "disable" field
+// Possible status codes:
+// 		- 200, if toggle worked
+// 		- 400, if field is required
+// 		- 500, if problems with the database-connection occur
 func toggleDisableConstraintByPath(c *gin.Context) {
 	groupKindVersionInterface, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")

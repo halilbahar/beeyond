@@ -80,6 +80,8 @@ var SwaggerInfo = swaggerInfo{
 
 type s struct{}
 
+// Reads the swagger document
+// Returns: string: represents swagger document
 func (s *s) ReadDoc() string {
 	sInfo := SwaggerInfo
 	sInfo.Description = strings.Replace(sInfo.Description, "\n", "\\n", -1)
@@ -102,6 +104,7 @@ func (s *s) ReadDoc() string {
 	return tpl.String()
 }
 
+// Inits the swagger pages
 func init() {
 	swag.Register(swag.Name, &s{})
 }

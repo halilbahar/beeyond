@@ -9,6 +9,8 @@ import (
 	"yaml-validation/middleware"
 )
 
+// Creates an Engine with all endpoint, their paths and the used middleware
+// Returns: *gin.Engine: an Engine with all defined Endpoints and the used middleware
 func GetRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(middleware.Cors())
@@ -38,6 +40,7 @@ func GetRouter() *gin.Engine {
 	return router
 }
 
+// Initialises the Router and runs it
 func Init() {
 	router := GetRouter()
 	_ = router.Run(conf.Configuration.Server.HttpPort)
