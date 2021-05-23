@@ -7,6 +7,7 @@ import (
 	"kubernetes-validation-beeyond/conf"
 	_ "kubernetes-validation-beeyond/docs"
 	"kubernetes-validation-beeyond/middleware"
+	"net/http"
 )
 
 // Creates an Engine with all endpoint, their paths and the used middleware
@@ -17,6 +18,9 @@ func GetRouter() *gin.Engine {
 
 	api := router.Group("/api")
 	{
+		api.GET("/swagger-ui", func(c *gin.Context) {
+			c.Redirect(http.StatusMovedPermanently, "swagger/index.html")
+		})
 		// validate
 		api.POST("/validate", getValidationResult)
 		api.Use(middleware.PathSegments())
