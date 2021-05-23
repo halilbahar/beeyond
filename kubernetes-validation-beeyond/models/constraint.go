@@ -3,8 +3,8 @@ package models
 import (
 	"context"
 	"go.mongodb.org/mongo-driver/mongo"
-	"yaml-validation/conf"
-	"yaml-validation/services"
+	"kubernetes-validation-beeyond/conf"
+	"kubernetes-validation-beeyond/services"
 
 	"go.mongodb.org/mongo-driver/bson"
 )

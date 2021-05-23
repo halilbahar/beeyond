@@ -3,11 +3,11 @@ package test
 import (
 	"github.com/stretchr/testify/assert"
 	"io/ioutil"
+	"kubernetes-validation-beeyond/models"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
-	"yaml-validation/models"
 )
 
 func TestValidateEndpoint_ShouldWork(t *testing.T) {

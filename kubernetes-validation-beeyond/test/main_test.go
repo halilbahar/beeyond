@@ -7,12 +7,12 @@ import (
 	"github.com/gin-gonic/gin"
 	"github.com/testcontainers/testcontainers-go"
 	"github.com/testcontainers/testcontainers-go/wait"
+	"kubernetes-validation-beeyond/conf"
+	"kubernetes-validation-beeyond/routers"
+	"kubernetes-validation-beeyond/services"
 	"os"
 	"strings"
 	"testing"
-	"yaml-validation/conf"
-	"yaml-validation/routers"
-	"yaml-validation/services"
 )
 
 var Router *gin.Engine

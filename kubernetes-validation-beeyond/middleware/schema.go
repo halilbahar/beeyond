@@ -2,7 +2,7 @@ package middleware
 
 import (
 	"github.com/gin-gonic/gin"
-	"yaml-validation/models"
+	"kubernetes-validation-beeyond/models"
 )
 
 // Middleware which sets the schema field and

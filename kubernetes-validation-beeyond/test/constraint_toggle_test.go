@@ -5,10 +5,10 @@ import (
 	"encoding/json"
 	"fmt"
 	"github.com/stretchr/testify/assert"
+	"kubernetes-validation-beeyond/models"
 	"net/http"
 	"net/http/httptest"
 	"testing"
-	"yaml-validation/models"
 )
 
 func TestConstraintToggle_DisableInteger_Valid(t *testing.T) {
