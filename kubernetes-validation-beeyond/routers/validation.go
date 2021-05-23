@@ -6,11 +6,13 @@ import (
 	"net/http"
 )
 
-// Validates the given content
-// Parameter: c (*gin.Context): contains the content that should be validated
-// Possible status codes:
-// 		- 422, if the content is empty or not valid
-// 		- 200, if no validation errors occurred
+// @Summary Validate content
+// @Description Validates the given content
+// @Tags Validation
+// @Produce  json
+// @Success 200 {string} string	"ok"
+// @Failure 422 {string} string "unprocessable entity"
+// @Router /api/validate/ [post]
 func getValidationResult(c *gin.Context) {
 	data, _ := c.GetRawData()
 	yamlContent := string(data)

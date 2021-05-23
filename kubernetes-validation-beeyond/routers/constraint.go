@@ -8,9 +8,12 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-// Adds all root elements with their constraints
-// to the body of the current http request
-// Parameter: c *gin.Context
+// @Summary Find root constraints
+// @Description Finds all root schemes and their constraints
+// @Tags Constraint
+// @Success 200 {string} string	"ok"
+// @Failure 500 {string} string "internal server error"
+// @Router /api/constraints/ [get]
 func listRootConstraints(c *gin.Context) {
 	collection, err := models.GetSchemaCollection()
 	if err != nil {
@@ -51,12 +54,13 @@ func listRootConstraints(c *gin.Context) {
 	c.JSON(http.StatusOK, kubernetesRootDefinitions)
 }
 
-// Adds the schema according to the current path
-// with its constraints to the body of the current constraint
-// Parameter: c (*gin.Context): Contains the path to the schema
-// Possible status codes:
-// 		- 404, if the path was not valid (doesn't exist)
-// 		- 200, if schema was found
+// @Summary Find constraints by path
+// @Description Finds the schema and its constraints according to the given path
+// @Tags Constraint
+// @Param  "path"     path    string     true        "path"
+// @Success 200 {string} string	"ok"
+// @Failure 400 {string} string "bad request"
+// @Router /api/constraints/{path} [get]
 func getConstraintsByPath(c *gin.Context) {
 	segments := c.GetStringSlice("pathSegments")
 	schema, err := models.GetSchemaBySegments(segments)
@@ -68,14 +72,15 @@ func getConstraintsByPath(c *gin.Context) {
 	c.JSON(http.StatusOK, schema)
 }
 
-// Saves the given constraint, only if the given
-// exists and is valid for constraints.
-// Parameter: c (*gin.Context): Contains the parameters
-// that were sent (path and constraint)
-// Possible status Codes:
-// 		- 201, if constraint was saved
-// 		- 400, invalid constraint / path
-// 		- 500, if constraint / path valid, but saving in database didn't work
+// @Summary Creates a new constraint
+// @Description creates a new constraint and adds it to the database. If the constraint already exists it gets replaced.
+// @Tags Constraint
+// @Accept  json
+// @Param  "path"     path    string     true        "path"
+// @Success 201 {string} string	"created"
+// @Failure 400 {string} string "bad request"
+// @Failure 500 {string} string "internal server error"
+// @Router /api/constraints/{path} [post]
 func createConstraintByPath(c *gin.Context) {
 	var constraint models.Constraint
 	if err := c.ShouldBindJSON(&constraint); err != nil {
@@ -111,12 +116,13 @@ func createConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusCreated)
 }
 
-// Deletes the constraint with the given path
-// Parameter: c (*gin.Context): contains the path of
-// the constraint we want to delete
-// Possible status codes:
-// 		- 400, if path was not found
-// 		- 204, if the deletion was successful
+// @Summary Delete constraint
+// @Description Deletes the constraint with the given path
+// @Tags Constraint
+// @Param  "path"     path    string     true        "path"
+// @Success 204 {string} string	"no content"
+// @Failure 400 {string} string "bad request"
+// @Router /api/constraints/{path} [delete]
 func deleteConstraintByPath(c *gin.Context) {
 	groupKindVersion, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
@@ -128,14 +134,15 @@ func deleteConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
-// Toggles the "disabled" from the constraint with the given path
-// If the given constraint does not exist, it will be created
-// Parameter: c (*gin.Context): Contains the path to the constraint
-// where we want to toggle the "disable" field
-// Possible status codes:
-// 		- 200, if toggle worked
-// 		- 400, if field is required
-// 		- 500, if problems with the database-connection occur
+
+// @Summary Toggle disabled on constraint
+// @Description Toggles the "disabled" from the constraint with the given path. If the given constraint does not exist, it will be created
+// @Tags Constraint
+// @Param  "path"     path    string     true        "path"
+// @Success 200 {string} string	"ok"
+// @Failure 400 {string} string "bad request"
+// @Failure 500 {string} string "internal server error"
+// @Router /api/constraints/{path} [patch]
 func toggleDisableConstraintByPath(c *gin.Context) {
 	groupKindVersionInterface, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
