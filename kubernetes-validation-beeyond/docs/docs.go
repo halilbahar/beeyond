@@ -24,17 +24,73 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
+        "/api/constraints/": {
+            "get": {
+                "description": "Finds all root schemes and their constraints",
+                "tags": [
+                    "Constraint"
+                ],
+                "summary": "Find root constraints",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
         "/api/constraints/{path}": {
+            "get": {
+                "description": "Finds the schema and its constraints according to the given path",
+                "tags": [
+                    "Constraint"
+                ],
+                "summary": "Find constraints by path",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "path",
+                        "name": "\"path\"",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
             "post": {
                 "description": "creates a new constraint and adds it to the database. If the constraint already exists it gets replaced.",
                 "consumes": [
                     "application/json"
                 ],
+                "tags": [
+                    "Constraint"
+                ],
                 "summary": "Creates a new constraint",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "Some ID",
+                        "description": "path",
                         "name": "\"path\"",
                         "in": "path",
                         "required": true
@@ -49,6 +105,104 @@ var doc = `{
                     },
                     "400": {
                         "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "description": "Deletes the constraint with the given path",
+                "tags": [
+                    "Constraint"
+                ],
+                "summary": "Delete constraint",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "path",
+                        "name": "\"path\"",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "no content",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            },
+            "patch": {
+                "description": "Toggles the \"disabled\" from the constraint with the given path. If the given constraint does not exist, it will be created",
+                "tags": [
+                    "Constraint"
+                ],
+                "summary": "Toggle disabled on constraint",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "description": "path",
+                        "name": "\"path\"",
+                        "in": "path",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "400": {
+                        "description": "bad request",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "500": {
+                        "description": "internal server error",
+                        "schema": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        },
+        "/api/validate/": {
+            "post": {
+                "description": "Validates the given content",
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "Validation"
+                ],
+                "summary": "Validate content",
+                "responses": {
+                    "200": {
+                        "description": "ok",
+                        "schema": {
+                            "type": "string"
+                        }
+                    },
+                    "422": {
+                        "description": "unprocessable entity",
                         "schema": {
                             "type": "string"
                         }
@@ -70,18 +224,16 @@ type swaggerInfo struct {
 
 // SwaggerInfo holds exported Swagger Info so clients can modify it
 var SwaggerInfo = swaggerInfo{
-	Version:     "",
+	Version:     "1.0",
 	Host:        "",
 	BasePath:    "",
 	Schemes:     []string{},
-	Title:       "",
-	Description: "",
+	Title:       "Swagger Kubernetes Validation Beeyond API",
+	Description: "This is an API for the validation of kubernetes specifications (yaml) with constraints.",
 }
 
 type s struct{}
 
-// Reads the swagger document
-// Returns: string: represents swagger document
 func (s *s) ReadDoc() string {
 	sInfo := SwaggerInfo
 	sInfo.Description = strings.Replace(sInfo.Description, "\n", "\\n", -1)
@@ -104,7 +256,6 @@ func (s *s) ReadDoc() string {
 	return tpl.String()
 }
 
-// Inits the swagger pages
 func init() {
 	swag.Register(swag.Name, &s{})
 }
