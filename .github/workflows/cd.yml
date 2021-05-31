@@ -66,13 +66,13 @@ jobs:
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
   build_yaml_validation:
-    name: Build yaml validation
+    name: Build kubernetes validation
     runs-on: ubuntu-latest
     env:
-      IMAGE_NAME: beeyond-yaml-validation
+      IMAGE_NAME: beeyond-kubernetes-validation
     defaults:
       run:
-        working-directory: ./yaml-validation
+        working-directory: ./kubernetes-validation-beeyond
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2

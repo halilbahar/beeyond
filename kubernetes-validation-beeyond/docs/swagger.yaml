@@ -1,0 +1,133 @@
+info:
+  contact: {}
+  description: This is an API for the validation of kubernetes specifications (yaml)
+    with constraints.
+  title: Swagger Kubernetes Validation Beeyond API
+  version: "1.0"
+paths:
+  /api/constraints/:
+    get:
+      description: Finds all root schemes and their constraints
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Find root constraints
+      tags:
+      - Constraint
+  /api/constraints/{path}:
+    delete:
+      description: Deletes the constraint with the given path
+      parameters:
+      - description: path
+        in: path
+        name: '"path"'
+        required: true
+        type: string
+      responses:
+        "204":
+          description: no content
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+      summary: Delete constraint
+      tags:
+      - Constraint
+    get:
+      description: Finds the schema and its constraints according to the given path
+      parameters:
+      - description: path
+        in: path
+        name: '"path"'
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+      summary: Find constraints by path
+      tags:
+      - Constraint
+    patch:
+      description: Toggles the "disabled" from the constraint with the given path.
+        If the given constraint does not exist, it will be created
+      parameters:
+      - description: path
+        in: path
+        name: '"path"'
+        required: true
+        type: string
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Toggle disabled on constraint
+      tags:
+      - Constraint
+    post:
+      consumes:
+      - application/json
+      description: creates a new constraint and adds it to the database. If the constraint
+        already exists it gets replaced.
+      parameters:
+      - description: path
+        in: path
+        name: '"path"'
+        required: true
+        type: string
+      responses:
+        "201":
+          description: created
+          schema:
+            type: string
+        "400":
+          description: bad request
+          schema:
+            type: string
+        "500":
+          description: internal server error
+          schema:
+            type: string
+      summary: Creates a new constraint
+      tags:
+      - Constraint
+  /api/validate/:
+    post:
+      description: Validates the given content
+      produces:
+      - application/json
+      responses:
+        "200":
+          description: ok
+          schema:
+            type: string
+        "422":
+          description: unprocessable entity
+          schema:
+            type: string
+      summary: Validate content
+      tags:
+      - Validation
+swagger: "2.0"
