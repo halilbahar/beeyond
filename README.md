@@ -1,3 +1,5 @@
+https://img.shields.io/github/last-commit/halilbahar/beeyond/docs
+
 # Documentation
 
 This branch holds all AsciiDoc-files.
