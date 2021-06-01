@@ -1,5 +1,9 @@
 # ![Beeyond](frontend-beeyond/src/assets/images/beeyond-logo-with-text.png)
 
+<a href="https://github.com/badges/shields/graphs/contributors" alt="Contributors">
+  <img src="https://img.shields.io/github/last-commit/halilbahar/beeyond/master"/>
+</a>
+
 **Kubernetes provisioning tool** for the HTBLA Leonding (Dept. of Informatics and Media Technology)
 
 ## Sample ingress for nginx (yaml)
