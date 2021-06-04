@@ -27,6 +27,11 @@ class UserFilter : ContainerRequestFilter {
                 user = User(name)
                 user.persist()
             }
+
+            /* if (Namespace.find<Namespace>("namespace", name).firstResultOptional<Namespace>().isEmpty) {
+                val namespace = Namespace(name)
+                namespace.users = listOf(user)
+            } */
         }
     }
 }
