@@ -1,5 +1,6 @@
 package at.htl.beeyond.interceptor
 
+import at.htl.beeyond.entity.Namespace
 import at.htl.beeyond.entity.User
 import javax.enterprise.context.ApplicationScoped
 import javax.transaction.Transactional
@@ -28,10 +29,11 @@ class UserFilter : ContainerRequestFilter {
                 user.persist()
             }
 
-            /* if (Namespace.find<Namespace>("namespace", name).firstResultOptional<Namespace>().isEmpty) {
+            if (Namespace.find<Namespace>("namespace", name).firstResultOptional<Namespace>().isEmpty) {
                 val namespace = Namespace(name)
                 namespace.users = listOf(user)
-            } */
+                namespace.persist()
+            }
         }
     }
 }
