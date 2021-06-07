@@ -1,5 +1,7 @@
 # ![Beeyond](frontend-beeyond/src/assets/images/beeyond-logo-with-text.png)
 
+**Kubernetes provisioning tool** for the HTBLA Leonding (Dept. of Informatics and Media Technology)
+
 <a href="https://github.com/halilbahar/beeyond/graphs/contributors" alt="Contributors">
   <img src="https://img.shields.io/github/last-commit/halilbahar/beeyond/master"/>
 </a>
@@ -16,12 +18,11 @@
   <img src="https://img.shields.io/static/v1?label=reports&message=here&color=orange"/>
 </a>
 
+## Links
+- [GitHub Pages: AHIF](https://2021-4ahif-syp.github.io/assigment02-system-specification-kubernetes-provisioning-tool/)
+- [GitHub Pages: AHITM](https://halilbahar.github.io/beeyond)
 
-
-
-**Kubernetes provisioning tool** for the HTBLA Leonding (Dept. of Informatics and Media Technology)
-
-## Sample ingress for nginx (yaml)
+## Sample deployment for nginx (yaml)
 
 ```yaml
 apiVersion: apps/v1
