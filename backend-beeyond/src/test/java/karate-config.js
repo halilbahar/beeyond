@@ -1,14 +1,24 @@
 function fn() {
-    var env = karate.env;
+    let env = karate.env;
     if (!env) {
         env = 'dev';
     }
 
-    var auth = function (tags) {
-        var isTeacher = false;
-        var isStudent = false;
-        for (var i = 0; i < tags.length; i++) {
-            var tag = tags[i];
+    let generateString = function () {
+        let result = '';
+        let characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+        let charactersLength = characters.length;
+        for (let i = 0; i < 300; i++) {
+            result += characters.charAt(Math.floor(Math.random() * charactersLength));
+        }
+        return result;
+    };
+
+    let auth = function (tags) {
+        let isTeacher = false;
+        let isStudent = false;
+        for (let i = 0; i < tags.length; i++) {
+            let tag = tags[i];
             if (tag == 'teacher') {
                 isTeacher = true;
             } else if (tag == 'student') {
@@ -20,25 +30,26 @@ function fn() {
             return 'Please use either @teacher or @student';
         }
 
-        var temp;
+        let temp;
         if (isTeacher) {
             temp = 'stuetz:password';
         } else if (isStudent) {
             temp = 'moritz:password';
         }
 
-        var Base64 = Java.type('java.util.Base64');
-        var encoded = Base64.getEncoder().encodeToString(temp.bytes);
+        let Base64 = Java.type('java.util.Base64');
+        let encoded = Base64.getEncoder().encodeToString(Array.from(temp, (x) => x.charCodeAt(0)));
         return 'Basic ' + encoded;
     };
 
-    var config = {
+    let config = {
         baseUrl: 'http://localhost:8081',
         auth: auth,
-        config: karate.tags
+        config: karate.tags,
+        generateString: generateString
     };
 
-    var DatabaseCleanup = Java.type('at.htl.beeyond.integration.util.DatabaseCleanup');
+    let DatabaseCleanup = Java.type('at.htl.beeyond.integration.util.DatabaseCleanup');
     DatabaseCleanup.cleanUp();
     DatabaseCleanup.insertUsers();
 
