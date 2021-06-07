@@ -1,4 +1,5 @@
 == Klassendiagramm
+
 [plantuml]
 ----
 @startuml
@@ -55,7 +56,6 @@ FieldValue "1" -up-> "1" Field
 @enduml
 ----
 
-
 == Systemarchitektur
 
 [plantuml]
@@ -64,23 +64,25 @@ FieldValue "1" -up-> "1" Field
 
     node Beeyond {
         [Quarkus Server]
+        [Kubernetes-Validation Server]
         [Web Server]
         database PostgreSQL
-    }
-
-    node Authentication {
+        database MongoDB
         [Keycloak Server]
-        [LDAP Server]
-        [Keycloak Server] --> [LDAP Server]
     }
 
-    cloud Kubernetes {
-    }
+    cloud Kubernetes
+    [LDAP Server]
 
+
+
+    [Keycloak Server] --> [LDAP Server]
+    [Kubernetes-Validation Server] -- [Quarkus Server]
+    [Kubernetes-Validation Server] -r-> MongoDB
     [Quarkus Server] --> PostgreSQL
-    [Quarkus Server] <-r- [Web Server]: HTTP
+    [Quarkus Server] <-- [Web Server]: HTTP
 
-    [Quarkus Server] -> [Keycloak Server]
+    [Quarkus Server] -r-> [Keycloak Server]
 
     [Quarkus Server] -l-> Kubernetes
 @enduml
