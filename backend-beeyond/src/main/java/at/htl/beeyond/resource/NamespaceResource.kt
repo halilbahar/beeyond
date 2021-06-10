@@ -6,6 +6,7 @@ import at.htl.beeyond.entity.Namespace
 import at.htl.beeyond.entity.User
 import at.htl.beeyond.service.NamespaceService
 import java.util.stream.Collectors
+import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
 import javax.transaction.Transactional
 import javax.validation.Valid
@@ -24,6 +25,7 @@ class NamespaceResource {
     lateinit var namespaceService: NamespaceService
 
     @GET
+    @RolesAllowed("student", "teacher")
     fun getNamespaces(@Context ctx: SecurityContext, @QueryParam("all") all: Int): Response {
         val mapToDto = { o: Namespace -> NamespaceDto(o) }
 
@@ -40,6 +42,7 @@ class NamespaceResource {
 
     @GET
     @Path("/{namespace}")
+    @RolesAllowed("student", "teacher")
     fun getNamespace(@PathParam("namespace") namespaceName: String): Response {
         val namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResultOptional<Namespace>()
 
@@ -52,6 +55,7 @@ class NamespaceResource {
 
     @PUT
     @Transactional
+    @RolesAllowed("teacher")
     fun assignNamespace(@Valid userList: UserListDto): Response {
         val namespaceName = userList.namespace
         var namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResult<Namespace>()
