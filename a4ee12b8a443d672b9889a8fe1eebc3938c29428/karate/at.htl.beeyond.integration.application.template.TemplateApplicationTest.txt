@@ -1,0 +1,16 @@
+-------------------------------------------------------------------------------
+Test set: at.htl.beeyond.integration.application.template.TemplateApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 1.366 s <<< FAILURE! - in at.htl.beeyond.integration.application.template.TemplateApplicationTest
+testCreateTemplateApplicationAsStudent[1][1]  Time elapsed: 0.254 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 500, expected: 204, response time in milliseconds: 173, url: http://localhost:8081/application/template, response: 
+javax.validation.ValidationException: HV000028: Unexpected exception during isValid call.[javax.ws.rs.ProcessingException: RESTEASY003145: Unable to find a MessageBodyReader of content-type application/octet-stream and type interface java.util.Set]
+classpath:at/htl/beeyond/integration/application/template/template-application-creation.feature:31
+
+testCreateTemplateApplicationAsStudent[1][2]  Time elapsed: 0.084 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 500, expected: 204, response time in milliseconds: 20, url: http://localhost:8081/application/template, response: 
+javax.validation.ValidationException: HV000028: Unexpected exception during isValid call.[javax.ws.rs.ProcessingException: RESTEASY003145: Unable to find a MessageBodyReader of content-type application/octet-stream and type interface java.util.Set]
+classpath:at/htl/beeyond/integration/application/template/template-application-creation.feature:52
+
