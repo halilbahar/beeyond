@@ -17,9 +17,9 @@ func (e *NoContentError) Error() string {
 }
 
 type ValidationError struct {
-	Description string `json:"description"`
+	Message string `json:"message"`
 	Value       string `json:"value"`
-	Field       string `json:"field"`
+	Key       string `json:"key"`
 }
 
 // Validates the content (syntax wise) checks the constraints
@@ -53,9 +53,9 @@ func ValidateContent(content string) ([]ValidationError, error) {
 			bytes, _ := json.Marshal(resultError.Value())
 
 			validationError = append(validationError, ValidationError{
-				Description: resultError.Description(),
+				Message: resultError.Description(),
 				Value:       string(bytes),
-				Field:       field,
+				Key:       field,
 			})
 		}
 	}
@@ -102,12 +102,12 @@ func ValidateContent(content string) ([]ValidationError, error) {
 			if isArray {
 				for _, currentValue := range value.([]interface{}) {
 					if !isBetweenMinMax(currentConstraint, currentValue.(int)) {
-						errorDescription = "Given value out of range"
+						errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
 						break
 					}
 				}
 			} else if !isBetweenMinMax(currentConstraint, value.(int)) {
-				errorDescription = "Given value out of range"
+				errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
 			}
 
 		} else if currentConstraint.Enum != nil {
@@ -144,9 +144,9 @@ func ValidateContent(content string) ([]ValidationError, error) {
 
 		if errorDescription != "" {
 			validationError = append(validationError, ValidationError{
-				Description: errorDescription,
+				Message: errorDescription,
 				Value:       actual,
-				Field:       currentConstraint.Path,
+				Key:       currentConstraint.Path,
 			})
 		}
 	}
