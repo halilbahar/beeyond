@@ -4,10 +4,11 @@
   </button>
   <mat-slide-toggle
     class="example-margin"
-    color='warn'
+    color="warn"
     (click)="toggleConstraint()"
-    [checked]='constraint?.disabled'
-    [disabled]='isRequired'>
+    [checked]="constraint?.disabled"
+    [disabled]="isRequired"
+  >
   </mat-slide-toggle>
   <div class="title" (click)="collapsed = !collapsed">{{ title }}</div>
   <button
