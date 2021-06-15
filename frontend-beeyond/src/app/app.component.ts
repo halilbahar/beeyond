@@ -21,8 +21,8 @@ const DEFAULT_DURATION = 300;
   ]
 })
 export class AppComponent {
-  title = 'beeyond';
   @HostBinding('class') className = '';
+  title = 'beeyond';
 
   constructor(
     public authenticationService: AuthenticationService,
