@@ -9,6 +9,9 @@ import { RouterModule } from '@angular/router';
 import { OAuthModule } from 'angular-oauth2-oidc';
 import { MatButtonModule } from '@angular/material/button';
 import { authModuleConfig } from './authentification/oauth-module.config';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatMenuModule } from '@angular/material/menu';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [SideNavigationComponent, HeaderComponent],
@@ -20,7 +23,10 @@ import { authModuleConfig } from './authentification/oauth-module.config';
     MatListModule,
     MatIconModule,
     OAuthModule.forRoot(authModuleConfig),
-    MatButtonModule
+    MatButtonModule,
+    MatSlideToggleModule,
+    MatMenuModule,
+    FormsModule
   ]
 })
 export class CoreModule {}

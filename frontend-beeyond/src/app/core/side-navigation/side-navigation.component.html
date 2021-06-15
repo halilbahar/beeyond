@@ -1,6 +1,6 @@
 <mat-sidenav-container class="side-nav-container" autosize="true">
   <mat-sidenav mode="side" class="primary-bg-color side-nav" opened>
-    <div class="secondary-bg-color side-nav-header">
+    <div class="side-nav-header">
       <span [@minimized]="sidenavToggleService.minimized | async">
         {{ authenticationService.username | async }}
       </span>
