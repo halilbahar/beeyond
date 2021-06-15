@@ -1,37 +1,40 @@
-<div class='header-left'>
+<div class="header-left">
   <mat-icon
-    [inline]='true'
-    class='unselectable cursor-pointer menu-icon'
-    (click)='toggleSideNavigation()'
+    [inline]="true"
+    class="unselectable cursor-pointer menu-icon"
+    (click)="toggleSideNavigation()"
   >
     menu
   </mat-icon>
 
-  <ng-container *ngFor='let crumb of breadcrumbs; let i = index'>
+  <ng-container *ngFor="let crumb of breadcrumbs; let i = index">
     <span
-      *ngIf='crumb.link; else noLinkBreadcrumb'
-      (click)='navigateFromBreadcrumb(crumb.link)'
-      class='cursor-pointer no-outline'
+      *ngIf="crumb.link; else noLinkBreadcrumb"
+      (click)="navigateFromBreadcrumb(crumb.link)"
+      class="cursor-pointer no-outline"
     >
       {{ crumb.title | titlecase }}
     </span>
     <ng-template #noLinkBreadcrumb>{{ crumb.title | titlecase }}</ng-template>
-    <mat-icon *ngIf='i !== breadcrumbs.length - 1' [inline]='true' class='unselectable'>
+    <mat-icon *ngIf="i !== breadcrumbs.length - 1" [inline]="true" class="unselectable">
       chevron_right
     </mat-icon>
   </ng-container>
 </div>
 
-<button mat-mini-fab color='accent' [matMenuTriggerFor]='menu'>
-  <img src='assets/images/beeyond-logo.png' style=''>
+<button mat-mini-fab color="accent" [matMenuTriggerFor]="menu">
+  <img src="assets/images/beeyond-logo.png" style="" />
 </button>
-<mat-menu #menu='matMenu'>
-  <div mat-menu-item (click)='$event.stopPropagation();theme=!theme;toggleTheme()' style='display: flex; justify-content: center;align-items: center;'>
-    <mat-slide-toggle [(ngModel)]='theme' [disabled]='true'>
-    </mat-slide-toggle>
-    <i class='fas fa-cloud-moon'></i>
+<mat-menu #menu="matMenu">
+  <div
+    mat-menu-item
+    (click)="$event.stopPropagation(); theme = !theme; toggleTheme()"
+    style="display: flex; justify-content: center; align-items: center"
+  >
+    <mat-slide-toggle [(ngModel)]="theme" [disabled]="true"> </mat-slide-toggle>
+    <i class="fas fa-cloud-moon"></i>
   </div>
-  <button mat-menu-item style='margin-left: auto' (click)='logOut()'>
+  <button mat-menu-item style="margin-left: auto" (click)="logOut()">
     <mat-icon>logout</mat-icon>
     Log out
   </button>

@@ -18,7 +18,11 @@ $beeyond-light-accent: mat-palette($mat-orange, A200, A100, A400);
 $beeyond-light-warn: mat-palette($mat-red);
 
 // Create the theme object (a Sass map containing all of the palettes).
-$beeyond-light-theme: mat-light-theme($beeyond-light-primary, $beeyond-light-accent, $beeyond-light-warn);
+$beeyond-light-theme: mat-light-theme(
+  $beeyond-light-primary,
+  $beeyond-light-accent,
+  $beeyond-light-warn
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -35,7 +39,7 @@ $beeyond-dark-theme: mat-dark-theme($mat-blue, $mat-blue, $mat-blue);
     color: black;
   }
 
-  .primary-bg-color *{
+  .primary-bg-color * {
     color: black;
   }
 }

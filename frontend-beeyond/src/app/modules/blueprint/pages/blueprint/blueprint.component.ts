@@ -17,7 +17,7 @@ export class BlueprintComponent implements OnInit {
   templates: Template[] = [];
   namespaces: Namespace[] = [];
   customApplicationForm: FormGroup;
-  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false, theme: 'vs-dark'};
+  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false, theme: 'vs-dark' };
   message = '';
 
   constructor(
@@ -29,7 +29,7 @@ export class BlueprintComponent implements OnInit {
     private themeService: ThemeService
   ) {
     this.themeService.theme.subscribe(value => {
-      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark': 'vs-light' };
+      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
     });
   }
 

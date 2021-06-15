@@ -7,5 +7,5 @@ import { BehaviorSubject } from 'rxjs';
 export class ThemeService {
   theme = new BehaviorSubject<boolean>(false);
 
-  constructor() { }
+  constructor() {}
 }

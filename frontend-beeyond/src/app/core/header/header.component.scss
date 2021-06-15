@@ -32,14 +32,13 @@
   background-position: center center;
 }
 
-
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-thumb {
-  background-image: url("../../../assets/images/dark-mode-icon.png") !important;
+  background-image: url('../../../assets/images/dark-mode-icon.png') !important;
   background-color: dimgrey;
 }
 
-::ng-deep .mat-disabled{
-  opacity: 1!important;
+::ng-deep .mat-disabled {
+  opacity: 1 !important;
 }
 
 ::ng-deep .mat-slide-toggle.mat-checked .mat-slide-toggle-bar {
@@ -48,7 +47,7 @@
 
 ::ng-deep .mat-slide-toggle .mat-slide-toggle-thumb {
   background-color: #ffb909;
-  background-image: url("../../../assets/images/light-mode-icon.png") !important;
+  background-image: url('../../../assets/images/light-mode-icon.png') !important;
 }
 
 ::ng-deep .mat-slide-toggle .mat-slide-toggle-bar {
@@ -56,5 +55,5 @@
 }
 
 img {
-  max-width:50%;
+  max-width: 50%;
 }
