@@ -5,7 +5,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ThemeService {
-  theme = new BehaviorSubject<boolean>(false);
+  theme = new BehaviorSubject<boolean>(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
 
   constructor() {}
 }
