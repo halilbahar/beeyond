@@ -31,7 +31,7 @@ docker-compose up -d
 ```
 
 #### start Project
- build and run the project in your IDE
+
 
 ### Endpoint Documentation  
 see the swagger docs for futher information of the endpoints
