@@ -1,0 +1,9 @@
+-------------------------------------------------------------------------------
+Test set: at.htl.beeyond.integration.template.TemplateTest
+-------------------------------------------------------------------------------
+Tests run: 19, Failures: 1, Errors: 0, Skipped: 0, Time elapsed: 3.065 s <<< FAILURE! - in at.htl.beeyond.integration.template.TemplateTest
+testGetAll[1][1]  Time elapsed: 0.035 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+did not evaluate to 'true': response.length == 1
+classpath:at/htl/beeyond/integration/template/template-get.feature:15
+
