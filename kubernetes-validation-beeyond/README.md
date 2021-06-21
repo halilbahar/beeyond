@@ -31,6 +31,7 @@ docker-compose up -d
 ```
 
 #### start Project
+go run main.go
 
 
 ### Endpoint Documentation  
