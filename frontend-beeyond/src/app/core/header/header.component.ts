@@ -19,7 +19,9 @@ export class HeaderComponent implements OnInit {
     private sidenavToggleService: SidenavToggleService,
     private oAuthService: AuthenticationService,
     private themeService: ThemeService
-  ) {}
+  ) {
+    this.theme = themeService.theme.value;
+  }
 
   ngOnInit(): void {
     let segements: { path: string; params: Params }[] = [];
