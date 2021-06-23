@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Params, Router } from '@angular/router';
 import { Breadcrumb } from 'src/app/shared/models/breadcrumb.model';
 import { AuthenticationService } from '../authentification/authentication.service';
 import { SidenavToggleService } from '../services/sidenav-toggle.service';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-header',
@@ -11,12 +12,16 @@ import { SidenavToggleService } from '../services/sidenav-toggle.service';
 })
 export class HeaderComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
+  theme: boolean;
 
   constructor(
     private router: Router,
     private sidenavToggleService: SidenavToggleService,
-    private oAuthService: AuthenticationService
-  ) {}
+    private oAuthService: AuthenticationService,
+    private themeService: ThemeService
+  ) {
+    this.theme = themeService.theme.value;
+  }
 
   ngOnInit(): void {
     let segements: { path: string; params: Params }[] = [];
@@ -90,5 +95,9 @@ export class HeaderComponent implements OnInit {
 
   logOut(): void {
     this.oAuthService.logOut();
+  }
+
+  toggleTheme() {
+    this.themeService.theme.next(this.theme);
   }
 }

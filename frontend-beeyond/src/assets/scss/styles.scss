@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @import 'custom-theme';
+@import '~@angular/material/theming';
 
 html,
 body {
@@ -12,11 +13,11 @@ body {
 }
 
 .primary-bg-color {
-  background-color: mat-color($beeyond-primary, 300);
+  background-color: mat-color($beeyond-light-primary, 300);
 }
 
 .secondary-bg-color {
-  background-color: mat-color($beeyond-primary, 400);
+  background-color: mat-color($beeyond-light-primary, 400);
   border-bottom: 0.1rem solid rgba(0, 0, 0, 0.1);
 }
 

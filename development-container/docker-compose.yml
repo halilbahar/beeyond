@@ -22,6 +22,7 @@ services:
     image: jboss/keycloak:11.0.2
     volumes:
       - ./school-realm.json:/tmp/school-realm.json
+      - ./keycloak-theme:/opt/jboss/keycloak/themes/beeyond
     command: ['-b', '0.0.0.0', '-Dkeycloak.migration.action=import', '-Dkeycloak.profile.feature.upload_scripts=enabled', '-Dkeycloak.migration.provider=singleFile', '-Dkeycloak.migration.file=/tmp/school-realm.json']
     environment:
       KEYCLOAK_USER: beeyond

@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Namespace } from '../../../../shared/models/namespace.model';
 import { AuthenticationService } from 'src/app/core/authentification/authentication.service';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-blueprint',
@@ -16,7 +17,7 @@ export class BlueprintComponent implements OnInit {
   templates: Template[] = [];
   namespaces: Namespace[] = [];
   customApplicationForm: FormGroup;
-  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
+  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false, theme: 'vs-dark' };
   message = '';
 
   constructor(
@@ -24,8 +25,13 @@ export class BlueprintComponent implements OnInit {
     private backendApiService: BackendApiService,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private authenticationService: AuthenticationService
-  ) {}
+    private authenticationService: AuthenticationService,
+    private themeService: ThemeService
+  ) {
+    this.themeService.theme.subscribe(value => {
+      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
+    });
+  }
 
   ngOnInit(): void {
     this.backendApiService.getTemplates().subscribe(templates => {

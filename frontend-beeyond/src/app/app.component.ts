@@ -1,7 +1,9 @@
-import { Component } from '@angular/core';
+import { Component, HostBinding } from '@angular/core';
 import { AuthenticationService } from './core/authentification/authentication.service';
 import { ProgressBarService } from './core/services/progress-bar.service';
 import { animate, AUTO_STYLE, state, style, transition, trigger } from '@angular/animations';
+import { ThemeService } from './core/services/theme.service';
+import { OverlayContainer } from '@angular/cdk/overlay';
 
 const DEFAULT_DURATION = 300;
 
@@ -19,10 +21,22 @@ const DEFAULT_DURATION = 300;
   ]
 })
 export class AppComponent {
+  @HostBinding('class') className = '';
   title = 'beeyond';
 
   constructor(
     public authenticationService: AuthenticationService,
-    public progressBarService: ProgressBarService
-  ) {}
+    public progressBarService: ProgressBarService,
+    public themeService: ThemeService,
+    private overlayContainer: OverlayContainer
+  ) {
+    this.themeService.theme.subscribe(value => {
+      this.className = value ? 'darkMode' : '';
+      if (value) {
+        this.overlayContainer.getContainerElement().classList.add('darkMode');
+      } else {
+        this.overlayContainer.getContainerElement().classList.remove('darkMode');
+      }
+    });
+  }
 }

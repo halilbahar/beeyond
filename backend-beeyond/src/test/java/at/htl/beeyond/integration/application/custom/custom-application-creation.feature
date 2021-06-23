@@ -61,7 +61,6 @@ Feature: Custom application creation endpoint
 
   @student
   Scenario: Create a custom application with a too long note
-    * def generateString = read('string-generator.js')
     Given request
     """
     {
