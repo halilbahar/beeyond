@@ -17,6 +17,7 @@ func GetRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(middleware.Cors())
 
+
 	api := router.Group("/api")
 	{
 		api.GET("/swagger-ui", func(c *gin.Context) {
