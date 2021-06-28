@@ -20,8 +20,10 @@ func TestValidateEndpoint_ShouldWork(t *testing.T) {
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
+	body, _ := ioutil.ReadAll(resp.Body)
+
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 }
 
 func TestValidateEndpoint_ShouldReturnError(t *testing.T) {
@@ -34,8 +36,10 @@ func TestValidateEndpoint_ShouldReturnError(t *testing.T) {
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
+	body, _ := ioutil.ReadAll(resp.Body)
+
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 }
 
 func TestValidateEndpoint_WithValidConstraint_ShouldWork(t *testing.T) {
@@ -61,8 +65,10 @@ func TestValidateEndpoint_WithValidConstraint_ShouldWork(t *testing.T) {
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
+	body, _ := ioutil.ReadAll(resp.Body)
+
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 }
 
@@ -89,8 +95,10 @@ func TestValidateEndpoint_WithInvalidConstraint_ShouldReturnError(t *testing.T) 
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
+	body, _ := ioutil.ReadAll(resp.Body)
+
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 }
 
@@ -123,8 +131,10 @@ func TestValidateEndpoint_WithMinMaxAndIntegerValue_ShouldWork(t *testing.T) {
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
+	body, _ := ioutil.ReadAll(resp.Body)
+
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 
 	// Given
@@ -143,8 +153,10 @@ func TestValidateEndpoint_WithMinMaxAndIntegerValue_ShouldWork(t *testing.T) {
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
 
+	body, _ = ioutil.ReadAll(resp.Body)
+
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 }
 
@@ -176,9 +188,10 @@ func TestValidateEndpoint_WithMinMaxAndIntegerArrayValue_ShouldWork(t *testing.T
 	c, _ := ioutil.ReadFile("./resources/validIntegerArray.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 
 	// Given
@@ -196,9 +209,10 @@ func TestValidateEndpoint_WithMinMaxAndIntegerArrayValue_ShouldWork(t *testing.T
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 }
 
@@ -228,9 +242,10 @@ func TestValidateEndpoint_WithEnumAndIntegerValue_ShouldWork(t *testing.T) {
 	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 
 	// Given
@@ -247,9 +262,10 @@ func TestValidateEndpoint_WithEnumAndIntegerValue_ShouldWork(t *testing.T) {
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 }
 
@@ -275,9 +291,10 @@ func TestValidateEndpoint_WithEnumAndStringValue_ShouldWork(t *testing.T) {
 	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("metadata.clusterName", gkv)
 
 	// Given
@@ -294,9 +311,10 @@ func TestValidateEndpoint_WithEnumAndStringValue_ShouldWork(t *testing.T) {
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("metadata.clusterName", gkv)
 }
 
@@ -321,9 +339,10 @@ func TestValidateEndpoint_WithEnumAndBooleanValue_ShouldWork(t *testing.T) {
 	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.paused", gkv)
 
 	// Given
@@ -340,9 +359,10 @@ func TestValidateEndpoint_WithEnumAndBooleanValue_ShouldWork(t *testing.T) {
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.paused", gkv)
 }
 
@@ -371,9 +391,10 @@ func TestValidateEndpoint_WithEnumAndIntegerArrayValue_ShouldWork(t *testing.T) 
 	c, _ := ioutil.ReadFile("./resources/validIntegerArray.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 
 	// Given
@@ -390,9 +411,10 @@ func TestValidateEndpoint_WithEnumAndIntegerArrayValue_ShouldWork(t *testing.T) 
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 }
 
@@ -417,9 +439,10 @@ func TestValidateEndpoint_WithEnumAndStringArrayValue_ShouldWork(t *testing.T) {
 	c, _ := ioutil.ReadFile("./resources/validStringArray.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("status.resourceRules.resourceNames", gkv)
 
 	// Given
@@ -436,9 +459,10 @@ func TestValidateEndpoint_WithEnumAndStringArrayValue_ShouldWork(t *testing.T) {
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("status.resourceRules.resourceNames", gkv)
 }
 
@@ -468,9 +492,10 @@ func TestValidateEndpoint_WithRegexAndIntegerValue_ShouldWork(t *testing.T) {
 	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 
 	// Given
@@ -486,9 +511,10 @@ func TestValidateEndpoint_WithRegexAndIntegerValue_ShouldWork(t *testing.T) {
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.replicas", gkv)
 }
 
@@ -514,9 +540,10 @@ func TestValidateEndpoint_WithRegexAndStringValue_ShouldWork(t *testing.T) {
 	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("metadata.clusterName", gkv)
 
 	// Given
@@ -533,9 +560,10 @@ func TestValidateEndpoint_WithRegexAndStringValue_ShouldWork(t *testing.T) {
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("metadata.clusterName", gkv)
 }
 
@@ -560,9 +588,10 @@ func TestValidateEndpoint_WithRegexAndBooleanValue_ShouldWork(t *testing.T) {
 	c, _ := ioutil.ReadFile("./resources/valid.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.paused", gkv)
 
 	// Given
@@ -579,9 +608,10 @@ func TestValidateEndpoint_WithRegexAndBooleanValue_ShouldWork(t *testing.T) {
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.paused", gkv)
 }
 
@@ -610,9 +640,10 @@ func TestValidateEndpoint_WithRegexAndIntegerArrayValue_ShouldWork(t *testing.T)
 	c, _ := ioutil.ReadFile("./resources/validIntegerArray.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 
 	// Given
@@ -629,9 +660,10 @@ func TestValidateEndpoint_WithRegexAndIntegerArrayValue_ShouldWork(t *testing.T)
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("spec.securityContext.supplementalGroups", gkv)
 }
 
@@ -656,9 +688,10 @@ func TestValidateEndpoint_WithRegexAndStringArrayValue_ShouldWork(t *testing.T) 
 	c, _ := ioutil.ReadFile("./resources/validStringArray.yaml")
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 200, resp.Code)
+	assert.Equal(t, "null", string(body))
 	models.DeleteConstraint("status.resourceRules.resourceNames", gkv)
 
 	// Given
@@ -675,9 +708,10 @@ func TestValidateEndpoint_WithRegexAndStringArrayValue_ShouldWork(t *testing.T) 
 	resp = httptest.NewRecorder()
 	req, _ = http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
 	Router.ServeHTTP(resp, req)
+	body, _ = ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 	models.DeleteConstraint("status.resourceRules.resourceNames", gkv)
 }
 
@@ -689,7 +723,8 @@ func TestValidateEndpoint_WithEmptyYaml_ShouldReturnError(t *testing.T) {
 	resp := httptest.NewRecorder()
 	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(""))
 	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
 
 	// Then
-	assert.Equal(t, 422, resp.Code)
+	assert.NotEqual(t, "null", string(body))
 }

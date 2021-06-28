@@ -11,7 +11,6 @@ import (
 // @Tags Validation
 // @Produce  json
 // @Success 200 {string} string	"ok"
-// @Failure 422 {string} string "unprocessable entity"
 // @Router /api/validate/ [post]
 func getValidationResult(c *gin.Context) {
 	data, _ := c.GetRawData()
@@ -20,14 +19,12 @@ func getValidationResult(c *gin.Context) {
 
 	if err != nil {
 		// TODO: find what errors can occur and return them if ok
-		c.Writer.WriteHeader(http.StatusUnprocessableEntity)
-		return
+		results = append(results, models.ValidationError{
+			Message: "YAML-Format not valid",
+			Value:       yamlContent,
+			Key:       "content",
+		})
 	}
 
-	if len(results) > 0 {
-		c.JSON(http.StatusUnprocessableEntity, results)
-		return
-	}
-
-	c.Writer.WriteHeader(http.StatusOK)
+	c.JSON(http.StatusOK, results)
 }

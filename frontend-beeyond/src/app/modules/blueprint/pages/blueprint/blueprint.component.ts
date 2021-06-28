@@ -76,9 +76,14 @@ export class BlueprintComponent implements OnInit {
         });
       },
       error => {
-        this.snackBar.open(error.error.map(err => err.message).join('\n'), 'close', {
-          duration: undefined
-        });
+        this.snackBar.open(
+          error.error.map(err => err.message + ' - ' + err.key).join('\n'),
+          'close',
+          {
+            duration: undefined,
+            panelClass: ['new-line']
+          }
+        );
       }
     );
   }

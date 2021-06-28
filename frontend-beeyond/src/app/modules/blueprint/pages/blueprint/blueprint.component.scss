@@ -35,3 +35,7 @@ app-template-list {
 .hidden-field {
   display: none;
 }
+
+::ng-deep .new-line {
+  white-space: pre-wrap;
+}
