@@ -31,7 +31,8 @@
     (click)="$event.stopPropagation(); theme = !theme; toggleTheme()"
     style="display: flex; justify-content: center; align-items: center"
   >
-    <mat-slide-toggle [(ngModel)]="theme" [disabled]="true"> </mat-slide-toggle>
+    <mat-slide-toggle class="theme-toggle" [(ngModel)]="theme" [disabled]="true">
+    </mat-slide-toggle>
     <i class="fas fa-cloud-moon"></i>
   </div>
   <button mat-menu-item style="margin-left: auto" (click)="logOut()">
