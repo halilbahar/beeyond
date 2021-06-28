@@ -1,18 +1,22 @@
 package at.htl.beeyond.service
 
 import at.htl.beeyond.entity.Application
-import javax.enterprise.context.ApplicationScoped
-import javax.json.bind.Jsonb
 import at.htl.beeyond.entity.CustomApplication
+import at.htl.beeyond.entity.Namespace
 import at.htl.beeyond.entity.TemplateApplication
+import io.fabric8.kubernetes.api.model.IntOrString
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
+import io.fabric8.kubernetes.api.model.extensions.*
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
-import org.yaml.snakeyaml.representer.Representer
 import java.io.ByteArrayInputStream
+import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
 import javax.json.Json
 import javax.json.JsonObject
+import javax.json.bind.Jsonb
 import javax.json.bind.JsonbBuilder
 
 @ApplicationScoped
@@ -21,32 +25,33 @@ class DeploymentService {
     lateinit var yaml: Yaml
     lateinit var client: KubernetesClient
 
+    @Inject
+    lateinit var namespaceService: NamespaceService
+
     init {
         val dumperOptions = DumperOptions()
         dumperOptions.defaultFlowStyle = DumperOptions.FlowStyle.BLOCK
-        dumperOptions.isPrettyFlow = true
-        dumperOptions.tags = null
         this.yaml = Yaml(dumperOptions)
         this.client = DefaultKubernetesClient()
     }
 
     fun deploy(application: Application?) {
         if (application is CustomApplication) {
-            this.executeYaml(application.content, application.id)
+            this.executeYaml(application.content, application.id, application.namespace)
         } else if (application is TemplateApplication) {
-            this.executeYaml(application.content, application.id)
+            this.executeYaml(application.content, application.id, application.namespace)
         }
     }
 
     fun stop(application: Application?) {
         if (application is CustomApplication) {
-            this.executeYaml(application.content, application.id, delete = true)
+            this.executeYaml(application.content, application.id, application.namespace, delete = true)
         } else if (application is TemplateApplication) {
-            this.executeYaml(application.content, application.id, delete = true)
+            this.executeYaml(application.content, application.id, application.namespace, delete = true)
         }
     }
 
-    fun executeYaml(content: String, applicationId: Long, delete: Boolean = false) {
+    fun executeYaml(content: String, applicationId: Long, namespace: Namespace, delete: Boolean = false) {
         val yamlArray: MutableList<JsonObject> = mutableListOf()
         val yamlIterator: MutableIterator<Any> = this.yaml.loadAll(content).iterator()
 
@@ -57,24 +62,68 @@ class DeploymentService {
             }
         }
 
-        val yamlString = yamlArray
-                .map {
-                    val kubernetesBuilder = Json.createObjectBuilder(it)
-                    val metadataBuilder = Json.createObjectBuilder(it.getJsonObject("metadata"))
-                    metadataBuilder.add("labels", Json.createObjectBuilder().add("beeyond-application-id", applicationId))
+        val services = mutableMapOf<String, Int>()
 
-                    kubernetesBuilder.add("metadata", metadataBuilder)
-                    kubernetesBuilder.build().toString()
+        val yamlString = yamlArray
+            .map {
+                val kubernetesBuilder = Json.createObjectBuilder(it)
+                val metadataBuilder = Json.createObjectBuilder(it.getJsonObject("metadata"))
+                metadataBuilder.add("labels", Json.createObjectBuilder().add("beeyond-application-id", applicationId))
+                kubernetesBuilder.add("metadata", metadataBuilder)
+
+                if (it.getString("kind") == "Service") {
+                    it.getJsonObject("spec").getJsonArray("ports").map {
+                        services.put(it.asJsonObject().getString("name"), it.asJsonObject().getInt("port"))
+                    }
                 }
-                .map { this.jsonb.fromJson(it, Object::class.java) }
-                .map { this.yaml.dump(it) }
-                .joinToString("---\n")
+
+                kubernetesBuilder.build().toString()
+            }
+            .map { this.jsonb.fromJson(it, Object::class.java) }
+            .map {
+                this.yaml.dump(it)
+            }
+            .joinToString("---\n")
+            .replace(Regex("!!float '([0-9]+)'"), "$1")
 
         // If problems occur: https://stackoverflow.com/a/25750748/11125147
-        if(!delete) {
-            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace("default").createOrReplace()
+        if (!delete) {
+            if (!client.namespaces().list().items.map { it.metadata.name }.contains(namespace.namespace)) {
+                namespaceService.createNamespace(namespace.namespace)
+            }
+
+            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace(namespace.namespace)
+                .createOrReplace()
+
+            if (!services.isEmpty()) {
+                val rules = HTTPIngressRuleValueBuilder()
+                services.forEach {
+                    rules.addNewPath().withPath("/" + namespace.namespace).withBackend(
+                        IngressBackendBuilder()
+                            .withServicePort(IntOrString(it.value))
+                            .withServiceName(it.key).build()
+                    ).endPath()
+                }
+
+                client.extensions().ingresses().inNamespace(namespace.namespace).create(
+                    IngressBuilder()
+                        .withMetadata(
+                            ObjectMetaBuilder()
+                                .withName("halil-temp")
+                                .addToLabels("beeyond-application-id", applicationId.toString())
+                                .build()
+                        )
+                        .withSpec(
+                            IngressSpecBuilder()
+                                .addNewRule()
+                                .withHttp(rules.build())
+                                .endRule()
+                                .build()
+                        ).build()
+                )
+            }
         } else {
-            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace("default").delete()
+            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace(namespace.namespace).delete()
         }
     }
 }
