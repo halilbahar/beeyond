@@ -50,7 +50,7 @@ See the swagger docs for futher information of the endpoints [at port 8180/api/s
 ### How it works
 In the frontend a student or teacher can post a YAML file and it gets checked for syntax errors.
 Also you can post a constraint on a Kubernetes Object , see 
-[Kubernetes JSON definitions](https://kubernetesjsonschema.dev/v1.17.0-standalone-strict/_definitions.json),
+[Kubernetes JSON definitions](https://kubernetesjsonschema.dev/v1.17.0-standalone-strict/_definitions.json).
 
 # Not complete
 
