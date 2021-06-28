@@ -15,7 +15,11 @@ public class WiremockValidation implements QuarkusTestResourceLifecycleManager {
     @Override
     public Map<String, String> start() {
         this.wireMockServer = new WireMockServer(8082);
-        this.wireMockServer.stubFor(post(urlEqualTo("/api/validate")).willReturn(aResponse().withStatus(200)));
+        this.wireMockServer
+                .stubFor(post(urlEqualTo("/api/validate"))
+                        .willReturn(aResponse()
+                                .withStatus(200)
+                                .withHeader("Content-Type", "application/json")));
         this.wireMockServer.start();
 
         return Collections.singletonMap("at.htl.beeyond.service.ValidationRestClient/mp-rest/url", wireMockServer.baseUrl());
