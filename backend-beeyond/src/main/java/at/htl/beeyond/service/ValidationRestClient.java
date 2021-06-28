@@ -6,6 +6,7 @@ import org.eclipse.microprofile.rest.client.inject.RegisterRestClient;
 import javax.ws.rs.Consumes;
 import javax.ws.rs.POST;
 import javax.ws.rs.Path;
+import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.util.Set;
 
@@ -13,7 +14,7 @@ import java.util.Set;
 public interface ValidationRestClient {
 
     @POST
-    @Consumes({MediaType.APPLICATION_JSON})
+    @Produces({MediaType.APPLICATION_JSON})
     @Path("/api/validate")
     Set<FailedFieldDto> validateKubernetesYaml(String content);
 }
