@@ -55,10 +55,10 @@ $spacing: 0.4rem;
   padding-top: $body-space / 2;
 }
 
-::ng-deep .mat-slide-toggle .mat-slide-toggle-bar {
+::ng-deep .constraint-toggle .mat-slide-toggle-bar {
   background-color: #7fda84;
 }
 
-::ng-deep .mat-slide-toggle .mat-slide-toggle-thumb {
+::ng-deep .constraint-toggle .mat-slide-toggle-thumb {
   background-color: #43c94c;
 }

@@ -29,11 +29,16 @@ public class ValidKubernetesValidator implements ConstraintValidator<ValidKubern
         } else {
             content = ((TemplateApplicationDto) applicationDto).getContent();
         }
-
-        try {
-            return this.validationRestClient.validateKubernetesYaml(content).getStatus() == 200;
-        } catch (Exception ignored) {
-            return false;
+        var result = this.validationRestClient.validateKubernetesYaml(content);
+        if (result != null) {
+            context.disableDefaultConstraintViolation();
+            for (var error:result) {
+                context.buildConstraintViolationWithTemplate(error.getMessage())
+                        .addPropertyNode(error.getKey())
+                        .addConstraintViolation();
+            }
         }
+
+        return result == null;
     }
 }
