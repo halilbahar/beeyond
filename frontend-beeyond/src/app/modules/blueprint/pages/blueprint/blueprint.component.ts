@@ -48,7 +48,9 @@ export class BlueprintComponent implements OnInit {
         label: 'Default'
       };
 
-      this.namespaces = namespaces.map(namespace => ({ ...namespace, label: namespace.namespace }));
+      this.namespaces = namespaces
+        .map(namespace => ({ ...namespace, label: namespace.namespace }))
+        .filter(namespace => namespace.namespace !== this.authenticationService.username.value);
       this.namespaces.push(defaultNamespace);
       this.customApplicationForm.patchValue({
         namespace: defaultNamespace.namespace

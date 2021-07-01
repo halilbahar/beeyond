@@ -25,14 +25,14 @@ class UserFilter : ContainerRequestFilter {
             var user: User? = User.find<User>("name", name).firstResult()
 
             if (user == null) {
-                user = User(name)
-                user.persist()
-            }
-
-            if (Namespace.find<Namespace>("namespace", name).firstResultOptional<Namespace>().isEmpty) {
-                val namespace = Namespace(name)
-                namespace.users = listOf(user)
-                namespace.persist()
+                try {
+                    user = User(name)
+                    user.persist()
+                    val namespace = Namespace(name)
+                    namespace.users = listOf(user)
+                    namespace.persist()
+                } catch (e: Exception) {
+                } // Prevent duplicate user and namespace
             }
         }
     }

@@ -4,4 +4,5 @@ export interface Namespace {
   id?: number;
   namespace: string;
   users?: User[];
+  label: string;
 }
