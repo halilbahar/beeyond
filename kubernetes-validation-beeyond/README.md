@@ -45,7 +45,7 @@ go test ./test/
 
 
 ### Endpoint Documentation  
-See the swagger docs for futher information of the endpoints [at port 8180/api/swagger-ui](http://localhost:8180/api/swagger-ui).
+See the swagger docs for futher information of the endpoints at port [:8180/api/swagger-ui](http://localhost:8180/api/swagger-ui).
 
 ### How it works
 In the frontend a student or teacher can post a YAML file and it gets checked for syntax errors.
