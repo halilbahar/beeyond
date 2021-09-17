@@ -23,11 +23,11 @@
 ### Getting Started
 
 This is a web API that provides the Kubernetes root definitions and 
-validates the YAML that will be deployed 
+validates the YAML that will be deployed.
 
 #### Start DB
 
-Navigate to the [/development-container](../development-container) folder and run 
+Navigate to the [/development-container](../development-container) folder and run.
 
 ```shell
 docker-compose up -d
@@ -42,7 +42,6 @@ go run main.go
 ```shell
 go test ./test/
 ```
-
 
 ### Endpoint Documentation  
 See the swagger docs for futher information of the endpoints at port [:8180/api/swagger-ui](http://localhost:8180/api/swagger-ui).
