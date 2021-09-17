@@ -12,6 +12,7 @@ import (
 
 // Creates an Engine with all endpoint, their paths and the used middleware
 // Returns: *gin.Engine: an Engine with all defined Endpoints and the used middleware
+
 func GetRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(middleware.Cors())
