@@ -1,0 +1,40 @@
+-------------------------------------------------------------------------------
+Test set: at.htl.beeyond.integration.application.custom.CustomApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 10, Failures: 6, Errors: 0, Skipped: 0, Time elapsed: 0.812 s <<< FAILURE! - in at.htl.beeyond.integration.application.custom.CustomApplicationTest
+testCreateCustomApplication[1][1]  Time elapsed: 0.114 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 38, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/custom/custom-application-creation.feature:20
+
+testCreateCustomApplication[1][2]  Time elapsed: 0.067 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 11, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/custom/custom-application-creation.feature:32
+
+testCreateCustomApplication[1][7]  Time elapsed: 0.058 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 12, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/custom/custom-application-creation.feature:88
+
+testCreateCustomApplication[1][8]  Time elapsed: 0.056 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 9, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/custom/custom-application-creation.feature:102
+
+testCreateCustomApplication[1][9]  Time elapsed: 0.057 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 10, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/custom/custom-application-creation.feature:119
+
+testCreateCustomApplication[1][10]  Time elapsed: 0.22 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 9, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/custom/custom-application-creation.feature:133
+
