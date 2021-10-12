@@ -2,6 +2,7 @@ package at.htl.beeyond.dto
 
 import at.htl.beeyond.entity.ApplicationStatus
 import at.htl.beeyond.entity.CustomApplication
+import at.htl.beeyond.entity.Namespace
 import at.htl.beeyond.validation.Checks
 import at.htl.beeyond.validation.ValidKubernetes
 import java.time.LocalDateTime
@@ -18,7 +19,8 @@ class CustomApplicationDto(
         createdAt: LocalDateTime? = null,
         startedAt: LocalDateTime? = null,
         finishedAt: LocalDateTime? = null,
-        content: String? = null
+        content: String? = null,
+        namespace: String? = null
 ) : ApplicationDto(
         id,
         note,
@@ -26,7 +28,8 @@ class CustomApplicationDto(
         owner,
         createdAt,
         startedAt,
-        finishedAt
+        finishedAt,
+        namespace
 ) {
     constructor(customApplication: CustomApplication) : this(
             customApplication.id,
@@ -36,7 +39,8 @@ class CustomApplicationDto(
             customApplication.createdAt,
             customApplication.startedAt,
             customApplication.finishedAt,
-            customApplication.content
+            customApplication.content,
+            customApplication.namespace.namespace
     )
 
     @field:NotBlank

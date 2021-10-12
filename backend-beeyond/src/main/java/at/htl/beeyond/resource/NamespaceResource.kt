@@ -70,8 +70,7 @@ class NamespaceResource {
         }
 
         if (namespace.users.isEmpty()) {
-            namespaceService.deleteNamespace(namespaceName)
-            Namespace.deleteById(namespace.id)
+            namespace.isDeleted = true
         }
 
         return Response.noContent().build()

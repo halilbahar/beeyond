@@ -1,9 +1,6 @@
 package at.htl.beeyond.dto
 
-import at.htl.beeyond.entity.ApplicationStatus
-import at.htl.beeyond.entity.Template
-import at.htl.beeyond.entity.TemplateApplication
-import at.htl.beeyond.entity.TemplateField
+import at.htl.beeyond.entity.*
 import at.htl.beeyond.validation.Checks
 import at.htl.beeyond.validation.Exists
 import at.htl.beeyond.validation.TemplateFieldsComplete
@@ -27,7 +24,8 @@ class TemplateApplicationDto(
         startedAt: LocalDateTime? = null,
         finishedAt: LocalDateTime? = null,
         @field:NotNull @field:Exists(entity = Template::class, fieldName = "id") var templateId: Long? = null,
-        @field:Valid var fieldValues: List<TemplateFieldValueDto> = LinkedList()
+        @field:Valid var fieldValues: List<TemplateFieldValueDto> = LinkedList(),
+        namespace: String = ""
 ) : ApplicationDto(
         id,
         note,
@@ -35,7 +33,8 @@ class TemplateApplicationDto(
         owner,
         createdAt,
         startedAt,
-        finishedAt
+        finishedAt,
+        namespace
 ) {
 
     constructor(templateApplication: TemplateApplication) : this(
@@ -47,7 +46,8 @@ class TemplateApplicationDto(
             templateApplication.startedAt,
             templateApplication.finishedAt,
             templateApplication.template.id,
-            templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList()
+            templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList(),
+            templateApplication.namespace.namespace
     )
 
     @JsonbTransient

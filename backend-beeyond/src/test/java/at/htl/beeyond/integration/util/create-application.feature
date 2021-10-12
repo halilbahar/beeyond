@@ -13,6 +13,7 @@ Feature:
     {
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
+      "namespace": "stuetz"
     }
     """
     When method POST
