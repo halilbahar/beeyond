@@ -7,7 +7,8 @@ import javax.json.bind.annotation.JsonbTransient
 class NamespaceDto(
         @set:JsonbTransient var id: Long? = null,
         var namespace: String? = null,
-        var users: List<UserDto?> = LinkedList()
+        var users: List<UserDto?> = LinkedList(),
+        @set:JsonbTransient var deleted: Boolean? = null
 ) {
     constructor(namespace: Namespace) : this(
             namespace.id,

@@ -1,5 +1,6 @@
 package at.htl.beeyond.interceptor
 
+import at.htl.beeyond.entity.Namespace
 import at.htl.beeyond.entity.User
 import javax.enterprise.context.ApplicationScoped
 import javax.transaction.Transactional
@@ -24,8 +25,14 @@ class UserFilter : ContainerRequestFilter {
             var user: User? = User.find<User>("name", name).firstResult()
 
             if (user == null) {
-                user = User(name)
-                user.persist()
+                try {
+                    user = User(name)
+                    user.persist()
+                    val namespace = Namespace(name)
+                    namespace.users = listOf(user)
+                    namespace.persist()
+                } catch (e: Exception) {
+                } // Prevent duplicate user and namespace
             }
         }
     }

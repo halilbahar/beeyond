@@ -51,7 +51,6 @@ function fn() {
 
     let DatabaseCleanup = Java.type('at.htl.beeyond.integration.util.DatabaseCleanup');
     DatabaseCleanup.cleanUp();
-    DatabaseCleanup.insertUsers();
 
     karate.configure('connectTimeout', 5000);
     karate.configure('readTimeout', 5000);
