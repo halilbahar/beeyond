@@ -114,7 +114,7 @@ class DeploymentService {
                     IngressBuilder()
                         .withMetadata(
                             ObjectMetaBuilder()
-                                .withName("halil-temp")
+                                .withName(namespace.namespace +"-"+ System.currentTimeMillis())
                                 .addToLabels("beeyond-application-id", applicationId.toString())
                                 .build()
                         )

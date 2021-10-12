@@ -116,7 +116,7 @@ class ApplicationResource {
             namespaceService.deleteNamespace(application.namespace.namespace)
         }
 
-        deploymentService.client.extensions().ingresses().withLabel("beeyond-application-id", application.id.toString())
+        deploymentService.client.extensions().ingresses().withLabel("beeyond-application-id", application.id.toString()).delete()
 
         return Response.noContent().build()
     }
