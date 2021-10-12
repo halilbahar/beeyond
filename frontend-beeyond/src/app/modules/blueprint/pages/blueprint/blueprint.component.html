@@ -11,14 +11,9 @@
           >
           </ngx-monaco-editor>
 
-          <mat-form-field class="full-width" style='margin-top: 10px'>
+          <mat-form-field class="full-width" style="margin-top: 10px">
             <mat-label>An optional note:</mat-label>
-            <textarea
-              matInput
-              cdkTextareaAutosize
-              cdkAutosizeMaxRows="3"
-              formControlName="note"
-            >
+            <textarea matInput cdkTextareaAutosize cdkAutosizeMaxRows="3" formControlName="note">
             </textarea>
             <mat-error *ngIf="customApplicationForm.get('note').invalid">
               The note must not be longer than 255 characters
