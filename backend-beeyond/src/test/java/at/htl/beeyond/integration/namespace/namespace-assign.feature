@@ -3,6 +3,7 @@ Feature: Namespace assigning endpoint
   Background:
     * url baseUrl + '/namespace'
     * configure headers = { Authorization: '#(auth(karate.tags))' }
+    * call read('insert-user.js')
 
   @teacher
   Scenario: Assign 1 user to a valid namespace

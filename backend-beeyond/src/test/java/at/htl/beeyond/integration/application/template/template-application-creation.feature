@@ -294,8 +294,8 @@ Feature: Template application creation endpoint
     Given request
     """
     {
-      "note": "string",,
-      "namespace": "moritz"
+      "note": "string",
+      "namespace": "moritz",
       "templateId": #(template.id)
     }
     """
