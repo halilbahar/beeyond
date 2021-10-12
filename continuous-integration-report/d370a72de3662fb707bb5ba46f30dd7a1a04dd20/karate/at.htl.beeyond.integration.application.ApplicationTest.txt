@@ -1,0 +1,18 @@
+-------------------------------------------------------------------------------
+Test set: at.htl.beeyond.integration.application.ApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 18, Failures: 2, Errors: 0, Skipped: 0, Time elapsed: 0.948 s <<< FAILURE! - in at.htl.beeyond.integration.application.ApplicationTest
+testGetAll[1][1]  Time elapsed: 0.059 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 9, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace stuetz does not exist","value":"stuetz"}]
+classpath:at/htl/beeyond/integration/util/create-application.feature:20
+classpath:at/htl/beeyond/integration/application/application-get.feature:7
+
+testGetAll[1][2]  Time elapsed: 0.12 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 9, url: http://localhost:8081/application/custom, response: 
+[{"key":"namespace","message":"Namespace with namespace stuetz does not exist","value":"stuetz"}]
+classpath:at/htl/beeyond/integration/util/create-application.feature:20
+classpath:at/htl/beeyond/integration/application/application-get.feature:7
+
