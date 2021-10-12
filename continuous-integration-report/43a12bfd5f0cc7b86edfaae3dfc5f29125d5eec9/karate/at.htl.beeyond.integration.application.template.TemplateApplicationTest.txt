@@ -1,0 +1,79 @@
+-------------------------------------------------------------------------------
+Test set: at.htl.beeyond.integration.application.template.TemplateApplicationTest
+-------------------------------------------------------------------------------
+Tests run: 12, Failures: 5, Errors: 0, Skipped: 0, Time elapsed: 1.518 s <<< FAILURE! - in at.htl.beeyond.integration.application.template.TemplateApplicationTest
+testCreateTemplateApplicationAsStudent[1][1]  Time elapsed: 0.124 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 38, url: http://localhost:8081/application/template, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/template/template-application-creation.feature:32
+
+testCreateTemplateApplicationAsStudent[1][2]  Time elapsed: 0.098 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+status code was: 422, expected: 204, response time in milliseconds: 11, url: http://localhost:8081/application/template, response: 
+[{"key":"namespace","message":"Namespace with namespace moritz does not exist","value":"moritz"}]
+classpath:at/htl/beeyond/integration/application/template/template-application-creation.feature:54
+
+testCreateTemplateApplicationAsStudent[1][6]  Time elapsed: 0.098 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+match failed: CONTAINS
+  $ | actual does not contain expected | actual array does not contain expected item - {"message":"Missing field ids: [32], obsolete field ids: []","value":"","key":""} (LIST:MAP)
+  [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}]
+  {"message":"Missing field ids: [32], obsolete field ids: []","value":"","key":""}
+
+    $[0] | not equal | match failed for name: 'message' (MAP:MAP)
+    {"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}
+    {"message":"Missing field ids: [32], obsolete field ids: []","value":"","key":""}
+
+      $[0].message | not equal (STRING:STRING)
+      'Namespace with namespace moritz does not exist'
+      'Missing field ids: [32], obsolete field ids: []'
+
+classpath:at/htl/beeyond/integration/application/template/template-application-creation.feature:176
+
+testCreateTemplateApplicationAsStudent[1][7]  Time elapsed: 0.102 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+match failed: CONTAINS
+  $ | actual does not contain expected | actual array does not contain expected item - {"message":"Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]","value":"","key":""} (LIST:MAP)
+  [{"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"},{"message":"TemplateField with id 10000 does not exist","value":"10000","key":"fieldId"},{"message":"TemplateField with id 10001 does not exist","value":"10001","key":"fieldId"},{"message":"TemplateField with id 9999 does not exist","value":"9999","key":"fieldId"}]
+  {"message":"Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]","value":"","key":""}
+
+    $[3] | not equal | match failed for name: 'message' (MAP:MAP)
+    {"message":"TemplateField with id 9999 does not exist","value":"9999","key":"fieldId"}
+    {"message":"Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]","value":"","key":""}
+
+      $[3].message | not equal (STRING:STRING)
+      'TemplateField with id 9999 does not exist'
+      'Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]'
+
+        $[2] | not equal | match failed for name: 'message' (MAP:MAP)
+        {"message":"TemplateField with id 10001 does not exist","value":"10001","key":"fieldId"}
+        {"message":"Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]","value":"","key":""}
+
+          $[2].message | not equal (STRING:STRING)
+          'TemplateField with id 10001 does not exist'
+          'Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]'
+
+            $[1] | not equal | match failed for name: 'message' (MAP:MAP)
+            {"message":"TemplateField with id 10000 does not exist","value":"10000","key":"fieldId"}
+            {"message":"Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]","value":"","key":""}
+
+              $[1].message | not equal (STRING:STRING)
+              'TemplateField with id 10000 does not exist'
+              'Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]'
+
+                $[0] | not equal | match failed for name: 'message' (MAP:MAP)
+                {"message":"Namespace with namespace moritz does not exist","value":"moritz","key":"namespace"}
+                {"message":"Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]","value":"","key":""}
+
+                  $[0].message | not equal (STRING:STRING)
+                  'Namespace with namespace moritz does not exist'
+                  'Missing field ids: [34], obsolete field ids: [9999, 10000, 10001]'
+
+classpath:at/htl/beeyond/integration/application/template/template-application-creation.feature:217
+
+testCreateTemplateApplicationAsStudent[1][11]  Time elapsed: 0.089 s  <<< FAILURE!
+org.opentest4j.AssertionFailedError: 
+net.minidev.json.parser.ParseException: Unexpected token " at position 48.
+classpath:at/htl/beeyond/integration/application/template/template-application-creation.feature:294
+
