@@ -18,8 +18,8 @@ func (e *NoContentError) Error() string {
 
 type ValidationError struct {
 	Message string `json:"message"`
-	Value       string `json:"value"`
-	Key       string `json:"key"`
+	Value   string `json:"value"`
+	Key     string `json:"key"`
 }
 
 // Validates the content (syntax wise) checks the constraints
@@ -54,8 +54,8 @@ func ValidateContent(content string) ([]ValidationError, error) {
 
 			validationError = append(validationError, ValidationError{
 				Message: resultError.Description(),
-				Value:       string(bytes),
-				Key:       field,
+				Value:   string(bytes),
+				Key:     field,
 			})
 		}
 	}
@@ -82,71 +82,74 @@ func ValidateContent(content string) ([]ValidationError, error) {
 	for _, currentConstraint := range constraints {
 		errorDescription := ""
 		value := getValueFromPath(yamlMap, currentConstraint.Path)
-
 		var actual string
 		var ok bool
 		isArray := false
 
-		if actual, ok = value.(string); !ok {
-			if number, ok := value.(int); ok {
-				actual = strconv.Itoa(number)
-			} else if arr, ok := value.([]interface{}); ok {
-				actual = strings.Join(strings.Fields(fmt.Sprint(arr)), ", ")
-				isArray = true
-			} else if boolValue, ok := value.(bool); ok {
-				actual = strconv.FormatBool(boolValue)
-			}
-		}
-
-		if currentConstraint.Max != nil {
-			if isArray {
-				for _, currentValue := range value.([]interface{}) {
-					if !isBetweenMinMax(currentConstraint, currentValue.(int)) {
-						errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
-						break
-					}
-				}
-			} else if !isBetweenMinMax(currentConstraint, value.(int)) {
-				errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
-			}
-
-		} else if currentConstraint.Enum != nil {
-			if isArray {
-				isValid := true
-				for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
-					if !contains(currentConstraint.Enum, currentValue) {
-						isValid = false
-					}
-				}
-
-				if !isValid {
-					errorDescription = "Constraint enum does not contain given one or more of the given values"
-				}
-			} else if !contains(currentConstraint.Enum, actual) {
-				errorDescription = "Constraint enum does not contain given value"
-			}
+		if currentConstraint.Disabled && value != nil {
+			errorDescription = fmt.Sprintf("Found disabled field (%s)", currentConstraint.Path)
 		} else {
-			if isArray {
-				isValid := true
-				for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
-					if !matchesRegex(*currentConstraint.Regex, currentValue) {
-						isValid = false
+			if actual, ok = value.(string); !ok {
+				if number, ok := value.(int); ok {
+					actual = strconv.Itoa(number)
+				} else if arr, ok := value.([]interface{}); ok {
+					actual = strings.Join(strings.Fields(fmt.Sprint(arr)), ", ")
+					isArray = true
+				} else if boolValue, ok := value.(bool); ok {
+					actual = strconv.FormatBool(boolValue)
+				}
+			}
+
+			if currentConstraint.Max != nil {
+				if isArray {
+					for _, currentValue := range value.([]interface{}) {
+						if !isBetweenMinMax(currentConstraint, currentValue.(int)) {
+							errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
+							break
+						}
 					}
+				} else if !isBetweenMinMax(currentConstraint, value.(int)) {
+					errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
 				}
 
-				if !isValid {
-					errorDescription = "One or more of the given value does not match the regex"
+			} else if currentConstraint.Enum != nil {
+				if isArray {
+					isValid := true
+					for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
+						if !contains(currentConstraint.Enum, currentValue) {
+							isValid = false
+						}
+					}
+
+					if !isValid {
+						errorDescription = "Constraint enum does not contain given one or more of the given values"
+					}
+				} else if !contains(currentConstraint.Enum, actual) {
+					errorDescription = "Constraint enum does not contain given value"
 				}
-			} else if !matchesRegex(*currentConstraint.Regex, actual) {
-				errorDescription = "Given value does not match regex"
+			} else if currentConstraint.Regex != nil {
+				if isArray {
+					isValid := true
+					for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") {
+						if !matchesRegex(*currentConstraint.Regex, currentValue) {
+							isValid = false
+						}
+					}
+
+					if !isValid {
+						errorDescription = "One or more of the given value does not match the regex"
+					}
+				} else if !matchesRegex(*currentConstraint.Regex, actual) {
+					errorDescription = "Given value does not match regex"
+				}
 			}
 		}
 
 		if errorDescription != "" {
 			validationError = append(validationError, ValidationError{
 				Message: errorDescription,
-				Value:       actual,
-				Key:       currentConstraint.Path,
+				Value:   actual,
+				Key:     currentConstraint.Path,
 			})
 		}
 	}
