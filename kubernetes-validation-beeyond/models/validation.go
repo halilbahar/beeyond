@@ -86,7 +86,10 @@ func ValidateContent(content string) ([]ValidationError, error) {
 		var ok bool
 		isArray := false
 
-		if currentConstraint.Disabled && value != nil {
+		if currentConstraint.Disabled && currentConstraint.Path == "" {
+			errorDescription = fmt.Sprintf("This root object is disabled")
+			actual = fmt.Sprintf("%s", currentConstraint.GroupKindVersion)
+		} else if currentConstraint.Disabled && value != nil {
 			errorDescription = fmt.Sprintf("Found disabled field (%s)", currentConstraint.Path)
 		} else {
 			if actual, ok = value.(string); !ok {
