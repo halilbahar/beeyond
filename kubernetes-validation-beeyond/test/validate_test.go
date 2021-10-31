@@ -728,3 +728,84 @@ func TestValidateEndpoint_WithEmptyYaml_ShouldReturnError(t *testing.T) {
 	// Then
 	assert.NotEqual(t, "null", string(body))
 }
+
+func TestValidateEndpoint_Disabled_ShouldReturnError(t *testing.T) {
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	var constraint = models.Constraint{
+		Path:             "spec.replicas",
+		GroupKindVersion: gkv,
+		Disabled:         true,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	// Then
+	assert.NotEqual(t, "null", string(body))
+	models.DeleteConstraint("spec.replicas", gkv)
+}
+
+func TestValidateEndpoint_DisabledRootElement_ShouldReturnError(t *testing.T) {
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	var constraint = models.Constraint{
+		Path:             "",
+		GroupKindVersion: gkv,
+		Disabled:         true,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	// Then
+	assert.NotEqual(t, "null", string(body))
+	models.DeleteConstraint("", gkv)
+}
+
+func TestValidateEndpoint_DisabledObject_ShouldReturnError(t *testing.T) {
+	gkv := models.GroupKindVersion{
+		Group:   "apps",
+		Kind:    "Deployment",
+		Version: "v1",
+	}
+	models.DeleteAll()
+	var constraint = models.Constraint{
+		Path:             "spec",
+		GroupKindVersion: gkv,
+		Disabled:         true,
+	}
+
+	_ = models.SaveConstraint(constraint)
+
+	// When
+	resp := httptest.NewRecorder()
+	c, _ := ioutil.ReadFile("./resources/valid.yaml")
+	req, _ := http.NewRequest("POST", "/api/validate", strings.NewReader(string(c)))
+	Router.ServeHTTP(resp, req)
+	body, _ := ioutil.ReadAll(resp.Body)
+
+	// Then
+	assert.NotEqual(t, "null", string(body))
+	models.DeleteConstraint("spec", gkv)
+}
