@@ -59,6 +59,20 @@ class TemplateResource {
         return Response.ok(templateDto).build()
     }
 
+    @PATCH
+    @Path("/{id}")
+    @RolesAllowed("teacher")
+    @Transactional
+    fun update(@PathParam("id") id: Long?, @Valid templateDto: TemplateDto?): Response {
+        var template = Template.findById<Template>(id)
+                ?: return Response.status(Response.Status.NOT_FOUND).build()
+
+        template = Template(templateDto, template.owner)
+        template.persist()
+
+        return Response.noContent().build()
+    }
+
     @DELETE
     @Path("/{id}")
     @RolesAllowed("teacher")
