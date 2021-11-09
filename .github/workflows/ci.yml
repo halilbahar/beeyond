@@ -75,8 +75,8 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
     - name: Test
-      working-directory: ./test
-      run: go test -cover -covermode set -coverpkg kubernetes-validation-beeyond/models,kubernetes-validation-beeyond/routers -coverprofile cover.out
+      run: ls
+      run: go test -cover -covermode set -coverpkg kubernetes-validation-beeyond/models,kubernetes-validation-beeyond/routers -coverprofile cover.out ./...
     - name: Generate HTML
       if: ${{ always() }}
       run: go tool cover -html=cover.out -o coverage.html
@@ -85,7 +85,7 @@ jobs:
       uses: actions/upload-artifact@v2
       with:
         name: validation-test-coverage
-        path: kubernetes-validation-beeyond/test/coverage.html  
+        path: kubernetes-validation-beeyond/coverage.html  
 
   push-reports:
     runs-on: ubuntu-latest
