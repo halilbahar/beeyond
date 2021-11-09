@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: report-files
-          path: backend-beeyond/target/surefire-reports/
+          path: backend-beeyond/target/karate-reports/
 
   angular-frontend:
     runs-on: ubuntu-latest
@@ -75,17 +75,16 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
     - name: Test
-      run: ls
       run: go test -cover -covermode set -coverpkg kubernetes-validation-beeyond/models,kubernetes-validation-beeyond/routers -coverprofile cover.out ./...
     - name: Generate HTML
       if: ${{ always() }}
-      run: go tool cover -html=cover.out -o coverage.html
+      run: go tool cover -html=cover.out -o index.html
     - name: Commit test coverage
       if: ${{ always() }}
       uses: actions/upload-artifact@v2
       with:
         name: validation-test-coverage
-        path: kubernetes-validation-beeyond/coverage.html  
+        path: kubernetes-validation-beeyond/index.html  
 
   push-reports:
     runs-on: ubuntu-latest
@@ -96,15 +95,17 @@ jobs:
     if: always()
     continue-on-error: true
     steps:
+      - name: Create directories
+        run: mkdir ./karate && mkdir ./validation
       - name: Download report files
         uses: actions/download-artifact@v2
         with:
           name: report-files
-          path: /karate
+          path: ./karate
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: /karate
+          publish_dir: ./karate
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: docs
           destination_dir: continuous-integration-report/${{ github.sha }}/karate
@@ -112,11 +113,11 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: validation-test-coverage
-          path: /validation
+          path: ./validation
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: /validation
+          publish_dir: ./validation
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: docs
           destination_dir: continuous-integration-report/${{ github.sha }}/validation
