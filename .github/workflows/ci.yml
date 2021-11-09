@@ -75,14 +75,22 @@ jobs:
         restore-keys: |
           ${{ runner.os }}-go-
     - name: Test
-      run: go test -v ./...
+      working-directory: ./test
+      run: go test -cover -covermode set -coverpkg kubernetes-validation-beeyond/models,kubernetes-validation-beeyond/routers -coverprofile cover.out
+    - name: Commit test coverage
+      if: ${{ always() }}
+      run: go tool cover -html=cover.out -o coverage.html
+      uses: actions/upload-artifact@v2
+      with:
+        name: validation-test-coverage
+        path: kubernetes-validation-beeyond/test/coverage.html  
 
   push-reports:
     runs-on: ubuntu-latest
     needs:
       - quarkus-backend
       # - angular-frontend
-      # - gin-kubernetes-validation
+      - gin-kubernetes-validation
     if: always()
     continue-on-error: true
     steps:
@@ -90,13 +98,26 @@ jobs:
         uses: actions/download-artifact@v2
         with:
           name: report-files
+          path: /karate
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
-          publish_dir: ./
+          publish_dir: /karate
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: docs
           destination_dir: continuous-integration-report/${{ github.sha }}/karate
+      - name: Download code coverage validation files
+        uses: actions/download-artifact@v2
+        with:
+          name: validation-test-coverage
+          path: /validation
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: /validation
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: docs
+          destination_dir: continuous-integration-report/${{ github.sha }}/validation
       - uses: actions/checkout@v2
         with:
           ref: 'docs'
