@@ -2,9 +2,9 @@
 
 COMMIT="link:https://github.com/halilbahar/beeyond/commit/$1[$1]"
 DATE=$(TZ=":Europe/Berlin" date +'%d.%m.%Y %H:%M')
-KARATE="link:$1/continuous-integration-report/karate/karate-summary.html[hier]"
-BACKEND=$([ -f $1/continuous-integration-report/backend/index.html ] && echo "link:$1/backend/index.html[hier]" || echo "Kein Report")
-VALIDATION=$([ -f $1/continuous-integration-report/validation/index.html ] && echo "link:$1/validation/index.html[hier]" || echo "Kein Report")
+KARATE="link:continuous-integration-report/$1/karate/karate-summary.html[hier]"
+BACKEND=$([ -f continuous-integration-report/$1/backend/index.html ] && echo "link:continuous-integration-report/$1/backend/index.html[hier]" || echo "Kein Report")
+VALIDATION=$([ -f continuous-integration-report/$1/alidation/index.html ] && echo "link:continuous-integration-report/$1/validation/index.html[hier]" || echo "Kein Report")
 BRANCH=$([ "$2" = "master" ] && echo "link:https://github.com/halilbahar/beeyond[$2]" || echo "link:https://github.com/halilbahar/beeyond/tree/$2[$2]")
 USER="link:https://github.com/$3[$3]"
 ROW="| $COMMIT | $BRANCH | $USER | $DATE | $KARATE | $BACKEND | $VALIDATION"
