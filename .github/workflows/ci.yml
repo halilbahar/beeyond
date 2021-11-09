@@ -77,9 +77,11 @@ jobs:
     - name: Test
       working-directory: ./test
       run: go test -cover -covermode set -coverpkg kubernetes-validation-beeyond/models,kubernetes-validation-beeyond/routers -coverprofile cover.out
-    - name: Commit test coverage
+    - name: Generate HTML
       if: ${{ always() }}
       run: go tool cover -html=cover.out -o coverage.html
+    - name: Commit test coverage
+      if: ${{ always() }}
       uses: actions/upload-artifact@v2
       with:
         name: validation-test-coverage
