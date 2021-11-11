@@ -12,3 +12,7 @@ Database:
 KubernetesJsonschema:
   KubernetesVersion: v1.17.0
   Url: https://kubernetesjsonschema.dev
+
+Authentication:
+  Url: http://localhost:8280/auth/realms/school
+  ClientId: beeyond-spa

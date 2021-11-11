@@ -1,56 +1,37 @@
 package middleware
 
 import (
-	"github.com/coreos/go-oidc/v3/oidc"
+	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
-	"golang.org/x/oauth2"
 	"net/http"
+	"strings"
 )
 
-func Oidc(r *http.Request) gin.HandlerFunc {
+func Oidc() gin.HandlerFunc {
 	return func (ctx *gin.Context) {
-		provider, err := oidc.NewProvider(ctx, "https://localhost:8280/auth/realms/school")
-		if err != nil {
-			// handle error
-		}
+		authHeader := strings.Split(ctx.Request.Header.Get("Authorization"), "Bearer ")
+		if len(authHeader) != 2 {
+			fmt.Println("Malformed token")
+			ctx.Writer.WriteHeader(http.StatusUnauthorized)
+			ctx.Writer.Write([]byte("Malformed Token"))
+		} else {
 
-		// Configure an OpenID Connect aware OAuth2 client.
-		oauth2Config := oauth2.Config{
-			ClientID: "beeyond-spa",
-
-			// Discovery returns the OAuth2 endpoints.
-			Endpoint: provider.Endpoint(),
-
-			// "openid" is a required scope for OpenID Connect flows.
-			Scopes: []string{oidc.ScopeOpenID, "offline_access"},
-		}
-		var verifier = provider.Verifier(&oidc.Config{ClientID: "beeyond-spa"})
-		// Verify state and errors.
-
-		oauth2Token, err := oauth2Config.Exchange(ctx, r.URL.Query().Get("code"))
-		if err != nil {
-			// handle error
-		}
-
-		// Extract the ID Token from OAuth2 token.
-		rawIDToken, ok := oauth2Token.Extra("id_token").(string)
-		if !ok {
-			// handle missing token
-		}
-
-		// Parse and verify ID Token payload.
-		idToken, err := verifier.Verify(ctx, rawIDToken)
-		if err != nil {
-			// handle error
-		}
-
-		// Extract custom claims
-		var claims struct {
-			Email    string `json:"email"`
-			Verified bool   `json:"email_verified"`
-		}
-		if err := idToken.Claims(&claims); err != nil {
-			// handle error
+			jwtToken := authHeader[1]
+			token, err := jwt.Parse(jwtToken, func(token *jwt.Token) (interface{}, error) {
+				if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
+					return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
+				}
+				return []byte(SECRETKEY), nil
+			})
+			if claims, ok := token.Claims.(jwt.MapClaims); ok && token.Valid {
+				ctx.Set("props", claims)
+				ctx.Next()
+			} else {
+				fmt.Println(err)
+				ctx.Writer.WriteHeader(http.StatusUnauthorized)
+				ctx.Writer.Write([]byte("Unauthorized"))
+			}
 		}
 	}
 }

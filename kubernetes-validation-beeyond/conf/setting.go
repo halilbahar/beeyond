@@ -10,6 +10,7 @@ type Configurations struct {
 	Database             Database
 	KubernetesJsonschema KubernetesJsonschema
 	TestDataBase         TestDataBase
+	Authentication		 Authentication
 }
 
 type Server struct {
@@ -32,6 +33,11 @@ type Database struct {
 type KubernetesJsonschema struct {
 	KubernetesVersion string
 	Url               string
+}
+
+type Authentication struct {
+	Url      string
+	ClientId string
 }
 
 var Configuration Configurations

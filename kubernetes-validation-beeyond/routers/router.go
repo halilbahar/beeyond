@@ -16,6 +16,7 @@ import (
 func GetRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(middleware.Cors())
+	router.Use(middleware.Oidc())
 
 
 	api := router.Group("/api")
