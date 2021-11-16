@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateApplicationDto.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.dto</a> &gt; <span class="el_source">TemplateApplicationDto.kt</span></div><h1>TemplateApplicationDto.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.dto
+
+import at.htl.beeyond.entity.*
+import at.htl.beeyond.validation.Checks
+import at.htl.beeyond.validation.Exists
+import at.htl.beeyond.validation.TemplateFieldsComplete
+import at.htl.beeyond.validation.ValidKubernetes
+import java.time.LocalDateTime
+import java.util.*
+import javax.json.bind.annotation.JsonbTransient
+import javax.validation.GroupSequence
+import javax.validation.Valid
+import javax.validation.constraints.NotNull
+
+@GroupSequence(TemplateApplicationDto::class, Checks.TemplateField::class, Checks.KubernetesContent::class)
+@TemplateFieldsComplete(groups = [Checks.TemplateField::class])
+@ValidKubernetes(groups = [Checks.KubernetesContent::class])
+<span class="fc" id="L18">class TemplateApplicationDto(</span>
+<span class="fc" id="L19">        id: Long? = null,</span>
+<span class="fc" id="L20">        note: String? = null,</span>
+<span class="fc" id="L21">        status: ApplicationStatus? = null,</span>
+<span class="fc" id="L22">        owner: UserDto? = null,</span>
+<span class="fc" id="L23">        createdAt: LocalDateTime? = null,</span>
+<span class="fc" id="L24">        startedAt: LocalDateTime? = null,</span>
+<span class="fc" id="L25">        finishedAt: LocalDateTime? = null,</span>
+<span class="fc" id="L26">        @field:NotNull @field:Exists(entity = Template::class, fieldName = &quot;id&quot;) var templateId: Long? = null,</span>
+<span class="fc" id="L27">        @field:Valid var fieldValues: List&lt;TemplateFieldValueDto&gt; = LinkedList(),</span>
+<span class="fc" id="L28">        namespace: String = &quot;&quot;</span>
+<span class="fc" id="L29">) : ApplicationDto(</span>
+<span class="fc" id="L30">        id,</span>
+<span class="fc" id="L31">        note,</span>
+<span class="fc" id="L32">        status,</span>
+<span class="fc" id="L33">        owner,</span>
+<span class="fc" id="L34">        createdAt,</span>
+<span class="fc" id="L35">        startedAt,</span>
+<span class="fc" id="L36">        finishedAt,</span>
+<span class="fc" id="L37">        namespace</span>
+) {
+
+<span class="nc" id="L40">    constructor(templateApplication: TemplateApplication) : this(</span>
+<span class="nc" id="L41">            templateApplication.id,</span>
+<span class="nc" id="L42">            templateApplication.note,</span>
+<span class="nc" id="L43">            templateApplication.status,</span>
+<span class="nc" id="L44">            UserDto(templateApplication.owner),</span>
+<span class="nc" id="L45">            templateApplication.createdAt,</span>
+<span class="nc" id="L46">            templateApplication.startedAt,</span>
+<span class="nc" id="L47">            templateApplication.finishedAt,</span>
+<span class="nc" id="L48">            templateApplication.template.id,</span>
+<span class="nc" id="L49">            templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList(),</span>
+<span class="nc" id="L50">            templateApplication.namespace.namespace</span>
+    )
+
+    @JsonbTransient
+    fun getContent(): String {
+<span class="fc" id="L55">        val template = Template.findById&lt;Template&gt;(this.templateId)</span>
+<span class="fc" id="L56">        val fieldValues = this.fieldValues</span>
+<span class="fc" id="L57">        var content = template.content</span>
+<span class="fc bfc" id="L58" title="All 2 branches covered.">        for (fieldValue in fieldValues) {</span>
+<span class="fc" id="L59">            val wildcard = TemplateField.findById&lt;TemplateField&gt;(fieldValue.fieldId).wildcard</span>
+<span class="fc" id="L60">            content = content.replace(&quot;%$wildcard%&quot;, fieldValue.value!!)</span>
+        }
+
+<span class="fc" id="L63">        return content</span>
+    }
+
+    override fun toString(): String {
+<span class="fc" id="L67">        return &quot;&quot;</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
