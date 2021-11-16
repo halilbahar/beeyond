@@ -25,13 +25,19 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-maven-
       - name: Build
-        run: ./mvnw verify -B
-      - name: Commit report files
+        run: ./mvnw verify -B -Pcoverage
+      - name: Commit karate report files
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
         with:
-          name: report-files
+          name: karate-report-files
           path: backend-beeyond/target/karate-reports/
+      - name: Commit backend code coverage
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v2
+        with:
+          name: backend-code-coverage
+          path: backend-beeyond/target/jacoco-report/
 
   angular-frontend:
     runs-on: ubuntu-latest
@@ -96,13 +102,13 @@ jobs:
     continue-on-error: true
     steps:
       - name: Create directories
-        run: mkdir ./karate && mkdir ./validation
+        run: mkdir ./karate && mkdir ./validation && mkdir ./backend
       - name: Download report files
         uses: actions/download-artifact@v2
         with:
-          name: report-files
+          name: karate-report-files
           path: ./karate
-      - name: Deploy
+      - name: Deploy karate reports
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: ./karate
@@ -114,13 +120,25 @@ jobs:
         with:
           name: validation-test-coverage
           path: ./validation
-      - name: Deploy
+      - name: Deploy validation code coverage
         uses: peaceiris/actions-gh-pages@v3
         with:
           publish_dir: ./validation
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_branch: docs
           destination_dir: continuous-integration-report/${{ github.sha }}/validation
+      - name: Download code coverage backend
+        uses: actions/download-artifact@v2
+        with:
+          name: backend-code-coverage
+          path: ./backend
+      - name: Deploy backend code coverage
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          publish_dir: ./backend
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_branch: docs
+          destination_dir: continuous-integration-report/${{ github.sha }}/backend
       - uses: actions/checkout@v2
         with:
           ref: 'docs'
