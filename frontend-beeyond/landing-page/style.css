@@ -1,0 +1,49 @@
+body, html{
+    height: 100%;
+}
+
+.center{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: 90%;
+}
+
+body {
+    background: url("images/beeyond.svg") no-repeat right 0 top 0;
+    background-size: 50%;
+    font-family: Helvetica, serif;
+    padding: 10px;
+}
+
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited,  .btn-primary:focus {
+    background-color: #8736aa !important;
+    border-color: #8736aa !important;
+    width: fit-content;
+    box-shadow: none !important;
+}
+
+p {
+    margin: 0;
+}
+
+#b {
+    color: #ffd93d;
+}
+
+#ee {
+    color: #f5bd1f;
+}
+
+#yo {
+    color: #8736aa;
+}
+
+
+#n {
+    color: #5d2689;
+}
+
+#d {
+    color: #47297b;
+}
