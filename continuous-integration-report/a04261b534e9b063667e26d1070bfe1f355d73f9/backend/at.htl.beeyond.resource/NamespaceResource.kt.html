@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NamespaceResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.resource</a> &gt; <span class="el_source">NamespaceResource.kt</span></div><h1>NamespaceResource.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.resource
+
+import at.htl.beeyond.dto.NamespaceDto
+import at.htl.beeyond.dto.UserListDto
+import at.htl.beeyond.entity.Namespace
+import at.htl.beeyond.entity.User
+import at.htl.beeyond.service.NamespaceService
+import java.util.stream.Collectors
+import javax.annotation.security.RolesAllowed
+import javax.inject.Inject
+import javax.transaction.Transactional
+import javax.validation.Valid
+import javax.ws.rs.*
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+import javax.ws.rs.core.SecurityContext
+
+@Path(&quot;/namespace&quot;)
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+<span class="fc" id="L22">class NamespaceResource {</span>
+
+    @Inject
+<span class="nc" id="L25">    lateinit var namespaceService: NamespaceService</span>
+
+    @GET
+    @RolesAllowed(&quot;student&quot;, &quot;teacher&quot;)
+    fun getNamespaces(@Context ctx: SecurityContext, @QueryParam(&quot;all&quot;) all: Int): Response {
+<span class="nc" id="L30">        val mapToDto = { o: Namespace -&gt; NamespaceDto(o) }</span>
+
+<span class="nc bnc" id="L32" title="All 4 branches missed.">        val namespaces = if (ctx.isUserInRole(&quot;teacher&quot;) &amp;&amp; all == 1) {</span>
+<span class="nc bnc" id="L33" title="All 2 branches missed.">            Namespace.streamAll&lt;Namespace&gt;().map(mapToDto).collect(Collectors.toList&lt;Any&gt;())</span>
+        } else {
+<span class="nc" id="L35">            Namespace.streamAll&lt;Namespace&gt;().filter {</span>
+<span class="nc" id="L36">                it.users.contains(User.find&lt;User&gt;(&quot;name&quot;, ctx.userPrincipal.name).firstResult&lt;User&gt;())</span>
+<span class="nc bnc" id="L37" title="All 2 branches missed.">            }.map(mapToDto).collect(Collectors.toList&lt;Any&gt;())</span>
+        }
+
+<span class="nc" id="L40">        return Response.ok(namespaces).build()</span>
+    }
+
+    @GET
+    @Path(&quot;/{namespace}&quot;)
+    @RolesAllowed(&quot;student&quot;, &quot;teacher&quot;)
+    fun getNamespace(@PathParam(&quot;namespace&quot;) namespaceName: String): Response {
+<span class="fc" id="L47">        val namespace = Namespace.find&lt;Namespace&gt;(&quot;namespace&quot;, namespaceName).firstResultOptional&lt;Namespace&gt;()</span>
+
+<span class="pc bpc" id="L49" title="1 of 2 branches missed.">        return if (namespace.isEmpty) {</span>
+<span class="nc" id="L50">            Response.status(Response.Status.NOT_FOUND).build()</span>
+        } else {
+<span class="fc" id="L52">            Response.ok(NamespaceDto(namespace.get())).build()</span>
+        }
+    }
+
+    @PUT
+    @Transactional
+    @RolesAllowed(&quot;teacher&quot;)
+    fun assignNamespace(@Valid userList: UserListDto): Response {
+<span class="fc" id="L60">        val namespaceName = userList.namespace</span>
+<span class="fc" id="L61">        var namespace = Namespace.find&lt;Namespace&gt;(&quot;namespace&quot;, namespaceName).firstResult&lt;Namespace&gt;()</span>
+
+<span class="fc bfc" id="L63" title="All 2 branches covered.">        if (namespace == null) {</span>
+<span class="fc" id="L64">            namespace = Namespace(namespaceName)</span>
+<span class="fc" id="L65">            namespace.persist()</span>
+        }
+
+<span class="fc" id="L68">        namespace.users = userList.users.distinct().map {</span>
+<span class="fc" id="L69">            User.find&lt;User&gt;(&quot;name&quot;, it).firstResult&lt;User&gt;()</span>
+        }
+
+<span class="fc bfc" id="L72" title="All 2 branches covered.">        if (namespace.users.isEmpty()) {</span>
+<span class="fc" id="L73">            namespace.isDeleted = true</span>
+        }
+
+<span class="fc" id="L76">        return Response.noContent().build()</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.6.202009150832</span></div></body></html>
