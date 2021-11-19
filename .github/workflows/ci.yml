@@ -83,13 +83,14 @@ jobs:
       - quarkus-backend
       # - angular-frontend
       # - gin-kubernetes-validation
-    if: always()
+    if: always() && ${{ github.actor == 'refs/heads/main' }}
     continue-on-error: true
     steps:
       - name: Download report files
         uses: actions/download-artifact@v2
         with:
           name: report-files
+      - run: echo ${{ github.actor }}
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v3
         with:
