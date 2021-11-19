@@ -98,7 +98,7 @@ jobs:
       - quarkus-backend
       # - angular-frontend
       - gin-kubernetes-validation
-    if: always()
+    if: always() && ${{ github.actor != 'dependabot' }}
     continue-on-error: true
     steps:
       - name: Create directories
@@ -108,6 +108,7 @@ jobs:
         with:
           name: karate-report-files
           path: ./karate
+      - run: echo ${{ github.actor }}
       - name: Deploy karate reports
         uses: peaceiris/actions-gh-pages@v3
         with:
