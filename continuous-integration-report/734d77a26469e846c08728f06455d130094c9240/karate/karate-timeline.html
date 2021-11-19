@@ -1,0 +1,27 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>Karate Timeline</title>
+    <style>
+      body, html { font-family: arial, sans-serif; font-size: 11pt; }
+      #visualization { box-sizing: border-box; width: 100%; height: 300px; }
+      .vis-item.failed { background-color: #F2928C; }
+    </style>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.js"></script>    
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.21.0/vis.min.css" rel="stylesheet" type="text/css" />
+  </head>
+  <body>
+    <div id="visualization"></div>
+    <script>
+var groups = [{"content":"main","id":1}];
+var items = [{"id":1,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[1:10]","start":1637325037475,"end":1637325037527,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[1:10] 12:30:37.475-12:30:37.527 Create a valid custom application"},{"id":2,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[2:23]","start":1637325037530,"end":1637325037581,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[2:23] 12:30:37.530-12:30:37.581 Create a custom application with no note"},{"id":3,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[3:35]","start":1637325037585,"end":1637325037627,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[3:35] 12:30:37.585-12:30:37.627 Create a custom application with no content"},{"id":4,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[4:47]","start":1637325037631,"end":1637325037681,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[4:47] 12:30:37.631-12:30:37.681 Create a custom application with blank content"},{"id":5,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[5:60]","start":1637325037685,"end":1637325037709,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[5:60] 12:30:37.685-12:30:37.709 Create a custom application with invalid kubernetes content"},{"id":6,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[6:63]","start":1637325037713,"end":1637325037759,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[6:63] 12:30:37.713-12:30:37.759 Create a custom application with a too long note"},{"id":7,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[7:77]","start":1637325037763,"end":1637325037816,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[7:77] 12:30:37.763-12:30:37.816 Create a custom application with id set"},{"id":8,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[8:91]","start":1637325037819,"end":1637325037871,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[8:91] 12:30:37.819-12:30:37.871 Create a custom application with application status set"},{"id":9,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[9:105]","start":1637325037875,"end":1637325037920,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[9:105] 12:30:37.875-12:30:37.920 Create a custom application with owner set"},{"id":10,"group":1,"content":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[10:122]","start":1637325037923,"end":1637325037967,"title":"at\/htl\/beeyond\/integration\/application\/custom\/custom-application-creation[10:122] 12:30:37.923-12:30:37.967 Create a custom application with created at set"}];
+</script>
+    <script>
+      var container = document.getElementById('visualization');
+      var timeline = new vis.Timeline(container);
+      timeline.setOptions({groupOrder: 'content'});
+      timeline.setGroups(new vis.DataSet(groups));
+      timeline.setItems(new vis.DataSet(items));
+    </script>
+  </body>
+</html>
