@@ -29,7 +29,7 @@ Feature: Template application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a template application with no note
@@ -51,7 +51,7 @@ Feature: Template application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a template application with a too long note
