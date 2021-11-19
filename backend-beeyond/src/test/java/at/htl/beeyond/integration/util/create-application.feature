@@ -20,5 +20,4 @@ Feature:
     Then status 201
     Given url responseHeaders['Location'][0]
     When method GET
-    * print response
     Then def application = response

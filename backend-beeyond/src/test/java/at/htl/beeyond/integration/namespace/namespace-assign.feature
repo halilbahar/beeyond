@@ -82,7 +82,7 @@ Feature: Namespace assigning endpoint
 
   @teacher
   Scenario: Assign 2 user to a invalid namespace (too long)
-    * def generateString = read('string-generator.js')
+    * def generateString = read('classpath:string-generator.js')
     Given request
     """
     {
