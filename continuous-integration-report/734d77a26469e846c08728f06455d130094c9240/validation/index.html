@@ -1,0 +1,954 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<title>models: Go Coverage Report</title>
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">kubernetes-validation-beeyond/models/constraint.go (96.4%)</option>
+				
+				<option value="file1">kubernetes-validation-beeyond/models/kubernetes-schema.go (92.1%)</option>
+				
+				<option value="file2">kubernetes-validation-beeyond/models/validation.go (90.6%)</option>
+				
+				<option value="file3">kubernetes-validation-beeyond/routers/constraint.go (89.6%)</option>
+				
+				<option value="file4">kubernetes-validation-beeyond/routers/router.go (86.4%)</option>
+				
+				<option value="file5">kubernetes-validation-beeyond/routers/validation.go (100.0%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package models
+
+import (
+        "context"
+        "go.mongodb.org/mongo-driver/mongo"
+        "kubernetes-validation-beeyond/conf"
+        "kubernetes-validation-beeyond/services"
+
+        "go.mongodb.org/mongo-driver/bson"
+)
+
+type Constraint struct {
+        Path             string           `json:"-"`
+        Min              *float32         `json:"min,omitempty"`
+        Max              *float32         `json:"max,omitempty"`
+        Enum             []string         `json:"enum,omitempty"`
+        Regex            *string          `json:"regex,omitempty"`
+        Disabled         bool             `json:"disabled,omitempty"`
+        GroupKindVersion GroupKindVersion `json:"-"`
+}
+
+// Extension method to Constraint
+// checks if exactly one of MinMax, Enum and Regex is filled out, but not multiple
+// and if MinMax is present if the valueType is integer, since it can only be used on integer fields
+// Parameters:
+//                 - constraint (Constraint): represents the constraint we want to validate
+//                 - valueType (string): represents the type of the property (e.g. integer, string, ...)
+// Returns: bool: true if valid, otherwise false
+func (constraint Constraint) IsValid(valueType string) bool <span class="cov8" title="1">{
+        if constraint.Enum == nil &amp;&amp; constraint.Min == nil &amp;&amp; constraint.Max == nil &amp;&amp; constraint.Regex == nil </span><span class="cov8" title="1">{
+                return false
+        }</span>
+
+        <span class="cov8" title="1">isValidEnum := constraint.Enum != nil &amp;&amp; constraint.Min == nil &amp;&amp; constraint.Max == nil &amp;&amp; constraint.Regex == nil
+        isValidMinMax := constraint.Enum == nil &amp;&amp; constraint.Min != nil &amp;&amp; constraint.Max != nil &amp;&amp; constraint.Regex == nil &amp;&amp; valueType == "integer"
+        isValidRegex := constraint.Enum == nil &amp;&amp; constraint.Regex != nil &amp;&amp; constraint.Min == nil &amp;&amp; constraint.Max == nil
+
+        return isValidEnum || isValidMinMax || isValidRegex</span>
+}
+
+// Saves a constraint in the database
+// Parameter: constraint (Constraint): represents the constraint we want to store
+// Returns: error if anny occur when inserting
+func SaveConstraint(constraint Constraint) error <span class="cov8" title="1">{
+        collection := services.GetClient().
+                Database(conf.Configuration.Database.Name).
+                Collection("Constraints")
+
+        _, err := collection.InsertOne(context.TODO(), constraint)
+        return err
+}</span>
+
+// Gets the constraint that correspond to the given groupKindVersion and path from the database
+// Parameters:
+//                 - path (string): represents the path of the we want to get
+//                 - groupKindVersion (*GroupKindVersion): represents the Group, Kind and Version of the constraint we want to get
+// Returns: *Constraints: Represents the constraint that matches the path and group kind version
+func GetConstraint(path string, groupKindVersion GroupKindVersion) *Constraint <span class="cov8" title="1">{
+        var constraint Constraint
+
+        err := services.GetClient().
+                Database(conf.Configuration.Database.Name).
+                Collection("Constraints").
+                FindOne(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion}).
+                Decode(&amp;constraint)
+
+        if err != nil </span><span class="cov8" title="1">{
+                return nil
+        }</span>
+
+        <span class="cov8" title="1">return &amp;constraint</span>
+}
+
+// Gets all constraint that correspond to the given groupKindVersion from the database
+// Parameter: groupKindVersion (*GroupKindVersion): represents the Group, Kind and Version of the constraints we want to get
+// Returns: []*Constraints: An array of all constraints found constraints that match to given groupKindVersion
+func GetConstraintsByGKV(groupKindVersion *GroupKindVersion) []*Constraint <span class="cov8" title="1">{
+        var constraints []*Constraint
+
+        cur, err := services.GetClient().
+                Database(conf.Configuration.Database.Name).
+                Collection("Constraints").
+                Find(context.TODO(), bson.M{"groupkindversion": groupKindVersion})
+
+        if err != nil </span><span class="cov0" title="0">{
+                return nil
+        }</span>
+
+        <span class="cov8" title="1">for cur.Next(context.TODO()) </span><span class="cov8" title="1">{
+                var constr Constraint
+
+                if err := cur.Decode(&amp;constr); err == nil </span><span class="cov8" title="1">{
+                        constraints = append(constraints, &amp;constr)
+                }</span>
+        }
+
+        <span class="cov8" title="1">_ = cur.Close(context.TODO())
+        return constraints</span>
+}
+
+// Deletes all Constraints from the database that match the given path and groupKindVersion
+// Parameters:
+//                - path (string): Represents the path of the constraint we want to delete
+//                - groupKindVersion (GroupKindVersion): Represents the Group, Kind and Version of the constraint we want to delete
+// Returns: the deleteResult  (contains the number of deleted documents)
+func DeleteConstraint(path string, groupKindVersion GroupKindVersion) *mongo.DeleteResult <span class="cov8" title="1">{
+        deleteResult, _ := services.GetClient().
+                Database(conf.Configuration.Database.Name).
+                Collection("Constraints").
+                DeleteMany(context.TODO(), bson.M{"path": path, "groupkindversion": groupKindVersion})
+        return deleteResult
+}</span>
+
+// Deletes all Constraints from the database
+// Returns: the deleteResult  (contains the number of deleted documents)
+func DeleteAll() *mongo.DeleteResult <span class="cov8" title="1">{
+        deleteResult, _ := services.GetClient().
+                Database(conf.Configuration.Database.Name).
+                Collection("Constraints").
+                DeleteMany(context.TODO(), bson.M{})
+        return deleteResult
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package models
+
+import (
+        "encoding/json"
+        "kubernetes-validation-beeyond/conf"
+        "net/http"
+        "strings"
+)
+
+type SchemaCollection struct {
+        Schemas map[string]*Schema `json:"definitions"`
+}
+
+type Schema struct {
+        Description      string               `json:"description"`
+        Required         []string             `json:"required"`
+        Type             string               `json:"type"`
+        Properties       map[string]*Property `json:"properties"`
+        GroupKindVersion []GroupKindVersion   `json:"x-kubernetes-group-version-kind,omitempty"`
+        Constraint       *Constraint          `json:"x-constraint,omitempty"`
+}
+
+type Property struct {
+        Description        string        `json:"description,omitempty"`
+        Type               string        `json:"type,omitempty"`
+        Format             string        `json:"format,omitempty"`
+        Reference          string        `json:"$ref,omitempty"`
+        Items              *PropertyItem `json:"items,omitempty"`
+        Enum               []string      `json:"enum,omitempty"`
+        Constraint         *Constraint   `json:"x-constraint,omitempty"`
+        IsKubernetesObject bool          `json:"x-is-kubernetes-object"`
+}
+
+type PropertyItem struct {
+        Type      string `json:"type,omitempty"`
+        Reference string `json:"$ref,omitempty"`
+}
+
+type GroupKindVersion struct {
+        Group   string `json:"group"`
+        Kind    string `json:"kind"`
+        Version string `json:"version"`
+}
+
+type PathNotFoundError struct{}
+
+func (p PathNotFoundError) Error() string <span class="cov0" title="0">{
+        return "Path not found"
+}</span>
+
+// Extension function to GroupKindVersion which just puts the
+// properties Group Kind and Version to lowercase
+// Parameters: groupKindVersion (GroupKindVersion), object which we want to lower
+// Returns: GroupKindVersion: the object containing the lowercase properties
+func (groupKindVersion GroupKindVersion) ToLower() GroupKindVersion <span class="cov0" title="0">{
+        var groupKindVersionLower GroupKindVersion
+        groupKindVersionLower.Group = strings.ToLower(groupKindVersion.Group)
+        groupKindVersionLower.Kind = strings.ToLower(groupKindVersion.Kind)
+        groupKindVersionLower.Version = strings.ToLower(groupKindVersion.Version)
+
+        return groupKindVersionLower
+}</span>
+
+// Gets all schemas and return them in the SchemaCollection
+// Returns the SchemaCollection and an error if one occurred
+func GetSchemaCollection() (*SchemaCollection, error) <span class="cov8" title="1">{
+        baseUrl := conf.Configuration.KubernetesJsonschema.Url
+        kubernetesVersion := conf.Configuration.KubernetesJsonschema.KubernetesVersion
+        versionType := kubernetesVersion + "-standalone-strict"
+        url := baseUrl + "/" + versionType + "/_definitions.json"
+
+        response, _ := http.Get(url)
+
+        collection := &amp;SchemaCollection{}
+        err := json.NewDecoder(response.Body).Decode(collection)
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">return collection, nil</span>
+}
+
+// Gets the schema corresponding to the given segments
+// Parameter: segments ([]string): Represents the "path" to the schema (e.g.: ["Deployment-apps-v1", "spec"])
+// Returns the schema and any error that occurred
+func GetSchemaBySegments(segments []string) (*Schema, error) <span class="cov8" title="1">{
+        collection, err := GetSchemaCollection()
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">var currentSchema *Schema
+        for i, segment := range segments </span><span class="cov8" title="1">{
+                // On the first element search for the GroupKindVersion
+                if i == 0 </span><span class="cov8" title="1">{
+                schemaLoop:
+                        for _, schema := range collection.Schemas </span><span class="cov8" title="1">{
+                                if len(schema.GroupKindVersion) &gt; 0 </span><span class="cov8" title="1">{
+                                        groupKindVersion := schema.GroupKindVersion[0]
+                                        var group string
+                                        if groupKindVersion.Group == "" </span><span class="cov8" title="1">{
+                                                group = ""
+                                        }</span> else<span class="cov8" title="1"> {
+                                                group = "-" + groupKindVersion.Group
+                                        }</span>
+
+                                        <span class="cov8" title="1">groupKindVersionString := groupKindVersion.Kind + group + "-" + groupKindVersion.Version
+                                        if segment == groupKindVersionString </span><span class="cov8" title="1">{
+                                                currentSchema = schema
+                                                break schemaLoop</span>
+                                        }
+                                }
+                        }
+
+                        <span class="cov8" title="1">if currentSchema == nil </span><span class="cov8" title="1">{
+                                return nil, PathNotFoundError{}
+                        }</span>
+
+                } else<span class="cov8" title="1"> {
+                        property := currentSchema.Properties[segment]
+
+                        if property == nil </span><span class="cov0" title="0">{
+                                return nil, PathNotFoundError{}
+                        }</span>
+
+                        <span class="cov8" title="1">var referencePath string
+                        if property.Reference != "" </span><span class="cov8" title="1">{
+                                referencePath = property.Reference
+                        }</span> else<span class="cov8" title="1"> if property.Items != nil </span><span class="cov8" title="1">{
+                                referencePath = property.Items.Reference
+                        }</span>
+
+                        // If the specified path of the user does not exist, return
+                        // This means the user requested something other than object (string, int, ...)
+                        <span class="cov8" title="1">if referencePath == "" </span><span class="cov8" title="1">{
+                                return nil, PathNotFoundError{}
+                        }</span>
+
+                        // We want the last part of the reference
+                        // Example: #/definitions/io.k8s.api.apps.v1.DeploymentSpec
+                        <span class="cov8" title="1">split := strings.Split(referencePath, "/")
+                        definitionName := split[len(split)-1]
+
+                        currentSchema = collection.Schemas[definitionName]</span>
+                }
+        }
+
+        <span class="cov8" title="1">groupKindVersion, constraintPath := GetGroupKindVersionAndPathFromSegments(segments)
+
+        // Attach constraint to the properties if it exists
+        for propertyName, property := range currentSchema.Properties </span><span class="cov8" title="1">{
+                var referencePath string
+                if property.Reference != "" </span><span class="cov8" title="1">{
+                        referencePath = property.Reference
+                }</span> else<span class="cov8" title="1"> if property.Type == "array" </span><span class="cov8" title="1">{
+                        referencePath = property.Items.Reference
+                }</span>
+
+                <span class="cov8" title="1">if referencePath != "" </span><span class="cov8" title="1">{
+                        // turn: #/definitions/xxx
+                        // into this: xxx
+                        split := strings.Split(referencePath, "/")
+                        definitionName := split[len(split)-1]
+
+                        // If the reference is of type object and has properties we declare it as kubernetes object
+                        // Add new checks if type object and properties are not enough to determine a kubernetes object
+                        if collection.Schemas[definitionName].Type == "object" &amp;&amp; collection.Schemas[definitionName].Properties != nil </span><span class="cov8" title="1">{
+                                property.IsKubernetesObject = true
+                        }</span>
+                }
+
+                <span class="cov8" title="1">var path string
+                if constraintPath == "" </span><span class="cov8" title="1">{
+                        path = propertyName
+                }</span> else<span class="cov8" title="1"> {
+                        path = constraintPath + "." + propertyName
+                }</span>
+
+                <span class="cov8" title="1">property.Constraint = GetConstraint(path, groupKindVersion)</span>
+        }
+        <span class="cov8" title="1">if len(segments) &gt; 1 </span><span class="cov8" title="1">{
+                constraintPath = strings.Join(segments[1:], ".")
+        }</span> else<span class="cov8" title="1"> {
+                constraintPath = ""
+        }</span>
+
+        <span class="cov8" title="1">currentSchema.Constraint = GetConstraint(constraintPath, groupKindVersion)
+
+        if currentSchema.Type != "" </span><span class="cov8" title="1">{
+                delete(currentSchema.Properties, "apiVersion")
+                delete(currentSchema.Properties, "kind")
+                return currentSchema, nil
+        }</span> else<span class="cov8" title="1"> {
+                return nil, PathNotFoundError{}
+        }</span>
+}
+
+// Gets the group kind version and the path from segments
+// Parameter: segments ([]string): e.g.: ["Deployment-apps-v1", "spec", "replicas"])
+// Returns:
+//                 - GroupKindVersion (GroupKindVersion) e.g.: group: apps, kind: Deployment, version: v1
+//                 - path (string) e.g.: spec.replicas
+func GetGroupKindVersionAndPathFromSegments(segments []string) (GroupKindVersion, string) <span class="cov8" title="1">{
+        var groupKindVersion GroupKindVersion
+        parts := strings.Split(segments[0], "-")
+        groupKindVersion.Kind = parts[0]
+        if len(parts) == 3 </span><span class="cov8" title="1">{
+                groupKindVersion.Group = parts[1]
+                groupKindVersion.Version = parts[2]
+        }</span> else<span class="cov8" title="1"> {
+                groupKindVersion.Version = parts[1]
+        }</span>
+
+        <span class="cov8" title="1">constraintPath := strings.Join(segments[1:], ".")
+        return groupKindVersion, constraintPath</span>
+}
+
+// Checks if segments represents a valid path for constraints
+// Parameter: segments ([]string): first element represents the Group Kind Version, remaining elements represetn the path
+// returns bool: true when the path is valid
+func IsValidConstraintPath(segments []string) bool <span class="cov8" title="1">{
+        var lastSegment *string
+        if len(segments) != 1 </span><span class="cov8" title="1">{
+                lastSegment = &amp;segments[len(segments)-1]
+                segments = segments[0 : len(segments)-1]
+        }</span>
+
+        <span class="cov8" title="1">currentSchema, err := GetSchemaBySegments(segments)
+        return err == nil &amp;&amp; (lastSegment == nil || currentSchema.Properties[*lastSegment] != nil)</span>
+}
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package models
+
+import (
+        "encoding/json"
+        "fmt"
+        "github.com/instrumenta/kubeval/kubeval"
+        "gopkg.in/yaml.v2"
+        "regexp"
+        "strconv"
+        "strings"
+)
+
+type NoContentError struct{}
+
+func (e *NoContentError) Error() string <span class="cov0" title="0">{
+        return "No Content"
+}</span>
+
+type ValidationError struct {
+        Message string `json:"message"`
+        Value   string `json:"value"`
+        Key     string `json:"key"`
+}
+
+// Validates the content (syntax wise) checks the constraints
+// Parameter: content (string) represents the content of the yaml file,
+// which will be validated.
+// returns all constraint-errors in []ValidationError and the kubeval error
+func ValidateContent(content string) ([]ValidationError, error) <span class="cov8" title="1">{
+        if len(content) == 0 </span><span class="cov8" title="1">{
+                return nil, &amp;NoContentError{}
+        }</span>
+        <span class="cov8" title="1">config := kubeval.NewDefaultConfig()
+
+        contentBytes := []byte(content)
+
+        validationResults, err := kubeval.Validate(contentBytes, config)
+        if err != nil </span><span class="cov8" title="1">{
+                return nil, err
+        }</span>
+
+        <span class="cov8" title="1">var validationError []ValidationError
+        for _, result := range validationResults </span><span class="cov8" title="1">{
+                for _, resultError := range result.Errors </span><span class="cov0" title="0">{
+                        fieldDetail := resultError.Details()["field"]
+                        var field string
+                        if fieldDetail != nil </span><span class="cov0" title="0">{
+                                field = fieldDetail.(string)
+                        }</span> else<span class="cov0" title="0"> {
+                                field = ""
+                        }</span>
+
+                        <span class="cov0" title="0">bytes, _ := json.Marshal(resultError.Value())
+
+                        validationError = append(validationError, ValidationError{
+                                Message: resultError.Description(),
+                                Value:   string(bytes),
+                                Key:     field,
+                        })</span>
+                }
+        }
+
+        <span class="cov8" title="1">var groupKindVersion GroupKindVersion
+
+        yamlMap := make(map[interface{}]interface{})
+
+        err = yaml.Unmarshal([]byte(content), &amp;yamlMap)
+
+        groupKindVersion.Kind = getValueFromPath(yamlMap, "kind").(string)
+        groupversion := getValueFromPath(yamlMap, "apiVersion").(string)
+
+        groupVersionSplit := strings.Split(groupversion, "/")
+        if len(groupVersionSplit) == 1 </span><span class="cov8" title="1">{
+                groupKindVersion.Version = groupVersionSplit[0]
+        }</span> else<span class="cov8" title="1"> {
+                groupKindVersion.Group = groupVersionSplit[0]
+                groupKindVersion.Version = groupVersionSplit[1]
+        }</span>
+
+        <span class="cov8" title="1">constraints := GetConstraintsByGKV(&amp;groupKindVersion)
+
+        for _, currentConstraint := range constraints </span><span class="cov8" title="1">{
+                errorDescription := ""
+                value := getValueFromPath(yamlMap, currentConstraint.Path)
+                var actual string
+                var ok bool
+                isArray := false
+
+                if currentConstraint.Disabled &amp;&amp; currentConstraint.Path == "" </span><span class="cov8" title="1">{
+                        errorDescription = fmt.Sprintf("This root object is disabled")
+                        actual = fmt.Sprintf("%s", currentConstraint.GroupKindVersion)
+                }</span> else<span class="cov8" title="1"> if currentConstraint.Disabled &amp;&amp; value != nil </span><span class="cov8" title="1">{
+                        errorDescription = fmt.Sprintf("Found disabled field (%s)", currentConstraint.Path)
+                }</span> else<span class="cov8" title="1"> {
+                        if actual, ok = value.(string); !ok </span><span class="cov8" title="1">{
+                                if number, ok := value.(int); ok </span><span class="cov8" title="1">{
+                                        actual = strconv.Itoa(number)
+                                }</span> else<span class="cov8" title="1"> if arr, ok := value.([]interface{}); ok </span><span class="cov8" title="1">{
+                                        actual = strings.Join(strings.Fields(fmt.Sprint(arr)), ", ")
+                                        isArray = true
+                                }</span> else<span class="cov8" title="1"> if boolValue, ok := value.(bool); ok </span><span class="cov8" title="1">{
+                                        actual = strconv.FormatBool(boolValue)
+                                }</span>
+                        }
+
+                        <span class="cov8" title="1">if currentConstraint.Max != nil </span><span class="cov8" title="1">{
+                                if isArray </span><span class="cov8" title="1">{
+                                        for _, currentValue := range value.([]interface{}) </span><span class="cov8" title="1">{
+                                                if !isBetweenMinMax(currentConstraint, currentValue.(int)) </span><span class="cov8" title="1">{
+                                                        errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
+                                                        break</span>
+                                                }
+                                        }
+                                } else<span class="cov8" title="1"> if !isBetweenMinMax(currentConstraint, value.(int)) </span><span class="cov8" title="1">{
+                                        errorDescription = fmt.Sprintf("Given value out of range (%.0f-%.0f)", *currentConstraint.Min, *currentConstraint.Max)
+                                }</span>
+
+                        } else<span class="cov8" title="1"> if currentConstraint.Enum != nil </span><span class="cov8" title="1">{
+                                if isArray </span><span class="cov8" title="1">{
+                                        isValid := true
+                                        for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") </span><span class="cov8" title="1">{
+                                                if !contains(currentConstraint.Enum, currentValue) </span><span class="cov8" title="1">{
+                                                        isValid = false
+                                                }</span>
+                                        }
+
+                                        <span class="cov8" title="1">if !isValid </span><span class="cov8" title="1">{
+                                                errorDescription = "Constraint enum does not contain given one or more of the given values"
+                                        }</span>
+                                } else<span class="cov8" title="1"> if !contains(currentConstraint.Enum, actual) </span><span class="cov8" title="1">{
+                                        errorDescription = "Constraint enum does not contain given value"
+                                }</span>
+                        } else<span class="cov8" title="1"> if currentConstraint.Regex != nil </span><span class="cov8" title="1">{
+                                if isArray </span><span class="cov8" title="1">{
+                                        isValid := true
+                                        for _, currentValue := range strings.Split(actual[1:len(actual)-1], ", ") </span><span class="cov8" title="1">{
+                                                if !matchesRegex(*currentConstraint.Regex, currentValue) </span><span class="cov8" title="1">{
+                                                        isValid = false
+                                                }</span>
+                                        }
+
+                                        <span class="cov8" title="1">if !isValid </span><span class="cov8" title="1">{
+                                                errorDescription = "One or more of the given value does not match the regex"
+                                        }</span>
+                                } else<span class="cov8" title="1"> if !matchesRegex(*currentConstraint.Regex, actual) </span><span class="cov8" title="1">{
+                                        errorDescription = "Given value does not match regex"
+                                }</span>
+                        }
+                }
+
+                <span class="cov8" title="1">if errorDescription != "" </span><span class="cov8" title="1">{
+                        validationError = append(validationError, ValidationError{
+                                Message: errorDescription,
+                                Value:   actual,
+                                Key:     currentConstraint.Path,
+                        })
+                }</span>
+        }
+
+        <span class="cov8" title="1">return validationError, nil</span>
+}
+
+// Checks whether the given string array contains the given searchText
+// Parameters:
+//                 - enum ([]string): array which we search through
+//                 - searchText (string): the string we look for in the array
+// Returns boolean: true if the array contains the searchText
+func contains(enum []string, searchText string) bool <span class="cov8" title="1">{
+        for _, currentValue := range enum </span><span class="cov8" title="1">{
+                if currentValue == searchText </span><span class="cov8" title="1">{
+                        return true
+                }</span>
+        }
+        <span class="cov8" title="1">return false</span>
+}
+
+// Checks whether the given text matches the given regex
+// Parameters:
+//                 - regex (string): represents the regex
+//                 - text (string): the text that should match the regex
+// Returns bool: true if the text matches the regex
+func matchesRegex(regex string, text string) bool <span class="cov8" title="1">{
+        // TODO: "^"+*currentConstraint.Regex+"$"
+        matched, _ := regexp.MatchString("^"+regex+"$", text)
+        return matched
+}</span>
+
+// Checks whether the given value is between the min and max values given within the currentConstraint
+// Parameters:
+//                 - currentConstraint (*Constraint): Contains the min and max values
+//                 - value (int): integer which should be between min and max
+// Returns: bool: true if value is between min and max, otherwise false
+func isBetweenMinMax(currentConstraint *Constraint, value int) bool <span class="cov8" title="1">{
+        actualFloat := float64(value)
+        return actualFloat &lt;= float64(*currentConstraint.Max) &amp;&amp; actualFloat &gt;= float64(*currentConstraint.Min)
+}</span>
+
+// Gets the value of the property by the given path from the given k8s specification (map)
+// Parameters:
+//                 - m (map[interface{}]interface{}): Represents the content of the given yaml file as a map
+//                - path (string): Represents the
+func getValueFromPath(m map[interface{}]interface{}, path string) interface{} <span class="cov8" title="1">{
+        var obj interface{} = m
+        var val interface{} = nil
+
+        parts := strings.Split(path, ".")
+        for _, p := range parts </span><span class="cov8" title="1">{
+                if v, ok := obj.(map[interface{}]interface{}); ok </span><span class="cov8" title="1">{
+                        obj = v[p]
+                        val = obj
+                }</span> else<span class="cov0" title="0"> {
+                        return nil
+                }</span>
+        }
+
+        <span class="cov8" title="1">return val</span>
+}
+</pre>
+		
+		<pre class="file" id="file3" style="display: none">package routers
+
+import (
+        "kubernetes-validation-beeyond/models"
+        "net/http"
+        "strings"
+
+        "github.com/gin-gonic/gin"
+)
+
+// @Summary Find root constraints
+// @Description Finds all root schemes and their constraints
+// @Tags Constraint
+// @Success 200 {string} string        "ok"
+// @Failure 500 {string} string "internal server error"
+// @Router /api/constraints/ [get]
+func listRootConstraints(c *gin.Context) <span class="cov8" title="1">{
+        collection, err := models.GetSchemaCollection()
+        if err != nil </span><span class="cov0" title="0">{
+                c.Writer.WriteHeader(http.StatusInternalServerError)
+                return
+        }</span>
+
+        <span class="cov8" title="1">var kubernetesRootDefinitions []*models.Schema
+        for _, schema := range collection.Schemas </span><span class="cov8" title="1">{
+                groupKindVersions := schema.GroupKindVersion
+                if len(groupKindVersions) &gt; 0 </span><span class="cov8" title="1">{
+                        schema.Constraint = models.GetConstraint("", groupKindVersions[0])
+                        kubernetesRootDefinitions = append(kubernetesRootDefinitions, schema)
+                }</span>
+
+                <span class="cov8" title="1">delete(schema.Properties, "apiVersion")
+                delete(schema.Properties, "kind")
+
+                for _, property := range schema.Properties </span><span class="cov8" title="1">{
+                        var referencePath string
+                        if property.Reference != "" </span><span class="cov8" title="1">{
+                                referencePath = property.Reference
+                        }</span> else<span class="cov8" title="1"> if property.Type == "array" </span><span class="cov8" title="1">{
+                                referencePath = property.Items.Reference
+                        }</span>
+
+                        <span class="cov8" title="1">if referencePath != "" </span><span class="cov8" title="1">{
+                                split := strings.Split(referencePath, "/")
+                                definitionName := split[len(split)-1]
+
+                                if collection.Schemas[definitionName].Type == "object" &amp;&amp; collection.Schemas[definitionName].Properties != nil </span><span class="cov8" title="1">{
+                                        property.IsKubernetesObject = true
+                                }</span>
+                        }
+                }
+        }
+
+        <span class="cov8" title="1">c.JSON(http.StatusOK, kubernetesRootDefinitions)</span>
+}
+
+// @Summary Find constraints by path
+// @Description Finds the schema and its constraints according to the given path
+// @Tags Constraint
+// @Param  "path"     path    string     true        "path"
+// @Success 200 {string} string        "ok"
+// @Failure 400 {string} string "bad request"
+// @Router /api/constraints/{path} [get]
+func getConstraintsByPath(c *gin.Context) <span class="cov8" title="1">{
+        segments := c.GetStringSlice("pathSegments")
+        schema, err := models.GetSchemaBySegments(segments)
+        if err != nil </span><span class="cov8" title="1">{
+                c.Writer.WriteHeader(http.StatusNotFound)
+                return
+        }</span>
+
+        <span class="cov8" title="1">c.JSON(http.StatusOK, schema)</span>
+}
+
+// @Summary Creates a new constraint
+// @Description creates a new constraint and adds it to the database. If the constraint already exists it gets replaced.
+// @Tags Constraint
+// @Accept  json
+// @Param  "path"     path    string     true        "path"
+// @Success 201 {string} string        "created"
+// @Failure 400 {string} string "bad request"
+// @Failure 500 {string} string "internal server error"
+// @Router /api/constraints/{path} [post]
+func createConstraintByPath(c *gin.Context) <span class="cov8" title="1">{
+        var constraint models.Constraint
+        if err := c.ShouldBindJSON(&amp;constraint); err != nil </span><span class="cov8" title="1">{
+                c.Writer.WriteHeader(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">lastSegment := c.GetString("lastPropertyName")
+        schemaInterface, _ := c.Get("schema")
+        schema := schemaInterface.(*models.Schema)
+
+        if schema.Properties[lastSegment] != nil &amp;&amp; !schema.Properties[lastSegment].IsKubernetesObject &amp;&amp; !constraint.IsValid(schema.Properties[lastSegment].Type) </span><span class="cov8" title="1">{
+                c.Writer.WriteHeader(http.StatusBadRequest)
+                return
+        }</span>
+
+        <span class="cov8" title="1">groupKindVersionInterface, _ := c.Get("groupKindVersion")
+        constraint.Path = c.GetString("propertyPath")
+
+        // check if constraint on apiVersion or kind
+        if strings.HasSuffix(constraint.Path, "apiVersion") || strings.HasSuffix(constraint.Path, "kind") </span><span class="cov0" title="0">{
+                c.Writer.WriteHeader(http.StatusBadRequest)
+                return
+        }</span>
+        <span class="cov8" title="1">constraint.GroupKindVersion = groupKindVersionInterface.(models.GroupKindVersion)
+
+        models.DeleteConstraint(constraint.Path, constraint.GroupKindVersion)
+        if err := models.SaveConstraint(constraint); err != nil </span><span class="cov0" title="0">{
+                c.Writer.WriteHeader(http.StatusInternalServerError)
+                return
+        }</span>
+
+        <span class="cov8" title="1">c.Writer.WriteHeader(http.StatusCreated)</span>
+}
+
+// @Summary Delete constraint
+// @Description Deletes the constraint with the given path
+// @Tags Constraint
+// @Param  "path"     path    string     true        "path"
+// @Success 204 {string} string        "no content"
+// @Failure 400 {string} string "bad request"
+// @Router /api/constraints/{path} [delete]
+func deleteConstraintByPath(c *gin.Context) <span class="cov8" title="1">{
+        groupKindVersion, _ := c.Get("groupKindVersion")
+        propertyPath := c.GetString("propertyPath")
+
+        if models.DeleteConstraint(propertyPath, groupKindVersion.(models.GroupKindVersion)).DeletedCount == 0 </span><span class="cov8" title="1">{
+                c.Writer.WriteHeader(http.StatusBadRequest)
+                return
+        }</span>
+        <span class="cov8" title="1">c.Writer.WriteHeader(http.StatusNoContent)</span>
+}
+
+
+// @Summary Toggle disabled on constraint
+// @Description Toggles the "disabled" from the constraint with the given path. If the given constraint does not exist, it will be created
+// @Tags Constraint
+// @Param  "path"     path    string     true        "path"
+// @Success 200 {string} string        "ok"
+// @Failure 400 {string} string "bad request"
+// @Failure 500 {string} string "internal server error"
+// @Router /api/constraints/{path} [patch]
+func toggleDisableConstraintByPath(c *gin.Context) <span class="cov8" title="1">{
+        groupKindVersionInterface, _ := c.Get("groupKindVersion")
+        propertyPath := c.GetString("propertyPath")
+        groupKindVersion := groupKindVersionInterface.(models.GroupKindVersion)
+
+        constraint := models.GetConstraint(propertyPath, groupKindVersion)
+        // If no constraint exits and the user wants to disable the path, create a new constraint
+        if constraint == nil </span><span class="cov8" title="1">{
+                constraint = &amp;models.Constraint{
+                        Path:             propertyPath,
+                        Disabled:         false,
+                        GroupKindVersion: groupKindVersion,
+                }
+        }</span>
+
+        <span class="cov8" title="1">lastSegment := c.GetString("lastPropertyName")
+        schemaInterface, _ := c.Get("schema")
+        schema := schemaInterface.(*models.Schema)
+
+        for _, req := range schema.Required </span><span class="cov8" title="1">{
+                if req == lastSegment </span><span class="cov8" title="1">{
+                        c.Writer.WriteHeader(http.StatusBadRequest)
+                        return
+                }</span>
+        }
+
+        <span class="cov8" title="1">constraint.Disabled = !constraint.Disabled
+        models.DeleteConstraint(propertyPath, groupKindVersion)
+        if models.SaveConstraint(*constraint) != nil </span><span class="cov0" title="0">{
+                c.Writer.WriteHeader(http.StatusInternalServerError)
+                return
+        }</span>
+        <span class="cov8" title="1">schema.Constraint = constraint
+        c.Writer.WriteHeader(http.StatusOK)</span>
+}
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package routers
+
+import (
+        "github.com/gin-gonic/gin"
+        swaggerFiles "github.com/swaggo/files"
+        ginSwagger "github.com/swaggo/gin-swagger"
+        "kubernetes-validation-beeyond/conf"
+        _ "kubernetes-validation-beeyond/docs"
+        "kubernetes-validation-beeyond/middleware"
+        "net/http"
+)
+
+// Creates an Engine with all endpoint, their paths and the used middleware
+// Returns: *gin.Engine: an Engine with all defined Endpoints and the used middleware
+
+func GetRouter() *gin.Engine <span class="cov8" title="1">{
+        router := gin.Default()
+        router.Use(middleware.Cors())
+
+        api := router.Group("/api")
+        </span><span class="cov8" title="1">{
+                api.GET("/swagger-ui", func(c *gin.Context) </span><span class="cov0" title="0">{
+                        c.Redirect(http.StatusMovedPermanently, "swagger/index.html")
+                }</span>)
+                // validate
+                <span class="cov8" title="1">api.POST("/validate", getValidationResult)
+                api.Use(middleware.PathSegments())
+                api.Use(middleware.ProvideSchema())
+                url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
+                api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
+
+                // constraints
+                constraints := api.Group("/constraints")
+                </span><span class="cov8" title="1">{
+                        constraints.GET("", listRootConstraints)
+                        constraints.GET("/*path", getConstraintsByPath)
+
+                        pathValid := middleware.PathValid()
+                        constraints.POST("/*path", pathValid, createConstraintByPath)
+                        constraints.DELETE("/*path", pathValid, deleteConstraintByPath)
+                        constraints.PATCH("/*path", pathValid, toggleDisableConstraintByPath)
+                }</span>
+        }
+
+        <span class="cov8" title="1">return router</span>
+}
+
+// Initialises the Router and runs it
+func Init() <span class="cov0" title="0">{
+        router := GetRouter()
+        _ = router.Run(conf.Configuration.Server.HttpPort)
+}</span>
+</pre>
+		
+		<pre class="file" id="file5" style="display: none">package routers
+
+import (
+        "github.com/gin-gonic/gin"
+        "kubernetes-validation-beeyond/models"
+        "net/http"
+)
+
+// @Summary Validate content
+// @Description Validates the given content
+// @Tags Validation
+// @Produce  json
+// @Success 200 {string} string        "ok"
+// @Router /api/validate/ [post]
+func getValidationResult(c *gin.Context) <span class="cov8" title="1">{
+        data, _ := c.GetRawData()
+        yamlContent := string(data)
+        results, err := models.ValidateContent(yamlContent)
+
+        if err != nil </span><span class="cov8" title="1">{
+                // TODO: find what errors can occur and return them if ok
+                results = append(results, models.ValidationError{
+                        Message: "YAML-Format not valid",
+                        Value:       yamlContent,
+                        Key:       "content",
+                })
+        }</span>
+
+        <span class="cov8" title="1">c.JSON(http.StatusOK, results)</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
