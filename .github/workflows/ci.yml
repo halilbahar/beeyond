@@ -98,7 +98,7 @@ jobs:
       - quarkus-backend
       # - angular-frontend
       - gin-kubernetes-validation
-    if: always() && ${{ github.actor == 'refs/heads/main' }}
+    if: always() && ${{ github.actor != 'dependabot' }}
     continue-on-error: true
     steps:
       - name: Create directories
