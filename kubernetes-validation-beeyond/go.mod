@@ -25,7 +25,7 @@ require (
 	github.com/swaggo/swag v1.7.0
 	github.com/testcontainers/testcontainers-go v0.9.0
 	github.com/ugorji/go v1.2.4 // indirect
-	go.mongodb.org/mongo-driver v1.4.4
+	go.mongodb.org/mongo-driver v1.5.1
 	golang.org/x/crypto v0.0.0-20210220033148-5ea612d1eb83 // indirect
 	golang.org/x/tools v0.1.7 // indirect
 	google.golang.org/protobuf v1.25.0 // indirect
