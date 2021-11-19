@@ -17,7 +17,7 @@ Feature: Custom application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a custom application with no note
@@ -29,7 +29,7 @@ Feature: Custom application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a custom application with no content
@@ -85,7 +85,7 @@ Feature: Custom application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a custom application with application status set
@@ -99,7 +99,7 @@ Feature: Custom application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a custom application with owner set
@@ -116,7 +116,7 @@ Feature: Custom application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a custom application with created at set
@@ -130,4 +130,4 @@ Feature: Custom application creation endpoint
     }
     """
     When method POST
-    Then status 204
+    Then status 201
