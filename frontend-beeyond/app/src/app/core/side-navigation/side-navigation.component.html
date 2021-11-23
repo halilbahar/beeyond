@@ -1,26 +1,80 @@
 <mat-sidenav-container class="side-nav-container" autosize="true">
-  <mat-sidenav mode="side" class="primary-bg-color side-nav" opened>
-    <div class="side-nav-header">
-      <span [@minimized]="sidenavToggleService.minimized | async">
+  <mat-sidenav mode="side" class="side-nav" opened style="margin: 10px">
+    <div style="padding: 20px">
+      <div class="side-nav-header">
+        <div
+          id="icon"
+          style="display: flex; justify-content: center; align-items: center; margin-right: 10px"
+        >
+          <img src="assets/images/bee-purple.svg" alt="" style="height: 90%" />
+        </div>
+        <div>
+          <span style="font-size: 10px; color: #808080; display: block">Good day 👋</span>
+          {{ authenticationService.username | async }}
+        </div>
+
+        <!--<span [@minimized]="sidenavToggleService.minimized | async">
         {{ authenticationService.username | async }}
-      </span>
+      </span>-->
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <mat-nav-list class="side-nav-list">
+          <mat-list-item
+            mat-list-item
+            *ngFor="let item of actualAgenda"
+            [routerLink]="item.router"
+            routerLinkActive="active"
+            [disableRipple]="true"
+          >
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span class="nav-list-item" [@minimized]="sidenavToggleService.minimized | async">
+              {{ item.name }}
+            </span>
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <span class="tiny-title">Notifications: {{ actualAgenda.length }}</span>
+        <div
+          style="background-color: #fff; border: 1px solid #fff; border-radius: 5px; padding: 10px"
+        ></div>
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <span class="tiny-title">Theme</span>
+        <mat-slide-toggle
+          style="float: right"
+          class="theme-toggle"
+          [(ngModel)]="theme"
+          (click)="toggleTheme()"
+        ></mat-slide-toggle>
+        <i class="fas fa-cloud-moon"></i>
+      </div>
     </div>
-    <mat-nav-list class="side-nav-list">
-      <mat-list-item
-        mat-list-item
-        class="unselectable"
-        *ngFor="let item of actualAgenda"
-        [routerLink]="item.router"
-      >
-        <mat-icon>{{ item.icon }}</mat-icon>
-        <span class="nav-list-item" [@minimized]="sidenavToggleService.minimized | async">
-          {{ item.name }}
-        </span>
-      </mat-list-item>
-    </mat-nav-list>
+    <div
+      style="
+        line-height: normal;
+        font-size: 18px;
+        margin-left: auto;
+        bottom: 0;
+        position: absolute;
+        padding: 10px 0 10px 0;
+        background-color: #672a98;
+        color: #fff;
+        width: 100%;
+        display: flex;
+        justify-content: center;
+      "
+      (click)="logOut()"
+    >
+      <mat-icon>logout</mat-icon>
+      <span>Log out</span>
+    </div>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content style="padding: 10px 10px 10px 20px">
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

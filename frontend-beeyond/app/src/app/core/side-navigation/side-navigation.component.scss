@@ -10,15 +10,45 @@
   right: 0;
 }
 
+.active,
+.active.mat-list-item:hover,
+.active.mat-list-item:focus {
+  background-color: #5d2689 !important;
+  border: 1px solid #5d2689 !important;
+  border-radius: 10px;
+  color: white;
+}
+
+mat-list-item:hover {
+  border-radius: 10px;
+  background-color: #e3ddf4 !important;
+}
+
 .side-nav {
   font-size: 22px;
+  border: #d7ceef;
+  border-radius: 20px;
+  background-color: #d7ceef;
+}
+
+#icon {
+  height: 40px;
+  width: 40px;
+  background-color: #af87e2;
+  border: 5px solid #fff;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.spacer {
+  border-bottom: 1px solid #808080;
+  margin: 20px 0 20px 0;
 }
 
 .side-nav-header {
   display: flex;
   justify-content: center;
   align-items: center;
-  height: $header-height;
 }
 
 .side-nav-list {
@@ -28,4 +58,39 @@
 .nav-list-item {
   padding-left: 0.7rem;
   font-size: 18px;
+}
+
+::ng-deep .mat-slide-toggle-thumb {
+  background-color: dimgrey;
+  background-origin: content-box;
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+::ng-deep .theme-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-image: url('../../../assets/images/dark-mode-icon.png') !important;
+  background-color: dimgrey;
+}
+
+::ng-deep .theme-toggle .mat-disabled {
+  opacity: 1 !important;
+}
+
+::ng-deep .theme-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: dimgrey;
+}
+
+::ng-deep .theme-toggle .mat-slide-toggle-thumb {
+  background-color: #ffb909;
+  background-image: url('../../../assets/images/light-mode-icon.png') !important;
+}
+
+::ng-deep .theme-toggle .mat-slide-toggle-bar {
+  background-color: #ffb909;
+}
+
+.tiny-title {
+  font-size: 13px;
+  color: #4c4c4c;
 }

@@ -23,12 +23,3 @@
 .wildcard-label {
   font-size: 1.5rem;
 }
-
-.stepper-content {
-  flex: 1;
-  @include flex-column;
-}
-
-.monaco-editor {
-  flex: 1;
-}

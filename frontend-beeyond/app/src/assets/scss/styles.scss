@@ -9,6 +9,7 @@ body {
 
 body {
   margin: 0;
+  background-color: lightgray;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
@@ -79,6 +80,10 @@ body {
   background: #0058e9;
   width: 5px !important;
   margin-left: 3px;
+}
+
+mat-sidenav-content > *:not(:first-child) {
+  margin-top: 10px;
 }
 
 .item-hover {
