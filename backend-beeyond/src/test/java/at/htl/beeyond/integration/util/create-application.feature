@@ -17,4 +17,7 @@ Feature:
     }
     """
     When method POST
-    Then status 204
+    Then status 201
+    Given url responseHeaders['Location'][0]
+    When method GET
+    Then def application = response

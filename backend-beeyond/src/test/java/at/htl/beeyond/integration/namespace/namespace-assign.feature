@@ -80,23 +80,22 @@ Feature: Namespace assigning endpoint
     When method PUT
     Then status 422
 
-#  TODO: better string generator
-#  @teacher
-#  Scenario: Assign 2 user to a invalid namespace (too long)
-#    * def generateString = read('string-generator.js')
-#    Given request
-#    """
-#    {
-#      "namespace": #(generateString()),
-#      "users": [
-#        "emina",
-#        "moritz"
-#      ]
-#    }
-#    """
-#    When method PUT
-#    Then status 422
-#    And match response[0].message == 'This field needs to be between 1 and 253 characters'
+  @teacher
+  Scenario: Assign 2 user to a invalid namespace (too long)
+    * def generateString = read('classpath:string-generator.js')
+    Given request
+    """
+    {
+      "namespace": #(generateString()),
+      "users": [
+        "emina",
+        "moritz"
+      ]
+    }
+    """
+    When method PUT
+    Then status 422
+    And match response[0].message == 'This field needs to be between 1 and 253 characters'
 
   @teacher
   Scenario: Assign 2 user to a invalid namespace (name of user)
