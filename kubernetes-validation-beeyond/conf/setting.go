@@ -1,7 +1,6 @@
 package conf
 
 import (
-	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -41,7 +40,7 @@ type KubernetesJsonschema struct {
 type Authentication struct {
 	Url      string
 	ClientId string
-	Key		 *rsa.PublicKey
+	Key		 string
 }
 
 var Configuration Configurations
@@ -64,8 +63,8 @@ func Init() {
 	}
 }
 
-func ConvertStringToRSA(key string) interface{} {
-	block, _ := pem.Decode([]byte(key))
+func ConvertStringToRSA() interface{} {
+	block, _ := pem.Decode([]byte(Configuration.Authentication.Key))
 	if block == nil {
 		panic("failed to parse PEM block containing the public key")
 	}
