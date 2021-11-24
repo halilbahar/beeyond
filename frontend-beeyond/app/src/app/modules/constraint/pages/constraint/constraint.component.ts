@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute} from '@angular/router';
 import { ValidationApiService } from 'src/app/core/services/validation-api.service';
 import { Property, Schema } from 'src/app/shared/models/schema.model';
 import { ConstraintControlChange } from '../../components/constraint-control/constraint-control.component';

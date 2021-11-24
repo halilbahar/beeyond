@@ -8,11 +8,11 @@
   </mat-form-field>
 </div>
 
-<mat-card class="card-entire-page template-list" *ngIf="templates.length > 0">
+<div class="template-list" *ngIf="templates.length > 0">
   <app-template-list
     [templates]="templates"
     [routingEnabled]="true"
     routePath="/template/detail/{id}"
   >
   </app-template-list>
-</mat-card>
+</div>

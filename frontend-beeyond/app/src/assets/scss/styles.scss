@@ -13,15 +13,6 @@ body {
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
-.primary-bg-color {
-  background-color: mat-color($beeyond-light-primary, 300);
-}
-
-.secondary-bg-color {
-  background-color: mat-color($beeyond-light-primary, 400);
-  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.1);
-}
-
 .unselectable {
   user-select: none;
 }

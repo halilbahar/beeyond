@@ -10,7 +10,7 @@
 
 #content {
   height: calc(100% - 75px - 41px);
-  overflow: scroll;
+  overflow-y: auto;
 }
 
 #loadingScreen {

@@ -1,8 +1,9 @@
 @import 'src/assets/scss/variables';
+@import "~@angular/material/theming";
+@import "src/assets/scss/custom-theme";
 
 .side-nav-container {
-  display: flex;
-  flex-direction: column;
+  @include flex-column;
   position: absolute;
   top: 0;
   bottom: 0;
@@ -13,31 +14,39 @@
 .active,
 .active.mat-list-item:hover,
 .active.mat-list-item:focus {
-  background-color: #5d2689 !important;
-  border: 1px solid #5d2689 !important;
+  background-color: mat-color($beeyond-light-primary) !important;
+  border: 1px solid mat-color($beeyond-light-primary) !important;
   border-radius: 10px;
-  color: white;
+  color: white !important;
 }
 
 mat-list-item:hover {
   border-radius: 10px;
-  background-color: #e3ddf4 !important;
+  background-color: mat-color($beeyond-light-accent, darker);
 }
 
 .side-nav {
   font-size: 22px;
-  border: #d7ceef;
-  border-radius: 20px;
-  background-color: #d7ceef;
+  border: mat-color($beeyond-light-accent);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: mat-color($beeyond-light-accent);
 }
 
 #icon {
   height: 40px;
   width: 40px;
-  background-color: #af87e2;
+  background-color: mat-color($beeyond-light-accent, 800);
   border: 5px solid #fff;
   border-radius: 50%;
-  display: inline-block;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+
+  img {
+    height: 90%;
+  }
 }
 
 .spacer {
@@ -93,4 +102,26 @@ mat-list-item:hover {
 .tiny-title {
   font-size: 13px;
   color: #4c4c4c;
+  display: block;
+}
+
+.box {
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 10px
+}
+
+#log-out {
+  line-height: normal;
+  font-size: 18px;
+  margin-left: auto;
+  bottom: 0;
+  position: absolute;
+  padding: 10px 0 10px 0;
+  background-color: mat-color($beeyond-light-primary);
+  color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
 }
