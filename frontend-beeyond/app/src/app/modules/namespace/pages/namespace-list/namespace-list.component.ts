@@ -15,9 +15,7 @@ import { AuthenticationService } from '../../../../core/authentification/authent
 export class NamespaceListComponent implements OnInit {
   namespaces: Namespace[];
 
-  constructor(private backendApiService: BackendApiService,
-              private dialog: MatDialog,
-              public authenticationService: AuthenticationService) {}
+  constructor(private backendApiService: BackendApiService, private dialog: MatDialog) {}
 
   ngOnInit(): void {
     this.refreshNamespaces();
