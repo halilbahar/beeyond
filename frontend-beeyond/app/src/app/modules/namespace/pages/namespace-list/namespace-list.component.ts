@@ -5,6 +5,7 @@ import { NamespaceSave } from 'src/app/shared/models/namespace-save.model';
 import { Namespace } from 'src/app/shared/models/namespace.model';
 import { NamespaceDeleteDialogComponent } from '../../components/namespace-delete-dialog/namespace-delete-dialog.component';
 import { NamespaceDialogComponent } from '../../components/namespace-dialog/namespace-dialog.component';
+import { AuthenticationService } from '../../../../core/authentification/authentication.service';
 
 @Component({
   selector: 'app-namespace-list',
