@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"github.com/dgrijalva/jwt-go"
 	"kubernetes-validation-beeyond/models"
 	"net/http"
 	"strings"
@@ -15,6 +16,15 @@ import (
 // @Failure 500 {string} string "internal server error"
 // @Router /api/constraints/ [get]
 func listRootConstraints(c *gin.Context) {
+	claims := c.Keys["props"].(jwt.MapClaims)
+	tmp := claims["realm_access"].(map[string]interface{})
+	role := tmp["roles"].([]interface{})[0].(string)
+
+	if role != "teacher" {
+		c.Writer.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	collection, err := models.GetSchemaCollection()
 	if err != nil {
 		c.Writer.WriteHeader(http.StatusInternalServerError)
@@ -62,6 +72,15 @@ func listRootConstraints(c *gin.Context) {
 // @Failure 400 {string} string "bad request"
 // @Router /api/constraints/{path} [get]
 func getConstraintsByPath(c *gin.Context) {
+	claims:= c.GetStringMap("props")
+	tmp := claims["realm_access"].(map[string]interface{})
+	role := tmp["roles"].(string)
+
+	if role != "teacher" {
+		c.Writer.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	segments := c.GetStringSlice("pathSegments")
 	schema, err := models.GetSchemaBySegments(segments)
 	if err != nil {
@@ -82,6 +101,15 @@ func getConstraintsByPath(c *gin.Context) {
 // @Failure 500 {string} string "internal server error"
 // @Router /api/constraints/{path} [post]
 func createConstraintByPath(c *gin.Context) {
+	claims:= c.GetStringMap("props")
+	tmp := claims["realm_access"].(map[string]interface{})
+	role := tmp["roles"].(string)
+
+	if role != "teacher" {
+		c.Writer.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	var constraint models.Constraint
 	if err := c.ShouldBindJSON(&constraint); err != nil {
 		c.Writer.WriteHeader(http.StatusBadRequest)
@@ -124,6 +152,15 @@ func createConstraintByPath(c *gin.Context) {
 // @Failure 400 {string} string "bad request"
 // @Router /api/constraints/{path} [delete]
 func deleteConstraintByPath(c *gin.Context) {
+	claims:= c.GetStringMap("props")
+	tmp := claims["realm_access"].(map[string]interface{})
+	role := tmp["roles"].(string)
+
+	if role != "teacher" {
+		c.Writer.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	groupKindVersion, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
 
@@ -144,6 +181,15 @@ func deleteConstraintByPath(c *gin.Context) {
 // @Failure 500 {string} string "internal server error"
 // @Router /api/constraints/{path} [patch]
 func toggleDisableConstraintByPath(c *gin.Context) {
+	claims:= c.GetStringMap("props")
+	tmp := claims["realm_access"].(map[string]interface{})
+	role := tmp["roles"].(string)
+
+	if role != "teacher" {
+		c.Writer.WriteHeader(http.StatusUnauthorized)
+		return
+	}
+
 	groupKindVersionInterface, _ := c.Get("groupKindVersion")
 	propertyPath := c.GetString("propertyPath")
 	groupKindVersion := groupKindVersionInterface.(models.GroupKindVersion)

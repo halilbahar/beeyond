@@ -18,7 +18,6 @@ func GetRouter() *gin.Engine {
 	router.Use(middleware.Cors())
 	router.Use(middleware.Oidc())
 
-
 	api := router.Group("/api")
 	{
 		api.GET("/swagger-ui", func(c *gin.Context) {
@@ -28,7 +27,8 @@ func GetRouter() *gin.Engine {
 		api.POST("/validate", getValidationResult)
 		api.Use(middleware.PathSegments())
 		api.Use(middleware.ProvideSchema())
-		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
+		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json")
+
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 		// constraints
