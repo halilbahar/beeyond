@@ -9,16 +9,8 @@ body {
 
 body {
   margin: 0;
+  background-color: lightgray;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
-}
-
-.primary-bg-color {
-  background-color: mat-color($beeyond-light-primary, 300);
-}
-
-.secondary-bg-color {
-  background-color: mat-color($beeyond-light-primary, 400);
-  border-bottom: 0.1rem solid rgba(0, 0, 0, 0.1);
 }
 
 .unselectable {
@@ -79,6 +71,10 @@ body {
   background: #0058e9;
   width: 5px !important;
   margin-left: 3px;
+}
+
+mat-sidenav-content > *:not(:first-child) {
+  margin-top: 10px;
 }
 
 .item-hover {

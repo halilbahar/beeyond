@@ -4,9 +4,12 @@
   mode="indeterminate"
 ></mat-progress-bar>
 <app-side-navigation>
-  <app-header></app-header>
-  <router-outlet></router-outlet>
-  <div class="bottom-spacer"></div>
+  <mat-card style="padding: 0">
+    <app-header></app-header>
+  </mat-card>
+  <mat-card id="content">
+    <router-outlet> </router-outlet>
+  </mat-card>
 </app-side-navigation>
 <div id="loadingScreen" [@fadeOut]="authenticationService.oidcLoaded | async">
   <img src="../assets/images/beeyond-logo-with-text.png" alt="Beeyond" />

@@ -10,6 +10,7 @@ import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ConfigService } from './core/services/config.service';
 import { AuthenticationService } from './core/authentification/authentication.service';
+import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [AppComponent],
@@ -20,7 +21,8 @@ import { AuthenticationService } from './core/authentification/authentication.se
     HttpClientModule,
     CoreModule,
     MonacoEditorModule.forRoot(),
-    MatProgressBarModule
+    MatProgressBarModule,
+    MatCardModule
   ],
   providers: [
     {

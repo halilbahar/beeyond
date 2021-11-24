@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AuthConfig, OAuthService } from 'angular-oauth2-oidc';
+import { OAuthService } from 'angular-oauth2-oidc';
 import { BehaviorSubject } from 'rxjs';
 import { ConfigService } from '../services/config.service';
 

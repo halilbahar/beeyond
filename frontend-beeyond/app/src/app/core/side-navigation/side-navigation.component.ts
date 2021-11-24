@@ -3,6 +3,7 @@ import { AUTO_STYLE, state, style, trigger } from '@angular/animations';
 import { SidenavToggleService } from '../services/sidenav-toggle.service';
 import { AuthenticationService } from '../authentification/authentication.service';
 import { config } from '../config/user-role.config';
+import { ThemeService } from '../services/theme.service';
 
 @Component({
   selector: 'app-side-navigation',
@@ -16,6 +17,7 @@ import { config } from '../config/user-role.config';
   ]
 })
 export class SideNavigationComponent implements OnInit {
+  theme: boolean;
   agenda = [
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
@@ -54,8 +56,11 @@ export class SideNavigationComponent implements OnInit {
 
   constructor(
     public sidenavToggleService: SidenavToggleService,
-    public authenticationService: AuthenticationService
-  ) {}
+    public authenticationService: AuthenticationService,
+    private themeService: ThemeService
+  ) {
+    this.theme = themeService.theme.value;
+  }
 
   ngOnInit(): void {
     this.authenticationService.roles.subscribe(res => {
@@ -71,5 +76,13 @@ export class SideNavigationComponent implements OnInit {
         });
       }
     });
+  }
+
+  toggleTheme() {
+    this.themeService.theme.next(this.theme);
+  }
+
+  logOut(): void {
+    this.authenticationService.logOut();
   }
 }

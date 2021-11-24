@@ -1,4 +1,4 @@
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Params, Router } from '@angular/router';
 import { Breadcrumb } from 'src/app/shared/models/breadcrumb.model';
 import { AuthenticationService } from '../authentification/authentication.service';

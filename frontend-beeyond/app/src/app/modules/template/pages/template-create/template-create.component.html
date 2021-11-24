@@ -1,16 +1,16 @@
-<mat-card class="card-entire-page">
+<ng-container>
   <mat-card-title>Create a new Template</mat-card-title>
   <mat-card-subtitle>Write your template here:</mat-card-subtitle>
-  <mat-card-content>
-    <mat-horizontal-stepper [linear]="true">
-      <mat-step [stepControl]="firstFormGroup">
+  <div style="display: flex; flex: 1">
+    <mat-horizontal-stepper [linear]="true" style="flex: 1">
+      <mat-step [stepControl]="firstFormGroup" style="height: 100%">
         <ng-template matStepLabel>Write the script</ng-template>
-
-        <div class="stepper-content" [formGroup]="firstFormGroup">
+        <div [formGroup]="firstFormGroup" style="height: 100%">
           <ngx-monaco-editor
             [options]="monacoOptions"
             class="monaco-editor monaco-editor-border"
             formControlName="content"
+            style="height: 100%"
           >
           </ngx-monaco-editor>
         </div>
@@ -124,5 +124,5 @@
         </div>
       </mat-step>
     </mat-horizontal-stepper>
-  </mat-card-content>
-</mat-card>
+  </div>
+</ng-container>

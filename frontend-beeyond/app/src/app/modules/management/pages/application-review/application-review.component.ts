@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { BackendApiService } from 'src/app/core/services/backend-api.service';
 import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
-import { Application } from 'src/app/shared/models/application.model';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 

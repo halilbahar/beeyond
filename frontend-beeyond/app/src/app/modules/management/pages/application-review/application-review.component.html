@@ -1,36 +1,35 @@
-<mat-card class="card-entire-page">
+<ng-container *ngIf="isManagement">
+  <mat-card-title>
+    Reviewing: {{ (customApplication || templateApplication).owner.name }}
+  </mat-card-title>
+  <mat-card-subtitle>{{ (customApplication || templateApplication).note }}</mat-card-subtitle>
+</ng-container>
+
+<div class="review-content">
+  <ngx-monaco-editor
+    *ngIf="customApplication"
+    [options]="monacoEditorOptions"
+    class="monaco-editor-border"
+    [ngModel]="customApplication.content"
+  ></ngx-monaco-editor>
+
+  <app-variable-list
+    *ngIf="templateApplication"
+    [fieldValues]="templateApplication.fieldValues"
+    [templateId]="templateApplication.templateId"
+  ></app-variable-list>
+</div>
+
+<div class="button-container">
+  <button mat-flat-button color="primary" [routerLink]="this.redirectPath">Back</button>
   <ng-container *ngIf="isManagement">
-    <mat-card-title>
-      Reviewing: {{ (customApplication || templateApplication).owner.name }}
-    </mat-card-title>
-    <mat-card-subtitle>{{ (customApplication || templateApplication).note }}</mat-card-subtitle>
+    <button mat-flat-button color="primary" [disabled]="!isPending" (click)="deny()">Deny</button>
+    <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">
+      Approve
+    </button>
+    <button mat-flat-button color="primary" [disabled]="!isRunning" (click)="finish()">
+      Finish
+    </button>
   </ng-container>
-
-  <div class="review-content">
-    <ngx-monaco-editor
-      *ngIf="customApplication"
-      [options]="monacoEditorOptions"
-      class="monaco-editor-border"
-      [ngModel]="customApplication.content"
-    ></ngx-monaco-editor>
-
-    <app-variable-list
-      *ngIf="templateApplication"
-      [fieldValues]="templateApplication.fieldValues"
-      [templateId]="templateApplication.templateId"
-    ></app-variable-list>
-  </div>
-
-  <div class="button-container">
-    <button mat-flat-button color="primary" [routerLink]="this.redirectPath">Back</button>
-    <ng-container *ngIf="isManagement">
-      <button mat-flat-button color="primary" [disabled]="!isPending" (click)="deny()">Deny</button>
-      <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">
-        Approve
-      </button>
-      <button mat-flat-button color="primary" [disabled]="!isRunning" (click)="finish()">
-        Finish
-      </button>
-    </ng-container>
-  </div>
-</mat-card>
+</div>
+s

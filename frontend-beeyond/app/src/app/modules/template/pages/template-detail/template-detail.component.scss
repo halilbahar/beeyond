@@ -10,14 +10,6 @@ mat-card-subtitle {
 }
 
 .template-detail {
-  flex: 1 0 auto;
-  display: flex;
-  flex-direction: column;
-
-  ngx-monaco-editor {
-    flex: 1 0;
-  }
-
   .wildcard-details {
     flex: 0 0 55%;
     height: 0;
