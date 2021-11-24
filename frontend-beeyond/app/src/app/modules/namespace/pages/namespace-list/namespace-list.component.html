@@ -9,7 +9,7 @@
     <div *ngFor="let namespace of namespaces" class="namespace-container item-hover">
       <h2 class="title-edit">
         {{ namespace.namespace }}
-        <div *ngIf='namespace.users.length != 1 || namespace.namespace !== namespace.users[0].name'>
+        <div *ngIf="namespace.users.length != 1 || namespace.namespace !== namespace.users[0].name">
           <button mat-icon-button color="warn" (click)="openDeleteNamespaceDialog(namespace)">
             <mat-icon>delete</mat-icon>
           </button>
