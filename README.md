@@ -1,4 +1,4 @@
-# ![Beeyond](frontend-beeyond/src/assets/images/beeyond-logo-with-text.png)
+# ![Beeyond](frontend-beeyond/app/src/assets/images/beeyond-logo-with-text.png)
 
 **Kubernetes provisioning tool** for the HTBLA Leonding (Dept. of Informatics and Media Technology)
 
@@ -45,3 +45,5 @@ spec:
         ports:
         - containerPort: 80
 ```
+
+temp
