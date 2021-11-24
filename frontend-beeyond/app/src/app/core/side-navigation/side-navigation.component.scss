@@ -1,6 +1,6 @@
 @import 'src/assets/scss/variables';
-@import "~@angular/material/theming";
-@import "src/assets/scss/custom-theme";
+@import '~@angular/material/theming';
+@import 'src/assets/scss/custom-theme';
 
 .side-nav-container {
   @include flex-column;
@@ -109,7 +109,7 @@ mat-list-item:hover {
   background-color: #fff;
   border: 1px solid #fff;
   border-radius: 5px;
-  padding: 10px
+  padding: 10px;
 }
 
 #log-out {

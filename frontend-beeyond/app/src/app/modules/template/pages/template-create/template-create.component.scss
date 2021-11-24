@@ -1,11 +1,12 @@
 @import '../../../../../assets/scss/variables.scss';
 
-:host{
+:host {
   @include flex-column;
-  flex: 1
+  flex: 1;
 }
 
-::ng-deep mat-horizontal-stepper, .stepper-content {
+::ng-deep mat-horizontal-stepper,
+.stepper-content {
   @include flex-column;
   height: 100%;
   flex: 1;
