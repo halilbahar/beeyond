@@ -3,7 +3,10 @@ import { AUTO_STYLE, state, style, trigger } from '@angular/animations';
 import { SidenavToggleService } from '../services/sidenav-toggle.service';
 import { AuthenticationService } from '../authentification/authentication.service';
 import { config } from '../config/user-role.config';
+import { BackendApiService } from '../services/backend-api.service';
 import { ThemeService } from '../services/theme.service';
+import { Notification } from '../../shared/models/notification.model';
+import { NotificationStatus } from '../../shared/models/notification-status.enum';
 
 @Component({
   selector: 'app-side-navigation',
@@ -53,17 +56,20 @@ export class SideNavigationComponent implements OnInit {
     }
   ];
   actualAgenda = [];
+  notifications: Notification[] = [];
+  notificationStatus = NotificationStatus;
 
   constructor(
     public sidenavToggleService: SidenavToggleService,
     public authenticationService: AuthenticationService,
+    public backendApiService: BackendApiService,
     private themeService: ThemeService
   ) {
     this.theme = themeService.theme.value;
   }
 
   ngOnInit(): void {
-    this.authenticationService.roles.subscribe(res => {
+    this.authenticationService.roles.subscribe(async res => {
       if (this.agenda) {
         this.actualAgenda = this.agenda.filter(item => {
           let found = true;
@@ -74,6 +80,9 @@ export class SideNavigationComponent implements OnInit {
           }
           return found;
         });
+        this.backendApiService
+          .getNotifications()
+          .subscribe(notifications => (this.notifications = notifications));
       }
     });
   }
