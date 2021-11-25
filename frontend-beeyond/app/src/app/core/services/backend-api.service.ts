@@ -9,6 +9,7 @@ import { Namespace } from 'src/app/shared/models/namespace.model';
 import { User } from 'src/app/shared/models/user.model';
 import { NamespaceSave } from 'src/app/shared/models/namespace-save.model';
 import { ConfigService } from './config.service';
+import { Notification } from '../../shared/models/notification.model';
 
 @Injectable({
   providedIn: 'root'
@@ -79,5 +80,9 @@ export class BackendApiService {
 
   getAllUser(): Observable<User[]> {
     return this.http.get<User[]>(`${this.backendApiUrl}/user`);
+  }
+
+  getNotifications(): Observable<Notification[]> {
+    return this.http.get<Notification[]>(`${this.backendApiUrl}/notification`);
   }
 }

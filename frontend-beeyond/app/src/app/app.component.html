@@ -8,7 +8,7 @@
     <app-header></app-header>
   </mat-card>
   <mat-card id="content">
-    <router-outlet> </router-outlet>
+    <router-outlet></router-outlet>
   </mat-card>
 </app-side-navigation>
 <div id="loadingScreen" [@fadeOut]="authenticationService.oidcLoaded | async">
