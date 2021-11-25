@@ -74,6 +74,10 @@ export class BackendApiService {
     return this.http.get<Namespace[]>(`${this.backendApiUrl}/namespace?all=1`);
   }
 
+  getUserNamespaces(): Observable<Namespace[]> {
+    return this.http.get<Namespace[]>(`${this.backendApiUrl}/namespace`);
+  }
+
   saveNamespace(namespace: NamespaceSave): Observable<void> {
     return this.http.put<void>(`${this.backendApiUrl}/namespace`, namespace);
   }
