@@ -17,6 +17,21 @@ public class Notification extends PanacheEntityBase {
 
     private NotificationStatus status;
 
+    private String entityName;
+
+    private Long entityId;
+
+    public Notification() {
+    }
+
+    public Notification(User user, String message, NotificationStatus status, String entityName, Long entityId) {
+        this.user = user;
+        this.message = message;
+        this.status = status;
+        this.entityName = entityName;
+        this.entityId = entityId;
+    }
+
     public Long getId() {
         return id;
     }
@@ -43,5 +58,21 @@ public class Notification extends PanacheEntityBase {
 
     public void setStatus(NotificationStatus status) {
         this.status = status;
+    }
+
+    public String getEntityName() {
+        return entityName;
+    }
+
+    public void setEntityName(String entityName) {
+        this.entityName = entityName;
+    }
+
+    public Long getEntityId() {
+        return entityId;
+    }
+
+    public void setEntityId(Long entityId) {
+        this.entityId = entityId;
     }
 }

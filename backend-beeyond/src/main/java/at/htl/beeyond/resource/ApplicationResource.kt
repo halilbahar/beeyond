@@ -79,6 +79,11 @@ class ApplicationResource {
             application.status = ApplicationStatus.RUNNING
             application.startedAt = LocalDateTime.now()
 
+            application.namespace.users.forEach {
+                val notification = Notification(it, "Application has been accepted!", NotificationStatus.POSITIVE, "application", application.id)
+                notification.persist()
+            }
+
             return Response.ok().build()
         }
         else{
@@ -96,6 +101,12 @@ class ApplicationResource {
 
         if(application.status == ApplicationStatus.PENDING){
             application.status = ApplicationStatus.DENIED
+
+            application.namespace.users.forEach {
+                val notification = Notification(it, "Application has been denied!", NotificationStatus.NEGATIVE, "application", application.id)
+                notification.persist()
+            }
+
             return Response.ok().build()
         }
         else{
@@ -117,11 +128,16 @@ class ApplicationResource {
             application.status = ApplicationStatus.FINISHED
             application.finishedAt = LocalDateTime.now()
 
+            application.namespace.users.forEach {
+                val notification = Notification(it, "Application has been stopped!", NotificationStatus.NEUTRAL, "application", application.id)
+                notification.persist()
+            }
+
             val isLastApplication = Application
-                .streamAll<Application>()
-                .filter {
-                    it.status == ApplicationStatus.RUNNING && it.namespace == application.namespace
-                }.count() == 0L
+                    .streamAll<Application>()
+                    .filter {
+                        it.status == ApplicationStatus.RUNNING && it.namespace == application.namespace
+                    }.count() == 0L
 
             if (isLastApplication) {
                 application.namespace.isDeleted = true
