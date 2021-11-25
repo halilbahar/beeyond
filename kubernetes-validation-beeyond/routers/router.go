@@ -34,6 +34,7 @@ func GetRouter() *gin.Engine {
 		// constraints
 		constraints := api.Group("/constraints")
 		{
+			constraints.Use(middleware.Rbac())
 			constraints.GET("", listRootConstraints)
 			constraints.GET("/*path", getConstraintsByPath)
 
