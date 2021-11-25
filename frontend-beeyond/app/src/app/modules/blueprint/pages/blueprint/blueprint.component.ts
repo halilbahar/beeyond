@@ -42,7 +42,7 @@ export class BlueprintComponent implements OnInit {
       }
     });
 
-    this.backendApiService.getAllNamespaces().subscribe(namespaces => {
+    this.backendApiService.getUserNamespaces().subscribe(namespaces => {
       const defaultNamespace = {
         namespace: this.authenticationService.username.value,
         label: 'Default'
