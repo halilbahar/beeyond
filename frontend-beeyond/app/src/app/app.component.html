@@ -1,0 +1,16 @@
+<mat-progress-bar
+  id="progress-bar"
+  *ngIf="progressBarService.hidden | async"
+  mode="indeterminate"
+></mat-progress-bar>
+<app-side-navigation>
+  <mat-card style="padding: 0">
+    <app-header></app-header>
+  </mat-card>
+  <mat-card id="content">
+    <router-outlet> </router-outlet>
+  </mat-card>
+</app-side-navigation>
+<div id="loadingScreen" [@fadeOut]="authenticationService.oidcLoaded | async">
+  <img src="../assets/images/beeyond-logo-with-text.png" alt="Beeyond" />
+</div>

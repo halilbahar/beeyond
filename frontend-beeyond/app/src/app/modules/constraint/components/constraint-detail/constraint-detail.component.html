@@ -1,0 +1,25 @@
+<div class="header">
+  <button mat-icon-button matTooltip="Edit this">
+    <mat-icon (click)="openEditDialog()">edit</mat-icon>
+  </button>
+  <mat-slide-toggle
+    class="constraint-toggle"
+    color="warn"
+    (click)="toggleConstraint()"
+    [checked]="constraint?.disabled"
+    [disabled]="isRequired"
+  >
+  </mat-slide-toggle>
+  <div class="title" (click)="collapsed = !collapsed">{{ title }}</div>
+  <button
+    mat-icon-button
+    matTooltip="Navigate into"
+    matTooltipShowDelay="500"
+    *ngIf="isKubernetesObject"
+  >
+    <mat-icon (click)="navigate(title)">arrow_forward_ios</mat-icon>
+  </button>
+</div>
+<div class="body-wrapper" [@collapse]="collapsed">
+  <div class="body">{{ description }}</div>
+</div>

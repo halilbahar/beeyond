@@ -1,0 +1,42 @@
+<div *ngIf="!fetching">
+  <ng-container *ngIf="schemas != null; else singleSchemaView">
+    <mat-card-title>All Kubernetes Object Types ({{ schemas.length }} Types)</mat-card-title>
+
+    <app-constraint-control (controlChange)="onSchemaListControlChange($event)">
+    </app-constraint-control>
+
+    <app-constraint-detail
+      *ngFor="let schema of schemasFiltered; let i = index"
+      [title]="getGroupKindVersionName(schema)"
+      [description]="schema.description"
+      [type]="schema.type"
+      [isKubernetesObject]="true"
+      [constraint]="schema['x-constraint']"
+      [isRequired]="false"
+      (constraintDisabledToggled)="onSchemaDisableToggled(schemasFiltered, i, $event)"
+    ></app-constraint-detail>
+  </ng-container>
+
+  <ng-template #singleSchemaView>
+    <mat-card-title>
+      {{ singleSchemaTitle }} ({{ getSingleSchemaPropertyLength() }} Properties)
+    </mat-card-title>
+    <mat-card-subtitle>{{ singleSchema.description }}</mat-card-subtitle>
+
+    <app-constraint-control (controlChange)="onSingleSchemaControlChange($event)">
+    </app-constraint-control>
+
+    <app-constraint-detail
+      *ngFor="let item of singleSchemaFiltered.properties | keyvalue"
+      [title]="item.key"
+      [description]="item.value.description"
+      [type]="item.value.type"
+      [isKubernetesObject]="item.value['x-is-kubernetes-object']"
+      [constraint]="item.value['x-constraint']"
+      [isRequired]="singleSchemaFiltered.required?.includes(item.key)"
+      (constraintDisabledToggled)="
+        onSingleSchemaDisableToggled(singleSchemaFiltered.properties, item.key, $event)
+      "
+    ></app-constraint-detail>
+  </ng-template>
+</div>

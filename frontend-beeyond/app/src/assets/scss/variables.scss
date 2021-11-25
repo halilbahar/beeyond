@@ -1,0 +1,9 @@
+$header-height: 4.6rem;
+$router-content-width: 80%;
+$router-content-top: 4%;
+$router-content-height: calc(100% - #{$header-height} - #{$router-content-top} * 2);
+
+@mixin flex-column {
+  display: flex !important;
+  flex-direction: column;
+}

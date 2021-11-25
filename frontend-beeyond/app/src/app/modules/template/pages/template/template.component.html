@@ -1,0 +1,18 @@
+<div class="control-container">
+  <button mat-flat-button color="primary" routerLink="/template/create">NEW</button>
+  <mat-form-field class="search-field">
+    <input type="text" matInput />
+    <button mat-icon-button matSuffix>
+      <mat-icon>search</mat-icon>
+    </button>
+  </mat-form-field>
+</div>
+
+<div class="template-list" *ngIf="templates.length > 0">
+  <app-template-list
+    [templates]="templates"
+    [routingEnabled]="true"
+    routePath="/template/detail/{id}"
+  >
+  </app-template-list>
+</div>

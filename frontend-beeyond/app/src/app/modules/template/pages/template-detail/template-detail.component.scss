@@ -1,0 +1,50 @@
+@import '../../../../../assets/scss/variables.scss';
+
+:host {
+  @include flex-column;
+}
+
+mat-card-title,
+mat-card-subtitle {
+  flex: none;
+}
+
+.template-detail {
+  .wildcard-details {
+    flex: 0 0 55%;
+    height: 0;
+    box-sizing: border-box;
+    padding-top: 1rem;
+    display: flex;
+    flex-direction: column;
+
+    .wildcard-table-wrapper {
+      flex: 1;
+      overflow-y: auto;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      word-break: break-all;
+
+      tbody {
+        tr:not(:last-child) {
+          border-bottom: 1px solid #e7e7e7;
+        }
+
+        td {
+          padding: 15px;
+
+          &:first-child {
+            font-weight: bold;
+          }
+        }
+      }
+    }
+  }
+}
+
+.button-container {
+  flex: none;
+}

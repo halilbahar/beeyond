@@ -27,11 +27,15 @@ public abstract class Application extends PanacheEntityBase {
 
     private LocalDateTime finishedAt;
 
-    public Application(String note, User owner) {
+    @ManyToOne
+    private Namespace namespace;
+
+    public Application(String note, User owner, Namespace namespace) {
         this.note = note;
         this.status = ApplicationStatus.PENDING;
         this.owner = owner;
         this.createdAt = LocalDateTime.now();
+        this.namespace = namespace;
     }
 
     public Application() {
@@ -90,4 +94,12 @@ public abstract class Application extends PanacheEntityBase {
     }
 
     public abstract String getContent();
+
+    public Namespace getNamespace() {
+        return namespace;
+    }
+
+    public void setNamespace(Namespace namespace) {
+        this.namespace = namespace;
+    }
 }

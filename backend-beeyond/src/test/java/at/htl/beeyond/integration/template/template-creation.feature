@@ -70,7 +70,6 @@ Feature: Template creation endpoint
 
   @teacher
   Scenario: Create a template with a too long name and description
-    * def generateString = read('string-generator.js')
     Given request
     """
     {
@@ -186,7 +185,6 @@ Feature: Template creation endpoint
 
   @teacher
   Scenario: Create a template where the field label, wildcard and description are too long
-    * def generateString = read('string-generator.js')
     Given request
     """
     {

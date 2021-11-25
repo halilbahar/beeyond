@@ -24,11 +24,12 @@ Feature: Template application creation endpoint
           "value": "8081"
         }
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a template application with no note
@@ -45,11 +46,12 @@ Feature: Template application creation endpoint
           "value": "8081"
         }
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
-    Then status 204
+    Then status 201
 
   @student
   Scenario: Create a template application with a too long note
@@ -68,7 +70,8 @@ Feature: Template application creation endpoint
           "value": "8081"
         }
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -97,7 +100,8 @@ Feature: Template application creation endpoint
           "fieldId": #(template.fields[1].id),
           "value": "8081"
         }
-      ]
+      ],
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -127,7 +131,8 @@ Feature: Template application creation endpoint
           "value": "8081"
         }
       ],
-      "templateId": 10000
+      "templateId": 10000,
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -153,7 +158,8 @@ Feature: Template application creation endpoint
           "value": "4"
         }
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -193,7 +199,8 @@ Feature: Template application creation endpoint
           "value": 8083
         }
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -222,7 +229,8 @@ Feature: Template application creation endpoint
         },
         {}
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -244,7 +252,8 @@ Feature: Template application creation endpoint
           "value": 8080
         }
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -270,7 +279,8 @@ Feature: Template application creation endpoint
           "value": "8081"
         }
       ],
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "namespace": "moritz"
     }
     """
     When method POST
@@ -285,6 +295,7 @@ Feature: Template application creation endpoint
     """
     {
       "note": "string",
+      "namespace": "moritz",
       "templateId": #(template.id)
     }
     """

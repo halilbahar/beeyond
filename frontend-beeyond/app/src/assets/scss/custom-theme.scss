@@ -1,0 +1,46 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@import '~@angular/material/theming';
+@import 'custom-colors';
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat-core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$beeyond-light-primary: mat-palette($md-purple);
+$beeyond-light-accent: mat-palette($md-lilac);
+
+// The warn palette is optional (defaults to red).
+$beeyond-light-warn: mat-palette($mat-red);
+
+// Create the theme object (a Sass map containing all of the palettes).
+$beeyond-light-theme: mat-light-theme(
+  $beeyond-light-primary,
+  $beeyond-light-accent,
+  $beeyond-light-warn
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include angular-material-theme($beeyond-light-theme);
+
+$beeyond-dark-theme: mat-dark-theme($mat-blue, $mat-blue, $mat-blue);
+
+.darkMode {
+  @include angular-material-theme($beeyond-dark-theme);
+
+  .primary-bg-color {
+    background-color: mat-color($beeyond-light-primary, 300);
+    color: black;
+  }
+
+  .primary-bg-color * {
+    color: black;
+  }
+}

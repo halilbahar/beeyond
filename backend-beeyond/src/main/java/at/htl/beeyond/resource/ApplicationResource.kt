@@ -2,11 +2,9 @@ package at.htl.beeyond.resource
 
 import at.htl.beeyond.dto.CustomApplicationDto
 import at.htl.beeyond.dto.TemplateApplicationDto
-import at.htl.beeyond.entity.Application
-import at.htl.beeyond.entity.ApplicationStatus
-import at.htl.beeyond.entity.CustomApplication
-import at.htl.beeyond.entity.TemplateApplication
+import at.htl.beeyond.entity.*
 import at.htl.beeyond.service.DeploymentService
+import at.htl.beeyond.service.NamespaceService
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
 import java.time.LocalDateTime
 import java.util.stream.Collectors
@@ -26,6 +24,9 @@ class ApplicationResource {
 
     @Inject
     lateinit var deploymentService: DeploymentService
+
+    @Inject
+    lateinit var namespaceService: NamespaceService
 
     @GET
     @RolesAllowed(value = ["student", "teacher"])
@@ -73,11 +74,16 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
                 ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        this.deploymentService.deploy(application)
-        application.status = ApplicationStatus.RUNNING
-        application.startedAt = LocalDateTime.now()
+        if(application.status == ApplicationStatus.PENDING){
+            this.deploymentService.deploy(application)
+            application.status = ApplicationStatus.RUNNING
+            application.startedAt = LocalDateTime.now()
 
-        return Response.noContent().build()
+            return Response.ok().build()
+        }
+        else{
+            return Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
+        }
     }
 
     @PATCH
@@ -88,8 +94,13 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
                 ?: return Response.status(404).build()
 
-        application.status = ApplicationStatus.DENIED
-        return Response.noContent().build()
+        if(application.status == ApplicationStatus.PENDING){
+            application.status = ApplicationStatus.DENIED
+            return Response.ok().build()
+        }
+        else{
+            return Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
+        }
     }
 
     @PATCH
@@ -100,10 +111,29 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
                 ?: return Response.status(404).build()
 
-        deploymentService.stop(application)
-        application.status = ApplicationStatus.FINISHED
-        application.finishedAt = LocalDateTime.now()
+        if(application.status == ApplicationStatus.RUNNING){
 
-        return Response.noContent().build()
+            deploymentService.stop(application)
+            application.status = ApplicationStatus.FINISHED
+            application.finishedAt = LocalDateTime.now()
+
+            val isLastApplication = Application
+                .streamAll<Application>()
+                .filter {
+                    it.status == ApplicationStatus.RUNNING && it.namespace == application.namespace
+                }.count() == 0L
+
+            if (isLastApplication) {
+                application.namespace.isDeleted = true
+                namespaceService.deleteNamespace(application.namespace.namespace)
+            }
+
+            deploymentService.client.extensions().ingresses().withLabel("beeyond-application-id", application.id.toString()).delete()
+
+            return Response.ok().build()
+        } else{
+            return Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING).build()
+        }
+
     }
 }

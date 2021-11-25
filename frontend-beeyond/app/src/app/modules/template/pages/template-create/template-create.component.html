@@ -1,0 +1,128 @@
+<ng-container>
+  <mat-card-title>Create a new Template</mat-card-title>
+  <mat-card-subtitle>Write your template here:</mat-card-subtitle>
+  <div style="display: flex; flex: 1">
+    <mat-horizontal-stepper [linear]="true" style="flex: 1">
+      <mat-step [stepControl]="firstFormGroup" style="height: 100%">
+        <ng-template matStepLabel>Write the script</ng-template>
+        <div [formGroup]="firstFormGroup" style="height: 100%">
+          <ngx-monaco-editor
+            [options]="monacoOptions"
+            class="monaco-editor monaco-editor-border"
+            formControlName="content"
+            style="height: 100%"
+          >
+          </ngx-monaco-editor>
+        </div>
+
+        <div class="button-container">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            [disabled]="firstFormGroup.invalid"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="secondFormGroup">
+        <ng-template matStepLabel>Fill Out Wildcard Fields</ng-template>
+
+        <div
+          class="stepper-content"
+          [formGroup]="secondFormGroup"
+          *ngIf="wildcards.length > 0; else noWildcards"
+        >
+          <div formArrayName="fields">
+            <div
+              *ngFor="let control of fields.controls; let i = index"
+              class="wildcard-fields"
+              [formGroupName]="i"
+            >
+              <span class="wildcard-label">{{ control.value.wildcard }}:</span>
+              <mat-form-field class="full-width">
+                <mat-label>Label</mat-label>
+                <input
+                  matInput
+                  placeholder="Your label for this wildcard"
+                  formControlName="label"
+                />
+                <mat-error *ngIf="secondFormGroup.get('fields').invalid">
+                  Please enter a name with a maximum of 255 characters
+                </mat-error>
+              </mat-form-field>
+
+              <mat-form-field class="full-width">
+                <mat-label>Description</mat-label>
+                <input
+                  matInput
+                  placeholder="Your description for this wildcard"
+                  formControlName="description"
+                />
+                <mat-error *ngIf="secondFormGroup.get('fields').invalid">
+                  The description must not be longer than 255 characters
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+        </div>
+
+        <ng-template #noWildcards>
+          <div class="stepper-content">Nothing to fill out</div>
+        </ng-template>
+
+        <div class="button-container">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            [disabled]="secondFormGroup.invalid"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="thirdFormGroup">
+        <ng-template matStepLabel>Specify Data</ng-template>
+
+        <div class="stepper-content" [formGroup]="thirdFormGroup">
+          <mat-form-field class="full-width">
+            <mat-label>Name</mat-label>
+            <input matInput placeholder="Name of this template" formControlName="name" />
+            <mat-error *ngIf="thirdFormGroup.get('name').invalid">
+              Please enter a name with a maximum of 255 characters
+            </mat-error>
+          </mat-form-field>
+          <mat-form-field class="full-width">
+            <mat-label>Description</mat-label>
+            <input
+              matInput
+              placeholder="Description of this template"
+              formControlName="description"
+            />
+            <mat-error *ngIf="thirdFormGroup.get('description').invalid">
+              The description must not be longer than 255 characters
+            </mat-error>
+          </mat-form-field>
+        </div>
+
+        <div class="button-container">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color="primary"
+            [disabled]="thirdFormGroup.invalid"
+            (click)="createTemplate()"
+          >
+            Create
+          </button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </div>
+</ng-container>

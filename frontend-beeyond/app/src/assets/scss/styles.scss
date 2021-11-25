@@ -1,0 +1,86 @@
+/* You can add global styles to this file, and also import other style files */
+@import 'custom-theme';
+@import '~@angular/material/theming';
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background-color: lightgray;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.unselectable {
+  user-select: none;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.card-entire-page {
+  height: 100%;
+  box-sizing: border-box;
+  display: flex !important;
+  flex-direction: column;
+  padding: 16px;
+
+  mat-card-content {
+    flex: 1;
+  }
+}
+
+// TODO: Remove later
+.full-width {
+  width: 100%;
+}
+
+.label {
+  font-size: 1.2rem;
+}
+
+.description {
+  font-size: 0.9rem;
+  color: rgba(0, 0, 0, 0.67);
+}
+
+.monaco-editor-border {
+  border: 0.1rem solid rgba(0, 0, 0, 0.1);
+}
+
+.button-container {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 0.8rem;
+
+  & > button:not(:first-child) {
+    margin-left: 0.8rem;
+  }
+}
+
+.monaco-application-inline {
+  color: #0058e9 !important;
+  text-decoration: underline;
+  font-weight: bold;
+}
+
+.monaco-application-line-decoration {
+  background: #0058e9;
+  width: 5px !important;
+  margin-left: 3px;
+}
+
+mat-sidenav-content > *:not(:first-child) {
+  margin-top: 10px;
+}
+
+.item-hover {
+  transition: background-color 100ms ease-in-out;
+}
+
+.item-hover:hover {
+  background-color: #f1f1f1 !important;
+}

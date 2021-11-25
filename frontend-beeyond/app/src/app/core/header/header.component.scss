@@ -1,0 +1,20 @@
+@import '../../../assets/scss/variables.scss';
+
+:host {
+  height: $header-height;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  padding: 0 22px;
+}
+
+.header-left {
+  display: flex;
+  align-items: center;
+  font-size: 26px;
+  margin-right: auto;
+}
+
+.no-outline {
+  outline: none;
+}

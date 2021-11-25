@@ -1,0 +1,15 @@
+<div class="header-left">
+  <ng-container *ngFor="let crumb of breadcrumbs; let i = index">
+    <span
+      *ngIf="crumb.link; else noLinkBreadcrumb"
+      (click)="navigateFromBreadcrumb(crumb.link)"
+      class="cursor-pointer no-outline"
+    >
+      {{ crumb.title | titlecase }}
+    </span>
+    <ng-template #noLinkBreadcrumb>{{ crumb.title | titlecase }}</ng-template>
+    <mat-icon *ngIf="i !== breadcrumbs.length - 1" [inline]="true" class="unselectable">
+      chevron_right
+    </mat-icon>
+  </ng-container>
+</div>

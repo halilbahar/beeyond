@@ -1,0 +1,29 @@
+@import '../assets/scss/variables.scss';
+
+::ng-deep router-outlet + * {
+  height: 100%;
+}
+
+#progress-bar {
+  z-index: 2;
+}
+
+#content {
+  height: calc(100% - 75px - 41px);
+  overflow-y: auto;
+}
+
+#loadingScreen {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  z-index: 3;
+  position: fixed;
+
+  img {
+    height: 20%;
+  }
+}

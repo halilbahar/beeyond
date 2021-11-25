@@ -1,0 +1,64 @@
+$body-space: 0.8rem;
+$body-margin: 0.4rem;
+$spacing: 0.4rem;
+
+:host {
+  padding: $body-space $body-margin $body-space;
+  display: block;
+  box-sizing: border-box;
+
+  &.constraint {
+    background-color: rgba(0, 0, 0, 0.05);
+  }
+}
+
+:host-context(:not(:last-of-type)) {
+  box-shadow: inset 0 -10px 3px -10px rgba(0, 0, 0, 0.4);
+}
+
+.header {
+  min-height: 1rem;
+  display: flex;
+  align-items: center;
+
+  & > *:not(:first-child) {
+    margin-left: $spacing;
+  }
+
+  .mat-icon-button {
+    width: unset;
+    height: unset;
+    line-height: unset;
+  }
+
+  .hidden-icons {
+    visibility: hidden;
+  }
+
+  .enable-icon {
+    color: green;
+  }
+
+  .title {
+    cursor: pointer;
+    font-size: 1.2rem;
+    margin-left: $spacing;
+    flex: 1;
+  }
+}
+
+.body-wrapper {
+  overflow: hidden;
+}
+
+.body {
+  padding-top: $body-space / 2;
+}
+
+::ng-deep .constraint-toggle .mat-slide-toggle-bar {
+  background-color: #7fda84;
+}
+
+::ng-deep .constraint-toggle .mat-slide-toggle-thumb {
+  background-color: #43c94c;
+}

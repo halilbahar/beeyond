@@ -1,0 +1,128 @@
+@import 'src/assets/scss/variables';
+@import '~@angular/material/theming';
+@import 'src/assets/scss/custom-theme';
+
+.side-nav-container {
+  @include flex-column;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.active,
+.active.mat-list-item:hover,
+.active.mat-list-item:focus {
+  background-color: mat-color($beeyond-light-primary) !important;
+  border: 1px solid mat-color($beeyond-light-primary) !important;
+  border-radius: 10px;
+  color: white !important;
+}
+
+mat-list-item:hover {
+  border-radius: 10px;
+  background-color: mat-color($beeyond-light-accent, darker);
+}
+
+.side-nav {
+  font-size: 22px;
+  border: mat-color($beeyond-light-accent);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px;
+  background-color: mat-color($beeyond-light-accent);
+}
+
+#icon {
+  height: 40px;
+  width: 40px;
+  background-color: mat-color($beeyond-light-accent, 800);
+  border: 5px solid #fff;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 10px;
+
+  img {
+    height: 90%;
+  }
+}
+
+.spacer {
+  border-bottom: 1px solid #808080;
+  margin: 20px 0 20px 0;
+}
+
+.side-nav-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.side-nav-list {
+  padding-top: 0 !important;
+}
+
+.nav-list-item {
+  padding-left: 0.7rem;
+  font-size: 18px;
+}
+
+::ng-deep .mat-slide-toggle-thumb {
+  background-color: dimgrey;
+  background-origin: content-box;
+  background-size: 75%;
+  background-repeat: no-repeat;
+  background-position: center center;
+}
+
+::ng-deep .theme-toggle.mat-checked .mat-slide-toggle-thumb {
+  background-image: url('../../../assets/images/dark-mode-icon.png') !important;
+  background-color: dimgrey;
+}
+
+::ng-deep .theme-toggle .mat-disabled {
+  opacity: 1 !important;
+}
+
+::ng-deep .theme-toggle.mat-checked .mat-slide-toggle-bar {
+  background-color: dimgrey;
+}
+
+::ng-deep .theme-toggle .mat-slide-toggle-thumb {
+  background-color: #ffb909;
+  background-image: url('../../../assets/images/light-mode-icon.png') !important;
+}
+
+::ng-deep .theme-toggle .mat-slide-toggle-bar {
+  background-color: #ffb909;
+}
+
+.tiny-title {
+  font-size: 13px;
+  color: #4c4c4c;
+  display: block;
+}
+
+.box {
+  background-color: #fff;
+  border: 1px solid #fff;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+#log-out {
+  line-height: normal;
+  font-size: 18px;
+  margin-left: auto;
+  bottom: 0;
+  position: absolute;
+  padding: 10px 0 10px 0;
+  background-color: mat-color($beeyond-light-primary);
+  color: #fff;
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  cursor: pointer;
+}

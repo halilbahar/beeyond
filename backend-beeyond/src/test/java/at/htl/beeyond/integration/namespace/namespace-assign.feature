@@ -3,6 +3,7 @@ Feature: Namespace assigning endpoint
   Background:
     * url baseUrl + '/namespace'
     * configure headers = { Authorization: '#(auth(karate.tags))' }
+    * call read('insert-user.js')
 
   @teacher
   Scenario: Assign 1 user to a valid namespace
@@ -79,23 +80,22 @@ Feature: Namespace assigning endpoint
     When method PUT
     Then status 422
 
-#  TODO: better string generator
-#  @teacher
-#  Scenario: Assign 2 user to a invalid namespace (too long)
-#    * def generateString = read('string-generator.js')
-#    Given request
-#    """
-#    {
-#      "namespace": #(generateString()),
-#      "users": [
-#        "emina",
-#        "moritz"
-#      ]
-#    }
-#    """
-#    When method PUT
-#    Then status 422
-#    And match response[0].message == 'This field needs to be between 1 and 253 characters'
+  @teacher
+  Scenario: Assign 2 user to a invalid namespace (too long)
+    * def generateString = read('classpath:string-generator.js')
+    Given request
+    """
+    {
+      "namespace": #(generateString()),
+      "users": [
+        "emina",
+        "moritz"
+      ]
+    }
+    """
+    When method PUT
+    Then status 422
+    And match response[0].message == 'This field needs to be between 1 and 253 characters'
 
   @teacher
   Scenario: Assign 2 user to a invalid namespace (name of user)
@@ -292,7 +292,8 @@ Feature: Namespace assigning endpoint
     Then status 204
     And path 'beeyond'
     When method GET
-    Then status 404
+    Then status 200
+    And response.deleted == true
 
   @teacher
   Scenario: Assign 1 to a valid namespace (1 user exists already)

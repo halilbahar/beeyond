@@ -22,25 +22,31 @@
 
 ### Getting Started
 
-#### start DB
+This is a web API that provides the Kubernetes root definitions and 
+validates the YAML that will be deployed.
 
-navigate to the /development-container folder and run 
+#### Start DB
+
+Navigate to the [/development-container](../development-container) folder and run.
 
 ```shell
 docker-compose up -d
 ```
 
-#### start Project
- build and run the project in your IDE
+#### Start project
+```shell
+go run main.go
+```
+
+#### Start tests
+```shell
+go test ./test/
+```
 
 ### Endpoint Documentation  
-see the swagger docs for futher information of the endpoints
-#### link to  [Swagger](http://localhost:8180/api/swagger-ui).
+See the swagger docs for futher information of the endpoints at port [:8180/api/swagger-ui](http://localhost:8180/api/swagger-ui).
 
 ### How it works
-In the frontend a student or teacher can post a yaml file and it gets checked for 
-grammatical and semantic errors. Also you can post a constraint on a Kubernetes Object
-, see [KUBERNETES JSON SCHEMA](https://kubernetesjsonschema.dev/v1.17.0-standalone-strict/_definitions.json),
-
-# Not complete
-
+In the frontend a student or teacher can post a YAML file and it gets checked for syntax errors.
+Also you can post a constraint on a Kubernetes Object , see 
+[Kubernetes JSON definitions](https://kubernetesjsonschema.dev/v1.17.0-standalone-strict/_definitions.json).

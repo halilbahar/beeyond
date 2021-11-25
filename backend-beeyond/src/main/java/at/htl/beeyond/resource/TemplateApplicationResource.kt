@@ -12,10 +12,7 @@ import javax.ws.rs.Consumes
 import javax.ws.rs.POST
 import javax.ws.rs.Path
 import javax.ws.rs.Produces
-import javax.ws.rs.core.Context
-import javax.ws.rs.core.MediaType
-import javax.ws.rs.core.Response
-import javax.ws.rs.core.SecurityContext
+import javax.ws.rs.core.*
 
 @Path("/application/template")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -27,7 +24,8 @@ class TemplateApplicationResource {
     @Transactional
     fun createTemplateApplication(
             @Context context: SecurityContext,
-            @Valid templateApplicationDto: TemplateApplicationDto?
+            @Valid templateApplicationDto: TemplateApplicationDto?,
+            @Context uriInfo: UriInfo
     ): Response {
         val template = Template.findById<Template>(templateApplicationDto!!.templateId)
         if (template.deleted) {
@@ -37,6 +35,10 @@ class TemplateApplicationResource {
         val owner = User.find<PanacheEntityBase>("name", context.userPrincipal.name).firstResult<User>()
         val templateApplication = TemplateApplication(templateApplicationDto, owner)
         templateApplication.persist()
-        return Response.noContent().build()
+
+        val uri = uriInfo.baseUriBuilder
+            .path("application")
+            .path(templateApplication.id.toString()).build()
+        return Response.created(uri).build()
     }
 }

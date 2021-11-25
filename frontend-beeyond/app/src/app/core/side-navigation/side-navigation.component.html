@@ -1,0 +1,60 @@
+<mat-sidenav-container class="side-nav-container" autosize="true">
+  <mat-sidenav mode="side" class="side-nav" opened>
+    <div style="padding: 20px">
+      <div class="side-nav-header">
+        <div id="icon">
+          <img src="assets/images/bee-purple.svg" alt="" />
+        </div>
+        <div>
+          <span class="tiny-title">Good day 👋</span>
+          {{ authenticationService.username | async }}
+        </div>
+
+        <!--<span [@minimized]="sidenavToggleService.minimized | async">
+        {{ authenticationService.username | async }}
+      </span>-->
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <mat-nav-list class="side-nav-list">
+          <mat-list-item
+            mat-list-item
+            *ngFor="let item of actualAgenda"
+            [routerLink]="item.router"
+            routerLinkActive="active"
+            [disableRipple]="true"
+          >
+            <mat-icon>{{ item.icon }}</mat-icon>
+            <span class="nav-list-item" [@minimized]="sidenavToggleService.minimized | async">
+              {{ item.name }}
+            </span>
+          </mat-list-item>
+        </mat-nav-list>
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <span class="tiny-title">Notifications: {{ actualAgenda.length }}</span>
+        <div class="box"></div>
+      </div>
+      <div class="spacer"></div>
+      <div>
+        <span class="tiny-title" style="display: inline">Theme</span>
+        <mat-slide-toggle
+          style="float: right"
+          class="theme-toggle"
+          [(ngModel)]="theme"
+          (change)="toggleTheme()"
+        ></mat-slide-toggle>
+        <i class="fas fa-cloud-moon"></i>
+      </div>
+    </div>
+    <div (click)="logOut()" id="log-out">
+      <mat-icon>logout</mat-icon>
+      <span>Log out</span>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content style="padding: 10px 10px 10px 20px">
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

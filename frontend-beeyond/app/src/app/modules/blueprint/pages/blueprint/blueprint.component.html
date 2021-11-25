@@ -1,0 +1,54 @@
+<mat-tab-group>
+  <mat-tab label="Custom Blueprint">
+    <ng-container [formGroup]="customApplicationForm">
+      <h2>The content of your script:</h2>
+      <ngx-monaco-editor
+        [options]="monacoOptions"
+        class="monaco-editor monaco-editor-border"
+        formControlName="content"
+      >
+      </ngx-monaco-editor>
+
+      <mat-form-field class="full-width" style="margin-top: 10px">
+        <mat-label>An optional note:</mat-label>
+        <textarea matInput cdkTextareaAutosize cdkAutosizeMaxRows="3" formControlName="note">
+        </textarea>
+        <mat-error *ngIf="customApplicationForm.get('note').invalid">
+          The note must not be longer than 255 characters
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field [ngClass]="{ 'hidden-field': namespaces.length <= 1 }">
+        <mat-label>Namespace</mat-label>
+        <mat-select formControlName="namespace">
+          <mat-option *ngFor="let namespace of namespaces" [value]="namespace.namespace">
+            {{ namespace.label }}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </ng-container>
+
+    <div class="button-container">
+      <button
+        mat-flat-button
+        color="primary"
+        (click)="sendCustomTemplate()"
+        [disabled]="!customApplicationForm.valid"
+      >
+        Submit
+      </button>
+    </div>
+  </mat-tab>
+
+  <mat-tab label="Template Blueprints">
+    <div *ngIf="message" class="center">
+      <div>{{ message }}</div>
+    </div>
+    <app-template-list
+      [templates]="templates"
+      [routingEnabled]="true"
+      routePath="/blueprint/template/{id}"
+    >
+    </app-template-list>
+  </mat-tab>
+</mat-tab-group>
