@@ -12,7 +12,7 @@ type Configurations struct {
 	Database             Database
 	KubernetesJsonschema KubernetesJsonschema
 	TestDataBase         TestDataBase
-	Authentication		 Authentication
+	Authentication       Authentication
 }
 
 type Server struct {
@@ -40,7 +40,7 @@ type KubernetesJsonschema struct {
 type Authentication struct {
 	Url      string
 	ClientId string
-	Key		 string
+	Realm    string
 }
 
 var Configuration Configurations
@@ -63,8 +63,8 @@ func Init() {
 	}
 }
 
-func ConvertStringToRSA() interface{} {
-	block, _ := pem.Decode([]byte(Configuration.Authentication.Key))
+func ConvertStringToRSA(key string) interface{} {
+	block, _ := pem.Decode([]byte(key))
 	if block == nil {
 		panic("failed to parse PEM block containing the public key")
 	}
