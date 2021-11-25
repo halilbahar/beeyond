@@ -107,7 +107,6 @@ jobs:
         with:
           name: karate-report-files
           path: ./karate
-      - run: echo ${{ github.actor }}
       - name: Deploy karate reports
         uses: peaceiris/actions-gh-pages@v3
         with:
