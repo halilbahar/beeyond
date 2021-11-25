@@ -9,7 +9,7 @@ import javax.validation.constraints.Size
 class NotificationDto(
         var id: Long? = null,
         @field:Size(max = 255) var message: String? = null,
-        @field:Exists(entity = User::class, fieldName = "id") var owner: Long? = null,
+        @field:Exists(entity = User::class, fieldName = "id") var userId: Long? = null,
         var status: NotificationStatus? = null,
         var entityName: String? = null,
         var entityId: Long? = null
