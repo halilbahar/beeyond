@@ -45,5 +45,3 @@ spec:
         ports:
         - containerPort: 80
 ```
-
-temp
