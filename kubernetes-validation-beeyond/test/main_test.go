@@ -2,7 +2,7 @@ package test
 
 import (
 	"context"
-	"fmt"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/docker/go-connections/nat"
 	"github.com/gin-gonic/gin"
 	"github.com/testcontainers/testcontainers-go"
@@ -17,15 +17,13 @@ import (
 
 var Router *gin.Engine
 var mongoDbContainer testcontainers.Container
+var Token *jwt.Token
 
 // Starts all creation and validation tests in a docker test-container
 func TestMain(m *testing.M) {
 	conf.Init()
-
 	setupMongoDbContainer()
-
 	services.Init()
-
 	Router = routers.GetRouter()
 
 	code := m.Run()
@@ -55,6 +53,4 @@ func setupMongoDbContainer() {
 	port, _ := mongoDbContainer.MappedPort(mongoDbContext, nat.Port(conf.Configuration.Database.Port))
 
 	conf.Configuration.Database.Port = strings.Split(string(port), "/")[0]
-
-	fmt.Println("------------------------------------------test db port: " + conf.Configuration.Database.Port)
 }

@@ -1,6 +1,7 @@
 package conf
 
 import (
+	"crypto/rsa"
 	"crypto/x509"
 	"encoding/pem"
 	"fmt"
@@ -63,7 +64,7 @@ func Init() {
 	}
 }
 
-func ConvertStringToRSA(key string) interface{} {
+func ConvertStringToRSA(key string) *rsa.PublicKey {
 	block, _ := pem.Decode([]byte(key))
 	if block == nil {
 		panic("failed to parse PEM block containing the public key")
@@ -74,5 +75,5 @@ func ConvertStringToRSA(key string) interface{} {
 		panic("failed to parse DER encoded public key: " + err.Error())
 	}
 
-	return pub
+	return pub.(*rsa.PublicKey)
 }
