@@ -16,7 +16,6 @@ import (
 func GetRouter() *gin.Engine {
 	router := gin.Default()
 	router.Use(middleware.Cors())
-	router.Use(middleware.Oidc())
 
 	api := router.Group("/api")
 	{
@@ -34,7 +33,9 @@ func GetRouter() *gin.Engine {
 		// constraints
 		constraints := api.Group("/constraints")
 		{
+			constraints.Use(middleware.Oidc())
 			constraints.Use(middleware.Rbac())
+
 			constraints.GET("", listRootConstraints)
 			constraints.GET("/*path", getConstraintsByPath)
 

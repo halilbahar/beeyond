@@ -40,8 +40,11 @@ type KubernetesJsonschema struct {
 
 type Authentication struct {
 	Url      string
+	Port     string
 	ClientId string
 	Realm    string
+	Username string
+	Password string
 }
 
 var Configuration Configurations
