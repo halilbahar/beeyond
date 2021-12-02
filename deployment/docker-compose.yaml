@@ -25,14 +25,14 @@ services:
       DB_VENDOR: H2
     container_name: beeyond-identity-provider
   kubernetes-validation-beeyond:
-    image: ghcr.io/eminasljivic/beeyond-kubernetes-validation:latest
+    image: ghcr.io/moritzeichhorn/beeyond-kubernetes-validation:v0.0.3
     container_name: kubernetes-validation-beeyond
     depends_on:
       - mongo-db
     environment:
       DATABASE_HOST: mongo-db
   backend-beeyond:
-    image: ghcr.io/eminasljivic/beeyond-backend:latest
+    image: ghcr.io/moritzeichhorn/beeyond-backend:v0.0.3
     container_name: beeyond_backend
     depends_on:
       - beeyond-db
@@ -42,7 +42,7 @@ services:
       BEEYOND_KEYCLOAK_HOST: identity-provider:8280
       BEEYOND_VALIDATION_HOST: kubernetes-validation-beeyond:8180
   frontend-beeyond:
-    image: ghcr.io/eminasljivic/beeyond-frontend:latest
+    image: ghcr.io/moritzeichhorn/beeyond-frontend:v0.0.3
     container_name: beeyond-frontend
     ports:
     - '4200:4200'
