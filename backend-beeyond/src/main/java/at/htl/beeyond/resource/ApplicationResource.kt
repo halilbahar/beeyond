@@ -3,9 +3,14 @@ package at.htl.beeyond.resource
 import at.htl.beeyond.dto.CustomApplicationDto
 import at.htl.beeyond.dto.TemplateApplicationDto
 import at.htl.beeyond.entity.*
+import at.htl.beeyond.mailtemplate.GenericMail
 import at.htl.beeyond.service.DeploymentService
 import at.htl.beeyond.service.NamespaceService
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase
+import io.quarkus.mailer.Mail
+import io.quarkus.mailer.MailTemplate
+import io.quarkus.mailer.Mailer
+import io.quarkus.qute.Template
 import java.time.LocalDateTime
 import java.util.stream.Collectors
 import javax.annotation.security.RolesAllowed
@@ -16,6 +21,7 @@ import javax.ws.rs.core.Context
 import javax.ws.rs.core.MediaType
 import javax.ws.rs.core.Response
 import javax.ws.rs.core.SecurityContext
+
 
 @Path("/application")
 @Consumes(MediaType.APPLICATION_JSON)
@@ -28,10 +34,26 @@ class ApplicationResource {
     @Inject
     lateinit var namespaceService: NamespaceService
 
+    @Inject
+    lateinit var mailer: Mailer
+
+    @Inject
+    lateinit var mail: Template
+
     @GET
     @RolesAllowed(value = ["student", "teacher"])
     @Transactional
     fun getAll(@Context ctx: SecurityContext): Response? {
+        mailer.send(Mail.withHtml(
+                "example@example.com",
+                "Application #1124 approved",
+                mail.data("content", GenericMail(
+                        "Your application has been approved!",
+                        "Application approved",
+                        "The application for your project, 'SAMPLE_NAME', has been approved. You can now access stats and more - just visit the Beeyond dashboard."
+                )).render()
+        ))
+
         val mapToDto = { o: PanacheEntityBase? ->
             if (o is CustomApplication) {
                 CustomApplicationDto(o)
