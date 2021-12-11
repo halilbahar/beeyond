@@ -38,8 +38,11 @@ function fn() {
         }
 
         let Base64 = Java.type('java.util.Base64');
-        let encoded = Base64.getEncoder().encodeToString(Array.from(temp, (x) => x.charCodeAt(0)));
-        return 'Basic ' + encoded;
+        return 'Basic ' + Base64.getEncoder().encodeToString(
+            karate.map(
+                temp.split(''), (c) => c.charCodeAt(0)
+            )
+        );
     };
 
     let config = {
