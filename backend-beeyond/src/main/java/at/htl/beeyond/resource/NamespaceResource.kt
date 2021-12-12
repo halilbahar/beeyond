@@ -25,6 +25,7 @@ class NamespaceResource {
     lateinit var namespaceService: NamespaceService
 
     @GET
+    @Transactional
     @RolesAllowed("student", "teacher")
     fun getNamespaces(@Context ctx: SecurityContext, @QueryParam("all") all: Int): Response {
         val mapToDto = { o: Namespace -> NamespaceDto(o) }
@@ -42,6 +43,7 @@ class NamespaceResource {
 
     @GET
     @Path("/{namespace}")
+    @Transactional
     @RolesAllowed("student", "teacher")
     fun getNamespace(@PathParam("namespace") namespaceName: String): Response {
         val namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResultOptional<Namespace>()
