@@ -2,7 +2,7 @@
 
 COMMIT="link:https://github.com/halilbahar/beeyond/commit/$1[$1]"
 DATE=$(TZ=":Europe/Berlin" date +'%d.%m.%Y %H:%M')
-KARATE="link:$1/karate/karate-summary.html[hier]"
+KARATE="link:$1/karate/overview-features.html[hier]"
 BACKEND="link:$1/backend/index.html[hier]"
 VALIDATION="link:$1/validation/index.html[hier]"
 BRANCH=$([ "$2" = "master" ] && echo "link:https://github.com/halilbahar/beeyond[$2]" || echo "link:https://github.com/halilbahar/beeyond/tree/$2[$2]")
