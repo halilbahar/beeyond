@@ -31,7 +31,7 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: karate-report-files
-          path: backend-beeyond/target/karate-reports/
+          path: backend-beeyond/target/cucumber-html-reports/
       - name: Commit backend code coverage
         if: ${{ always() }}
         uses: actions/upload-artifact@v2
