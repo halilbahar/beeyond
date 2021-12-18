@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>CustomApplication.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.entity</a> &gt; <span class="el_source">CustomApplication.java</span></div><h1>CustomApplication.java</h1><pre class="source lang-java linenums">package at.htl.beeyond.entity;
+
+import at.htl.beeyond.dto.CustomApplicationDto;
+
+import javax.lang.model.element.Name;
+import javax.persistence.Entity;
+import javax.persistence.Lob;
+
+@Entity
+public class CustomApplication extends Application {
+
+    @Lob
+    private String content;
+
+    public CustomApplication(CustomApplicationDto customApplicationDto, User owner) {
+<span class="fc" id="L16">        super(</span>
+<span class="fc" id="L17">                customApplicationDto.getNote(),</span>
+                owner,
+<span class="fc" id="L19">                Namespace.find(&quot;namespace&quot;, customApplicationDto.getNamespace()).firstResult()</span>
+        );
+<span class="fc" id="L21">        this.content = customApplicationDto.getContent();</span>
+<span class="fc" id="L22">    }</span>
+
+<span class="fc" id="L24">    public CustomApplication() {</span>
+<span class="fc" id="L25">    }</span>
+
+    public String getContent() {
+<span class="fc" id="L28">        return content;</span>
+    }
+
+    public void setContent(String content) {
+<span class="nc" id="L32">        this.content = content;</span>
+<span class="nc" id="L33">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
