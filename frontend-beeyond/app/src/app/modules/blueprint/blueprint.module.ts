@@ -15,9 +15,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MatSelectModule } from '@angular/material/select';
+import { BlueprintNewComponent } from './pages/blueprint-new/blueprint-new.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 
 @NgModule({
-  declarations: [BlueprintComponent, BlueprintTemplateComponent],
+  declarations: [BlueprintComponent, BlueprintTemplateComponent, BlueprintNewComponent],
   imports: [
     CommonModule,
     BlueprintRoutingModule,
@@ -33,7 +37,10 @@ import { MatSelectModule } from '@angular/material/select';
     ReactiveFormsModule,
     MatSnackBarModule,
     MonacoEditorModule,
-    MatSelectModule
+    MatSelectModule,
+    MatStepperModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ]
 })
 export class BlueprintModule {}

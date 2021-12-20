@@ -1,0 +1,135 @@
+<mat-card class='card-entire-page'>
+  <mat-card-title>Create a new Blueprint</mat-card-title>
+  <mat-card-subtitle>Write your blueprint here:</mat-card-subtitle>
+  <mat-card-content>
+    <mat-horizontal-stepper [linear]='true'>
+      <mat-step>
+        <ng-template matStepLabel>Select Type</ng-template>
+
+        <div class='stepper-content'>
+          <div style='display: inline-flex'>
+            <button style='flex-grow: 1; margin-right:1em' mat-flat-button
+                    [ngClass]='blueprintType == "Custom" ? "selected" : ""'
+                    (click)='blueprintType = "Custom"'>Custom
+            </button>
+            <button style='flex-grow: 1' mat-flat-button [ngClass]='blueprintType == "Template" ? "selected" : ""'
+                    (click)='blueprintType = "Template"'>Template
+            </button>
+
+          </div>
+          <app-template-list *ngIf='blueprintType == "Template"'
+                             [templates]='templates'
+                             (templateIdEvent)='setTemplateId($event)'
+          >
+          </app-template-list>
+        </div>
+
+        <div class='button-container'>
+          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color='primary'
+            matStepperNext
+            [disabled]='blueprintType != "Custom"'
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]='secondFormGroup'>
+        <ng-template matStepLabel>Set Content</ng-template>
+
+        <div [formGroup]="secondFormGroup">
+          <ngx-monaco-editor
+            [options]="monacoOptions"
+            class="monaco-editor monaco-editor-border"
+            formControlName="content"
+          >
+          </ngx-monaco-editor>
+        </div>
+
+        <div class='button-container'>
+          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color='primary'
+            matStepperNext
+            [disabled]='secondFormGroup.invalid'
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+
+      <mat-step [stepControl]='thirdFormGroup'>
+        <ng-template matStepLabel>Fill out information</ng-template>
+
+        <div [formGroup]='thirdFormGroup' class='stepper-content filter-controls'>
+          <div>
+            <mat-form-field class='example-full-width'>
+              <mat-label>Name</mat-label>
+              <input matInput formControlName='name'>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field class='example-full-width'>
+              <mat-label>Description</mat-label>
+              <input matInput formControlName='description'>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field style='margin-right:2em' class='example-half-width'>
+              <mat-label>Class</mat-label>
+              <input matInput formControlName='class'>
+            </mat-form-field>
+
+            <mat-form-field class='example-half-width'>
+              <mat-label>Namespace</mat-label>
+              <mat-select formControlName='namespace'>
+                <mat-option *ngFor='let namespace of namespaces' [value]='namespace.namespace'>
+                  {{namespace.namespace}}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field class='example-full-width'>
+              <mat-label>Pick a date range...</mat-label>
+              <mat-date-range-input [rangePicker]='picker'>
+                <input formControlName='fromDate' matStartDate placeholder='From' />
+                <input formControlName='toDate' matEndDate placeholder='To' />
+              </mat-date-range-input>
+              <mat-datepicker-toggle matSuffix [for]='picker'></mat-datepicker-toggle>
+              <mat-date-range-picker #picker></mat-date-range-picker>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field class='example-full-width'>
+              <mat-label>Purpose</mat-label>
+              <input matInput formControlName='purpose'>
+            </mat-form-field>
+          </div>
+
+        </div>
+
+        <div class='button-container'>
+          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color='primary'
+            [disabled]='thirdFormGroup.invalid'
+            (click)="createBlueprint()"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>
