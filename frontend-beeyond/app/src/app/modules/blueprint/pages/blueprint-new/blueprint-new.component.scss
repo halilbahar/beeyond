@@ -42,9 +42,8 @@
 
 .selected {
   background: mat-color($beeyond-light-primary);
-  color: white;
+  color: white !important;
 }
-
 
 .example-full-width {
   width: 100%;
@@ -78,4 +77,10 @@ ngx-monaco-editor {
     height: 100%;
     @include flex-column;
   }
+}
+
+.border {
+  border: 2px solid mat-color($beeyond-light-primary);
+  color: mat-color($beeyond-light-primary);
+  font-size: x-large;
 }

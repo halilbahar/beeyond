@@ -7,17 +7,17 @@
         <ng-template matStepLabel>Select Type</ng-template>
 
         <div class='stepper-content'>
-          <div style='display: inline-flex'>
-            <button style='flex-grow: 1; margin-right:1em' mat-flat-button
+          <div style='display: inline-flex; height: 50%;'>
+            <button class='border' style='flex-grow: 1; margin-right:1em' mat-flat-button
                     [ngClass]='blueprintType == "Custom" ? "selected" : ""'
                     (click)='blueprintType = "Custom"'>Custom
             </button>
-            <button style='flex-grow: 1' mat-flat-button [ngClass]='blueprintType == "Template" ? "selected" : ""'
+            <button class='border' style='flex-grow: 1' mat-flat-button [ngClass]='blueprintType == "Template" ? "selected" : ""'
                     (click)='blueprintType = "Template"'>Template
             </button>
 
           </div>
-          <app-template-list *ngIf='blueprintType == "Template"'
+          <app-template-list style='margin-top: 10px' *ngIf='blueprintType == "Template"'
                              [templates]='templates'
                              (templateIdEvent)='setTemplateId($event)'
           >
