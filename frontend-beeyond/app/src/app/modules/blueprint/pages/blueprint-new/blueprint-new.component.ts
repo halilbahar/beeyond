@@ -13,7 +13,7 @@ import { Namespace } from '../../../../shared/models/namespace.model';
 export class BlueprintNewComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
-  blueprintType: string;
+  blueprintType = '';
 
   monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
 
@@ -22,7 +22,8 @@ export class BlueprintNewComponent implements OnInit {
   template: Template;
   message = '';
   namespaces: Namespace[];
-  templateId: number;
+  templateId: number = null;
+  templateForm: FormGroup;
 
   constructor(
     private router: Router,
@@ -91,6 +92,30 @@ export class BlueprintNewComponent implements OnInit {
 
   setTemplateId(id: number) {
     this.templateId = id;
+  }
+
+  loadTemplate() {
+    if (this.blueprintType === 'Template') {
+      this.backendApiService.getTemplateById(this.templateId).subscribe(template => {
+        this.template = template;
+
+        const fieldValues = [];
+        this.template.fields.forEach(field => fieldValues.push(this.createFieldValue(field.id)));
+
+        this.templateForm = this.fb.group({
+          templateId: [this.templateId],
+          note: ['', Validators.maxLength(255)],
+          fieldValues: this.fb.array(fieldValues)
+        });
+      });
+    }
+  }
+
+  createFieldValue(fieldId: number): FormGroup {
+    return this.fb.group({
+      value: ['', Validators.required],
+      fieldId: [fieldId]
+    });
   }
 
   get fields(): FormArray {

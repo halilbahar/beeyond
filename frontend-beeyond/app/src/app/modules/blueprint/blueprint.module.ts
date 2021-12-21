@@ -19,6 +19,8 @@ import { BlueprintNewComponent } from './pages/blueprint-new/blueprint-new.compo
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatIconModule } from '@angular/material/icon';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [BlueprintComponent, BlueprintTemplateComponent, BlueprintNewComponent],
@@ -40,7 +42,9 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSelectModule,
     MatStepperModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatIconModule,
+    MatTooltipModule
   ]
 })
 export class BlueprintModule {}

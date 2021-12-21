@@ -12,7 +12,8 @@
                     [ngClass]='blueprintType == "Custom" ? "selected" : ""'
                     (click)='blueprintType = "Custom"'>Custom
             </button>
-            <button class='border' style='flex-grow: 1' mat-flat-button [ngClass]='blueprintType == "Template" ? "selected" : ""'
+            <button class='border' style='flex-grow: 1' mat-flat-button
+                    [ngClass]='blueprintType == "Template" ? "selected" : ""'
                     (click)='blueprintType = "Template"'>Template
             </button>
 
@@ -30,7 +31,8 @@
             mat-flat-button
             color='primary'
             matStepperNext
-            [disabled]='blueprintType != "Custom"'
+            [disabled]='(blueprintType == "Template" && templateId == null) || blueprintType == ""'
+            (click)='loadTemplate()'
           >
             Next
           </button>
@@ -40,14 +42,42 @@
       <mat-step [stepControl]='secondFormGroup'>
         <ng-template matStepLabel>Set Content</ng-template>
 
-        <div [formGroup]="secondFormGroup">
+        <div [formGroup]='secondFormGroup' *ngIf='blueprintType == "Custom"'>
           <ngx-monaco-editor
-            [options]="monacoOptions"
-            class="monaco-editor monaco-editor-border"
-            formControlName="content"
+            [options]='monacoOptions'
+            class='monaco-editor monaco-editor-border'
+            formControlName='content'
           >
           </ngx-monaco-editor>
         </div>
+
+        <ng-container *ngIf='blueprintType == "Template" && template'>
+          <mat-card-title>{{ template.name }}</mat-card-title>
+          <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
+
+          <form [formGroup]='templateForm'>
+            <div
+              *ngFor='let field of template.fields; let i = index'
+              class='field-container'
+              formArrayName='fieldValues'
+              style='display: flex; flex-direction: row'
+            >
+              <ng-container [formGroupName]='i'>
+                <mat-form-field style='width: 100%' class='full-width wildcard'>
+                  <mat-label>{{ field.label }}</mat-label>
+                  <input matInput formControlName='value' />
+                  <mat-error *ngIf="templateForm.get('fieldValues').invalid">
+                  </mat-error>
+                </mat-form-field>
+                <mat-icon
+                  mat-raised-button #tooltip='matTooltip'
+                  matTooltip='{{field.description ? field.description : "No description available!"}}'
+                  matTooltipPosition='left'>help_outline
+                </mat-icon>
+              </ng-container>
+            </div>
+          </form>
+        </ng-container>
 
         <div class='button-container'>
           <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
@@ -55,7 +85,7 @@
             mat-flat-button
             color='primary'
             matStepperNext
-            [disabled]='secondFormGroup.invalid'
+            [disabled]='secondFormGroup.invalid && (templateForm && templateForm.invalid)'
           >
             Next
           </button>
@@ -124,7 +154,7 @@
             mat-flat-button
             color='primary'
             [disabled]='thirdFormGroup.invalid'
-            (click)="createBlueprint()"
+            (click)='createBlueprint()'
           >
             Next
           </button>
