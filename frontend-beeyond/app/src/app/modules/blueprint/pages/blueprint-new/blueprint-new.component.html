@@ -26,7 +26,6 @@
         </div>
 
         <div class='button-container'>
-          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
           <button
             mat-flat-button
             color='primary'
@@ -39,7 +38,7 @@
         </div>
       </mat-step>
 
-      <mat-step [stepControl]='secondFormGroup'>
+      <mat-step>
         <ng-template matStepLabel>Set Content</ng-template>
 
         <div [formGroup]='secondFormGroup' *ngIf='blueprintType == "Custom"'>
@@ -70,7 +69,6 @@
                   </mat-error>
                 </mat-form-field>
                 <mat-icon
-                  mat-raised-button #tooltip='matTooltip'
                   matTooltip='{{field.description ? field.description : "No description available!"}}'
                   matTooltipPosition='left'>help_outline
                 </mat-icon>
@@ -111,13 +109,13 @@
             </mat-form-field>
           </div>
 
-          <div>
-            <mat-form-field style='margin-right:2em' class='example-half-width'>
+          <div style='display: inline-flex;'>
+            <mat-form-field style='flex-grow: 1; margin-right:1em'>
               <mat-label>Class</mat-label>
               <input matInput formControlName='class'>
             </mat-form-field>
 
-            <mat-form-field class='example-half-width'>
+            <mat-form-field style='flex-grow: 1; margin-right:1em'>
               <mat-label>Namespace</mat-label>
               <mat-select formControlName='namespace'>
                 <mat-option *ngFor='let namespace of namespaces' [value]='namespace.namespace'>
@@ -125,10 +123,8 @@
                 </mat-option>
               </mat-select>
             </mat-form-field>
-          </div>
 
-          <div>
-            <mat-form-field class='example-full-width'>
+            <mat-form-field style='flex-grow: 1'>
               <mat-label>Pick a date range...</mat-label>
               <mat-date-range-input [rangePicker]='picker'>
                 <input formControlName='fromDate' matStartDate placeholder='From' />
@@ -137,6 +133,9 @@
               <mat-datepicker-toggle matSuffix [for]='picker'></mat-datepicker-toggle>
               <mat-date-range-picker #picker></mat-date-range-picker>
             </mat-form-field>
+          </div>
+
+          <div>
           </div>
 
           <div>
@@ -156,7 +155,7 @@
             [disabled]='thirdFormGroup.invalid'
             (click)='createBlueprint()'
           >
-            Next
+            Create
           </button>
         </div>
       </mat-step>

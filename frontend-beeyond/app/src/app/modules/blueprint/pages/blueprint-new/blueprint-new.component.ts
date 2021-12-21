@@ -126,6 +126,12 @@ export class BlueprintNewComponent implements OnInit {
     this.blueprintType = val;
   }
 
+  resetFormGroup() {
+    this.templateForm.reset();
+    this.templateForm.markAsUntouched();
+    this.templateForm.markAsPristine();
+  }
+
   private refreshNamespaces(): void {
     this.backendApiService.getAllNamespaces().subscribe(namespaces => {
       this.namespaces = namespaces;
