@@ -73,6 +73,16 @@
     </mat-cell>
   </ng-container>
 
+  <!--Stop Button-->
+  <ng-container matColumnDef="stop">
+    <mat-header-cell *matHeaderCellDef></mat-header-cell>
+    <mat-cell mat-cell *matCellDef="let application">
+      <button mat-flat-button color="warn" [disabled]="application.status != running" (click)='stop(application.id)'>
+        Stop
+      </button>
+    </mat-cell>
+  </ng-container>
+
   <mat-header-row *matHeaderRowDef="columnsToDisplay"></mat-header-row>
   <mat-row
     class="item-hover"

@@ -1,7 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { BackendApiService } from 'src/app/core/services/backend-api.service';
 import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
 import { Application } from 'src/app/shared/models/application.model';
 
@@ -15,10 +16,11 @@ export class ApplicationContentComponent implements OnInit {
 
   applications: Application[];
   applicationDataSource: MatTableDataSource<Application>;
-  columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt'];
+  columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt', 'stop'];
 
   filterForm: FormGroup;
   availableUsername: string[];
+  running: ApplicationStatus = ApplicationStatus.RUNNING;
   statuses: ApplicationStatus[] = [
     ApplicationStatus.ALL,
     ApplicationStatus.PENDING,
@@ -28,14 +30,18 @@ export class ApplicationContentComponent implements OnInit {
   ];
 
   selectedRow: number | null;
+  redirectPath: string[];
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(private route: ActivatedRoute,
+    private fb: FormBuilder,
+    private backendApiService: BackendApiService,
+    private router: Router) {}
 
   ngOnInit(): void {
     if (this.isAdmin) {
       this.columnsToDisplay.splice(1, 0, 'owner');
     }
-
+    this.redirectPath = this.route.snapshot.data.redirectPath;
     this.applications = this.route.snapshot.data.applications.sort(
       (a1, a2) => a1.createdAt > a2.createdAt
     );
@@ -54,6 +60,15 @@ export class ApplicationContentComponent implements OnInit {
     this.filterForm.valueChanges.subscribe(() => this.update());
 
     this.update();
+  }
+
+  stop(id): void {
+    this.backendApiService.stopApplicationById(id).subscribe(() => {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    });
   }
 
   private update(): void {
