@@ -16,26 +16,30 @@ export class ApplicationContentComponent implements OnInit {
 
   applications: Application[];
   applicationDataSource: MatTableDataSource<Application>;
-  columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt', 'stop'];
+  columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt', 'buttons'];
 
   filterForm: FormGroup;
   availableUsername: string[];
   running: ApplicationStatus = ApplicationStatus.RUNNING;
+  stopped: ApplicationStatus = ApplicationStatus.STOPPED;
   statuses: ApplicationStatus[] = [
     ApplicationStatus.ALL,
     ApplicationStatus.PENDING,
     ApplicationStatus.DENIED,
     ApplicationStatus.RUNNING,
-    ApplicationStatus.FINISHED
+    ApplicationStatus.FINISHED,
+    ApplicationStatus.STOPPED
   ];
 
   selectedRow: number | null;
   redirectPath: string[];
 
-  constructor(private route: ActivatedRoute,
+  constructor(
+    private route: ActivatedRoute,
     private fb: FormBuilder,
     private backendApiService: BackendApiService,
-    private router: Router) {}
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
     if (this.isAdmin) {
@@ -65,7 +69,16 @@ export class ApplicationContentComponent implements OnInit {
   stop(id): void {
     this.backendApiService.stopApplicationById(id).subscribe(() => {
       const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    });
+  }
+
+  finish(id): void {
+    this.backendApiService.finishApplicationById(id).subscribe(() => {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate([currentUrl]);
       });
     });

@@ -74,11 +74,26 @@
   </ng-container>
 
   <!--Stop Button-->
-  <ng-container matColumnDef="stop">
+  <ng-container matColumnDef="buttons">
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell mat-cell *matCellDef="let application">
-      <button mat-flat-button color="warn" [disabled]="application.status != running" (click)='stop(application.id)'>
+      <button
+        mat-flat-button
+        color="primary"
+        [disabled]="application.status != running"
+        (click)="stop(application.id)"
+        class="update-button"
+      >
         Stop
+      </button>
+      <button
+        mat-flat-button
+        color="warn"
+        [disabled]="application.status != running && application.status != stopped"
+        (click)="finish(application.id)"
+        class="update-button"
+      >
+        Finish
       </button>
     </mat-cell>
   </ng-container>

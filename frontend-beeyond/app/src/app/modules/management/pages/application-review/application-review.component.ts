@@ -55,7 +55,7 @@ export class ApplicationReviewComponent implements OnInit {
   }
 
   finish(): void {
-    this.backendApiService.stopApplicationById(this.application.id).subscribe(() => {
+    this.backendApiService.finishApplicationById(this.application.id).subscribe(() => {
       this.router.navigate(this.redirectPath);
     });
   }

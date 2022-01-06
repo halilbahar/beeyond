@@ -70,6 +70,10 @@ export class BackendApiService {
     return this.http.patch<void>(`${this.backendApiUrl}/application/stop/${id}`, null);
   }
 
+  finishApplicationById(id: number): Observable<void> {
+    return this.http.patch<void>(`${this.backendApiUrl}/application/finish/${id}`, null);
+  }
+
   getAllNamespaces(): Observable<Namespace[]> {
     return this.http.get<Namespace[]>(`${this.backendApiUrl}/namespace?all=1`);
   }
