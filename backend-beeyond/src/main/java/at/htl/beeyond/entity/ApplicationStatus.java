@@ -1,5 +1,5 @@
 package at.htl.beeyond.entity;
 
 public enum ApplicationStatus {
-    PENDING, DENIED, RUNNING, FINISHED
+    PENDING, DENIED, RUNNING, FINISHED, STOPPED
 }
