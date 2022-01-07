@@ -149,7 +149,9 @@ class ApplicationResource {
     private fun finishStopApplication(application: Application, status: ApplicationStatus) {
         deploymentService.stop(application)
         application.status = status
-        application.finishedAt = LocalDateTime.now()
+        if (status == ApplicationStatus.FINISHED) {
+            application.finishedAt = LocalDateTime.now()
+        }
 
         application.namespace.users.forEach {
             val notification = Notification(it,
