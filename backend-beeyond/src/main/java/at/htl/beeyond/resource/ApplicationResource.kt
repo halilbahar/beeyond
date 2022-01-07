@@ -75,9 +75,7 @@ class ApplicationResource {
                 ?: return Response.status(Response.Status.NOT_FOUND).build()
 
         if(application.status == ApplicationStatus.PENDING){
-            this.deploymentService.deploy(application)
-            application.status = ApplicationStatus.RUNNING
-            application.startedAt = LocalDateTime.now()
+            deploy(application)
 
             application.namespace.users.forEach {
                 val notification = Notification(it, "Application has been accepted!", NotificationStatus.POSITIVE, "application", application.id)
@@ -89,6 +87,35 @@ class ApplicationResource {
         else{
             return Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
         }
+    }
+
+    @PATCH
+    @Path("/start/{id}")
+    @RolesAllowed("teacher")
+    @Transactional
+    fun startApplication(@PathParam("id") id: Long?): Response? {
+        val application = Application.findById<Application>(id)
+            ?: return Response.status(Response.Status.NOT_FOUND).build()
+
+        if (application.status == ApplicationStatus.STOPPED){
+            deploy(application)
+
+            application.namespace.users.forEach {
+                val notification = Notification(it, "Application has been started!", NotificationStatus.POSITIVE, "application", application.id)
+                notification.persist()
+            }
+
+            return Response.ok().build()
+        }
+        else{
+            return Response.status(422).entity("Application is not in state "+ApplicationStatus.STOPPED).build()
+        }
+    }
+
+    private fun deploy(application: Application) {
+        this.deploymentService.deploy(application)
+        application.status = ApplicationStatus.RUNNING
+        application.startedAt = LocalDateTime.now()
     }
 
     @PATCH
@@ -143,6 +170,21 @@ class ApplicationResource {
             return Response.ok().build()
         } else {
             return Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING + " or " + ApplicationStatus.STOPPED).build()
+        }
+    }
+
+    @PATCH
+    @Path("/request/{id}")
+    @Transactional
+    fun requestApplication(@PathParam("id") id: Long?): Response? {
+        val application = Application.findById<Application>(id)
+            ?: return Response.status(404).build()
+
+        if (application.status == ApplicationStatus.DENIED) {
+            application.status = ApplicationStatus.PENDING
+            return Response.ok().build()
+        } else {
+            return Response.status(422).entity("Application is not in state " + ApplicationStatus.DENIED).build()
         }
     }
 
