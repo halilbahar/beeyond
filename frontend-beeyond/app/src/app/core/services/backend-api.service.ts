@@ -62,6 +62,10 @@ export class BackendApiService {
     return this.http.patch<void>(`${this.backendApiUrl}/application/approve/${id}`, null);
   }
 
+  startApplicationById(id: number): Observable<void> {
+    return this.http.patch<void>(`${this.backendApiUrl}/application/start/${id}`, null);
+  }
+
   denyApplicationById(id: number): Observable<void> {
     return this.http.patch<void>(`${this.backendApiUrl}/application/deny/${id}`, null);
   }
@@ -72,6 +76,10 @@ export class BackendApiService {
 
   finishApplicationById(id: number): Observable<void> {
     return this.http.patch<void>(`${this.backendApiUrl}/application/finish/${id}`, null);
+  }
+
+  requestApplicationById(id: number): Observable<void> {
+    return this.http.patch<void>(`${this.backendApiUrl}/application/request/${id}`, null);
   }
 
   getAllNamespaces(): Observable<Namespace[]> {

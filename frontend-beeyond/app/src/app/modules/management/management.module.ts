@@ -18,6 +18,7 @@ import { ApplicationPreviewDialogComponent } from './components/application-prev
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApplicationContentComponent } from './components/application-content/application-content.component';
 
 @NgModule({
@@ -44,7 +45,8 @@ import { ApplicationContentComponent } from './components/application-content/ap
     MatSortModule,
     MatDialogModule,
     MatDatepickerModule,
-    MatNativeDateModule
+    MatNativeDateModule,
+    MatSnackBarModule
   ],
   exports: [ApplicationContentComponent, ApplicationReviewComponent]
 })

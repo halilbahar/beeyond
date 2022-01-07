@@ -5,6 +5,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { BackendApiService } from 'src/app/core/services/backend-api.service';
 import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
 import { Application } from 'src/app/shared/models/application.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-application-content',
@@ -22,6 +23,7 @@ export class ApplicationContentComponent implements OnInit {
   availableUsername: string[];
   running: ApplicationStatus = ApplicationStatus.RUNNING;
   stopped: ApplicationStatus = ApplicationStatus.STOPPED;
+  denied: ApplicationStatus = ApplicationStatus.DENIED;
   statuses: ApplicationStatus[] = [
     ApplicationStatus.ALL,
     ApplicationStatus.PENDING,
@@ -38,7 +40,8 @@ export class ApplicationContentComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private backendApiService: BackendApiService,
-    private router: Router
+    private router: Router,
+    private snackBar: MatSnackBar
   ) {}
 
   ngOnInit(): void {
@@ -80,6 +83,32 @@ export class ApplicationContentComponent implements OnInit {
       const currentUrl = this.router.url;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate([currentUrl]);
+      });
+    });
+  }
+
+  start(id): void {
+    this.backendApiService.startApplicationById(id).subscribe(() => {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    });
+  }
+
+  request(id): void {
+    this.backendApiService.requestApplicationById(id).subscribe(() => {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]).then(navigated => {
+          if (navigated) {
+            this.snackBar.open(
+              'Your application was sent will be reviewed as soon as possible',
+              'close',
+              { duration: undefined }
+            );
+          }
+        });
       });
     });
   }
