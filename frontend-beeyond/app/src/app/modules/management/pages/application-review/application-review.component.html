@@ -11,6 +11,7 @@
     [options]="monacoEditorOptions"
     class="monaco-editor-border"
     [ngModel]="customApplication.content"
+    (onInit)="onEditorInit($event)"
   ></ngx-monaco-editor>
 
   <app-variable-list

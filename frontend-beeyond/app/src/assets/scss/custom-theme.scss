@@ -30,17 +30,12 @@ $beeyond-light-theme: mat-light-theme(
 // that you are using.
 @include angular-material-theme($beeyond-light-theme);
 
-$beeyond-dark-theme: mat-dark-theme($mat-blue, $mat-blue, $mat-blue);
+$beeyond-dark-theme: mat-dark-theme(
+  $beeyond-light-primary,
+  $beeyond-light-accent,
+  $beeyond-light-warn
+);
 
 .darkMode {
   @include angular-material-theme($beeyond-dark-theme);
-
-  .primary-bg-color {
-    background-color: mat-color($beeyond-light-primary, 300);
-    color: black;
-  }
-
-  .primary-bg-color * {
-    color: black;
-  }
 }
