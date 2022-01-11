@@ -31,10 +31,9 @@ $beeyond-light-theme: mat-light-theme(
 @include angular-material-theme($beeyond-light-theme);
 
 $beeyond-dark-theme: mat-dark-theme(
-    $beeyond-light-primary,
-    $beeyond-light-accent,
-    $beeyond-light-warn,
-
+  $beeyond-light-primary,
+  $beeyond-light-accent,
+  $beeyond-light-warn
 );
 
 .darkMode {

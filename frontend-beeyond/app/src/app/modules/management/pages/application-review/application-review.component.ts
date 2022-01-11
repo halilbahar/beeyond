@@ -21,7 +21,7 @@ export class ApplicationReviewComponent implements OnInit {
   isManagement: boolean;
   redirectPath: string[];
 
-  monacoEditorOptions = {language: 'yaml', scrollBeyondLastLine: false, readOnly: true};
+  monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
   constructor(
     private route: ActivatedRoute,
@@ -34,7 +34,10 @@ export class ApplicationReviewComponent implements OnInit {
       this.monacoEditorOptions.readOnly = true;
       return;
     }
-    if (this.customApplication.status === ApplicationStatus.DENIED || this.customApplication.status === ApplicationStatus.PENDING) {
+    if (
+      this.customApplication.status === ApplicationStatus.DENIED ||
+      this.customApplication.status === ApplicationStatus.PENDING
+    ) {
       this.monacoEditorOptions.readOnly = false;
       return;
     }
@@ -63,18 +66,26 @@ export class ApplicationReviewComponent implements OnInit {
       constrainedInstance.initializeIn(editor);
       const model = editor.getModel();
       const temp = this.customApplication.content.split('\n').map(s => s.trim());
-      constrainedInstance.addRestrictionsTo(model,
-        temp.filter(s => s.startsWith('image:')).map(s => (
-          {
-            range: [temp.indexOf(s) + 1,
-              this.customApplication.content.split('\n')[temp.indexOf(s)].indexOf(s.replace('image: ', '')) + 1,
+      constrainedInstance.addRestrictionsTo(
+        model,
+        temp
+          .filter(s => s.startsWith('image:'))
+          .map(s => ({
+            range: [
               temp.indexOf(s) + 1,
-              this.customApplication.content.split('\n')[temp.indexOf(s)]
-                .indexOf(s.replace('image: ', '')) + s.replace('image: ', '').length + 1
+              this.customApplication.content
+                .split('\n')
+                [temp.indexOf(s)].indexOf(s.replace('image: ', '')) + 1,
+              temp.indexOf(s) + 1,
+              this.customApplication.content
+                .split('\n')
+                [temp.indexOf(s)].indexOf(s.replace('image: ', '')) +
+                s.replace('image: ', '').length +
+                1
             ],
             allowMultiline: false
-          })
-        ));
+          }))
+      );
       model.toggleHighlightOfEditableAreas();
     }
   }
