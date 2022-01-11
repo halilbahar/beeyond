@@ -9,6 +9,7 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
 import io.fabric8.kubernetes.api.model.extensions.*
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
 import java.io.ByteArrayInputStream
@@ -28,6 +29,9 @@ class DeploymentService {
     @Inject
     lateinit var namespaceService: NamespaceService
 
+    @ConfigProperty(name = "beeyond.kubernetes.host")
+    lateinit var kubernetesHost: String
+
     init {
         val dumperOptions = DumperOptions()
         dumperOptions.defaultFlowStyle = DumperOptions.FlowStyle.BLOCK
@@ -44,7 +48,9 @@ class DeploymentService {
     }
 
     fun stop(application: Application?) {
-        val ingresses = this.client.extensions().ingresses().withLabel("beeyond-application-id", application?.id.toString()).list().items
+        val ingresses =
+            this.client.extensions().ingresses().withLabel("beeyond-application-id", application?.id.toString())
+                .list().items
         ingresses.forEach {
             this.client.extensions().ingresses().delete(it)
         }
@@ -114,15 +120,18 @@ class DeploymentService {
                     IngressBuilder()
                         .withMetadata(
                             ObjectMetaBuilder()
-                                .withName(namespace.namespace +"-"+ System.currentTimeMillis())
+                                .withName(namespace.namespace + "-" + System.currentTimeMillis())
                                 .addToLabels("beeyond-application-id", applicationId.toString())
                                 .build()
                         )
                         .withSpec(
                             IngressSpecBuilder()
                                 .addNewRule()
-                                .withHttp(rules.build())
-                                .endRule()
+                                    .withHost(kubernetesHost)
+                                    .endRule()
+                                .addNewRule()
+                                    .withHttp(rules.build())
+                                    .endRule()
                                 .build()
                         ).build()
                 )
