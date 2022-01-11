@@ -75,9 +75,7 @@ class ApplicationResource {
                 ?: return Response.status(Response.Status.NOT_FOUND).build()
 
         if(application.status == ApplicationStatus.PENDING){
-            this.deploymentService.deploy(application)
-            application.status = ApplicationStatus.RUNNING
-            application.startedAt = LocalDateTime.now()
+            deploy(application)
 
             application.namespace.users.forEach {
                 val notification = Notification(it, "Application has been accepted!", NotificationStatus.POSITIVE, "application", application.id)
@@ -89,6 +87,35 @@ class ApplicationResource {
         else{
             return Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
         }
+    }
+
+    @PATCH
+    @Path("/start/{id}")
+    @RolesAllowed("teacher")
+    @Transactional
+    fun startApplication(@PathParam("id") id: Long?): Response? {
+        val application = Application.findById<Application>(id)
+            ?: return Response.status(Response.Status.NOT_FOUND).build()
+
+        if (application.status == ApplicationStatus.STOPPED){
+            deploy(application)
+
+            application.namespace.users.forEach {
+                val notification = Notification(it, "Application has been started!", NotificationStatus.POSITIVE, "application", application.id)
+                notification.persist()
+            }
+
+            return Response.ok().build()
+        }
+        else{
+            return Response.status(422).entity("Application is not in state "+ApplicationStatus.STOPPED).build()
+        }
+    }
+
+    private fun deploy(application: Application) {
+        this.deploymentService.deploy(application)
+        application.status = ApplicationStatus.RUNNING
+        application.startedAt = LocalDateTime.now()
     }
 
     @PATCH
@@ -120,36 +147,72 @@ class ApplicationResource {
     @Transactional
     fun stopApplication(@PathParam("id") id: Long?): Response? {
         val application = Application.findById<Application>(id)
-                ?: return Response.status(404).build()
+            ?: return Response.status(404).build()
 
-        if(application.status == ApplicationStatus.RUNNING){
-
-            deploymentService.stop(application)
-            application.status = ApplicationStatus.FINISHED
-            application.finishedAt = LocalDateTime.now()
-
-            application.namespace.users.forEach {
-                val notification = Notification(it, "Application has been stopped!", NotificationStatus.NEUTRAL, "application", application.id)
-                notification.persist()
-            }
-
-            val isLastApplication = Application
-                    .streamAll<Application>()
-                    .filter {
-                        it.status == ApplicationStatus.RUNNING && it.namespace == application.namespace
-                    }.count() == 0L
-
-            if (isLastApplication) {
-                application.namespace.isDeleted = true
-                namespaceService.deleteNamespace(application.namespace.namespace)
-            }
-
-            deploymentService.client.extensions().ingresses().withLabel("beeyond-application-id", application.id.toString()).delete()
-
+        if (application.status == ApplicationStatus.RUNNING) {
+            finishStopApplication(application, ApplicationStatus.STOPPED)
             return Response.ok().build()
-        } else{
+        } else {
             return Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING).build()
         }
+    }
+
+    @PATCH
+    @Path("/finish/{id}")
+    @RolesAllowed("teacher")
+    @Transactional
+    fun finishApplication(@PathParam("id") id: Long?): Response? {
+        val application = Application.findById<Application>(id)
+            ?: return Response.status(404).build()
+
+        if (application.status == ApplicationStatus.RUNNING || application.status == ApplicationStatus.STOPPED) {
+            finishStopApplication(application, ApplicationStatus.FINISHED)
+            return Response.ok().build()
+        } else {
+            return Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING + " or " + ApplicationStatus.STOPPED).build()
+        }
+    }
+
+    @PATCH
+    @Path("/request/{id}")
+    @Transactional
+    fun requestApplication(@PathParam("id") id: Long?): Response? {
+        val application = Application.findById<Application>(id)
+            ?: return Response.status(404).build()
+
+        if (application.status == ApplicationStatus.DENIED) {
+            application.status = ApplicationStatus.PENDING
+            return Response.ok().build()
+        } else {
+            return Response.status(422).entity("Application is not in state " + ApplicationStatus.DENIED).build()
+        }
+    }
+
+    private fun finishStopApplication(application: Application, status: ApplicationStatus) {
+        deploymentService.stop(application)
+        application.status = status
+        if (status == ApplicationStatus.FINISHED) {
+            application.finishedAt = LocalDateTime.now()
+        }
+
+        application.namespace.users.forEach {
+            val notification = Notification(it,
+                "Application has been ${status.toString().lowercase()}!", NotificationStatus.NEUTRAL, "application", application.id)
+            notification.persist()
+        }
+
+        val isLastApplication = Application
+            .streamAll<Application>()
+            .filter {
+                it.status == ApplicationStatus.RUNNING && it.namespace == application.namespace
+            }.count() == 0L
+
+        if (isLastApplication) {
+            application.namespace.isDeleted = true
+            namespaceService.deleteNamespace(application.namespace.namespace)
+        }
+
+        deploymentService.client.extensions().ingresses().withLabel("beeyond-application-id", application.id.toString()).delete()
 
     }
 }
