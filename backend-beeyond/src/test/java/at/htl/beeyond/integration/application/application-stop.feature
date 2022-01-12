@@ -1,4 +1,4 @@
-Feature: Finish application endpoint
+Feature: Stop application endpoint
 
   Background:
     * url baseUrl
@@ -9,58 +9,59 @@ Feature: Finish application endpoint
     * configure headers = {Authorization: '#(auth(karate.tags))'}
 
   @teacher
-  Scenario: Finish a valid application
+  Scenario: Stop a valid application
     Given path 'approve/'+application.id
     When method PATCH
-    Given path 'application', 'finish/'+application.id
+    Given path 'application', 'stop/'+application.id
     When method PATCH
     Then status 200
 
   @teacher
-  Scenario: Finish a not existing application
-    Given path 'finish/100'
+  Scenario: Stop a not existing application
+    Given path 'stop/100'
     When method PATCH
     Then status 404
 
   @teacher
-  Scenario: Finish a pending application
-    Given path 'finish/'+application.id
+  Scenario: Stop a pending application
+    Given path 'stop/'+application.id
     When method PATCH
     Then status 422
-    And match response  == 'Application is not in state RUNNING or STOPPED'
+    And match response  == 'Application is not in state RUNNING'
 
   @teacher
-  Scenario: Finish a denied application
+  Scenario: Stop a denied application
     Given path 'deny/'+application.id
     When method PATCH
-    Given path 'application', 'finish/'+application.id
+    Given path 'application', 'stop/'+application.id
     When method PATCH
     Then status 422
-    And match response  == 'Application is not in state RUNNING or STOPPED'
+    And match response  == 'Application is not in state RUNNING'
 
   @teacher
-  Scenario: Finish a finished application
+  Scenario: Stop a finished application
     Given path 'approve/'+application.id
     When method PATCH
     Given path 'application','finish/'+application.id
     When method PATCH
-    Given path 'application', 'finish/'+application.id
+    Given path 'application', 'stop/'+application.id
     When method PATCH
     Then status 422
-    And match response  == 'Application is not in state RUNNING or STOPPED'
+    And match response  == 'Application is not in state RUNNING'
 
   @teacher
-  Scenario: Finish a stopped application
+  Scenario: Stop a stopped application
     Given path 'approve/'+application.id
     When method PATCH
     Given path 'application','stop/'+application.id
     When method PATCH
-    Given path 'application', 'finish/'+application.id
+    Given path 'application', 'stop/'+application.id
     When method PATCH
-    Then status 200
+    Then status 422
+    And match response == 'Application is not in state RUNNING'
 
   @student
-  Scenario: Finish a application as a student
-    Given path 'finish/'+application.id
+  Scenario: Stop a application as a student
+    Given path 'stop/'+application.id
     When method PATCH
     Then status 403
