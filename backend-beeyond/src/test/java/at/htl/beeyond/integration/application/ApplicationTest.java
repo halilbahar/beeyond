@@ -42,4 +42,28 @@ public class ApplicationTest {
                 .outputHtmlReport(false)
                 .relativeTo(getClass());
     }
+
+    @Karate.Test
+    Karate testStart() {
+        return Karate.run("application-start")
+                .outputCucumberJson(true)
+                .outputHtmlReport(false)
+                .relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate testStop() {
+        return Karate.run("application-stop")
+                .outputCucumberJson(true)
+                .outputHtmlReport(false)
+                .relativeTo(getClass());
+    }
+
+    @Karate.Test
+    Karate testRequest() {
+        return Karate.run("application-request")
+                .outputCucumberJson(true)
+                .outputHtmlReport(false)
+                .relativeTo(getClass());
+    }
 }

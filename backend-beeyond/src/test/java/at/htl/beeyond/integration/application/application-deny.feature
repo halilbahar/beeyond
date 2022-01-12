@@ -38,6 +38,28 @@ Feature: Deny application endpoint
     Then status 422
     And match response == 'Application is not in state PENDING'
 
+  @teacher
+  Scenario: Deny a stopped application
+    Given path 'approve/'+application.id
+    When method PATCH
+    Given path 'application','stop/'+application.id
+    When method PATCH
+    Given path 'application', 'deny/'+application.id
+    When method PATCH
+    Then status 422
+    And match response == 'Application is not in state PENDING'
+
+  @teacher
+  Scenario: Deny a finished application
+    Given path 'approve/'+application.id
+    When method PATCH
+    Given path 'application', 'finish/'+application.id
+    When method PATCH
+    Given path 'application', 'deny/'+application.id
+    When method PATCH
+    Then status 422
+    And match response == 'Application is not in state PENDING'
+
   @student
   Scenario: Deny a application as a student
     Given path 'deny/'+application.id

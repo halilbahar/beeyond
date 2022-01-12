@@ -74,7 +74,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
                 ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if(application.status == ApplicationStatus.PENDING){
+        return if(application.status == ApplicationStatus.PENDING){
             deploy(application)
 
             application.namespace.users.forEach {
@@ -82,10 +82,9 @@ class ApplicationResource {
                 notification.persist()
             }
 
-            return Response.ok().build()
-        }
-        else{
-            return Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
+            Response.ok().build()
+        } else{
+            Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
         }
     }
 
@@ -97,7 +96,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if (application.status == ApplicationStatus.STOPPED){
+        return if (application.status == ApplicationStatus.STOPPED){
             deploy(application)
 
             application.namespace.users.forEach {
@@ -105,10 +104,9 @@ class ApplicationResource {
                 notification.persist()
             }
 
-            return Response.ok().build()
-        }
-        else{
-            return Response.status(422).entity("Application is not in state "+ApplicationStatus.STOPPED).build()
+            Response.ok().build()
+        } else{
+            Response.status(422).entity("Application is not in state "+ApplicationStatus.STOPPED).build()
         }
     }
 
@@ -126,7 +124,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
                 ?: return Response.status(404).build()
 
-        if(application.status == ApplicationStatus.PENDING){
+        return if(application.status == ApplicationStatus.PENDING){
             application.status = ApplicationStatus.DENIED
 
             application.namespace.users.forEach {
@@ -134,10 +132,9 @@ class ApplicationResource {
                 notification.persist()
             }
 
-            return Response.ok().build()
-        }
-        else{
-            return Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
+            Response.ok().build()
+        } else{
+            Response.status(422).entity("Application is not in state "+ApplicationStatus.PENDING).build()
         }
     }
 
@@ -149,11 +146,11 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (application.status == ApplicationStatus.RUNNING) {
+        return if (application.status == ApplicationStatus.RUNNING) {
             finishStopApplication(application, ApplicationStatus.STOPPED)
-            return Response.ok().build()
+            Response.ok().build()
         } else {
-            return Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING).build()
+            Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING).build()
         }
     }
 
@@ -165,11 +162,11 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (application.status == ApplicationStatus.RUNNING || application.status == ApplicationStatus.STOPPED) {
+        return if (application.status == ApplicationStatus.RUNNING || application.status == ApplicationStatus.STOPPED) {
             finishStopApplication(application, ApplicationStatus.FINISHED)
-            return Response.ok().build()
+            Response.ok().build()
         } else {
-            return Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING + " or " + ApplicationStatus.STOPPED).build()
+            Response.status(422).entity("Application is not in state "+ApplicationStatus.RUNNING + " or " + ApplicationStatus.STOPPED).build()
         }
     }
 
@@ -180,11 +177,11 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (application.status == ApplicationStatus.DENIED) {
+        return if (application.status == ApplicationStatus.DENIED) {
             application.status = ApplicationStatus.PENDING
-            return Response.ok().build()
+            Response.ok().build()
         } else {
-            return Response.status(422).entity("Application is not in state " + ApplicationStatus.DENIED).build()
+            Response.status(422).entity("Application is not in state " + ApplicationStatus.DENIED).build()
         }
     }
 
@@ -213,6 +210,5 @@ class ApplicationResource {
         }
 
         deploymentService.client.extensions().ingresses().withLabel("beeyond-application-id", application.id.toString()).delete()
-
     }
 }
