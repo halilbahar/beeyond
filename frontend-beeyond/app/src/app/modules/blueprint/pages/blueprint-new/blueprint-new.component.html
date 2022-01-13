@@ -38,7 +38,7 @@
         </div>
       </mat-step>
 
-      <mat-step>
+      <mat-step #step2>
         <ng-template matStepLabel>Set Content</ng-template>
 
         <div [formGroup]='secondFormGroup' *ngIf='blueprintType == "Custom"'>
@@ -78,7 +78,7 @@
         </ng-container>
 
         <div class='button-container'>
-          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
+          <button mat-flat-button color='primary' matStepperPrevious (click)="resetMatStep(step2)">Previous</button>
           <button
             mat-flat-button
             color='primary'
@@ -91,7 +91,7 @@
       </mat-step>
 
 
-      <mat-step [stepControl]='thirdFormGroup'>
+      <mat-step [stepControl]='thirdFormGroup' #step3>
         <ng-template matStepLabel>Fill out information</ng-template>
 
         <div [formGroup]='thirdFormGroup' class='stepper-content filter-controls'>
@@ -144,11 +144,10 @@
               <input matInput formControlName='purpose'>
             </mat-form-field>
           </div>
-
         </div>
 
         <div class='button-container'>
-          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
+          <button mat-flat-button color='primary' matStepperPrevious (click)="resetMatStep(step3)">Previous</button>
           <button
             mat-flat-button
             color='primary'

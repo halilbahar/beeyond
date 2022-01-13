@@ -4,6 +4,7 @@ import { BackendApiService } from '../../../../core/services/backend-api.service
 import { Router } from '@angular/router';
 import { Template } from '../../../../shared/models/template.model';
 import { Namespace } from '../../../../shared/models/namespace.model';
+import { MatStep } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-blueprint-new',
@@ -126,10 +127,8 @@ export class BlueprintNewComponent implements OnInit {
     this.blueprintType = val;
   }
 
-  resetFormGroup() {
-    this.templateForm.reset();
-    this.templateForm.markAsUntouched();
-    this.templateForm.markAsPristine();
+  resetMatStep(matStep: MatStep) {
+    matStep.reset();
   }
 
   private refreshNamespaces(): void {
