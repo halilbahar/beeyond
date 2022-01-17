@@ -80,6 +80,7 @@ export class BlueprintNewComponent implements OnInit {
       case 0: stepper.reset();
       break;
       case 1: step3.reset();
+      break;
     }
   }
 
