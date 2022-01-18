@@ -27,7 +27,6 @@ export class BlueprintNewComponent implements OnInit {
   namespaces: Namespace[];
   templateId: number = null;
   templateForm: FormGroup;
-  private date: any;
 
   constructor(
     private router: Router,
@@ -66,10 +65,7 @@ export class BlueprintNewComponent implements OnInit {
       } while (match);
     });
 
-    // backend braucht kein name?
-
     this.thirdFormGroup = this.fb.group({
-      name: this.fb.control('', Validators.required),
       note: this.fb.control(''),
       class: this.fb.control('', Validators.required),
       to: this.fb.control(null, Validators.required),
