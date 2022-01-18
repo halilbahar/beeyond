@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { Template } from '../../../../shared/models/template.model';
 import { Namespace } from '../../../../shared/models/namespace.model';
 import { MatStep, MatStepper } from '@angular/material/stepper';
+import { DatePipe } from '@angular/common';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-blueprint-new',
@@ -25,10 +27,12 @@ export class BlueprintNewComponent implements OnInit {
   namespaces: Namespace[];
   templateId: number = null;
   templateForm: FormGroup;
+  private date: any;
 
   constructor(
     private router: Router,
     private fb: FormBuilder,
+    private snackBar: MatSnackBar,
     private backendApiService: BackendApiService,
   ) {}
 
@@ -62,11 +66,13 @@ export class BlueprintNewComponent implements OnInit {
       } while (match);
     });
 
+    // backend braucht kein name?
+
     this.thirdFormGroup = this.fb.group({
       name: this.fb.control('', Validators.required),
-      description: this.fb.control(''),
+      note: this.fb.control(''),
       class: this.fb.control('', Validators.required),
-      date: this.fb.control(null, Validators.required),
+      to: this.fb.control(null, Validators.required),
       namespace: this.fb.control('', Validators.required),
       purpose: this.fb.control('', [Validators.required, Validators.maxLength(255)])
     });
@@ -84,13 +90,69 @@ export class BlueprintNewComponent implements OnInit {
   }
 
   createBlueprint() {
-    const blueprint = {
-      ...this.secondFormGroup.value,
-      ...this.thirdFormGroup.value
-    };
-    // this.backendApiService.createCustomApplication()
+    if (this.blueprintType === 'Custom') {
+      const blueprint = {
+        ...this.secondFormGroup.value,
+        ...this.thirdFormGroup.value
+      };
 
-    console.log(this.thirdFormGroup.value);
+      blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
+
+      this.backendApiService.createCustomApplication(blueprint).subscribe(
+        () => {
+          this.router.navigate(['/profile']).then(navigated => {
+            if (navigated) {
+              this.snackBar.open(
+                'Your application was sent will be reviewed as soon as possible',
+                'close',
+                { duration: undefined }
+              );
+            }
+          });
+        },
+        error => {
+          this.snackBar.open(
+            error.error.map(err => err.message + ' - ' + err.key).join('\n'),
+            'close',
+            {
+              duration: undefined,
+              panelClass: ['new-line']
+            }
+          );
+        }
+      );
+    } else if (this.blueprintType === 'Template') {
+      const blueprint = {
+        ...this.templateForm.value,
+        ...this.thirdFormGroup.value
+      };
+
+      blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
+
+      this.backendApiService.createTemplateApplication(blueprint).subscribe(
+        () => {
+          this.router.navigate(['/profile']).then(navigated => {
+            if (navigated) {
+              this.snackBar.open(
+                'Your application was sent will be reviewed as soon as possible',
+                'close',
+                { duration: 2000 }
+              );
+            }
+          });
+        },
+        error => {
+          this.snackBar.open(
+            error.error.map(err => err.message + ' - ' + err.key).join('\n'),
+            'close',
+            {
+              duration: undefined,
+              panelClass: ['new-line']
+            }
+          );
+        }
+      );
+    }
   }
 
   createWildcardField(wildcard: string): FormGroup {
