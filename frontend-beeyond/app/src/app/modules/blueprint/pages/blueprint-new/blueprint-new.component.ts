@@ -66,8 +66,7 @@ export class BlueprintNewComponent implements OnInit {
       name: this.fb.control('', Validators.required),
       description: this.fb.control(''),
       class: this.fb.control('', Validators.required),
-      fromDate: this.fb.control(null, Validators.required),
-      toDate: this.fb.control(null, Validators.required),
+      date: this.fb.control(null, Validators.required),
       namespace: this.fb.control('', Validators.required),
       purpose: this.fb.control('', [Validators.required, Validators.maxLength(255)])
     });
@@ -90,6 +89,8 @@ export class BlueprintNewComponent implements OnInit {
       ...this.thirdFormGroup.value
     };
     // this.backendApiService.createCustomApplication()
+
+    console.log(this.thirdFormGroup.value);
   }
 
   createWildcardField(wildcard: string): FormGroup {
