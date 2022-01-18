@@ -16,7 +16,10 @@ public class CustomApplication extends Application {
         super(
                 customApplicationDto.getNote(),
                 owner,
-                Namespace.find("namespace", customApplicationDto.getNamespace()).firstResult()
+                Namespace.find("namespace", customApplicationDto.getNamespace()).firstResult(),
+                customApplicationDto.getSchoolClass(),
+                customApplicationDto.getToDate(),
+                customApplicationDto.getPurpose()
         );
         this.content = customApplicationDto.getContent();
     }

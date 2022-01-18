@@ -3,6 +3,7 @@ package at.htl.beeyond.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 @Entity
@@ -30,12 +31,21 @@ public abstract class Application extends PanacheEntityBase {
     @ManyToOne
     private Namespace namespace;
 
-    public Application(String note, User owner, Namespace namespace) {
+    private String schoolClass;
+
+    private LocalDate toDate;
+
+    private String purpose;
+
+    public Application(String note, User owner, Namespace namespace, String schoolClass, LocalDate toDate, String purpose) {
         this.note = note;
         this.status = ApplicationStatus.PENDING;
         this.owner = owner;
         this.createdAt = LocalDateTime.now();
         this.namespace = namespace;
+        this.schoolClass = schoolClass;
+        this.toDate = toDate;
+        this.purpose = purpose;
     }
 
     public Application() {
@@ -101,5 +111,29 @@ public abstract class Application extends PanacheEntityBase {
 
     public void setNamespace(Namespace namespace) {
         this.namespace = namespace;
+    }
+
+    public String getSchoolClass() {
+        return schoolClass;
+    }
+
+    public void setSchoolClass(String schoolClass) {
+        this.schoolClass = schoolClass;
+    }
+
+    public LocalDate getToDate() {
+        return toDate;
+    }
+
+    public void setToDate(LocalDate toDate) {
+        this.toDate = toDate;
+    }
+
+    public String getPurpose() {
+        return purpose;
+    }
+
+    public void setPurpose(String purpose) {
+        this.purpose = purpose;
     }
 }

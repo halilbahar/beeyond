@@ -13,7 +13,10 @@ Feature: Custom application creation endpoint
     {
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -26,6 +29,9 @@ Feature: Custom application creation endpoint
     {
       "content": "#(nginxDeployment)",
       "namespace": "moritz"
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -37,6 +43,9 @@ Feature: Custom application creation endpoint
     """
     {
       "namespace": "moritz"
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -49,7 +58,10 @@ Feature: Custom application creation endpoint
     """
     {
       "content": "",
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -66,7 +78,10 @@ Feature: Custom application creation endpoint
     {
       "note": "#(generateString())",
       "content": "#(content)",
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -81,7 +96,10 @@ Feature: Custom application creation endpoint
       "id": 9999,
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -95,7 +113,10 @@ Feature: Custom application creation endpoint
       "status": "APPROVED",
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -112,7 +133,10 @@ Feature: Custom application creation endpoint
       },
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -126,7 +150,10 @@ Feature: Custom application creation endpoint
       "createdAt": "2021-02-10T22:42:57.620598",
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
