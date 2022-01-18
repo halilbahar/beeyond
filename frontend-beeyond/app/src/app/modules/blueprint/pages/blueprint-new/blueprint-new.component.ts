@@ -4,6 +4,7 @@ import { BackendApiService } from '../../../../core/services/backend-api.service
 import { Router } from '@angular/router';
 import { Template } from '../../../../shared/models/template.model';
 import { Namespace } from '../../../../shared/models/namespace.model';
+import { MatStep, MatStepper } from '@angular/material/stepper';
 
 @Component({
   selector: 'app-blueprint-new',
@@ -74,6 +75,15 @@ export class BlueprintNewComponent implements OnInit {
     this.refreshNamespaces();
   }
 
+  stepperSelectionChange(event, stepper: MatStepper, step3: MatStep) {
+    switch (event.selectedIndex ) {
+      case 0: stepper.reset();
+      break;
+      case 1: step3.reset();
+      break;
+    }
+  }
+
   createBlueprint() {
     const blueprint = {
       ...this.secondFormGroup.value,
@@ -124,12 +134,6 @@ export class BlueprintNewComponent implements OnInit {
 
   updateColor(val: string) {
     this.blueprintType = val;
-  }
-
-  resetFormGroup() {
-    this.templateForm.reset();
-    this.templateForm.markAsUntouched();
-    this.templateForm.markAsPristine();
   }
 
   private refreshNamespaces(): void {

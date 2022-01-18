@@ -2,7 +2,7 @@
   <mat-card-title>Create a new Blueprint</mat-card-title>
   <mat-card-subtitle>Write your blueprint here:</mat-card-subtitle>
   <mat-card-content>
-    <mat-horizontal-stepper [linear]='true'>
+    <mat-horizontal-stepper [linear]='true' #stepper (selectionChange)="stepperSelectionChange($event, stepper, step3)">
       <mat-step>
         <ng-template matStepLabel>Select Type</ng-template>
 
@@ -78,7 +78,7 @@
         </ng-container>
 
         <div class='button-container'>
-          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
+          <button mat-flat-button color='primary' matStepperPrevious (click)="stepper.reset()">Previous</button>
           <button
             mat-flat-button
             color='primary'
@@ -91,7 +91,7 @@
       </mat-step>
 
 
-      <mat-step [stepControl]='thirdFormGroup'>
+      <mat-step [stepControl]='thirdFormGroup' #step3>
         <ng-template matStepLabel>Fill out information</ng-template>
 
         <div [formGroup]='thirdFormGroup' class='stepper-content filter-controls'>
@@ -144,11 +144,10 @@
               <input matInput formControlName='purpose'>
             </mat-form-field>
           </div>
-
         </div>
 
         <div class='button-container'>
-          <button mat-flat-button color='primary' matStepperPrevious>Previous</button>
+          <button mat-flat-button color='primary' matStepperPrevious (click)="step3.reset()">Previous</button>
           <button
             mat-flat-button
             color='primary'
