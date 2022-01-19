@@ -28,7 +28,7 @@ Feature: Custom application creation endpoint
     """
     {
       "content": "#(nginxDeployment)",
-      "namespace": "moritz"
+      "namespace": "moritz",
       "class": "5AHIF",
       "to": "18.01.2022",
       "purpose": "SYP"
@@ -42,7 +42,7 @@ Feature: Custom application creation endpoint
     Given request
     """
     {
-      "namespace": "moritz"
+      "namespace": "moritz",
       "class": "5AHIF",
       "to": "18.01.2022",
       "purpose": "SYP"
