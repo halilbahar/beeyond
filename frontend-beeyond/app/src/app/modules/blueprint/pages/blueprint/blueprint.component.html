@@ -4,10 +4,9 @@
   <mat-card-content>
     <mat-horizontal-stepper
       [linear]="true"
-      #stepper
-      (selectionChange)="stepperSelectionChange($event, stepper, step3)"
+      (selectionChange)="stepperSelectionChange($event, step1, step2, step3)"
     >
-      <mat-step>
+      <mat-step #step1 [completed]="!((blueprintType == 'Template' && templateId == null) || blueprintType == '')">
         <ng-template matStepLabel>Select Type</ng-template>
 
         <div class="stepper-content">
@@ -53,10 +52,11 @@
         </div>
       </mat-step>
 
-      <mat-step>
+      <mat-step #step2 [completed]="!((blueprintType == 'Custom' && secondFormGroup.invalid) ||
+            (blueprintType == 'Template' && templateForm && templateForm.invalid))">
         <ng-template matStepLabel>Set Content</ng-template>
 
-        <div [formGroup]="secondFormGroup" *ngIf="blueprintType == 'Custom'">
+        <div [formGroup]="secondFormGroup" style="height: 100%" *ngIf="blueprintType == 'Custom'">
           <ngx-monaco-editor
             [options]="monacoOptions"
             class="monaco-editor monaco-editor-border"
@@ -95,21 +95,22 @@
         </ng-container>
 
         <div class="button-container">
-          <button mat-flat-button color="primary" matStepperPrevious (click)="stepper.reset()">
+          <button mat-flat-button color="primary" matStepperPrevious (click)="step2.reset() ">
             Previous
           </button>
           <button
             mat-flat-button
             color="primary"
             matStepperNext
-            [disabled]="secondFormGroup.invalid && templateForm && templateForm.invalid"
+            [disabled]="(blueprintType == 'Custom' && secondFormGroup.invalid) ||
+            (blueprintType == 'Template' && templateForm && templateForm.invalid)"
           >
             Next
           </button>
         </div>
       </mat-step>
 
-      <mat-step [stepControl]="thirdFormGroup" #step3>
+      <mat-step #step3 [stepControl]="thirdFormGroup">
         <ng-template matStepLabel>Fill out information</ng-template>
 
         <div [formGroup]="thirdFormGroup" class="stepper-content filter-controls">
@@ -142,8 +143,6 @@
               <mat-datepicker #picker></mat-datepicker>
             </mat-form-field>
           </div>
-
-          <div></div>
 
           <div>
             <mat-form-field class="example-full-width">

@@ -4,7 +4,7 @@ import { BackendApiService } from '../../../../core/services/backend-api.service
 import { Router } from '@angular/router';
 import { Template } from '../../../../shared/models/template.model';
 import { Namespace } from '../../../../shared/models/namespace.model';
-import { MatStep, MatStepper } from '@angular/material/stepper';
+import { MatStep} from '@angular/material/stepper';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -75,12 +75,18 @@ export class BlueprintComponent implements OnInit {
     this.refreshNamespaces();
   }
 
-  stepperSelectionChange(event, stepper: MatStepper, step3: MatStep) {
+  stepperSelectionChange(event, step1: MatStep, step2: MatStep, step3: MatStep) {
     switch (event.selectedIndex) {
       case 0:
-        stepper.reset();
+        this.blueprintType = '';
+        this.templateId = null;
+        step2.reset();
+        step3.reset();
         break;
       case 1:
+        if (this.blueprintType === 'Template'){
+          this.loadTemplate();
+        }
         step3.reset();
         break;
     }
@@ -165,7 +171,7 @@ export class BlueprintComponent implements OnInit {
   }
 
   loadTemplate() {
-    if (this.blueprintType === 'Template') {
+    if (this.blueprintType === 'Template' && this.templateId) {
       this.backendApiService.getTemplateById(this.templateId).subscribe(template => {
         this.template = template;
 
