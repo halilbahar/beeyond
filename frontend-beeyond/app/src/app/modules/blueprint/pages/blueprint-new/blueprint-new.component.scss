@@ -1,7 +1,6 @@
 @import '../../../../../assets/scss/variables.scss';
 @import '../../../../../assets/scss/custom-theme';
 
-
 ::ng-deep .card-entire-page mat-card-content mat-horizontal-stepper {
   @include flex-column;
   height: 100%;
