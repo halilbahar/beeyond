@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BlueprintComponent } from './pages/blueprint/blueprint.component';
-import { BlueprintTemplateComponent } from './pages/blueprint-template/blueprint-template.component';
 import { BlueprintRoutingModule } from './blueprint-routing.module';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -15,7 +14,6 @@ import { SharedModule } from '../../shared/shared.module';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MonacoEditorModule } from 'ngx-monaco-editor';
 import { MatSelectModule } from '@angular/material/select';
-import { BlueprintNewComponent } from './pages/blueprint-new/blueprint-new.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
@@ -23,7 +21,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
-  declarations: [BlueprintComponent, BlueprintTemplateComponent, BlueprintNewComponent],
+  declarations: [BlueprintComponent],
   imports: [
     CommonModule,
     BlueprintRoutingModule,

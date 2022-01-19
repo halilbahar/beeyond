@@ -1,41 +1,85 @@
-:host ::ng-deep .mat-tab-body-wrapper {
+@import '../../../../../assets/scss/variables.scss';
+@import '../../../../../assets/scss/custom-theme';
+
+::ng-deep .card-entire-page mat-card-content mat-horizontal-stepper {
+  @include flex-column;
+  height: 100%;
+}
+
+::ng-deep .mat-horizontal-content-container {
   flex: 1;
+  padding: 0 24px !important;
 
-  mat-tab-body {
-    margin-top: 1rem;
-
-    .mat-tab-body-content {
-      display: flex;
-      flex-direction: column;
-    }
+  & .mat-horizontal-stepper-content {
+    height: 100%;
+    @include flex-column;
   }
 }
 
-mat-tab-group {
-  height: 100%;
+.wildcard-fields .wildcard-field-wrapper {
+  margin-top: 1rem;
+  @include flex-column;
+}
+
+.wildcard-label {
+  font-size: 1.5rem;
+}
+
+.stepper-content {
+  flex: 1;
+  @include flex-column;
 }
 
 .monaco-editor {
   flex: 1;
-}
-
-.center {
-  font-size: 1.5rem;
-  height: 100%;
   display: flex;
-  justify-content: center;
-  align-items: center;
+}
+.monaco-editor * {
+  display: flex;
+  flex: 1;
 }
 
-app-template-list {
-  overflow: auto;
-  height: 80%;
+.selected {
+  background: mat-color($beeyond-light-primary);
+  color: white !important;
 }
 
-.hidden-field {
-  display: none;
+.example-full-width {
+  width: 100%;
 }
 
-::ng-deep .new-line {
-  white-space: pre-wrap;
+.example-half-width {
+  width: 49%;
+}
+
+ngx-monaco-editor {
+  height: 100%;
+}
+
+:host {
+  @include flex-column;
+  flex: 1;
+}
+
+::ng-deep mat-horizontal-stepper,
+.stepper-content {
+  @include flex-column;
+  height: 100%;
+  flex: 1;
+}
+
+::ng-deep .mat-horizontal-content-container {
+  flex: 1;
+  padding: 0 24px !important;
+
+  & .mat-horizontal-stepper-content {
+    height: 100%;
+    @include flex-column;
+  }
+}
+
+.border {
+  border: 2px solid mat-color($beeyond-light-primary);
+  color: mat-color($beeyond-light-primary);
+  font-size: x-large;
 }
