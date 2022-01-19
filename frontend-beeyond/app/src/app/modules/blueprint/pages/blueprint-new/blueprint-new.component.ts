@@ -32,11 +32,10 @@ export class BlueprintNewComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private backendApiService: BackendApiService,
+    private backendApiService: BackendApiService
   ) {}
 
   ngOnInit(): void {
-
     this.backendApiService.getTemplates().subscribe(templates => {
       this.templates = templates.filter(template => !template.deleted);
       if (this.templates.length === 0) {
@@ -77,11 +76,13 @@ export class BlueprintNewComponent implements OnInit {
   }
 
   stepperSelectionChange(event, stepper: MatStepper, step3: MatStep) {
-    switch (event.selectedIndex ) {
-      case 0: stepper.reset();
-      break;
-      case 1: step3.reset();
-      break;
+    switch (event.selectedIndex) {
+      case 0:
+        stepper.reset();
+        break;
+      case 1:
+        step3.reset();
+        break;
     }
   }
 

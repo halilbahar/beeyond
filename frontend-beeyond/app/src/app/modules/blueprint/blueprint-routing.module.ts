@@ -7,7 +7,7 @@ import { BlueprintNewComponent } from './pages/blueprint-new/blueprint-new.compo
 const routes: Routes = [
   { path: '', component: BlueprintComponent },
   { path: 'template/:id', component: BlueprintTemplateComponent },
-  { path: 'new', component: BlueprintNewComponent}
+  { path: 'new', component: BlueprintNewComponent }
 ];
 
 @NgModule({

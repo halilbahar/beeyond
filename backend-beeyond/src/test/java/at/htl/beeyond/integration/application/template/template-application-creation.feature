@@ -90,10 +90,7 @@ Feature: Template application creation endpoint
     {
       message: "This field needs to be between 0 and 255 characters",
       key: "note",
-      value: "#ignore",
-      "class": "5AHIF",
-      "to": "18.01.2022",
-      "purpose": "SYP"
+      value: "#ignore"
     }
     """
 
@@ -126,10 +123,7 @@ Feature: Template application creation endpoint
     {
       "message": "This field cannot be empty",
       "value": "",
-      "key": "templateId",
-      "class": "5AHIF",
-      "to": "18.01.2022",
-      "purpose": "SYP"
+      "key": "templateId"
     }
     """
 
@@ -163,10 +157,7 @@ Feature: Template application creation endpoint
     {
       message: "Template with id 10000 does not exist",
       value: "10000",
-      key: "templateId",
-      "class": "5AHIF",
-      "to": "18.01.2022",
-      "purpose": "SYP"
+      key: "templateId"
     }
     """
 
@@ -197,10 +188,7 @@ Feature: Template application creation endpoint
     {
       message: "#(message)",
       value: "",
-      key: "",
-      "class": "5AHIF",
-      "to": "18.01.2022",
-      "purpose": "SYP"
+      key: ""
     }
     """
     And match response contains expected
@@ -244,10 +232,7 @@ Feature: Template application creation endpoint
     {
       message: "#(message)",
       value: "",
-      key: "",
-      "class": "5AHIF",
-      "to": "18.01.2022",
-      "purpose": "SYP"
+      key: ""
     }
     """
     And match response contains expected
