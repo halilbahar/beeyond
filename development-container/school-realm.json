@@ -31,7 +31,7 @@
   "registrationEmailAsUsername" : false,
   "rememberMe" : false,
   "verifyEmail" : false,
-  "loginWithEmailAllowed" : true,
+  "loginWithEmailAllowed" : false,
   "duplicateEmailsAllowed" : false,
   "resetPasswordAllowed" : false,
   "editUsernameAllowed" : false,
@@ -550,6 +550,50 @@
     "notBefore" : 0,
     "groups" : [ ]
   }, {
+    "id" : "ba5e67f9-1f20-46b7-a197-b7e68e227ec8",
+    "createdTimestamp" : 1642680574048,
+    "username" : "if170026",
+    "enabled" : false,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Moritz",
+    "lastName" : "Eichhorn",
+    "federationLink" : "607f40b8-a97d-41c6-bb7c-e2dca4140e6a",
+    "attributes" : {
+      "LDAP_ENTRY_DN" : [ "CN=if170026,OU=5AHIF,OU=IF,OU=Students,OU=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT" ],
+      "createTimestamp" : [ "20170914092925.0Z" ],
+      "modifyTimestamp" : [ "20220119082747.0Z" ],
+      "LDAP_ID" : [ "476fdc71-2716-4120-96b3-020658a147e6" ]
+    },
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-school" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "1a95e8de-546c-43ef-8414-eadd20748082",
+    "createdTimestamp" : 1642680524925,
+    "username" : "if170115",
+    "enabled" : false,
+    "totp" : false,
+    "emailVerified" : false,
+    "firstName" : "Marc",
+    "lastName" : "Wallinger",
+    "federationLink" : "607f40b8-a97d-41c6-bb7c-e2dca4140e6a",
+    "attributes" : {
+      "LDAP_ENTRY_DN" : [ "CN=if170115,OU=5AHIF,OU=IF,OU=Students,OU=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT" ],
+      "createTimestamp" : [ "20170914092932.0Z" ],
+      "modifyTimestamp" : [ "20220119082747.0Z" ],
+      "LDAP_ID" : [ "75f8bdce-9abd-4cac-b318-ff33b67b2e07" ]
+    },
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-school" ],
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
     "id" : "a53eb0eb-ebc3-4c01-9bac-8a50847f5ea2",
     "createdTimestamp" : 1606731893727,
     "username" : "naderer",
@@ -719,6 +763,27 @@
     "clientRoles" : {
       "account" : [ "manage-account", "view-profile" ]
     },
+    "notBefore" : 0,
+    "groups" : [ ]
+  }, {
+    "id" : "2619b2a2-33ce-499a-8c34-f96de264ded6",
+    "createdTimestamp" : 1642680753977,
+    "username" : "t.stuetz",
+    "enabled" : false,
+    "totp" : false,
+    "emailVerified" : false,
+    "email" : "t.stuetz@htl-leonding.ac.at",
+    "federationLink" : "607f40b8-a97d-41c6-bb7c-e2dca4140e6a",
+    "attributes" : {
+      "LDAP_ENTRY_DN" : [ "CN=t.stuetz,OU=Teachers,OU=HTL,DC=EDU,DC=HTL-LEONDING,DC=AC,DC=AT" ],
+      "createTimestamp" : [ "20170706143657.0Z" ],
+      "modifyTimestamp" : [ "20220117070024.0Z" ],
+      "LDAP_ID" : [ "a79bf688-96d6-4c4a-9a62-d2687404f97d" ]
+    },
+    "credentials" : [ ],
+    "disableableCredentialTypes" : [ ],
+    "requiredActions" : [ ],
+    "realmRoles" : [ "default-roles-school" ],
     "notBefore" : 0,
     "groups" : [ ]
   }, {
@@ -918,8 +983,7 @@
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "secret" : "155ecdcd-99a4-4563-a066-6a6c82f70efe",
-    "redirectUris" : [ "http://localhost:4200" ],
+    "redirectUris" : [ "https://app.leocloud.htl-leonding.ac.at", "http://localhost:4200" ],
     "webOrigins" : [ "+" ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -932,14 +996,22 @@
     "frontchannelLogout" : false,
     "protocol" : "openid-connect",
     "attributes" : {
+      "id.token.as.detached.signature" : "false",
       "saml.assertion.signature" : "false",
       "access.token.lifespan" : "900",
       "saml.force.post.binding" : "false",
       "saml.multivalued.roles" : "false",
       "saml.encrypt" : "false",
+      "oauth2.device.authorization.grant.enabled" : "false",
+      "backchannel.logout.revoke.offline.tokens" : "false",
       "saml.server.signature" : "false",
       "saml.server.signature.keyinfo.ext" : "false",
+      "use.refresh.tokens" : "true",
       "exclude.session.state.from.auth.response" : "false",
+      "oidc.ciba.grant.enabled" : "false",
+      "saml.artifact.binding" : "false",
+      "backchannel.logout.session.required" : "false",
+      "client_credentials.use_refresh_token" : "false",
       "saml_force_name_id_format" : "false",
       "saml.client.signature" : "false",
       "tls.client.certificate.bound.access.tokens" : "false",
@@ -1562,24 +1634,6 @@
   "identityProviderMappers" : [ ],
   "components" : {
     "org.keycloak.services.clientregistration.policy.ClientRegistrationPolicy" : [ {
-      "id" : "d58c3ae5-8f52-44f0-ae06-ac4667a0683b",
-      "name" : "Allowed Client Scopes",
-      "providerId" : "allowed-client-templates",
-      "subType" : "anonymous",
-      "subComponents" : { },
-      "config" : {
-        "allow-default-scopes" : [ "true" ]
-      }
-    }, {
-      "id" : "a32bcdc1-d228-4180-8da1-7e891d21afc6",
-      "name" : "Allowed Protocol Mapper Types",
-      "providerId" : "allowed-protocol-mappers",
-      "subType" : "anonymous",
-      "subComponents" : { },
-      "config" : {
-        "allowed-protocol-mapper-types" : [ "oidc-full-name-mapper", "saml-role-list-mapper", "saml-user-attribute-mapper", "oidc-address-mapper", "oidc-usermodel-property-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper" ]
-      }
-    }, {
       "id" : "a2f85c9d-6d85-45e7-8df9-dfda23fd0468",
       "name" : "Allowed Client Scopes",
       "providerId" : "allowed-client-templates",
@@ -1609,7 +1663,25 @@
       "subType" : "authenticated",
       "subComponents" : { },
       "config" : {
-        "allowed-protocol-mapper-types" : [ "saml-role-list-mapper", "oidc-usermodel-attribute-mapper", "saml-user-property-mapper", "saml-user-attribute-mapper", "oidc-sha256-pairwise-sub-mapper", "oidc-address-mapper", "oidc-usermodel-property-mapper", "oidc-full-name-mapper" ]
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-attribute-mapper", "oidc-address-mapper", "oidc-sha256-pairwise-sub-mapper", "saml-role-list-mapper", "oidc-usermodel-property-mapper", "oidc-full-name-mapper", "saml-user-attribute-mapper", "saml-user-property-mapper" ]
+      }
+    }, {
+      "id" : "d58c3ae5-8f52-44f0-ae06-ac4667a0683b",
+      "name" : "Allowed Client Scopes",
+      "providerId" : "allowed-client-templates",
+      "subType" : "anonymous",
+      "subComponents" : { },
+      "config" : {
+        "allow-default-scopes" : [ "true" ]
+      }
+    }, {
+      "id" : "a32bcdc1-d228-4180-8da1-7e891d21afc6",
+      "name" : "Allowed Protocol Mapper Types",
+      "providerId" : "allowed-protocol-mappers",
+      "subType" : "anonymous",
+      "subComponents" : { },
+      "config" : {
+        "allowed-protocol-mapper-types" : [ "oidc-usermodel-property-mapper", "saml-role-list-mapper", "oidc-address-mapper", "oidc-usermodel-attribute-mapper", "oidc-full-name-mapper", "saml-user-attribute-mapper", "saml-user-property-mapper", "oidc-sha256-pairwise-sub-mapper" ]
       }
     }, {
       "id" : "7104d0aa-fbe3-4161-b47e-f98b77a40c19",
@@ -1629,6 +1701,279 @@
       "subComponents" : { },
       "config" : {
         "max-clients" : [ "200" ]
+      }
+    } ],
+    "org.keycloak.storage.UserStorageProvider" : [ {
+      "id" : "607f40b8-a97d-41c6-bb7c-e2dca4140e6a",
+      "name" : "HTL-Zugang (Schüler)",
+      "providerId" : "ldap",
+      "subComponents" : {
+        "org.keycloak.storage.ldap.mappers.LDAPStorageMapper" : [ {
+          "id" : "e4a7960d-33fb-43a7-be85-10bab5a3cf21",
+          "name" : "first name",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "givenName" ],
+            "is.mandatory.in.ldap" : [ "true" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "user.model.attribute" : [ "firstName" ]
+          }
+        }, {
+          "id" : "e672f053-2622-48da-b56f-ed2d13b5b3c1",
+          "name" : "creation date",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "whenCreated" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "user.model.attribute" : [ "createTimestamp" ]
+          }
+        }, {
+          "id" : "984900e2-b52f-4fd0-8b04-1abc71e164c3",
+          "name" : "last name",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "sn" ],
+            "is.mandatory.in.ldap" : [ "true" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "user.model.attribute" : [ "lastName" ]
+          }
+        }, {
+          "id" : "18d659b6-d9f5-48c7-875f-320445159b24",
+          "name" : "display name",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "displayName" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "is.binary.attribute" : [ "false" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "user.model.attribute" : [ "displayName" ]
+          }
+        }, {
+          "id" : "e4e03af0-8a18-48be-a99d-f0aa4d8f8a7f",
+          "name" : "modify date",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "whenChanged" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "user.model.attribute" : [ "modifyTimestamp" ]
+          }
+        }, {
+          "id" : "73960128-1098-48a4-b63c-d6070a27b682",
+          "name" : "username",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "cn" ],
+            "is.mandatory.in.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "false" ],
+            "user.model.attribute" : [ "username" ]
+          }
+        }, {
+          "id" : "65cdc351-3670-4991-9fe3-92ba2939e784",
+          "name" : "Role - Student",
+          "providerId" : "hardcoded-ldap-role-mapper",
+          "subComponents" : { },
+          "config" : {
+            "role" : [ "student" ]
+          }
+        }, {
+          "id" : "94ad404a-97dc-44ee-8e9a-c13e847f0a51",
+          "name" : "email",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "mail" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "false" ],
+            "user.model.attribute" : [ "email" ]
+          }
+        }, {
+          "id" : "03ec16aa-2290-480a-b945-80cc14843052",
+          "name" : "MSAD account controls",
+          "providerId" : "msad-user-account-control-mapper",
+          "subComponents" : { },
+          "config" : { }
+        } ]
+      },
+      "config" : {
+        "fullSyncPeriod" : [ "-1" ],
+        "pagination" : [ "true" ],
+        "connectionPooling" : [ "true" ],
+        "usersDn" : [ "ou=Students,ou=HTL,dc=EDU,dc=HTL-LEONDING,dc=AC,dc=AT" ],
+        "cachePolicy" : [ "DEFAULT" ],
+        "useKerberosForPasswordAuthentication" : [ "false" ],
+        "importEnabled" : [ "true" ],
+        "enabled" : [ "false" ],
+        "bindDn" : [ "ifXXXXXX@EDU" ],
+        "changedSyncPeriod" : [ "-1" ],
+        "bindCredential" : [ "CHANGE_ME" ],
+        "usernameLDAPAttribute" : [ "cn" ],
+        "vendor" : [ "ad" ],
+        "uuidLDAPAttribute" : [ "objectGUID" ],
+        "allowKerberosAuthentication" : [ "false" ],
+        "connectionUrl" : [ "ldaps://addc01.edu.htl-leonding.ac.at" ],
+        "syncRegistrations" : [ "false" ],
+        "authType" : [ "simple" ],
+        "customUserSearchFilter" : [ "(sAMAccountName=*)" ],
+        "debug" : [ "false" ],
+        "searchScope" : [ "2" ],
+        "useTruststoreSpi" : [ "ldapsOnly" ],
+        "trustEmail" : [ "false" ],
+        "priority" : [ "0" ],
+        "userObjectClasses" : [ "person, organizationalPerson, user" ],
+        "rdnLDAPAttribute" : [ "cn" ],
+        "validatePasswordPolicy" : [ "false" ],
+        "batchSizeForSync" : [ "1000" ]
+      }
+    }, {
+      "id" : "f8024d14-130e-4a68-b447-4e55bf7e8932",
+      "name" : "HTL-Zugang (Lehrer)",
+      "providerId" : "ldap",
+      "subComponents" : {
+        "org.keycloak.storage.ldap.mappers.LDAPStorageMapper" : [ {
+          "id" : "6aef2bf7-b188-4d05-8987-261f66cc21c2",
+          "name" : "creation date",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "whenCreated" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "user.model.attribute" : [ "createTimestamp" ]
+          }
+        }, {
+          "id" : "f7f39719-8e8f-4f1c-bc9c-2f345bdc9eee",
+          "name" : "display name",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "displayName" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "is.binary.attribute" : [ "false" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "user.model.attribute" : [ "displayName" ]
+          }
+        }, {
+          "id" : "45f4f960-5f41-4317-8b74-84661ed8b3d9",
+          "name" : "MSAD account controls",
+          "providerId" : "msad-user-account-control-mapper",
+          "subComponents" : { },
+          "config" : { }
+        }, {
+          "id" : "acacbc87-d423-4c53-98bc-e98373d37927",
+          "name" : "last name",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "sn" ],
+            "is.mandatory.in.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "user.model.attribute" : [ "lastName" ]
+          }
+        }, {
+          "id" : "2ab4e5a1-2188-41ce-9570-c33c365376af",
+          "name" : "email",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "mail" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "false" ],
+            "user.model.attribute" : [ "email" ]
+          }
+        }, {
+          "id" : "45ddb0c7-3f07-40de-aeba-51c0769733e2",
+          "name" : "username",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "cn" ],
+            "is.mandatory.in.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "false" ],
+            "user.model.attribute" : [ "username" ]
+          }
+        }, {
+          "id" : "2245bf2a-c793-489e-a5ca-2de607e7f9e1",
+          "name" : "first name",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "givenName" ],
+            "is.mandatory.in.ldap" : [ "true" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "read.only" : [ "true" ],
+            "user.model.attribute" : [ "firstName" ]
+          }
+        }, {
+          "id" : "e556ece2-c2ed-482e-96e3-0e5de79bf237",
+          "name" : "Role - Teacher",
+          "providerId" : "hardcoded-ldap-role-mapper",
+          "subComponents" : { },
+          "config" : {
+            "role" : [ "teacher" ]
+          }
+        }, {
+          "id" : "23aad7c9-443f-4386-810f-f11708bb7ac0",
+          "name" : "modify date",
+          "providerId" : "user-attribute-ldap-mapper",
+          "subComponents" : { },
+          "config" : {
+            "ldap.attribute" : [ "whenChanged" ],
+            "is.mandatory.in.ldap" : [ "false" ],
+            "read.only" : [ "true" ],
+            "always.read.value.from.ldap" : [ "true" ],
+            "user.model.attribute" : [ "modifyTimestamp" ]
+          }
+        } ]
+      },
+      "config" : {
+        "pagination" : [ "true" ],
+        "fullSyncPeriod" : [ "-1" ],
+        "usersDn" : [ "ou=Teachers,ou=HTL,dc=EDU,dc=HTL-LEONDING,dc=AC,dc=AT" ],
+        "connectionPooling" : [ "true" ],
+        "cachePolicy" : [ "DEFAULT" ],
+        "useKerberosForPasswordAuthentication" : [ "false" ],
+        "importEnabled" : [ "true" ],
+        "enabled" : [ "false" ],
+        "bindDn" : [ "ifXXXXXX@EDU" ],
+        "bindCredential" : [ "CHANGE_ME" ],
+        "usernameLDAPAttribute" : [ "cn" ],
+        "changedSyncPeriod" : [ "-1" ],
+        "vendor" : [ "ad" ],
+        "uuidLDAPAttribute" : [ "objectGUID" ],
+        "connectionUrl" : [ "ldaps://addc01.edu.htl-leonding.ac.at" ],
+        "allowKerberosAuthentication" : [ "false" ],
+        "syncRegistrations" : [ "false" ],
+        "authType" : [ "simple" ],
+        "customUserSearchFilter" : [ "(sAMAccountName=%u)" ],
+        "debug" : [ "false" ],
+        "searchScope" : [ "2" ],
+        "useTruststoreSpi" : [ "ldapsOnly" ],
+        "trustEmail" : [ "false" ],
+        "priority" : [ "0" ],
+        "userObjectClasses" : [ "person, organizationalPerson, user" ],
+        "rdnLDAPAttribute" : [ "cn" ],
+        "validatePasswordPolicy" : [ "false" ],
+        "batchSizeForSync" : [ "1000" ]
       }
     } ],
     "org.keycloak.keys.KeyProvider" : [ {
@@ -1667,7 +2012,7 @@
   "internationalizationEnabled" : false,
   "supportedLocales" : [ ],
   "authenticationFlows" : [ {
-    "id" : "d9f9d9b5-c749-4b93-a940-8ad2e758f6a9",
+    "id" : "1ed9edc0-3a68-4df4-a954-03852bd7f09a",
     "alias" : "Account verification options",
     "description" : "Method with which to verity the existing account",
     "providerId" : "basic-flow",
@@ -1689,7 +2034,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "215827c3-da59-4f7a-b756-9d918c1a958b",
+    "id" : "e540f1ba-2b11-4a73-b073-36f8677e7c1e",
     "alias" : "Authentication Options",
     "description" : "Authentication options.",
     "providerId" : "basic-flow",
@@ -1718,7 +2063,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "fa5a790a-6979-4a89-9d29-ed0df8774973",
+    "id" : "79e50b02-76fb-4115-a2d8-926d5080bcf8",
     "alias" : "Browser - Conditional OTP",
     "description" : "Flow to determine if the OTP is required for the authentication",
     "providerId" : "basic-flow",
@@ -1740,7 +2085,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "4fad9187-7888-4977-8526-70d31d70d2a0",
+    "id" : "8f4a5509-d083-49a8-ba1b-884b821b78d0",
     "alias" : "Direct Grant - Conditional OTP",
     "description" : "Flow to determine if the OTP is required for the authentication",
     "providerId" : "basic-flow",
@@ -1762,7 +2107,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "b8411180-c917-4574-9c04-72d22a0708e6",
+    "id" : "90629868-0d5f-4734-9d4e-275db3b78596",
     "alias" : "First broker login - Conditional OTP",
     "description" : "Flow to determine if the OTP is required for the authentication",
     "providerId" : "basic-flow",
@@ -1784,7 +2129,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "98778fb9-ef7f-46ad-a20e-182912a16376",
+    "id" : "ca258ed3-0705-4435-8251-96d01f04da2c",
     "alias" : "Handle Existing Account",
     "description" : "Handle what to do if there is existing account with same email/username like authenticated identity provider",
     "providerId" : "basic-flow",
@@ -1806,7 +2151,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "cd9121c9-0c47-4dea-90ec-666a4db043b6",
+    "id" : "6d408b90-4704-41e9-82e0-e44b9719a140",
     "alias" : "Reset - Conditional OTP",
     "description" : "Flow to determine if the OTP should be reset or not. Set to REQUIRED to force.",
     "providerId" : "basic-flow",
@@ -1828,7 +2173,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "ca5df36e-6fc9-4689-bd48-f0f5b0981dd5",
+    "id" : "fce7ae3f-596f-478d-a279-d85256ba8b8d",
     "alias" : "User creation or linking",
     "description" : "Flow for the existing/non-existing user alternatives",
     "providerId" : "basic-flow",
@@ -1851,7 +2196,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "703b86ff-0d4c-4a84-85c3-f07e549c0af5",
+    "id" : "986e7512-da88-4372-a452-547576e8e3d7",
     "alias" : "Verify Existing Account by Re-authentication",
     "description" : "Reauthentication of existing account",
     "providerId" : "basic-flow",
@@ -1873,7 +2218,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "eb6184ea-1b48-40e7-8ffc-21be124cf8c2",
+    "id" : "0388cc84-e0bc-40f5-9c6c-627fc54d0187",
     "alias" : "browser",
     "description" : "browser based authentication",
     "providerId" : "basic-flow",
@@ -1909,7 +2254,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "188e51a9-bbd9-4c15-b69d-b3cdaeb7ff46",
+    "id" : "df59f93e-a4f6-41fc-91b2-6b8f4bdfea05",
     "alias" : "clients",
     "description" : "Base authentication for clients",
     "providerId" : "client-flow",
@@ -1945,7 +2290,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "7f772dae-b2f7-462b-8f73-f66e4fc67c5c",
+    "id" : "ab3505c2-7731-4db7-b789-d2c3438a2e54",
     "alias" : "direct grant",
     "description" : "OpenID Connect Resource Owner Grant",
     "providerId" : "basic-flow",
@@ -1974,7 +2319,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "8e21bdff-dbd0-489e-81da-c712a678c466",
+    "id" : "1f286c90-af92-4db6-9f1b-76787816c5db",
     "alias" : "docker auth",
     "description" : "Used by Docker clients to authenticate against the IDP",
     "providerId" : "basic-flow",
@@ -1989,7 +2334,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "5a7be7b6-c73c-4072-885e-8e8ce4a08634",
+    "id" : "96d9b20c-97ae-4a1c-a67a-3934b1e3c3e0",
     "alias" : "first broker login",
     "description" : "Actions taken after first broker login with identity provider account, which is not yet linked to any Keycloak account",
     "providerId" : "basic-flow",
@@ -2012,7 +2357,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "c646cf1e-e7a1-4625-a98b-a7b2bac69902",
+    "id" : "9c1955d6-c90f-4167-b815-356e8854c3b0",
     "alias" : "forms",
     "description" : "Username, password, otp and other auth forms.",
     "providerId" : "basic-flow",
@@ -2034,7 +2379,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "fb8fb9f3-bc4e-4d5f-bef7-9f5f5923c94b",
+    "id" : "cd81c0da-4897-4fc8-82bc-9edb91cac8aa",
     "alias" : "http challenge",
     "description" : "An authentication flow based on challenge-response HTTP Authentication Schemes",
     "providerId" : "basic-flow",
@@ -2056,7 +2401,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "30744295-282b-452e-b136-1f2018ad6b00",
+    "id" : "e1112252-2b61-40e9-93e6-1ec32c536fc7",
     "alias" : "registration",
     "description" : "registration flow",
     "providerId" : "basic-flow",
@@ -2072,7 +2417,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "f1c7c358-af3e-4941-a5c3-25741ec8983e",
+    "id" : "32c593e4-064e-4ce7-b440-1d4a5137c696",
     "alias" : "registration form",
     "description" : "registration form",
     "providerId" : "form-flow",
@@ -2108,7 +2453,7 @@
       "autheticatorFlow" : false
     } ]
   }, {
-    "id" : "998304df-4fc1-4387-9ecd-7b307788ca24",
+    "id" : "27afbcfa-e5cf-4be5-831b-5d8b6108ad3f",
     "alias" : "reset credentials",
     "description" : "Reset credentials for a user if they forgot their password or something",
     "providerId" : "basic-flow",
@@ -2144,7 +2489,7 @@
       "autheticatorFlow" : true
     } ]
   }, {
-    "id" : "a2bcd951-d2d9-4a3e-90cb-6c6d0cb37f32",
+    "id" : "a4aa9b57-427b-4310-aa29-aa99629c1ecf",
     "alias" : "saml ecp",
     "description" : "SAML ECP Profile Authentication Flow",
     "providerId" : "basic-flow",
@@ -2160,13 +2505,13 @@
     } ]
   } ],
   "authenticatorConfig" : [ {
-    "id" : "4b268431-a0c1-4a8f-b4c7-a8ef8cdd8e16",
+    "id" : "99e03482-dea0-42c2-8901-1501efb3e23d",
     "alias" : "create unique user config",
     "config" : {
       "require.password.update.after.registration" : "false"
     }
   }, {
-    "id" : "bf4b326f-deba-4de1-b772-cc9792e23d3f",
+    "id" : "b1a45fc2-8767-4d63-9fd4-f234b418227f",
     "alias" : "review profile config",
     "config" : {
       "update.profile.on.first.login" : "missing"
