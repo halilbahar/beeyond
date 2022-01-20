@@ -1,54 +1,174 @@
-<mat-tab-group>
-  <mat-tab label="Custom Blueprint">
-    <ng-container [formGroup]="customApplicationForm">
-      <h2>The content of your script:</h2>
-      <ngx-monaco-editor
-        [options]="monacoOptions"
-        class="monaco-editor monaco-editor-border"
-        formControlName="content"
+<mat-card class="card-entire-page">
+  <mat-card-title>Create a new Blueprint</mat-card-title>
+  <mat-card-subtitle>Write your blueprint here:</mat-card-subtitle>
+  <mat-card-content>
+    <mat-horizontal-stepper [linear]="true" (selectionChange)="stepperSelectionChange($event)">
+      <mat-step
+        [completed]="!((blueprintType == 'Template' && templateId == null) || blueprintType == '')"
       >
-      </ngx-monaco-editor>
+        <ng-template matStepLabel>Select Type</ng-template>
 
-      <mat-form-field class="full-width" style="margin-top: 10px">
-        <mat-label>An optional note:</mat-label>
-        <textarea matInput cdkTextareaAutosize cdkAutosizeMaxRows="3" formControlName="note">
-        </textarea>
-        <mat-error *ngIf="customApplicationForm.get('note').invalid">
-          The note must not be longer than 255 characters
-        </mat-error>
-      </mat-form-field>
+        <div class="stepper-content">
+          <div style="display: inline-flex; height: 50%">
+            <button
+              class="border"
+              style="flex-grow: 1; margin-right: 1em"
+              mat-flat-button
+              [ngClass]="blueprintType == 'Custom' ? 'selected' : ''"
+              (click)="updateBlueprintType('Custom')"
+            >
+              Custom
+            </button>
+            <button
+              class="border"
+              style="flex-grow: 1"
+              mat-flat-button
+              [ngClass]="blueprintType == 'Template' ? 'selected' : ''"
+              (click)="updateBlueprintType('Template')"
+            >
+              Template
+            </button>
+          </div>
+          <app-template-list
+            style="margin-top: 10px"
+            *ngIf="blueprintType == 'Template'"
+            [templates]="templates"
+            (templateIdEvent)="setTemplateId($event)"
+          >
+          </app-template-list>
+        </div>
 
-      <mat-form-field [ngClass]="{ 'hidden-field': namespaces.length <= 1 }">
-        <mat-label>Namespace</mat-label>
-        <mat-select formControlName="namespace">
-          <mat-option *ngFor="let namespace of namespaces" [value]="namespace.namespace">
-            {{ namespace.label }}
-          </mat-option>
-        </mat-select>
-      </mat-form-field>
-    </ng-container>
+        <div class="button-container">
+          <button
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            [disabled]="(blueprintType == 'Template' && templateId == null) || blueprintType == ''"
+            (click)="loadTemplate()"
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
 
-    <div class="button-container">
-      <button
-        mat-flat-button
-        color="primary"
-        (click)="sendCustomTemplate()"
-        [disabled]="!customApplicationForm.valid"
+      <mat-step
+        [completed]="
+          !(
+            (blueprintType == 'Custom' && secondFormGroup.invalid) ||
+            (blueprintType == 'Template' && templateForm && templateForm.invalid)
+          )
+        "
       >
-        Submit
-      </button>
-    </div>
-  </mat-tab>
+        <ng-template matStepLabel>Set Content</ng-template>
 
-  <mat-tab label="Template Blueprints">
-    <div *ngIf="message" class="center">
-      <div>{{ message }}</div>
-    </div>
-    <app-template-list
-      [templates]="templates"
-      [routingEnabled]="true"
-      routePath="/blueprint/template/{id}"
-    >
-    </app-template-list>
-  </mat-tab>
-</mat-tab-group>
+        <div [formGroup]="secondFormGroup" style="height: 100%" *ngIf="blueprintType == 'Custom'">
+          <ngx-monaco-editor
+            [options]="monacoOptions"
+            class="monaco-editor monaco-editor-border"
+            formControlName="content"
+          >
+          </ngx-monaco-editor>
+        </div>
+
+        <ng-container *ngIf="blueprintType == 'Template' && template">
+          <mat-card-title>{{ template.name }}</mat-card-title>
+          <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
+
+          <form [formGroup]="templateForm">
+            <div
+              *ngFor="let field of template.fields; let i = index"
+              class="field-container"
+              formArrayName="fieldValues"
+              style="display: flex; flex-direction: row"
+            >
+              <ng-container [formGroupName]="i">
+                <mat-form-field style="width: 100%" class="full-width wildcard">
+                  <mat-label>{{ field.label }}</mat-label>
+                  <input matInput formControlName="value" />
+                  <mat-error *ngIf="templateForm.get('fieldValues').invalid"> </mat-error>
+                </mat-form-field>
+                <mat-icon
+                  matTooltip="{{
+                    field.description ? field.description : 'No description available!'
+                  }}"
+                  matTooltipPosition="left"
+                  >help_outline
+                </mat-icon>
+              </ng-container>
+            </div>
+          </form>
+        </ng-container>
+
+        <div class="button-container">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color="primary"
+            matStepperNext
+            [disabled]="
+              (blueprintType == 'Custom' && secondFormGroup.invalid) ||
+              (blueprintType == 'Template' && templateForm && templateForm.invalid)
+            "
+          >
+            Next
+          </button>
+        </div>
+      </mat-step>
+
+      <mat-step [stepControl]="thirdFormGroup">
+        <ng-template matStepLabel>Fill out information</ng-template>
+
+        <div [formGroup]="thirdFormGroup" class="stepper-content filter-controls">
+          <div>
+            <mat-form-field class="example-full-width">
+              <mat-label>Description</mat-label>
+              <input matInput formControlName="note" />
+            </mat-form-field>
+          </div>
+
+          <div style="display: inline-flex">
+            <mat-form-field style="flex-grow: 1; margin-right: 1em">
+              <mat-label>Class</mat-label>
+              <input matInput formControlName="class" />
+            </mat-form-field>
+
+            <mat-form-field style="flex-grow: 1; margin-right: 1em">
+              <mat-label>Namespace</mat-label>
+              <mat-select formControlName="namespace">
+                <mat-option *ngFor="let namespace of namespaces" [value]="namespace.namespace">
+                  {{ namespace.namespace }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <mat-form-field style="flex-grow: 1">
+              <mat-label>To</mat-label>
+              <input formControlName="to" matInput [matDatepicker]="picker" />
+              <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+              <mat-datepicker #picker></mat-datepicker>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <mat-form-field class="example-full-width">
+              <mat-label>Purpose</mat-label>
+              <input matInput formControlName="purpose" />
+            </mat-form-field>
+          </div>
+        </div>
+
+        <div class="button-container">
+          <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+          <button
+            mat-flat-button
+            color="primary"
+            [disabled]="thirdFormGroup.invalid"
+            (click)="createBlueprint()"
+          >
+            Create
+          </button>
+        </div>
+      </mat-step>
+    </mat-horizontal-stepper>
+  </mat-card-content>
+</mat-card>

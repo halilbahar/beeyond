@@ -13,7 +13,10 @@ Feature:
     {
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "stuetz"
+      "namespace": "stuetz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST

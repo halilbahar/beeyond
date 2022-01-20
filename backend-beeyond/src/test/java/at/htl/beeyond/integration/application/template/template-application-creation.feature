@@ -25,7 +25,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -47,7 +50,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -71,7 +77,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -101,7 +110,10 @@ Feature: Template application creation endpoint
           "value": "8081"
         }
       ],
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -132,7 +144,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": 10000,
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -159,7 +174,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -200,7 +218,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -230,7 +251,10 @@ Feature: Template application creation endpoint
         {}
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -253,7 +277,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -280,7 +307,10 @@ Feature: Template application creation endpoint
         }
       ],
       "templateId": #(template.id),
-      "namespace": "moritz"
+      "namespace": "moritz",
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST
@@ -296,7 +326,10 @@ Feature: Template application creation endpoint
     {
       "note": "string",
       "namespace": "moritz",
-      "templateId": #(template.id)
+      "templateId": #(template.id),
+      "class": "5AHIF",
+      "to": "18.01.2022",
+      "purpose": "SYP"
     }
     """
     When method POST

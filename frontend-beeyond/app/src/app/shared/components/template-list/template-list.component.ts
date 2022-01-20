@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Template } from '../../models/template.model';
 import { Router } from '@angular/router';
 
@@ -11,12 +11,16 @@ export class TemplateListComponent implements OnInit {
   @Input() templates: Template[];
   @Input() routingEnabled = false;
   @Input() routePath = '';
+  @Output() templateIdEvent = new EventEmitter<number>();
+  selectedTemplateId: number;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {}
 
   route(id: number) {
+    this.templateIdEvent.emit(id);
+    this.selectedTemplateId = id;
     if (!this.routingEnabled) {
       return;
     }
