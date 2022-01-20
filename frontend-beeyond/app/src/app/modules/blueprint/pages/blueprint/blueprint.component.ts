@@ -6,6 +6,7 @@ import { Template } from '../../../../shared/models/template.model';
 import { Namespace } from '../../../../shared/models/namespace.model';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { AuthenticationService } from '../../../../core/authentification/authentication.service';
 
 @Component({
   selector: 'app-blueprint',
@@ -28,6 +29,7 @@ export class BlueprintComponent implements OnInit {
   templateForm: FormGroup;
 
   constructor(
+    public authenticationService: AuthenticationService,
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
@@ -207,8 +209,16 @@ export class BlueprintComponent implements OnInit {
   }
 
   private refreshNamespaces(): void {
-    this.backendApiService.getAllNamespaces().subscribe(namespaces => {
-      this.namespaces = namespaces;
+    this.backendApiService.getUserNamespaces().subscribe(namespaces => {
+      const defaultNamespace = {
+        namespace: this.authenticationService.username.value,
+        label: 'Default'
+      };
+
+      this.namespaces = namespaces
+        .map(namespace => ({ ...namespace, label: namespace.namespace }))
+        .filter(namespace => namespace.namespace !== this.authenticationService.username.value);
+      this.namespaces.push(defaultNamespace);
     });
   }
 }
