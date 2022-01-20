@@ -78,16 +78,6 @@
     <mat-header-cell *matHeaderCellDef></mat-header-cell>
     <mat-cell mat-cell *matCellDef="let application">
       <button
-        *ngIf="application.status == denied"
-        mat-flat-button
-        color="primary"
-        (click)="request(application.id)"
-        class="update-button"
-      >
-        Request
-      </button>
-      <button
-        *ngIf="application.status != denied"
         mat-flat-button
         color="primary"
         [disabled]="application.status != stopped"

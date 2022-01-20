@@ -4,6 +4,7 @@ import { BackendApiService } from 'src/app/core/services/backend-api.service';
 import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 declare function constrainedEditor(editor: any): any;
 
@@ -18,6 +19,7 @@ export class ApplicationReviewComponent implements OnInit {
 
   isPending = false;
   isRunning = false;
+  isDenied = false;
   isManagement: boolean;
   redirectPath: string[];
 
@@ -26,7 +28,8 @@ export class ApplicationReviewComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private backendApiService: BackendApiService
+    private backendApiService: BackendApiService,
+    private snackBar: MatSnackBar
   ) {}
 
   isReadOnly() {
@@ -51,6 +54,7 @@ export class ApplicationReviewComponent implements OnInit {
       .application;
     this.isPending = application.status === ApplicationStatus.PENDING;
     this.isRunning = application.status === ApplicationStatus.RUNNING;
+    this.isDenied = application.status === ApplicationStatus.DENIED;
 
     if ('templateId' in application) {
       this.templateApplication = application;
@@ -105,6 +109,20 @@ export class ApplicationReviewComponent implements OnInit {
   finish(): void {
     this.backendApiService.finishApplicationById(this.application.id).subscribe(() => {
       this.router.navigate(this.redirectPath);
+    });
+  }
+
+  request(): void {
+    this.backendApiService.requestApplicationById(this.application.id).subscribe(() => {
+      this.router.navigate(['/profile']).then(navigated => {
+        if (navigated) {
+          this.snackBar.open(
+            'Your application was sent will be reviewed as soon as possible',
+            'close',
+            { duration: undefined }
+          );
+        }
+      });
     });
   }
 
