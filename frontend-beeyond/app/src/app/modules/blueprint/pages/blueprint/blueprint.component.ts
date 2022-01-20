@@ -4,7 +4,6 @@ import { BackendApiService } from '../../../../core/services/backend-api.service
 import { Router } from '@angular/router';
 import { Template } from '../../../../shared/models/template.model';
 import { Namespace } from '../../../../shared/models/namespace.model';
-import { MatStep } from '@angular/material/stepper';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
