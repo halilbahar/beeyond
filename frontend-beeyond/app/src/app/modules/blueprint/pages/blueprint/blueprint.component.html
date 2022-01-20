@@ -6,7 +6,10 @@
       [linear]="true"
       (selectionChange)="stepperSelectionChange($event, step1, step2, step3)"
     >
-      <mat-step #step1 [completed]="!((blueprintType == 'Template' && templateId == null) || blueprintType == '')">
+      <mat-step
+        #step1
+        [completed]="!((blueprintType == 'Template' && templateId == null) || blueprintType == '')"
+      >
         <ng-template matStepLabel>Select Type</ng-template>
 
         <div class="stepper-content">
@@ -52,8 +55,15 @@
         </div>
       </mat-step>
 
-      <mat-step #step2 [completed]="!((blueprintType == 'Custom' && secondFormGroup.invalid) ||
-            (blueprintType == 'Template' && templateForm && templateForm.invalid))">
+      <mat-step
+        #step2
+        [completed]="
+          !(
+            (blueprintType == 'Custom' && secondFormGroup.invalid) ||
+            (blueprintType == 'Template' && templateForm && templateForm.invalid)
+          )
+        "
+      >
         <ng-template matStepLabel>Set Content</ng-template>
 
         <div [formGroup]="secondFormGroup" style="height: 100%" *ngIf="blueprintType == 'Custom'">
@@ -95,15 +105,17 @@
         </ng-container>
 
         <div class="button-container">
-          <button mat-flat-button color="primary" matStepperPrevious (click)="step2.reset() ">
+          <button mat-flat-button color="primary" matStepperPrevious (click)="step2.reset()">
             Previous
           </button>
           <button
             mat-flat-button
             color="primary"
             matStepperNext
-            [disabled]="(blueprintType == 'Custom' && secondFormGroup.invalid) ||
-            (blueprintType == 'Template' && templateForm && templateForm.invalid)"
+            [disabled]="
+              (blueprintType == 'Custom' && secondFormGroup.invalid) ||
+              (blueprintType == 'Template' && templateForm && templateForm.invalid)
+            "
           >
             Next
           </button>
