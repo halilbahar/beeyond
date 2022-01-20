@@ -50,7 +50,9 @@ export class BlueprintComponent implements OnInit {
 
     this.secondFormGroup.controls.content.valueChanges.subscribe(content => {
       this.wildcards = [];
-      this.fields.clear();
+      if (this.fields) {
+        this.fields.clear();
+      }
 
       const regex = /%([\w]+)%/g;
       let match;
@@ -75,19 +77,12 @@ export class BlueprintComponent implements OnInit {
     this.refreshNamespaces();
   }
 
-  stepperSelectionChange(event, step1: MatStep, step2: MatStep, step3: MatStep) {
+  stepperSelectionChange(event) {
     switch (event.selectedIndex) {
-      case 0:
-        this.blueprintType = '';
-        this.templateId = null;
-        step2.reset();
-        step3.reset();
-        break;
       case 1:
         if (this.blueprintType === 'Template') {
           this.loadTemplate();
         }
-        step3.reset();
         break;
     }
   }
@@ -172,6 +167,9 @@ export class BlueprintComponent implements OnInit {
 
   loadTemplate() {
     if (this.blueprintType === 'Template' && this.templateId) {
+      if (this.template && this.templateId === this.template.id) {
+        return;
+      }
       this.backendApiService.getTemplateById(this.templateId).subscribe(template => {
         this.template = template;
 
@@ -199,6 +197,13 @@ export class BlueprintComponent implements OnInit {
   }
 
   updateColor(val: string) {
+    this.blueprintType = val;
+  }
+
+  updateBlueprintType(val: string) {
+    if (val === 'Custom') {
+      this.templateId = null;
+    }
     this.blueprintType = val;
   }
 
