@@ -40,8 +40,7 @@ export class ApplicationContentComponent implements OnInit {
     private route: ActivatedRoute,
     private fb: FormBuilder,
     private backendApiService: BackendApiService,
-    private router: Router,
-    private snackBar: MatSnackBar
+    private router: Router
   ) {}
 
   ngOnInit(): void {
@@ -92,23 +91,6 @@ export class ApplicationContentComponent implements OnInit {
       const currentUrl = this.router.url;
       this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
         this.router.navigate([currentUrl]);
-      });
-    });
-  }
-
-  request(id): void {
-    this.backendApiService.requestApplicationById(id).subscribe(() => {
-      const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate([currentUrl]).then(navigated => {
-          if (navigated) {
-            this.snackBar.open(
-              'Your application was sent will be reviewed as soon as possible',
-              'close',
-              { duration: undefined }
-            );
-          }
-        });
       });
     });
   }

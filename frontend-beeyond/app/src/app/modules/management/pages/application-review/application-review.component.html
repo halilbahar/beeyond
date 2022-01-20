@@ -23,6 +23,15 @@
 
 <div class="button-container">
   <button mat-flat-button color="primary" [routerLink]="this.redirectPath">Back</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="!isDenied"
+    (click)="request()"
+    class="update-button"
+  >
+    Request
+  </button>
   <ng-container *ngIf="isManagement">
     <button mat-flat-button color="primary" [disabled]="!isPending" (click)="deny()">Deny</button>
     <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">
