@@ -10,33 +10,33 @@ import (
 	"testing"
 )
 
-func TestConstraintGet_InvalidToken_Fail(t *testing.T) {
-	// Given
-	var constraint = models.Constraint{
-		Enum: []string{"1", "4"},
-	}
-	b, _ := json.Marshal(constraint)
-
-	// When
-	responseRecorder := httptest.NewRecorder()
-	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/minReadySeconds", bytes.NewBuffer(b))
-	request.Header.Set("Authorization", "Token")
-	Router.ServeHTTP(responseRecorder, request)
-
-	// Then
-	assert.Equal(t, http.StatusUnauthorized, responseRecorder.Code)
-
-	// Given When
-	responseRecorder = httptest.NewRecorder()
-	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
-	request.Header.Set("Authorization", "Token")
-	Router.ServeHTTP(responseRecorder, request)
-
-	// Then
-	var schema models.Schema
-	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
-	assert.Equal(t, http.StatusUnauthorized, responseRecorder.Code)
-}
+//func TestConstraintGet_InvalidToken_Fail(t *testing.T) {
+//	// Given
+//	var constraint = models.Constraint{
+//		Enum: []string{"1", "4"},
+//	}
+//	b, _ := json.Marshal(constraint)
+//
+//	// When
+//	responseRecorder := httptest.NewRecorder()
+//	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/minReadySeconds", bytes.NewBuffer(b))
+//	//request.Header.Set("Authorization", "Token")
+//	Router.ServeHTTP(responseRecorder, request)
+//
+//	// Then
+//	assert.Equal(t, http.StatusUnauthorized, responseRecorder.Code)
+//
+//	// Given When
+//	responseRecorder = httptest.NewRecorder()
+//	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
+//	//request.Header.Set("Authorization", "Token")
+//	Router.ServeHTTP(responseRecorder, request)
+//
+//	// Then
+//	var schema models.Schema
+//	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
+//	assert.Equal(t, http.StatusUnauthorized, responseRecorder.Code)
+//}
 
 func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
 	// Given
@@ -48,7 +48,7 @@ func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
 	// When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/api/constraints/Deployment-apps-v1/spec/minReadySeconds", bytes.NewBuffer(b))
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -57,7 +57,7 @@ func TestConstraintGet_WithConstraint_Valid(t *testing.T) {
 	// Given When
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -74,7 +74,7 @@ func TestConstraintGet_WithoutConstraint_Valid(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -87,7 +87,7 @@ func TestConstraintGet_ShouldNotContainKind(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -101,7 +101,7 @@ func TestConstraintGet_ShouldNotContainApiVersion(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -115,7 +115,7 @@ func TestConstraintGet_RootElementShouldNotContainKind(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -129,7 +129,7 @@ func TestConstraintGet_RootElementShouldNotContainApiVersion(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -143,7 +143,7 @@ func TestConstraintGet_InvalidPath_Fail(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/abc/def", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	responseRecorder = httptest.NewRecorder()
 	Router.ServeHTTP(responseRecorder, request)
 
@@ -155,7 +155,7 @@ func TestConstraintGet_IntegerPropertyPath_Fail(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/deployment-apps-v1/spec/replicas", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -166,7 +166,7 @@ func TestConstraintGet_StringPropertyPath_Fail(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/RuntimeClassList-node.k8s.io-v1beta1/metadata/continue", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -178,7 +178,7 @@ func TestConstraintGet_IntOrStringPath_Fail(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/PodDisruptionBudget-policy-v1beta1/spec/maxUnavailable", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -189,7 +189,7 @@ func TestConstraintGet_RootElement_Valid(t *testing.T) {
 	// Given When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("GET", "/api/constraints/Deployment-apps-v1", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -206,7 +206,7 @@ func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
 	// When
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("POST", "/api/constraints/WatchEvent-v1", bytes.NewBuffer(b))
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -215,7 +215,7 @@ func TestConstraintGet_RootElementWithConstraint_Valid(t *testing.T) {
 	// Given
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints", nil)
-	request.Header.Set("Authorization", "Bearer "+Token.Raw)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then

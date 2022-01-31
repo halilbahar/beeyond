@@ -2,11 +2,10 @@ package models
 
 import (
 	"context"
+	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"kubernetes-validation-beeyond/conf"
 	"kubernetes-validation-beeyond/services"
-
-	"go.mongodb.org/mongo-driver/bson"
 )
 
 type Constraint struct {
