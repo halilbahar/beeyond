@@ -85,3 +85,7 @@ mat-sidenav-content > *:not(:first-child) {
 .item-hover:hover {
   background-color: #f1f1f1 !important;
 }
+
+.mat-tab-body-wrapper{
+  flex-grow: 1;
+}

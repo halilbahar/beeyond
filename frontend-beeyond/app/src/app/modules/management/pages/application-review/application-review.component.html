@@ -1,53 +1,57 @@
-<ng-container *ngIf="isManagement">
-  <mat-card-title>
-    Reviewing: {{ (customApplication || templateApplication).owner.name }}
-  </mat-card-title>
-  <mat-card-subtitle>{{ (customApplication || templateApplication).note }}</mat-card-subtitle>
-</ng-container>
-
-<mat-tab-group>
-  <mat-tab label="Information">
-    <div class="review-content">
-      <app-application-attributes
-        [application]="application"
-      ></app-application-attributes>
-      <app-variable-list
-        *ngIf="templateApplication"
-        [fieldValues]="templateApplication.fieldValues"
-        [templateId]="templateApplication.templateId"
-      ></app-variable-list>
-    </div>
-  </mat-tab>
-
-  <mat-tab label="Content">
-    <div>
-      <ngx-monaco-editor
-        [options]="monacoEditorOptions"
-        [ngModel]="customApplication ? customApplication?.content : template?.content"
-        (onInit)="onEditorInit($event)"
-      ></ngx-monaco-editor>
-    </div>
-  </mat-tab>
-</mat-tab-group>
-
-<div class="button-container">
-  <button mat-flat-button color="primary" [routerLink]="this.redirectPath">Back</button>
-  <button
-    mat-flat-button
-    color="primary"
-    [disabled]="!isDenied"
-    (click)="request()"
-    class="update-button"
-  >
-    Request
-  </button>
+<div id="wrapper">
   <ng-container *ngIf="isManagement">
-    <button mat-flat-button color="primary" [disabled]="!isPending" (click)="deny()">Deny</button>
-    <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">
-      Approve
-    </button>
-    <button mat-flat-button color="primary" [disabled]="!isRunning" (click)="finish()">
-      Finish
-    </button>
+    <mat-card-title>
+      Reviewing: {{ (customApplication || templateApplication).owner.name }}
+    </mat-card-title>
+    <mat-card-subtitle>{{ (customApplication || templateApplication).note }}</mat-card-subtitle>
   </ng-container>
+
+  <mat-tab-group id="tab-group">
+    <mat-tab label="Information">
+      <div class="review-content">
+        <app-application-attributes
+          [application]="application"
+        ></app-application-attributes>
+        <app-variable-list
+          *ngIf="templateApplication"
+          [fieldValues]="templateApplication.fieldValues"
+          [templateId]="templateApplication.templateId"
+        ></app-variable-list>
+      </div>
+    </mat-tab>
+
+    <mat-tab label="Content">
+      <div style="height: 100%">
+        <ngx-monaco-editor
+          style="height: 100%"
+          [options]="monacoEditorOptions"
+          [ngModel]="customApplication ? customApplication?.content : template?.content"
+          (onInit)="onEditorInit($event)"
+        ></ngx-monaco-editor>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+
+  <div class="button-container">
+    <button mat-flat-button color="primary" [routerLink]="this.redirectPath">Back</button>
+    <button
+      mat-flat-button
+      color="primary"
+      [disabled]="!isDenied"
+      (click)="request()"
+      class="update-button"
+    >
+      Request
+    </button>
+    <ng-container *ngIf="isManagement">
+      <button mat-flat-button color="primary" [disabled]="!isPending" (click)="deny()">Deny</button>
+      <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">
+        Approve
+      </button>
+      <button mat-flat-button color="primary" [disabled]="!isRunning" (click)="finish()">
+        Finish
+      </button>
+    </ng-container>
+  </div>
+
 </div>
