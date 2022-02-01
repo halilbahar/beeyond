@@ -12,3 +12,11 @@ Database:
 KubernetesJsonschema:
   KubernetesVersion: v1.17.0
   Url: https://kubernetesjsonschema.dev
+
+Authentication:
+  Url: http://localhost
+  Port: 8280
+  Realm: school
+  ClientId: beeyond-spa
+  Username: polleichtner-teacher
+  Password: moritz

@@ -134,7 +134,6 @@ func deleteConstraintByPath(c *gin.Context) {
 	c.Writer.WriteHeader(http.StatusNoContent)
 }
 
-
 // @Summary Toggle disabled on constraint
 // @Description Toggles the "disabled" from the constraint with the given path. If the given constraint does not exist, it will be created
 // @Tags Constraint

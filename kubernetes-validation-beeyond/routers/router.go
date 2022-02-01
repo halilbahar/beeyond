@@ -1,6 +1,7 @@
 package routers
 
 import (
+	"flag"
 	"github.com/gin-gonic/gin"
 	swaggerFiles "github.com/swaggo/files"
 	ginSwagger "github.com/swaggo/gin-swagger"
@@ -26,12 +27,18 @@ func GetRouter() *gin.Engine {
 		api.POST("/validate", getValidationResult)
 		api.Use(middleware.PathSegments())
 		api.Use(middleware.ProvideSchema())
-		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json") // The url pointing to API definition
+		url := ginSwagger.URL("http://localhost:8180/api/swagger/doc.json")
+
 		api.GET("/swagger/*any", ginSwagger.WrapHandler(swaggerFiles.Handler, url))
 
 		// constraints
 		constraints := api.Group("/constraints")
 		{
+			if flag.Lookup("test.v") == nil {
+				constraints.Use(middleware.Oidc())
+				constraints.Use(middleware.Rbac())
+			}
+
 			constraints.GET("", listRootConstraints)
 			constraints.GET("/*path", getConstraintsByPath)
 
@@ -46,7 +53,7 @@ func GetRouter() *gin.Engine {
 }
 
 // Initialises the Router and runs it
-func Init() {
+func Init() error {
 	router := GetRouter()
-	_ = router.Run(conf.Configuration.Server.HttpPort)
+	return router.Run(conf.Configuration.Server.HttpPort)
 }

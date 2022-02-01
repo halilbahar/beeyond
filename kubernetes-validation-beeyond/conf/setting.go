@@ -1,6 +1,9 @@
 package conf
 
 import (
+	"crypto/rsa"
+	"crypto/x509"
+	"encoding/pem"
 	"fmt"
 	"github.com/spf13/viper"
 )
@@ -10,6 +13,7 @@ type Configurations struct {
 	Database             Database
 	KubernetesJsonschema KubernetesJsonschema
 	TestDataBase         TestDataBase
+	Authentication       Authentication
 }
 
 type Server struct {
@@ -34,6 +38,15 @@ type KubernetesJsonschema struct {
 	Url               string
 }
 
+type Authentication struct {
+	Url      string
+	Port     string
+	ClientId string
+	Realm    string
+	Username string
+	Password string
+}
+
 var Configuration Configurations
 var V *viper.Viper
 
@@ -52,4 +65,18 @@ func Init() {
 	if err != nil {
 		fmt.Printf("Unable to decode into struct, %v", err)
 	}
+}
+
+func ConvertStringToRSA(key string) *rsa.PublicKey {
+	block, _ := pem.Decode([]byte(key))
+	if block == nil {
+		panic("failed to parse PEM block containing the public key")
+	}
+
+	pub, err := x509.ParsePKIXPublicKey(block.Bytes)
+	if err != nil {
+		panic("failed to parse DER encoded public key: " + err.Error())
+	}
+
+	return pub.(*rsa.PublicKey)
 }

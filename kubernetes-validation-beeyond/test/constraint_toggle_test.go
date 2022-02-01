@@ -11,6 +11,49 @@ import (
 	"testing"
 )
 
+//func TestConstraintToggle_InvalidToken_Fail(t *testing.T) {
+//	// Given
+//	min, max := float32(1), float32(2)
+//	var constraint = models.Constraint{
+//		Min:  &min,
+//		Max:  &max,
+//		Path: "spec.replicas",
+//		GroupKindVersion: models.GroupKindVersion{
+//			Group:   "apps",
+//			Kind:    "deployment",
+//			Version: "v1",
+//		},
+//	}
+//	b, _ := json.Marshal(constraint)
+//
+//	// When
+//	err := models.SaveConstraint(constraint)
+//
+//	// Then
+//	assert.Nil(t, err)
+//
+//	// Given
+//	responseRecorder := httptest.NewRecorder()
+//	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+//	//request.Header.Set("Authorization", "Token")
+//	Router.ServeHTTP(responseRecorder, request)
+//
+//	// Then
+//	assert.Equal(t, http.StatusUnauthorized, responseRecorder.Code)
+//
+//	// Given When
+//	responseRecorder = httptest.NewRecorder()
+//	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", bytes.NewBuffer(b))
+//	//request.Header.Set("Authorization", "Token")
+//	Router.ServeHTTP(responseRecorder, request)
+//
+//	// Then
+//	var schema models.Schema
+//	_ = json.Unmarshal(responseRecorder.Body.Bytes(), &schema)
+//	assert.Equal(t, http.StatusUnauthorized, responseRecorder.Code)
+//	assert.True(t, schema.Properties["replicas"].Constraint.Disabled)
+//}
+
 func TestConstraintToggle_DisableInteger_Valid(t *testing.T) {
 	// Given
 	min, max := float32(1), float32(2)
@@ -35,6 +78,7 @@ func TestConstraintToggle_DisableInteger_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -43,6 +87,7 @@ func TestConstraintToggle_DisableInteger_Valid(t *testing.T) {
 	// Given When
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -77,6 +122,7 @@ func TestConstraintToggle_EnableInteger_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/spec/replicas", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -85,6 +131,7 @@ func TestConstraintToggle_EnableInteger_Valid(t *testing.T) {
 	// Given When
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/spec", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -118,6 +165,7 @@ func TestConstraintToggle_DisableString_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/metadata/clusterName", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -126,6 +174,7 @@ func TestConstraintToggle_DisableString_Valid(t *testing.T) {
 	// Given When
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/metadata", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -159,6 +208,7 @@ func TestConstraintToggle_EnableString_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/metadata/clusterName", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -167,6 +217,7 @@ func TestConstraintToggle_EnableString_Valid(t *testing.T) {
 	// Given When
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1/metadata", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -180,6 +231,7 @@ func TestConstraintToggle_DisableObject_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/spec", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -188,6 +240,7 @@ func TestConstraintToggle_DisableObject_Valid(t *testing.T) {
 	// Given
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -201,6 +254,7 @@ func TestConstraintToggle_EnableObject_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/metadata", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -209,6 +263,7 @@ func TestConstraintToggle_EnableObject_Valid(t *testing.T) {
 	// Given
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/metadata", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -217,6 +272,7 @@ func TestConstraintToggle_EnableObject_Valid(t *testing.T) {
 	// Given
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -251,6 +307,7 @@ func TestConstraintToggle_DisableRootObject_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -259,6 +316,7 @@ func TestConstraintToggle_DisableRootObject_Valid(t *testing.T) {
 	// Given When
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -293,6 +351,7 @@ func TestConstraintToggle_EnableRootObject_Valid(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1", bytes.NewBuffer(b))
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -301,6 +360,7 @@ func TestConstraintToggle_EnableRootObject_Valid(t *testing.T) {
 	// Given When
 	responseRecorder = httptest.NewRecorder()
 	request, _ = http.NewRequest("GET", "/api/constraints/Deployment-apps-v1", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -314,6 +374,7 @@ func TestConstraintToggle_DisableRequiredString_Fail(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/MutatingWebhookConfiguration-admissionregistration.k8s.io-v1/webhooks/name", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -324,6 +385,7 @@ func TestConstraintToggle_DisableRequiredInteger_Fail(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/ControllerRevision-apps-v1beta1/revision", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -334,6 +396,7 @@ func TestConstraintToggle_DisableRequiredObject_Fail(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/APIGroup-v1/name", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -344,6 +407,7 @@ func TestConstraintToggle_DisableApiVersion_Fail(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/apiVersion", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
@@ -354,6 +418,7 @@ func TestConstraintToggle_DisableKind_Fail(t *testing.T) {
 	// Given
 	responseRecorder := httptest.NewRecorder()
 	request, _ := http.NewRequest("PATCH", "/api/constraints/Deployment-apps-v1/kind", nil)
+	//request.Header.Set("Authorization", "Bearer "+Token.Raw)
 	Router.ServeHTTP(responseRecorder, request)
 
 	// Then
