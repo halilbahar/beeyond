@@ -20,6 +20,8 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApplicationContentComponent } from './components/application-content/application-content.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ApplicationAttributesComponent } from './components/application-attributes/application-attributes.component';
 
 @NgModule({
   declarations: [
@@ -27,27 +29,29 @@ import { ApplicationContentComponent } from './components/application-content/ap
     ApplicationReviewComponent,
     VariableListComponent,
     ApplicationPreviewDialogComponent,
-    ApplicationContentComponent
+    ApplicationContentComponent,
+    ApplicationAttributesComponent
   ],
-  imports: [
-    CommonModule,
-    ApplicationRoutingModule,
-    MatCardModule,
-    MatTableModule,
-    MonacoEditorModule,
-    MatButtonModule,
-    FormsModule,
-    MatIconModule,
-    MatInputModule,
-    MatAutocompleteModule,
-    ReactiveFormsModule,
-    MatSelectModule,
-    MatSortModule,
-    MatDialogModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatSnackBarModule
-  ],
+    imports: [
+        CommonModule,
+        ApplicationRoutingModule,
+        MatCardModule,
+        MatTableModule,
+        MonacoEditorModule,
+        MatButtonModule,
+        FormsModule,
+        MatIconModule,
+        MatInputModule,
+        MatAutocompleteModule,
+        ReactiveFormsModule,
+        MatSelectModule,
+        MatSortModule,
+        MatDialogModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatSnackBarModule,
+        MatTabsModule
+    ],
   exports: [ApplicationContentComponent, ApplicationReviewComponent]
 })
 export class ManagementModule {}
