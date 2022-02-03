@@ -53,11 +53,15 @@ class ApplicationResource {
 
     @GET
     @Path("/{id}")
-    @RolesAllowed("teacher")
+    @RolesAllowed(value = ["teacher", "student"])
     @Transactional
-    fun getApplicationById(@PathParam("id") id: Long?): Response? {
+    fun getApplicationById(@PathParam("id") id: Long?, @Context ctx: SecurityContext): Response? {
         val application = Application.findById<Application>(id)
-                ?: return Response.status(Response.Status.NOT_FOUND).build()
+            ?: return Response.status(Response.Status.NOT_FOUND).build()
+
+        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         return if (application is CustomApplication) {
             Response.ok(CustomApplicationDto(application)).build()
@@ -72,7 +76,7 @@ class ApplicationResource {
     @Transactional
     fun approveApplication(@PathParam("id") id: Long?): Response? {
         val application = Application.findById<Application>(id)
-                ?: return Response.status(Response.Status.NOT_FOUND).build()
+            ?: return Response.status(Response.Status.NOT_FOUND).build()
 
         return if(application.status == ApplicationStatus.PENDING){
             deploy(application)
@@ -90,11 +94,15 @@ class ApplicationResource {
 
     @PATCH
     @Path("/start/{id}")
-    @RolesAllowed("teacher")
+    @RolesAllowed(value = ["teacher", "student"])
     @Transactional
-    fun startApplication(@PathParam("id") id: Long?): Response? {
+    fun startApplication(@PathParam("id") id: Long?, @Context ctx: SecurityContext): Response? {
         val application = Application.findById<Application>(id)
             ?: return Response.status(Response.Status.NOT_FOUND).build()
+
+        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         return if (application.status == ApplicationStatus.STOPPED){
             deploy(application)
@@ -122,7 +130,7 @@ class ApplicationResource {
     @Transactional
     fun denyApplication(@PathParam("id") id: Long?): Response? {
         val application = Application.findById<Application>(id)
-                ?: return Response.status(404).build()
+            ?: return Response.status(404).build()
 
         return if(application.status == ApplicationStatus.PENDING){
             application.status = ApplicationStatus.DENIED
@@ -140,11 +148,15 @@ class ApplicationResource {
 
     @PATCH
     @Path("/stop/{id}")
-    @RolesAllowed("teacher")
+    @RolesAllowed(value = ["teacher", "student"])
     @Transactional
-    fun stopApplication(@PathParam("id") id: Long?): Response? {
+    fun stopApplication(@PathParam("id") id: Long?, @Context ctx: SecurityContext): Response? {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
+
+        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         return if (application.status == ApplicationStatus.RUNNING) {
             finishStopApplication(application, ApplicationStatus.STOPPED)
@@ -156,11 +168,15 @@ class ApplicationResource {
 
     @PATCH
     @Path("/finish/{id}")
-    @RolesAllowed("teacher")
+    @RolesAllowed(value = ["teacher", "student"])
     @Transactional
-    fun finishApplication(@PathParam("id") id: Long?): Response? {
+    fun finishApplication(@PathParam("id") id: Long?, @Context ctx: SecurityContext): Response? {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
+
+        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         return if (application.status == ApplicationStatus.RUNNING || application.status == ApplicationStatus.STOPPED) {
             finishStopApplication(application, ApplicationStatus.FINISHED)
@@ -172,10 +188,15 @@ class ApplicationResource {
 
     @PATCH
     @Path("/request/{id}")
+    @RolesAllowed(value = ["teacher", "student"])
     @Transactional
-    fun requestApplication(@PathParam("id") id: Long?): Response? {
+    fun requestApplication(@PathParam("id") id: Long?, @Context ctx: SecurityContext): Response? {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
+
+        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
 
         return if (application.status == ApplicationStatus.DENIED) {
             application.status = ApplicationStatus.PENDING

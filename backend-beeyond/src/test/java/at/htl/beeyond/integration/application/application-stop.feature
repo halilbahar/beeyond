@@ -6,6 +6,11 @@ Feature: Stop application endpoint
     * def insertApplication = read('classpath:at/htl/beeyond/integration/util/create-application.feature')
     * def insertApplicationResponse = call insertApplication
     * def application = insertApplicationResponse.application
+    * def insertRunningApplication = read('classpath:at/htl/beeyond/integration/util/create-student-application.feature')
+    * def insertRunningApplicationResponse = call insertRunningApplication
+    * def id = insertRunningApplicationResponse.runningApplication.id
+    * def approveApplication = read('classpath:at/htl/beeyond/integration/util/approve-student-application.feature')
+    * call approveApplication {id: '#(id)'}
     * configure headers = {Authorization: '#(auth(karate.tags))'}
 
   @teacher
@@ -14,6 +19,7 @@ Feature: Stop application endpoint
     When method PATCH
     Given path 'application', 'stop/'+application.id
     When method PATCH
+    Then print karate.prevRequest.headers
     Then status 200
 
   @teacher
@@ -61,7 +67,14 @@ Feature: Stop application endpoint
     And match response == 'Application is not in state RUNNING'
 
   @student
-  Scenario: Stop a application as a student
+  Scenario: Stop an application from someone else as a student
     Given path 'stop/'+application.id
     When method PATCH
     Then status 403
+
+  @student
+  Scenario: Stop an application as a student
+    Given path 'stop/'+id
+    When method PATCH
+    Then status 200
+
