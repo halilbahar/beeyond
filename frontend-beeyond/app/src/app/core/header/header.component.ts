@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { ActivationEnd, NavigationEnd, Params, Router } from '@angular/router';
 import { Breadcrumb } from 'src/app/shared/models/breadcrumb.model';
 import { AuthenticationService } from '../authentification/authentication.service';
-import { SidenavToggleService } from '../services/sidenav-toggle.service';
+import { SidenavService } from '../services/sidenav.service';
 import { ThemeService } from '../services/theme.service';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-header',
@@ -16,9 +17,9 @@ export class HeaderComponent implements OnInit {
 
   constructor(
     private router: Router,
-    private sidenavToggleService: SidenavToggleService,
+    private sidenavService: SidenavService,
     private oAuthService: AuthenticationService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
   ) {
     this.theme = themeService.theme.value;
   }
@@ -89,15 +90,7 @@ export class HeaderComponent implements OnInit {
   }
 
   toggleSideNavigation(): void {
-    const minimized = this.sidenavToggleService.minimized;
+    const minimized = this.sidenavService.minimized;
     minimized.next(!minimized.value);
-  }
-
-  logOut(): void {
-    this.oAuthService.logOut();
-  }
-
-  toggleTheme() {
-    this.themeService.theme.next(this.theme);
   }
 }

@@ -58,7 +58,7 @@
   </ng-container>
 
   <!-- Started -->
-  <ng-container matColumnDef="startedAt">
+  <ng-container matColumnDef="startedAt" class="hide-mobile">
     <mat-header-cell *matHeaderCellDef>Started</mat-header-cell>
     <mat-cell mat-cell *matCellDef="let application">
       {{ application.startedAt | date: 'short' }}
@@ -66,7 +66,7 @@
   </ng-container>
 
   <!-- Finished -->
-  <ng-container matColumnDef="finishedAt">
+  <ng-container matColumnDef="finishedAt" class="hide-mobile">
     <mat-header-cell *matHeaderCellDef>Finished</mat-header-cell>
     <mat-cell mat-cell *matCellDef="let application">
       {{ application.finishedAt | date: 'short' }}

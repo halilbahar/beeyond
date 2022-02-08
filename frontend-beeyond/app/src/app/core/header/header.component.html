@@ -1,4 +1,5 @@
 <div class="header-left">
+  <mat-icon style="margin-right: 5px;cursor: pointer" (click)="toggleSideNavigation()">menu</mat-icon>
   <ng-container *ngFor="let crumb of breadcrumbs; let i = index">
     <span
       *ngIf="crumb.link; else noLinkBreadcrumb"

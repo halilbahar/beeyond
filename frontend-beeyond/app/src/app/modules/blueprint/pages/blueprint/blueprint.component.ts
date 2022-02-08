@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendApiService } from '../../../../core/services/backend-api.service';
 import { Router } from '@angular/router';
@@ -7,13 +7,15 @@ import { Namespace } from '../../../../shared/models/namespace.model';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../../../core/authentification/authentication.service';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { BaseComponent } from '../../../../core/services/base.component';
 
 @Component({
   selector: 'app-blueprint',
   templateUrl: './blueprint.component.html',
   styleUrls: ['./blueprint.component.scss']
 })
-export class BlueprintComponent implements OnInit {
+export class BlueprintComponent extends BaseComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   blueprintType = '';
@@ -33,8 +35,12 @@ export class BlueprintComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
-    private backendApiService: BackendApiService
-  ) {}
+    private backendApiService: BackendApiService,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
+  ) {
+    super(changeDetectorRef, media);
+  }
 
   ngOnInit(): void {
     this.backendApiService.getTemplates().subscribe(templates => {
@@ -70,7 +76,7 @@ export class BlueprintComponent implements OnInit {
     this.thirdFormGroup = this.fb.group({
       note: this.fb.control(''),
       class: this.fb.control('', Validators.required),
-      to: this.fb.control(null, Validators.required),
+      to: this.fb.control(null),
       namespace: this.fb.control('', Validators.required),
       purpose: this.fb.control('', [Validators.required, Validators.maxLength(255)])
     });

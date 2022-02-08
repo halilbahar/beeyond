@@ -1,9 +1,9 @@
-import { Injectable } from '@angular/core';
+import { Injectable} from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class SidenavToggleService {
+export class SidenavService {
   minimized = new BehaviorSubject<boolean>(false);
 }

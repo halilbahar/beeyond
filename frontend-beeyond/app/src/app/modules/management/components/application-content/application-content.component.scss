@@ -8,13 +8,15 @@
 $filter-control-width: 95%;
 .filter-controls {
   display: flex;
-
+  gap: 10px;
   & > * {
     flex: 1;
+  }
+}
 
-    &:not(:first-child) {
-      margin-left: 1rem;
-    }
+@media screen and (max-width: 600px) {
+  .filter-controls {
+    flex-direction: column;
   }
 }
 

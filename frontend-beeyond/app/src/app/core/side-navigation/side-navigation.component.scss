@@ -27,10 +27,8 @@ mat-list-item:hover {
 
 .side-nav {
   font-size: 22px;
-  border: mat-color($beeyond-light-accent);
   border-top-right-radius: 15px;
   border-bottom-right-radius: 15px;
-  background-color: mat-color($beeyond-light-accent);
 }
 
 #icon {
@@ -116,8 +114,6 @@ mat-list-item:hover {
   line-height: normal;
   font-size: 18px;
   margin-left: auto;
-  bottom: 0;
-  position: absolute;
   padding: 10px 0 10px 0;
   background-color: mat-color($beeyond-light-primary);
   color: #fff;

@@ -1,16 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Input, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { ActivatedRoute } from '@angular/router';
 import { ApplicationStatus } from 'src/app/shared/models/application-status.enum';
 import { Application } from 'src/app/shared/models/application.model';
+import { BaseComponent } from '../../../../core/services/base.component';
+import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-application-content',
   templateUrl: './application-content.component.html',
   styleUrls: ['./application-content.component.scss']
 })
-export class ApplicationContentComponent implements OnInit {
+export class ApplicationContentComponent extends BaseComponent implements OnInit {
   @Input() isAdmin = true;
 
   applications: Application[];
@@ -29,7 +31,15 @@ export class ApplicationContentComponent implements OnInit {
 
   selectedRow: number | null;
 
-  constructor(private route: ActivatedRoute, private fb: FormBuilder) {}
+  constructor(private route: ActivatedRoute,
+              private fb: FormBuilder,
+              changeDetectorRef: ChangeDetectorRef,
+              media: MediaMatcher) {
+    super(changeDetectorRef, media);
+    if(!super.mobileQuery?.matches){
+      this.columnsToDisplay = ['id', 'status'];
+    }
+  }
 
   ngOnInit(): void {
     if (this.isAdmin) {
@@ -60,7 +70,7 @@ export class ApplicationContentComponent implements OnInit {
     this.selectedRow = null;
     const form: { username: string; status: ApplicationStatus; fromDate: Date; toDate: Date } = this
       .filterForm.value;
-    this.applicationDataSource.data = this.applications.filter(({ status, owner, createdAt }) => {
+    this.applicationDataSource.data = this.applications.filter(({status, owner, createdAt}) => {
       const nameFilter = form.username ? owner.name.includes(form.username) : true;
       const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
       const date = new Date(createdAt);
