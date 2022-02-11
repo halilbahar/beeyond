@@ -30,9 +30,12 @@
             ],
             "styles": [
               "src/assets/scss/custom-theme.scss",
-              "src/assets/scss/styles.scss"
+              "src/assets/scss/styles.scss",
+              "node_modules/constrained-editor-plugin/dist/constrainedEditorPlugin.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/constrained-editor-plugin/dist/constrainedEditorPlugin.js"
+            ]
           },
           "configurations": {
             "production": {

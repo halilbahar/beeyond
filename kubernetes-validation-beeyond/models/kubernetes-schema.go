@@ -80,7 +80,7 @@ func GetSchemaCollection() (*SchemaCollection, error) {
 	return collection, nil
 }
 
-// Gets the schema corresponding to the given segments
+// GetSchemaBySegments Gets the schema corresponding to the given segments
 // Parameter: segments ([]string): Represents the "path" to the schema (e.g.: ["Deployment-apps-v1", "spec"])
 // Returns the schema and any error that occurred
 func GetSchemaBySegments(segments []string) (*Schema, error) {
@@ -195,7 +195,7 @@ func GetSchemaBySegments(segments []string) (*Schema, error) {
 	}
 }
 
-// Gets the group kind version and the path from segments
+// GetGroupKindVersionAndPathFromSegments Gets the group kind version and the path from segments
 // Parameter: segments ([]string): e.g.: ["Deployment-apps-v1", "spec", "replicas"])
 // Returns:
 // 		- GroupKindVersion (GroupKindVersion) e.g.: group: apps, kind: Deployment, version: v1

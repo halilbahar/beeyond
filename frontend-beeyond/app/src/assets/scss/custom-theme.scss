@@ -10,9 +10,9 @@ $beeyond-light-accent: mat-palette($md-lilac);
 $beeyond-light-warn: mat-palette($mat-red);
 
 $beeyond-light-theme: mat-light-theme(
-  $beeyond-light-primary,
-  $beeyond-light-accent,
-  $beeyond-light-warn
+    $beeyond-light-primary,
+    $beeyond-light-accent,
+    $beeyond-light-warn
 );
 
 @include angular-material-theme($beeyond-light-theme);

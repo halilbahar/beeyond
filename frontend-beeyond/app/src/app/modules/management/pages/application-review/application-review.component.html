@@ -11,6 +11,7 @@
     [options]="monacoEditorOptions"
     class="monaco-editor-border"
     [ngModel]="customApplication.content"
+    (onInit)="onEditorInit($event)"
   ></ngx-monaco-editor>
 
   <app-variable-list
@@ -22,6 +23,15 @@
 
 <div class="button-container">
   <button mat-flat-button color="primary" [routerLink]="this.redirectPath">Back</button>
+  <button
+    mat-flat-button
+    color="primary"
+    [disabled]="!isDenied"
+    (click)="request()"
+    class="update-button"
+  >
+    Request
+  </button>
   <ng-container *ngIf="isManagement">
     <button mat-flat-button color="primary" [disabled]="!isPending" (click)="deny()">Deny</button>
     <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">

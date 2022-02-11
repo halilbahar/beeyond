@@ -2,10 +2,9 @@ package services
 
 import (
 	"context"
-	"kubernetes-validation-beeyond/conf"
-
 	"go.mongodb.org/mongo-driver/mongo"
 	"go.mongodb.org/mongo-driver/mongo/options"
+	"kubernetes-validation-beeyond/conf"
 )
 
 var mongoClient *mongo.Client

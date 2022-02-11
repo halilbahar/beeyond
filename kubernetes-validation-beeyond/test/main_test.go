@@ -2,7 +2,8 @@ package test
 
 import (
 	"context"
-	"fmt"
+	"github.com/Nerzal/gocloak/v10"
+	"github.com/dgrijalva/jwt-go"
 	"github.com/docker/go-connections/nat"
 	"github.com/gin-gonic/gin"
 	"github.com/testcontainers/testcontainers-go"
@@ -16,28 +17,52 @@ import (
 )
 
 var Router *gin.Engine
-var mongoDbContainer testcontainers.Container
+var Compose *testcontainers.LocalDockerCompose
+var Token *jwt.Token
 
 // Starts all creation and validation tests in a docker test-container
 func TestMain(m *testing.M) {
 	conf.Init()
-
-	setupMongoDbContainer()
-
-	services.Init()
-
+	//_ = routers.Init()
 	Router = routers.GetRouter()
+	setupContainers()
+	services.Init()
+	//Token, _ = middleware.ParseJwt(fetchTokenFromKeycloak(), middleware.FetchKeycloakPublicKey())
 
 	code := m.Run()
-	mongoDbContainer.Terminate(context.Background())
-	os.Exit(code)
+	defer os.Exit(code)
+	Compose.Down()
 }
 
-// Sets up a testcontainer (docker)
-func setupMongoDbContainer() {
+func setupContainers() {
+	//composeFilePaths := []string{"./resources/docker-compose.yml"}
+	//identifier := "1111111111111111111111111111"
+	//
+	//Compose = testcontainers.NewLocalDockerCompose(composeFilePaths, identifier)
+	//
+	//execError := Compose.
+	//	WithCommand([]string{"up", "-d", "--rm"}).
+	//	Invoke()
+	//
+	//time.Sleep(10 * time.Second)
+	//
+	//services := Compose.Services
+	//idp := services["identity-provider"].(map[interface{}]interface{})
+	//conf.Configuration.Authentication.Port = strings.Split(idp["ports"].([]interface{})[0].(string), ":")[0]
+	//
+	//db := services["mongo-db"].(map[interface{}]interface{})
+	//conf.Configuration.Database.Port = strings.Split(db["ports"].([]interface{})[0].(string), ":")[0]
+	//
+	//err := execError.Error
+	//
+	//if err != nil {
+	//	print(err)
+	//}
+
 	mongoDbContext := context.Background()
 	req := testcontainers.ContainerRequest{
-		Image:        "mongo",
+		Name:         "beeyond-mongo-db-test",
+		Image:        "mongo:4.4.6",
 		ExposedPorts: []string{conf.Configuration.Database.Port + "/tcp"},
 		WaitingFor:   wait.ForLog("Waiting for connections"),
 		Env: map[string]string{
@@ -46,15 +71,26 @@ func setupMongoDbContainer() {
 			"MONGO_INITDB_ROOT_PASSWORD": "beeyond"},
 	}
 
-	mongoDbContainer, _ = testcontainers.GenericContainer(mongoDbContext, testcontainers.GenericContainerRequest{
+	mongoDbContainer, _ := testcontainers.GenericContainer(mongoDbContext, testcontainers.GenericContainerRequest{
 		ContainerRequest: req,
 		Started:          true,
 	})
 
-	_, _ = mongoDbContainer.Host(mongoDbContext)
+	mongoDbContainer.Host(mongoDbContext)
+
 	port, _ := mongoDbContainer.MappedPort(mongoDbContext, nat.Port(conf.Configuration.Database.Port))
-
 	conf.Configuration.Database.Port = strings.Split(string(port), "/")[0]
+}
 
-	fmt.Println("------------------------------------------test db port: " + conf.Configuration.Database.Port)
+func fetchTokenFromKeycloak() string {
+	client := gocloak.NewClient(conf.Configuration.Authentication.Url + ":" + conf.Configuration.Authentication.Port)
+	jwt, _ := client.Login(
+		context.Background(),
+		conf.Configuration.Authentication.ClientId,
+		"",
+		conf.Configuration.Authentication.Realm,
+		conf.Configuration.Authentication.Username,
+		conf.Configuration.Authentication.Password)
+
+	return jwt.AccessToken
 }

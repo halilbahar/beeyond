@@ -1,0 +1,24 @@
+version: '3'
+services:
+  mongo-db:
+    image: mongo:4.4.6
+    container_name: beeyond-mongo-db-test
+    environment:
+      - MONGO_INITDB_DATABASE=beeyond_validation_db
+      - MONGO_INITDB_ROOT_USERNAME=beeyond
+      - MONGO_INITDB_ROOT_PASSWORD=beeyond
+    ports:
+      - 27018:27017
+  identity-provider:
+    image: jboss/keycloak:14.0.0
+    volumes:
+      - ./school-realm.json:/tmp/school-realm.json
+      - ./keycloak-theme:/opt/jboss/keycloak/themes/beeyond
+    command: ['-b', '0.0.0.0', '-Dkeycloak.migration.action=import', '-Dkeycloak.profile.feature.upload_scripts=enabled', '-Dkeycloak.migration.provider=singleFile', '-Dkeycloak.migration.file=/tmp/school-realm.json']
+    environment:
+      KEYCLOAK_USER: beeyond
+      KEYCLOAK_PASSWORD: beeyond
+      DB_VENDOR: H2
+    ports:
+      - 8281:8080
+    container_name: beeyond-identity-provider-test
