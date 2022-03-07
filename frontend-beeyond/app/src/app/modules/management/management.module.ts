@@ -32,26 +32,26 @@ import { ApplicationAttributesComponent } from './components/application-attribu
     ApplicationContentComponent,
     ApplicationAttributesComponent
   ],
-    imports: [
-        CommonModule,
-        ApplicationRoutingModule,
-        MatCardModule,
-        MatTableModule,
-        MonacoEditorModule,
-        MatButtonModule,
-        FormsModule,
-        MatIconModule,
-        MatInputModule,
-        MatAutocompleteModule,
-        ReactiveFormsModule,
-        MatSelectModule,
-        MatSortModule,
-        MatDialogModule,
-        MatDatepickerModule,
-        MatNativeDateModule,
-        MatSnackBarModule,
-        MatTabsModule
-    ],
+  imports: [
+    CommonModule,
+    ApplicationRoutingModule,
+    MatCardModule,
+    MatTableModule,
+    MonacoEditorModule,
+    MatButtonModule,
+    FormsModule,
+    MatIconModule,
+    MatInputModule,
+    MatAutocompleteModule,
+    ReactiveFormsModule,
+    MatSelectModule,
+    MatSortModule,
+    MatDialogModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatSnackBarModule,
+    MatTabsModule
+  ],
   exports: [ApplicationContentComponent, ApplicationReviewComponent]
 })
 export class ManagementModule {}

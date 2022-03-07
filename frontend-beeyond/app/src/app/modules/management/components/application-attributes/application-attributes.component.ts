@@ -9,9 +9,7 @@ import { Application } from '../../../../shared/models/application.model';
 export class ApplicationAttributesComponent implements OnInit {
   @Input() public application: Application;
 
-  constructor() { }
+  constructor() {}
 
-  ngOnInit(): void {
-  }
-
+  ngOnInit(): void {}
 }

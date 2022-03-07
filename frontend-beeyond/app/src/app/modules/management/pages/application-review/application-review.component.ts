@@ -29,7 +29,12 @@ export class ApplicationReviewComponent implements OnInit {
 
   fieldData: { value: string; label: string; wildcard: string; description: string }[] = [];
 
-  monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
+  monacoEditorOptions = {
+    language: 'yaml',
+    scrollBeyondLastLine: false,
+    readOnly: true,
+    automaticLayout: true
+  };
 
   constructor(
     private route: ActivatedRoute,
@@ -69,54 +74,56 @@ export class ApplicationReviewComponent implements OnInit {
     }
 
     if (this.templateApplication) {
-      this.backendApiService.getTemplateById(this.templateApplication.templateId).subscribe(template => {
-        this.template = template;
+      this.backendApiService
+        .getTemplateById(this.templateApplication.templateId)
+        .subscribe(template => {
+          this.template = template;
 
-        for (const fieldValue of this.templateApplication.fieldValues) {
-          const { label, wildcard, description } = template.fields.find(
-            aTemplate => aTemplate.id === fieldValue.fieldId
-          );
-          this.fieldData.push({
-            value: fieldValue.value,
-            label,
-            wildcard,
-            description
-          });
-        }
-
-        const templateContent = this.template.content;
-        const lines = templateContent.split('\n');
-
-        let content = '';
-        const ranges: ApplicationRange[] = [];
-        const wildcardRegex = /%(.+?)%/g;
-
-        for (let i = 0; i < lines.length; i++) {
-          let line = lines[i];
-          let match: RegExpExecArray;
-
-          while ((match = wildcardRegex.exec(line)) != null) {
-            const { wildcard, label, value, description } = this.fieldData.find(
-              data => data.wildcard === match[0].replace(/%/g, '')
+          for (const fieldValue of this.templateApplication.fieldValues) {
+            const { label, wildcard, description } = template.fields.find(
+              aTemplate => aTemplate.id === fieldValue.fieldId
             );
-            line = line.replace(`%${wildcard}%`, value);
-
-            ranges.push({
-              lineNumber: i + 1,
-              startColumn: match.index + 1,
-              endColumn: match.index + 1 + value.length,
-              wildcard,
+            this.fieldData.push({
+              value: fieldValue.value,
               label,
+              wildcard,
               description
             });
           }
 
-          content += line + '\n';
-        }
+          const templateContent = this.template.content;
+          const lines = templateContent.split('\n');
 
-        content = content.substring(0, content.length - 1);
-        this.template.content = content;
-      });
+          let content = '';
+          const ranges: ApplicationRange[] = [];
+          const wildcardRegex = /%(.+?)%/g;
+
+          for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            let match: RegExpExecArray;
+
+            while ((match = wildcardRegex.exec(line)) != null) {
+              const { wildcard, label, value, description } = this.fieldData.find(
+                data => data.wildcard === match[0].replace(/%/g, '')
+              );
+              line = line.replace(`%${wildcard}%`, value);
+
+              ranges.push({
+                lineNumber: i + 1,
+                startColumn: match.index + 1,
+                endColumn: match.index + 1 + value.length,
+                wildcard,
+                label,
+                description
+              });
+            }
+
+            content += line + '\n';
+          }
+
+          content = content.substring(0, content.length - 1);
+          this.template.content = content;
+        });
     }
 
     this.isReadOnly();
@@ -187,5 +194,4 @@ export class ApplicationReviewComponent implements OnInit {
   public get application(): CustomApplication | TemplateApplication {
     return this.customApplication || this.templateApplication;
   }
-
 }
