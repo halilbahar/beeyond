@@ -11,10 +11,7 @@ export class BaseComponent {
   mobileQueryListener: () => void;
   mobileQuery: MediaQueryList;
 
-  constructor(
-    changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher
-  ) {
+  constructor(changeDetectorRef: ChangeDetectorRef, media: MediaMatcher) {
     this.mobileQuery = media.matchMedia('(max-width: 600px)');
     this.mobileQuery.onchange = () => changeDetectorRef.detectChanges();
   }

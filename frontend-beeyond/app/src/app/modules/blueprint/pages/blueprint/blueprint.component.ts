@@ -9,6 +9,7 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { AuthenticationService } from '../../../../core/authentification/authentication.service';
 import { MediaMatcher } from '@angular/cdk/layout';
 import { BaseComponent } from '../../../../core/services/base.component';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-blueprint',
@@ -20,7 +21,11 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   thirdFormGroup: FormGroup;
   blueprintType = '';
 
-  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
+  monacoOptions = {
+    language: 'yaml',
+    scrollBeyondLastLine: false,
+    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
+  };
 
   wildcards: string[] = [];
   templates: Template[] = [];
@@ -36,10 +41,14 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     private fb: FormBuilder,
     private snackBar: MatSnackBar,
     private backendApiService: BackendApiService,
+    private themeService: ThemeService,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {
     super(changeDetectorRef, media);
+    this.themeService.theme.subscribe(value => {
+      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
+    });
   }
 
   ngOnInit(): void {

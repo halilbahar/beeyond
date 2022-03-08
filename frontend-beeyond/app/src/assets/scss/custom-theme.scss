@@ -10,32 +10,46 @@ $beeyond-light-accent: mat-palette($md-lilac);
 $beeyond-light-warn: mat-palette($mat-red);
 
 $beeyond-light-theme: mat-light-theme(
-    $beeyond-light-primary,
-    $beeyond-light-accent,
-    $beeyond-light-warn
+  $beeyond-light-primary,
+  $beeyond-light-accent,
+  $beeyond-light-warn
 );
 
 @include angular-material-theme($beeyond-light-theme);
-
 
 $beeyond-dark-primary: mat-palette($md-purple);
 $beeyond-dark-accent: mat-palette($md-lilac);
 $beeyond-dark-warn: mat-palette($mat-red);
 $beeyond-dark-background: mat-palette($md-grey);
 
-$beeyond-dark-theme: mat-dark-theme($beeyond-dark-primary, $beeyond-dark-accent, $beeyond-dark-warn);
+$beeyond-dark-theme: mat-dark-theme(
+  $beeyond-dark-primary,
+  $beeyond-dark-accent,
+  $beeyond-dark-warn
+);
 
 .darkMode {
   @include angular-material-theme($beeyond-dark-theme);
 
-  .bg-color {
-    background-color: mat-color($beeyond-dark-background);
-    color: white;
+  .bg-color,
+  .mat-drawer-container {
+    background-color: mat-color($beeyond-dark-background) !important;
+    color: white !important;
   }
 
   .primary-bg-color {
-    background-color: mat-color($beeyond-dark-primary);
-    color: white;
+    background-color: mat-color($beeyond-dark-primary) !important;
+    color: white !important;
+  }
+
+  mat-card-subtitle,
+  .description,
+  .mat-list-item {
+    color: white !important;
+  }
+
+  .item-hover:hover {
+    background-color: mat-color($beeyond-dark-background, darker);
   }
 }
 

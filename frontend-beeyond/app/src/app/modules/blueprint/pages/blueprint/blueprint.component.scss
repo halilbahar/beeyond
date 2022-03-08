@@ -37,7 +37,6 @@
   width: 49%;
 }
 
-
 .border {
   border: 2px solid mat-color($beeyond-light-primary);
   border-radius: 10px;
@@ -55,7 +54,6 @@
     font-size: 1rem;
   }
 }
-
 
 ::ng-deep mat-horizontal-stepper,
 .stepper-content {
@@ -82,7 +80,7 @@
 @media screen and (max-width: 600px) {
   .type-wrapper {
     flex-direction: column;
-    height: inherit!important;
+    height: inherit !important;
   }
 }
 

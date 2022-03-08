@@ -44,9 +44,10 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
     private backendApiService: BackendApiService,
     private router: Router,
     changeDetectorRef: ChangeDetectorRef,
-    media: MediaMatcher) {
+    media: MediaMatcher
+  ) {
     super(changeDetectorRef, media);
-    if(!super.mobileQuery?.matches){
+    if (!super.mobileQuery?.matches) {
       this.columnsToDisplay = ['id', 'status'];
     }
   }
@@ -104,9 +105,9 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
 
   private update(): void {
     this.selectedRow = null;
-    const form: { username: string; status: ApplicationStatus; fromDate: Date; toDate: Date } = this
-      .filterForm.value;
-    this.applicationDataSource.data = this.applications.filter(({status, owner, createdAt}) => {
+    const form: { username: string; status: ApplicationStatus; fromDate: Date; toDate: Date } =
+      this.filterForm.value;
+    this.applicationDataSource.data = this.applications.filter(({ status, owner, createdAt }) => {
       const nameFilter = form.username ? owner.name.includes(form.username) : true;
       const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
       const date = new Date(createdAt);

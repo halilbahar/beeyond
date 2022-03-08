@@ -16,16 +16,16 @@ import { BaseComponent } from '../services/base.component';
   styleUrls: ['./side-navigation.component.scss'],
   animations: [
     trigger('minimized', [
-      state('false', style({width: AUTO_STYLE, display: AUTO_STYLE})),
-      state('true', style({width: '0', display: 'none'}))
+      state('false', style({ width: AUTO_STYLE, display: AUTO_STYLE })),
+      state('true', style({ width: '0', display: 'none' }))
     ])
   ]
 })
 export class SideNavigationComponent extends BaseComponent implements OnInit {
   theme: boolean;
   agenda = [
-    {name: 'Blueprint', icon: 'list_alt', router: '/blueprint'},
-    {name: 'Profile', icon: 'account_circle', router: '/profile'},
+    { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
+    { name: 'Profile', icon: 'account_circle', router: '/profile' },
     /*{
       name: 'Accounting',
       icon: 'account_balance',

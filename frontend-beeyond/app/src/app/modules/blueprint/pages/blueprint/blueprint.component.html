@@ -1,8 +1,12 @@
 <mat-card-title>Create a new Blueprint</mat-card-title>
 <mat-card-subtitle>Write your blueprint here:</mat-card-subtitle>
-<mat-horizontal-stepper [linear]="true" (selectionChange)="stepperSelectionChange($event)" color="primary">
+<mat-horizontal-stepper
+  [linear]="true"
+  (selectionChange)="stepperSelectionChange($event)"
+  color="primary"
+>
   <mat-step
-    [completed]="!((blueprintType == 'Template' && templateId == null) || blueprintType == '')"
+    [completed]="!((blueprintType === 'Template' && templateId === null) || blueprintType === '')"
   >
     <ng-template matStepLabel><span *ngIf="!mobileQuery.matches">Select Type</span></ng-template>
 
@@ -12,18 +16,20 @@
           class="border"
           style="flex: 1"
           mat-flat-button
-          [ngClass]="blueprintType == 'Custom' ? 'selected' : ''"
+          [ngClass]="blueprintType === 'Custom' ? 'selected' : ''"
           (click)="updateBlueprintType('Custom')"
         >
           <p style="margin: 5px">Custom</p>
-          <p class="subtext">Describe your own Kubernetes object by submitting a YAML specification</p>
+          <p class="subtext">
+            Describe your own Kubernetes object by submitting a YAML specification
+          </p>
           <mat-icon style="margin: 5px">create</mat-icon>
         </div>
         <div
           class="border"
           style="flex: 1"
           mat-flat-button
-          [ngClass]="blueprintType == 'Template' ? 'selected' : ''"
+          [ngClass]="blueprintType === 'Template' ? 'selected' : ''"
           (click)="updateBlueprintType('Template')"
         >
           <p style="margin: 5px">Template</p>
@@ -33,7 +39,7 @@
       </div>
       <app-template-list
         style="margin-top: 10px"
-        *ngIf="blueprintType == 'Template'"
+        *ngIf="blueprintType === 'Template'"
         [templates]="templates"
         (templateIdEvent)="setTemplateId($event)"
       >
@@ -45,7 +51,7 @@
         mat-flat-button
         color="primary"
         matStepperNext
-        [disabled]="(blueprintType == 'Template' && templateId == null) || blueprintType == ''"
+        [disabled]="(blueprintType === 'Template' && templateId === null) || blueprintType === ''"
         (click)="loadTemplate()"
       >
         Next
@@ -55,25 +61,30 @@
 
   <mat-step
     [completed]="
-          !(
-            (blueprintType == 'Custom' && secondFormGroup.invalid) ||
-            (blueprintType == 'Template' && templateForm && templateForm.invalid)
-          )
-        "
+      !(
+        (blueprintType === 'Custom' && secondFormGroup.invalid) ||
+        (blueprintType === 'Template' && templateForm && templateForm.invalid)
+      )
+    "
   >
     <ng-template matStepLabel><span *ngIf="!mobileQuery.matches">Set Content</span></ng-template>
 
-    <div [formGroup]="secondFormGroup" style="height: 100%" class="content" *ngIf="blueprintType == 'Custom'">
+    <div
+      [formGroup]="secondFormGroup"
+      style="height: 100%"
+      class="content"
+      *ngIf="blueprintType === 'Custom'"
+    >
       <ngx-monaco-editor
         [options]="monacoOptions"
         class="monaco-editor monaco-editor-border"
         formControlName="content"
         style="height: 100%"
-      >
+        >´
       </ngx-monaco-editor>
     </div>
 
-    <ng-container *ngIf="blueprintType == 'Template' && template">
+    <ng-container *ngIf="blueprintType === 'Template' && template">
       <mat-card-title>{{ template.name }}</mat-card-title>
       <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
@@ -87,15 +98,13 @@
           <ng-container [formGroupName]="i">
             <mat-form-field style="width: 100%" class="full-width wildcard">
               <mat-label>{{ field.label }}</mat-label>
-              <input matInput formControlName="value"/>
+              <input matInput formControlName="value" />
               <mat-error *ngIf="templateForm.get('fieldValues').invalid"></mat-error>
             </mat-form-field>
             <mat-icon
-              matTooltip="{{
-                    field.description ? field.description : 'No description available!'
-                  }}"
+              matTooltip="{{ field.description ? field.description : 'No description available!' }}"
               matTooltipPosition="left"
-            >help_outline
+              >help_outline
             </mat-icon>
           </ng-container>
         </div>
@@ -106,13 +115,12 @@
       <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
       <button
         mat-flat-button
-
         color="primary"
         matStepperNext
         [disabled]="
-              (blueprintType == 'Custom' && secondFormGroup.invalid) ||
-              (blueprintType == 'Template' && templateForm && templateForm.invalid)
-            "
+          (blueprintType === 'Custom' && secondFormGroup.invalid) ||
+          (blueprintType === 'Template' && templateForm && templateForm.invalid)
+        "
       >
         Next
       </button>
@@ -120,20 +128,22 @@
   </mat-step>
 
   <mat-step [stepControl]="thirdFormGroup">
-    <ng-template matStepLabel><span *ngIf="!mobileQuery.matches">Fill out information</span></ng-template>
+    <ng-template matStepLabel
+      ><span *ngIf="!mobileQuery.matches">Fill out information</span></ng-template
+    >
 
     <div [formGroup]="thirdFormGroup" class="stepper-content filter-controls">
       <div>
         <mat-form-field class="example-full-width">
           <mat-label>Description</mat-label>
-          <input matInput formControlName="note"/>
+          <input matInput formControlName="note" />
         </mat-form-field>
       </div>
 
       <div style="display: inline-flex">
         <mat-form-field style="flex-grow: 1; margin-right: 1em">
           <mat-label>Class</mat-label>
-          <input matInput formControlName="class"/>
+          <input matInput formControlName="class" />
         </mat-form-field>
 
         <mat-form-field style="flex-grow: 1; margin-right: 1em">
@@ -147,7 +157,7 @@
 
         <mat-form-field style="flex-grow: 1">
           <mat-label>To</mat-label>
-          <input formControlName="to" matInput [matDatepicker]="picker"/>
+          <input formControlName="to" matInput [matDatepicker]="picker" />
           <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
           <mat-datepicker #picker></mat-datepicker>
         </mat-form-field>
@@ -156,7 +166,7 @@
       <div>
         <mat-form-field class="example-full-width">
           <mat-label>Purpose</mat-label>
-          <input matInput formControlName="purpose"/>
+          <input matInput formControlName="purpose" />
         </mat-form-field>
       </div>
     </div>

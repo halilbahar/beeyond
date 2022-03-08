@@ -4,7 +4,6 @@ import { Breadcrumb } from 'src/app/shared/models/breadcrumb.model';
 import { AuthenticationService } from '../authentification/authentication.service';
 import { SidenavService } from '../services/sidenav.service';
 import { ThemeService } from '../services/theme.service';
-import { MediaMatcher } from '@angular/cdk/layout';
 
 @Component({
   selector: 'app-header',
@@ -18,8 +17,8 @@ export class HeaderComponent implements OnInit {
   constructor(
     private router: Router,
     private sidenavService: SidenavService,
-    private oAuthService: AuthenticationService,
-    private themeService: ThemeService,
+    public oAuthService: AuthenticationService,
+    private themeService: ThemeService
   ) {
     this.theme = themeService.theme.value;
   }
@@ -92,5 +91,9 @@ export class HeaderComponent implements OnInit {
   toggleSideNavigation(): void {
     const minimized = this.sidenavService.minimized;
     minimized.next(!minimized.value);
+  }
+
+  logout(): void {
+    this.oAuthService.logOut();
   }
 }

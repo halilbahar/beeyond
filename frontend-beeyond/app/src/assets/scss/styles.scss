@@ -31,10 +31,10 @@ body {
 .label {
   font-size: 1.2rem;
 }
-
 .description {
-  font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.67);
+  font-size: 13px;
+  color: #4c4c4c;
+  display: block;
 }
 
 .monaco-editor-border {
@@ -73,10 +73,10 @@ mat-sidenav-content > *:not(:first-child) {
 }
 
 .item-hover:hover {
-  background-color: #f1f1f1 !important;
+  background-color: #f1f1f1;
 }
 
-@media screen and (max-device-width: 600px)  {
+@media screen and (max-device-width: 600px) {
   .show-mobile {
     display: block;
   }
@@ -85,7 +85,7 @@ mat-sidenav-content > *:not(:first-child) {
   }
 }
 
-@media screen and (min-device-width: 600px)  {
+@media screen and (min-device-width: 600px) {
   .show-mobile {
     display: none;
   }

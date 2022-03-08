@@ -1,14 +1,21 @@
-<mat-sidenav-container class="side-nav-container" autosize="true"
-                       (backdropClick)="sidenavService.minimized.next(!sidenavService.minimized.value)">
-  <mat-sidenav [mode]="mobileQuery.matches ? 'over' : 'side'" [fixedInViewport]="mobileQuery.matches" class="side-nav primary-bg-color"
-               [opened]="sidenavService.minimized | async">
+<mat-sidenav-container
+  class="side-nav-container bg-color"
+  autosize="true"
+  (backdropClick)="sidenavService.minimized.next(!sidenavService.minimized.value)"
+>
+  <mat-sidenav
+    [mode]="mobileQuery.matches ? 'over' : 'side'"
+    [fixedInViewport]="mobileQuery.matches"
+    class="side-nav primary-bg-color"
+    [opened]="sidenavService.minimized | async"
+  >
     <div style="padding: 20px">
       <div class="side-nav-header">
         <div id="icon">
-          <img src="assets/images/bee-purple.svg" alt=""/>
+          <img src="assets/images/bee-purple.svg" alt="" />
         </div>
         <div>
-          <span class="tiny-title">Good day 👋</span>
+          <span class="description">Good day 👋</span>
           {{ authenticationService.username | async }}
         </div>
       </div>
@@ -23,32 +30,32 @@
         >
           <mat-icon>{{ item.icon }}</mat-icon>
           <span class="nav-list-item">
-              {{ item.name }}
-            </span>
+            {{ item.name }}
+          </span>
         </mat-list-item>
       </mat-nav-list>
       <div class="spacer"></div>
       <div>
-        <span class="tiny-title">Notifications: {{ notifications.length }}</span>
+        <span class="description">Notifications: {{ notifications.length }}</span>
         <div class="box">
           <div *ngFor="let notification of notifications; let i = index">
             <table>
               <tr [routerLink]="'/profile/review/' + notification.entityId" style="cursor: pointer">
                 <td>
                   <mat-icon
-                    *ngIf="notification.status == notificationStatus.POSITIVE"
+                    *ngIf="notification.status === notificationStatus.POSITIVE"
                     style="color: #00ca4e; box-shadow: 0 0 7px 0 #00ca4e; border-radius: 50%"
-                  >check_circle_outline
+                    >check_circle_outline
                   </mat-icon>
                   <mat-icon
-                    *ngIf="notification.status == notificationStatus.NEUTRAL"
+                    *ngIf="notification.status === notificationStatus.NEUTRAL"
                     style="color: #ffbd44; box-shadow: 0 0 7px 0 #ffbd44; border-radius: 50%"
-                  >info
+                    >info
                   </mat-icon>
                   <mat-icon
-                    *ngIf="notification.status == notificationStatus.NEGATIVE"
+                    *ngIf="notification.status === notificationStatus.NEGATIVE"
                     style="color: #ff605c; box-shadow: 0 0 7px 0 #ff605c; border-radius: 50%"
-                  >error_outline
+                    >error_outline
                   </mat-icon>
                 </td>
                 <td>
@@ -61,7 +68,7 @@
       </div>
       <div class="spacer"></div>
       <div>
-        <span class="tiny-title" style="display: inline">Theme</span>
+        <span class="description" style="display: inline">Theme</span>
         <mat-slide-toggle
           style="float: right"
           class="theme-toggle"
@@ -71,13 +78,9 @@
         <i class="fas fa-cloud-moon"></i>
       </div>
     </div>
-    <div (click)="logOut()" id="log-out">
-      <mat-icon>logout</mat-icon>
-      <span>Log out</span>
-    </div>
   </mat-sidenav>
 
-  <mat-sidenav-content style="padding: 10px 10px 10px 10px">
+  <mat-sidenav-content style="padding: 10px 10px 10px 10px" class="bg-color">
     <ng-content></ng-content>
   </mat-sidenav-content>
 </mat-sidenav-container>

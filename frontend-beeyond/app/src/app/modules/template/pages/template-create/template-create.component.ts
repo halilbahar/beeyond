@@ -3,6 +3,7 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendApiService } from '../../../../core/services/backend-api.service';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 @Component({
   selector: 'app-template-create',
@@ -14,7 +15,11 @@ export class TemplateCreateComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
 
-  monacoOptions = { language: 'yaml', scrollBeyondLastLine: false };
+  monacoOptions = {
+    language: 'yaml',
+    scrollBeyondLastLine: false,
+    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
+  };
 
   wildcards: string[] = [];
 
@@ -22,8 +27,13 @@ export class TemplateCreateComponent implements OnInit {
     private router: Router,
     private fb: FormBuilder,
     private backendApiService: BackendApiService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private themeService: ThemeService
+  ) {
+    this.themeService.theme.subscribe(value => {
+      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
+    });
+  }
 
   ngOnInit(): void {
     this.firstFormGroup = this.fb.group({

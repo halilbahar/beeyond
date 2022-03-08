@@ -11,21 +11,21 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ConfigService } from './core/services/config.service';
 import { AuthenticationService } from './core/authentification/authentication.service';
 import { MatCardModule } from '@angular/material/card';
-import {MatIconModule} from "@angular/material/icon";
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        CoreModule,
-        MonacoEditorModule.forRoot(),
-        MatProgressBarModule,
-        MatCardModule,
-        MatIconModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    CoreModule,
+    MonacoEditorModule.forRoot(),
+    MatProgressBarModule,
+    MatCardModule,
+    MatIconModule
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,
