@@ -113,7 +113,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
       const date = new Date(createdAt);
 
       let fromDateFilter = false;
-      if (form.fromDate != null) {
+      if (form.fromDate !== null) {
         if (date.getTime() >= form.fromDate.getTime()) {
           fromDateFilter = true;
         }
@@ -122,7 +122,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
       }
 
       let toDateFilter = false;
-      if (form.toDate != null) {
+      if (form.toDate !== null) {
         if (date.getTime() <= form.toDate.getTime() + 86400000 - 1) {
           toDateFilter = true;
         }

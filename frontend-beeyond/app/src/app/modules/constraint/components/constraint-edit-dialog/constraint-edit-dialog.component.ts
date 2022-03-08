@@ -31,6 +31,10 @@ export class ConstraintEditDialogComponent implements OnInit {
     private validationApiService: ValidationApiService
   ) {}
 
+  get enumControl(): FormControl {
+    return this.form.get('enum') as FormControl;
+  }
+
   ngOnInit(): void {
     const { enum: enumArray, min, max, regex } = this.data.constraint || {};
     const group: { [key: string]: any } = {};
@@ -53,10 +57,6 @@ export class ConstraintEditDialogComponent implements OnInit {
 
     // Disable other controls when 1 control has a value
     this.form.valueChanges.subscribe(valueChange);
-  }
-
-  get enumControl(): FormControl {
-    return this.form.get('enum') as FormControl;
   }
 
   createConstraint(): void {
@@ -132,7 +132,7 @@ export class ConstraintEditDialogComponent implements OnInit {
     return (control: AbstractControl): ValidationErrors | null => {
       const { regex = '', enum: enumArray = '', min, max } = control.value;
 
-      const valid = regex !== '' || enumArray?.length > 0 || min != null || max != null;
+      const valid = regex !== '' || enumArray?.length > 0 || min !== null || max !== null;
       if (valid) {
         return;
       }

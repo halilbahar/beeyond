@@ -14,14 +14,13 @@ export class TemplateCreateComponent implements OnInit {
   firstFormGroup: FormGroup;
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
+  wildcards: string[] = [];
 
   monacoOptions = {
     language: 'yaml',
     scrollBeyondLastLine: false,
     theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
   };
-
-  wildcards: string[] = [];
 
   constructor(
     private router: Router,
@@ -33,6 +32,10 @@ export class TemplateCreateComponent implements OnInit {
     this.themeService.theme.subscribe(value => {
       this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
     });
+  }
+
+  get fields(): FormArray {
+    return this.secondFormGroup.controls.fields as FormArray;
   }
 
   ngOnInit(): void {
@@ -89,9 +92,5 @@ export class TemplateCreateComponent implements OnInit {
       label: ['', [Validators.required, Validators.maxLength(255)]],
       description: ['', Validators.maxLength(255)]
     });
-  }
-
-  get fields(): FormArray {
-    return this.secondFormGroup.controls.fields as FormArray;
   }
 }

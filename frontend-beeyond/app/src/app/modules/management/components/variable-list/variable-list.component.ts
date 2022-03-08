@@ -50,7 +50,7 @@ export class VariableListComponent implements OnInit {
       let line = lines[i];
       let match: RegExpExecArray;
 
-      while ((match = wildcardRegex.exec(line)) != null) {
+      while ((match = wildcardRegex.exec(line)) !== null) {
         const { wildcard, label, value, description } = this.fieldData.find(
           data => data.wildcard === match[0].replace(/%/g, '')
         );

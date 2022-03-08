@@ -54,7 +54,7 @@ export class ConstraintComponent implements OnInit {
   onSchemaDisableToggled(schemas: Schema[], index: number, disabledValue: boolean): void {
     const schema = { ...schemas[index] };
 
-    if (schema['x-constraint'] == null) {
+    if (schema['x-constraint'] === null) {
       schema['x-constraint'] = {};
     }
     schema['x-constraint'].disabled = disabledValue;
@@ -69,7 +69,7 @@ export class ConstraintComponent implements OnInit {
   ): void {
     const property = { ...schemaProperties[keyName] };
 
-    if (property['x-constraint'] == null) {
+    if (property['x-constraint'] === null) {
       property['x-constraint'] = {};
     }
     property['x-constraint'].disabled = disabledValue;

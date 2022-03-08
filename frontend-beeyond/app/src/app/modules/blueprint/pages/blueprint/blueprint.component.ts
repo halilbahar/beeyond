@@ -20,13 +20,6 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   secondFormGroup: FormGroup;
   thirdFormGroup: FormGroup;
   blueprintType = '';
-
-  monacoOptions = {
-    language: 'yaml',
-    scrollBeyondLastLine: false,
-    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
-  };
-
   wildcards: string[] = [];
   templates: Template[] = [];
   template: Template;
@@ -34,6 +27,12 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   namespaces: Namespace[];
   templateId: number = null;
   templateForm: FormGroup;
+
+  monacoOptions = {
+    language: 'yaml',
+    scrollBeyondLastLine: false,
+    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
+  };
 
   constructor(
     public authenticationService: AuthenticationService,
@@ -49,6 +48,10 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     this.themeService.theme.subscribe(value => {
       this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
     });
+  }
+
+  get fields(): FormArray {
+    return this.secondFormGroup.controls.fields as FormArray;
   }
 
   ngOnInit(): void {
@@ -206,10 +209,6 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
       value: ['', Validators.required],
       fieldId: [fieldId]
     });
-  }
-
-  get fields(): FormArray {
-    return this.secondFormGroup.controls.fields as FormArray;
   }
 
   updateColor(val: string) {

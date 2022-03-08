@@ -33,6 +33,10 @@ export class ApplicationReviewComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  private get application(): CustomApplication | TemplateApplication {
+    return this.customApplication || this.templateApplication;
+  }
+
   isReadOnly() {
     if (this.isManagement || !this.customApplication) {
       this.monacoEditorOptions.readOnly = true;
@@ -125,9 +129,5 @@ export class ApplicationReviewComponent implements OnInit {
         }
       });
     });
-  }
-
-  private get application(): CustomApplication | TemplateApplication {
-    return this.customApplication || this.templateApplication;
   }
 }

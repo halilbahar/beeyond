@@ -80,7 +80,7 @@
       <button
         mat-flat-button
         color="primary"
-        [disabled]="application.status != stopped"
+        [disabled]="application.status !== stopped"
         (click)="start(application.id)"
         class="update-button"
       >
@@ -89,7 +89,7 @@
       <button
         mat-flat-button
         color="primary"
-        [disabled]="application.status != running"
+        [disabled]="application.status !== running"
         (click)="stop(application.id)"
         class="update-button"
       >
@@ -98,7 +98,7 @@
       <button
         mat-flat-button
         color="warn"
-        [disabled]="application.status != running && application.status != stopped"
+        [disabled]="application.status !== running && application.status !== stopped"
         (click)="finish(application.id)"
         class="update-button"
       >
@@ -121,7 +121,7 @@
     mat-flat-button
     color="primary"
     class="next-button"
-    [disabled]="selectedRow == null"
+    [disabled]="selectedRow === null"
     [routerLink]="['review', applicationDataSource.data[selectedRow]?.id]"
   >
     Next
