@@ -1,6 +1,7 @@
 package at.htl.beeyond.resource
 
 import at.htl.beeyond.dto.CustomApplicationDto
+import at.htl.beeyond.dto.DenyMessageDto
 import at.htl.beeyond.dto.TemplateApplicationDto
 import at.htl.beeyond.entity.*
 import at.htl.beeyond.service.DeploymentService
@@ -128,7 +129,7 @@ class ApplicationResource {
     @Path("/deny/{id}")
     @RolesAllowed("teacher")
     @Transactional
-    fun denyApplication(@PathParam("id") id: Long?): Response? {
+    fun denyApplication(@PathParam("id") id: Long?, message:DenyMessageDto?): Response? {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
@@ -136,7 +137,7 @@ class ApplicationResource {
             application.status = ApplicationStatus.DENIED
 
             application.namespace.users.forEach {
-                val notification = Notification(it, "Application has been denied!", NotificationStatus.NEGATIVE, "application", application.id)
+                val notification = Notification(it, message?.message ?: "Application has been denied!", NotificationStatus.NEGATIVE, "application", application.id)
                 notification.persist()
             }
 
