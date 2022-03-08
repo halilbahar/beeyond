@@ -2,13 +2,13 @@
 
 <mat-dialog-content [formGroup]="form">
   <!-- Regex -->
-  <mat-form-field *ngIf="form.controls['regex'] != null">
+  <mat-form-field *ngIf="form.controls['regex'] !== null">
     <mat-label>Regex</mat-label>
     <input matInput type="text" formControlName="regex" />
   </mat-form-field>
 
   <!-- Enum -->
-  <mat-form-field *ngIf="enumControl != null">
+  <mat-form-field *ngIf="enumControl !== null">
     <mat-label>Enum</mat-label>
     <mat-chip-list #enumList [disabled]="enumControl.disabled">
       <mat-chip
@@ -29,7 +29,7 @@
   </mat-form-field>
 
   <!-- Min - Max -->
-  <div *ngIf="form.controls['min'] != null" class="min-max-container">
+  <div *ngIf="form.controls['min'] !== null" class="min-max-container">
     <mat-form-field>
       <mat-label>Min</mat-label>
       <input matInput type="number" formControlName="min" />

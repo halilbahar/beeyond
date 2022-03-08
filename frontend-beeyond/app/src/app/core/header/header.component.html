@@ -1,4 +1,7 @@
 <div class="header-left">
+  <mat-icon style="margin-right: 5px; cursor: pointer" (click)="toggleSideNavigation()"
+    >menu</mat-icon
+  >
   <ng-container *ngFor="let crumb of breadcrumbs; let i = index">
     <span
       *ngIf="crumb.link; else noLinkBreadcrumb"
@@ -12,4 +15,16 @@
       chevron_right
     </mat-icon>
   </ng-container>
+  <button
+    mat-mini-fab
+    style="float: right; margin-left: auto"
+    [matMenuTriggerFor]="menu"
+    color="primary"
+  >
+    <mat-icon>person</mat-icon>
+  </button>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>{{ oAuthService.username | async }}</button>
+    <button mat-menu-item (click)="logout()">Logout</button>
+  </mat-menu>
 </div>

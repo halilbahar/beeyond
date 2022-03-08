@@ -44,7 +44,7 @@ export class ConstraintDetailComponent implements OnInit {
   ngOnInit(): void {
     const { enum: enumArray, regex, min, max, disabled } = this.constraint || {};
     this.hasConstraint =
-      (this.constraint != null && (enumArray || regex || min || max) != null) || disabled;
+      (this.constraint !== null && (enumArray || regex || min || max) !== null) || disabled;
   }
 
   openEditDialog(): void {

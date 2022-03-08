@@ -11,6 +11,7 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { ConfigService } from './core/services/config.service';
 import { AuthenticationService } from './core/authentification/authentication.service';
 import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
 
 @NgModule({
   declarations: [AppComponent],
@@ -22,7 +23,8 @@ import { MatCardModule } from '@angular/material/card';
     CoreModule,
     MonacoEditorModule.forRoot(),
     MatProgressBarModule,
-    MatCardModule
+    MatCardModule,
+    MatIconModule
   ],
   providers: [
     {

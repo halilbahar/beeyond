@@ -7,6 +7,7 @@ import { TemplateApplication } from 'src/app/shared/models/template.application.
 import { MatSnackBar } from '@angular/material/snack-bar';
 
 declare function constrainedEditor(editor: any): any;
+declare let monaco: any;
 
 @Component({
   selector: 'app-application-review',
@@ -32,6 +33,10 @@ export class ApplicationReviewComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
+  private get application(): CustomApplication | TemplateApplication {
+    return this.customApplication || this.templateApplication;
+  }
+
   isReadOnly() {
     if (this.isManagement || !this.customApplication) {
       this.monacoEditorOptions.readOnly = true;
@@ -50,8 +55,8 @@ export class ApplicationReviewComponent implements OnInit {
   ngOnInit(): void {
     this.isManagement = this.route.snapshot.data.isManagement;
     this.redirectPath = this.route.snapshot.data.redirectPath;
-    const application: CustomApplication | TemplateApplication = this.route.snapshot.data
-      .application;
+    const application: CustomApplication | TemplateApplication =
+      this.route.snapshot.data.application;
     this.isPending = application.status === ApplicationStatus.PENDING;
     this.isRunning = application.status === ApplicationStatus.RUNNING;
     this.isDenied = application.status === ApplicationStatus.DENIED;
@@ -124,9 +129,5 @@ export class ApplicationReviewComponent implements OnInit {
         }
       });
     });
-  }
-
-  private get application(): CustomApplication | TemplateApplication {
-    return this.customApplication || this.templateApplication;
   }
 }
