@@ -19,6 +19,7 @@ export class ConfigService {
         tap(config => {
           this.config = config;
           authModuleConfig.resourceServer.allowedUrls.push(config.backendApiUrl);
+          authModuleConfig.resourceServer.allowedUrls.push(config.validationApiUrl);
         })
       )
       .toPromise();

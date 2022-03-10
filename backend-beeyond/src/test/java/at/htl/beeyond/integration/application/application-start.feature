@@ -6,6 +6,13 @@ Feature: Start application endpoint
     * def insertApplication = read('classpath:at/htl/beeyond/integration/util/create-application.feature')
     * def insertApplicationResponse = call insertApplication
     * def application = insertApplicationResponse.application
+    * def insertRunningApplication = read('classpath:at/htl/beeyond/integration/util/create-student-application.feature')
+    * def insertRunningApplicationResponse = call insertRunningApplication
+    * def id = insertRunningApplicationResponse.runningApplication.id
+    * def approveApplication = read('classpath:at/htl/beeyond/integration/util/approve-student-application.feature')
+    * call approveApplication {id: '#(id)'}
+    * def stopApplication = read('classpath:at/htl/beeyond/integration/util/stop-student-application.feature')
+    * call stopApplication {id: '#(id)'}
     * configure headers = {Authorization: '#(auth(karate.tags))'}
 
   @teacher
@@ -52,7 +59,13 @@ Feature: Start application endpoint
     And match response  == 'Application is not in state STOPPED'
 
   @student
-  Scenario: Start a application as a student
+  Scenario: Start an application from someone else as a student
     Given path 'start/'+application.id
     When method PATCH
     Then status 403
+
+  @student
+  Scenario: Start an application as a student
+    Given path 'start/'+id
+    When method PATCH
+    Then status 200

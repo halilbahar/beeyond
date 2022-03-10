@@ -1,5 +1,5 @@
 <div *ngIf="!fetching">
-  <ng-container *ngIf="schemas != null; else singleSchemaView">
+  <ng-container *ngIf="schemas !== null; else singleSchemaView">
     <mat-card-title>All Kubernetes Object Types ({{ schemas.length }} Types)</mat-card-title>
 
     <app-constraint-control (controlChange)="onSchemaListControlChange($event)">

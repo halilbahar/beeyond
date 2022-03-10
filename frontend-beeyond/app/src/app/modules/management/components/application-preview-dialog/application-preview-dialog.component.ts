@@ -2,6 +2,8 @@ import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ApplicationRange } from 'src/app/shared/models/application-range.model';
 
+declare let monaco: any;
+
 @Component({
   selector: 'app-application-preview-dialog',
   templateUrl: './application-preview-dialog.component.html',

@@ -11,6 +11,7 @@ body {
 
 body {
   margin: 0;
+  background-color: black;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
 }
 
@@ -22,18 +23,6 @@ body {
   cursor: pointer;
 }
 
-.card-entire-page {
-  height: 100%;
-  box-sizing: border-box;
-  display: flex !important;
-  flex-direction: column;
-  padding: 16px;
-
-  mat-card-content {
-    flex: 1;
-  }
-}
-
 // TODO: Remove later
 .full-width {
   width: 100%;
@@ -42,10 +31,10 @@ body {
 .label {
   font-size: 1.2rem;
 }
-
 .description {
-  font-size: 0.9rem;
-  color: rgba(0, 0, 0, 0.67);
+  font-size: 13px;
+  color: #4c4c4c;
+  display: block;
 }
 
 .monaco-editor-border {
@@ -56,6 +45,7 @@ body {
   display: flex;
   justify-content: flex-end;
   margin-top: 0.8rem;
+  margin-bottom: 0.8rem;
 
   & > button:not(:first-child) {
     margin-left: 0.8rem;
@@ -83,7 +73,25 @@ mat-sidenav-content > *:not(:first-child) {
 }
 
 .item-hover:hover {
-  background-color: #f1f1f1 !important;
+  background-color: #f1f1f1;
+}
+
+@media screen and (max-device-width: 600px) {
+  .show-mobile {
+    display: block;
+  }
+  .hide-mobile {
+    display: none;
+  }
+}
+
+@media screen and (min-device-width: 600px) {
+  .show-mobile {
+    display: none;
+  }
+  .hide-mobile {
+    display: block;
+  }
 }
 
 .mat-tab-body-wrapper{
