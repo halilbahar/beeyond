@@ -57,7 +57,6 @@ if [ -d "out/slides" ];then
     find out/slides -name "index.html" -type f | while read line; do
         if [[ $line != *"revealjs"* ]]; then
             SLIDE=$(echo $line | cut -d/ -f2- | cut -d. -f1)
-            echo $SLIDE
             NAME=$(echo $line| rev | cut -d/ -f2 | rev)
             echo "<<$SLIDE#, $NAME>>" >> out/index.adoc
         fi

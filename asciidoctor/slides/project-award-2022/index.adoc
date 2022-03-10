@@ -3,8 +3,8 @@
 :imagesdir: images
 :notitle:
 :title-slide-background-image: title.jpg
+:customcss: style.css
 
-[.text-left]
 == Investition in die Zukunft
 image::avg.jpg[background, size=cover]
 
