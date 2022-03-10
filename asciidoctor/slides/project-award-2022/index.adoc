@@ -1,0 +1,47 @@
+
+= &nbsp;
+:imagesdir: images
+:notitle:
+:title-slide-background-image: title.jpg
+
+[.text-left]
+== Investition in die Zukunft
+image::avg.jpg[background, size=cover]
+
+* Umstieg auf Cloud
+* Kommerzielle Cloud-Dienste nicht im Budget
+* Keine uns bekannte HTL bietet eigene Cloud an
+
+== Wie hilft Beeyond?
+
+image::avg.jpg[background, size=cover]
+
+* Konfiguration vereinfachen
+* Kollabaration fördern
+* Überblick nicht verlieren
+
+== Konfiguration mit Beeyond
+
+image::avg.jpg[background, size=cover]
+
+* Mittels von LehrerInnen erstellten Templates
+* Eigene Kubernetes-Objekte
+* Einschränkungen von LehrerInnen
+* Validierung durch unser eigenentwickeltes Validierungs-Microservice
+
+== !
+image::sys-arch.jpg[background, size=cover]
+
+== Validierungs-Backend
+
+image::avg.jpg[background, size=cover]
+
+* Go-Backend
+* Syntax-Validierung
+* Feldspezifische Einschränkungen
+
+== Live-Demo
+
+image::avg.jpg[background, size=cover]
+
+* Live-Demo: Template ausfüllen, Namespace erstellen, Dashboard zeigen (wie beim TadeoT)
