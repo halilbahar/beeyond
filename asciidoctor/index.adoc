@@ -2,7 +2,7 @@
 :toc: left
 :sectnums:
 :nofooter:
-Bahar Halil, Cao Sonja, Naderer Juliana
+Bahar Halil, Cao Sonja, Naderer Juliana, Eichhorn Moritz, Polleichtner Moritz, Sljivic Emina 
 1.0, 2020-05-25
 
 == Pflichtenheft
