@@ -1,0 +1,25 @@
+@font-face {
+    font-family: coolFont;
+    src: url(YungJakesNewHandwriting-Regular.ttf);
+  }
+
+.slides {
+    inset: unset!important;
+    transform: none!important;
+}
+
+
+.slides section {
+    text-align: left!important;
+    margin-left: 2em;
+}
+
+.reveal.slide {
+    display: flex;
+    align-items: center;
+}
+
+.slides section h2 {
+    color: #5d2689;
+    font-family: coolFont;
+}
