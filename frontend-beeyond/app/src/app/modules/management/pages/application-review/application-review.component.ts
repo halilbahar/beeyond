@@ -66,8 +66,8 @@ export class ApplicationReviewComponent implements OnInit {
   ngOnInit(): void {
     this.isManagement = this.route.snapshot.data.isManagement;
     this.redirectPath = this.route.snapshot.data.redirectPath;
-    const application: CustomApplication | TemplateApplication =
-      this.route.snapshot.data.application;
+    const application: CustomApplication | TemplateApplication = this.route.snapshot.data
+      .application;
     this.isPending = application.status === ApplicationStatus.PENDING;
     this.isRunning = application.status === ApplicationStatus.RUNNING;
     this.isDenied = application.status === ApplicationStatus.DENIED;
