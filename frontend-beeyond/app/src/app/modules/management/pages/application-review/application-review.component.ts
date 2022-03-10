@@ -44,7 +44,7 @@ export class ApplicationReviewComponent implements OnInit {
     private snackBar: MatSnackBar
   ) {}
 
-  private get application(): CustomApplication | TemplateApplication {
+  public get application(): CustomApplication | TemplateApplication {
     return this.customApplication || this.templateApplication;
   }
 
@@ -194,9 +194,5 @@ export class ApplicationReviewComponent implements OnInit {
         }
       });
     });
-  }
-
-  public get application(): CustomApplication | TemplateApplication {
-    return this.customApplication || this.templateApplication;
   }
 }
