@@ -144,16 +144,15 @@ link.rel = 'stylesheet';
 link.type = 'text/css';
 link.href = window.location.search.match( /print-pdf/gi ) ? "revealjs/css/print/pdf.css" : "revealjs/css/print/paper.css";
 document.getElementsByTagName( 'head' )[0].appendChild( link );</script><link rel="stylesheet" href="style.css"></head><body><div class="reveal"><div class="slides"><section class="title" data-state="title" data-background-image="images/title.jpg"><h1>&nbsp;</h1></section><section id="_investition_in_die_zukunft" data-background-image="images/avg.jpg" data-background-size="cover"><h2>Investition in die Zukunft</h2><div class="slide-content">
-<div class="ulist"><ul><li><p>Umstieg auf Cloud</p></li><li><p>Kommerzielle Cloud-Dienste nicht im Budget</p></li><li><p>Keine uns bekannte HTL bietet eigene Cloud an</p></li></ul></div></div></section>
+<div class="ulist"><ul><li><p>Neueste Technologien unterrichten</p></li><li><p>Cloud</p></li><li><p>Kommerzielle Cloud-Dienste nicht im Budget</p></li><li><p>Keine uns bekannte HTL bietet eigene Cloud an</p></li></ul></div></div></section>
 <section id="_wie_hilft_beeyond" data-background-image="images/avg.jpg" data-background-size="cover"><h2>Wie hilft Beeyond?</h2><div class="slide-content">
-<div class="ulist"><ul><li><p>Konfiguration vereinfachen</p></li><li><p>Kollabaration fördern</p></li><li><p>Überblick nicht verlieren</p></li></ul></div></div></section>
+<div class="ulist"><ul><li><p>Konfiguration vereinfachen</p></li><li><p>Kollaboration fördern</p></li><li><p>Überblick über Zustand der Systeme</p></li></ul></div></div></section>
 <section id="_konfiguration_mit_beeyond" data-background-image="images/avg.jpg" data-background-size="cover"><h2>Konfiguration mit Beeyond</h2><div class="slide-content">
 <div class="ulist"><ul><li><p>Mittels von LehrerInnen erstellten Templates</p></li><li><p>Eigene Kubernetes-Objekte</p></li><li><p>Einschränkungen von LehrerInnen</p></li><li><p>Validierung durch unser eigenentwickeltes Validierungs-Microservice</p></li></ul></div></div></section>
-<section data-background-image="images/sys-arch.jpg" data-background-size="cover"></section>
+<section data-background-image="images/sys-arch.png" data-background-size="cover"></section>
 <section id="_validierungs_backend" data-background-image="images/avg.jpg" data-background-size="cover"><h2>Validierungs-Backend</h2><div class="slide-content">
 <div class="ulist"><ul><li><p>Go-Backend</p></li><li><p>Syntax-Validierung</p></li><li><p>Feldspezifische Einschränkungen</p></li></ul></div></div></section>
-<section id="_live_demo" data-background-image="images/avg.jpg" data-background-size="cover"><h2>Live-Demo</h2><div class="slide-content">
-<div class="ulist"><ul><li><p>Live-Demo: Template ausfüllen, Namespace erstellen, Dashboard zeigen (wie beim TadeoT)</p></li></ul></div></div></section></div></div><script src="revealjs/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
+<section id="_live_demo" data-background-image="images/avg.jpg" data-background-size="cover"><h2>Live-Demo</h2></section></div></div><script src="revealjs/js/reveal.js"></script><script>Array.prototype.slice.call(document.querySelectorAll('.slides section')).forEach(function(slide) {
   if (slide.getAttribute('data-background-color')) return;
   // user needs to explicitly say he wants CSS color to override otherwise we might break custom css or theme (#226)
   if (!(slide.classList.contains('canvas') || slide.classList.contains('background'))) return;
