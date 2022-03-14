@@ -30,7 +30,7 @@ image::avg.jpg[background, size=cover]
 * Validierung durch unser eigenentwickeltes Validierungs-Microservice
 
 == !
-image::sys-arch.jpg[background, size=cover]
+image::sys-arch.png[background, size=cover]
 
 == Validierungs-Backend
 
