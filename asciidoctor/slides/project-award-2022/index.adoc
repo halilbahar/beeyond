@@ -8,7 +8,8 @@
 == Investition in die Zukunft
 image::avg.jpg[background, size=cover]
 
-* Umstieg auf Cloud
+* Neueste Technologien unterrichten
+* Cloud
 * Kommerzielle Cloud-Dienste nicht im Budget
 * Keine uns bekannte HTL bietet eigene Cloud an
 
@@ -17,8 +18,8 @@ image::avg.jpg[background, size=cover]
 image::avg.jpg[background, size=cover]
 
 * Konfiguration vereinfachen
-* Kollabaration fördern
-* Überblick nicht verlieren
+* Kollaboration fördern
+* Überblick über Zustand der Systeme
 
 == Konfiguration mit Beeyond
 
@@ -43,5 +44,3 @@ image::avg.jpg[background, size=cover]
 == Live-Demo
 
 image::avg.jpg[background, size=cover]
-
-* Live-Demo: Template ausfüllen, Namespace erstellen, Dashboard zeigen (wie beim TadeoT)
