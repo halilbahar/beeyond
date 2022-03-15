@@ -25,9 +25,9 @@ image::avg.jpg[background, size=cover]
 
 image::avg.jpg[background, size=cover]
 
-* Mittels von LehrerInnen erstellten Templates
-* Eigene Kubernetes-Objekte
-* Einschränkungen von LehrerInnen
+* Mittels Templates für beliebte Tech-Stacks
+* ... oder eigene Kubernetes-Objekte
+* Einschränkungen für Ressourcen je nach Vorgabe
 * Validierung durch unser eigenentwickeltes Validierungs-Microservice
 
 == !
