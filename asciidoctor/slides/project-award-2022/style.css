@@ -21,10 +21,14 @@ img {
     border-radius: 50%;
 }
 
+.team {
+    margin: 0;
+}
+
 .team div {
     height: 500px;
     display: flex;
-    width: 1920px;
+    width: 1700px;
 }
 
 .team h2 {
