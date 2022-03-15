@@ -5,6 +5,15 @@
 :title-slide-background-image: title.jpg
 :customcss: style.css
 
+[.team,%notitle]
+== Team
+
+image::team.png[background, size=cover]
+
+image::semina.jpg[]
+image::wmarc.png[]
+image::pmoritz.jpg[]
+
 == Investition in die Zukunft
 image::avg.jpg[background, size=cover]
 
