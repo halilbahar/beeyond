@@ -31,7 +31,8 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   monacoOptions = {
     language: 'yaml',
     scrollBeyondLastLine: false,
-    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
+    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light',
+    automaticLayout: true
   };
 
   constructor(
