@@ -1,12 +1,14 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnDestroy, OnInit } from '@angular/core';
 import { AUTO_STYLE, state, style, trigger } from '@angular/animations';
-import { SidenavToggleService } from '../services/sidenav-toggle.service';
+import { SidenavService } from '../services/sidenav.service';
 import { AuthenticationService } from '../authentification/authentication.service';
 import { config } from '../config/user-role.config';
 import { BackendApiService } from '../services/backend-api.service';
 import { ThemeService } from '../services/theme.service';
 import { Notification } from '../../shared/models/notification.model';
 import { NotificationStatus } from '../../shared/models/notification-status.enum';
+import { MediaMatcher } from '@angular/cdk/layout';
+import { BaseComponent } from '../services/base.component';
 
 @Component({
   selector: 'app-side-navigation',
@@ -19,17 +21,17 @@ import { NotificationStatus } from '../../shared/models/notification-status.enum
     ])
   ]
 })
-export class SideNavigationComponent implements OnInit {
+export class SideNavigationComponent extends BaseComponent implements OnInit {
   theme: boolean;
   agenda = [
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
-    {
+    /*{
       name: 'Accounting',
       icon: 'account_balance',
       router: '/accounting',
       requiredRoles: [config.adminRole]
-    },
+    },*/
     {
       name: 'Management',
       icon: 'desktop_windows',
@@ -55,17 +57,22 @@ export class SideNavigationComponent implements OnInit {
       requiredRoles: [config.adminRole]
     }
   ];
+
   actualAgenda = [];
   notifications: Notification[] = [];
   notificationStatus = NotificationStatus;
 
   constructor(
-    public sidenavToggleService: SidenavToggleService,
+    public sidenavService: SidenavService,
     public authenticationService: AuthenticationService,
     public backendApiService: BackendApiService,
-    private themeService: ThemeService
+    private themeService: ThemeService,
+    changeDetectorRef: ChangeDetectorRef,
+    media: MediaMatcher
   ) {
+    super(changeDetectorRef, media);
     this.theme = themeService.theme.value;
+    this.sidenavService.minimized.next(!super.mobileQuery?.matches);
   }
 
   ngOnInit(): void {

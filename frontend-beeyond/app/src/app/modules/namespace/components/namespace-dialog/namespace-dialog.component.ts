@@ -32,11 +32,15 @@ export class NamespaceDialogComponent implements OnInit {
     private dialogRef: MatDialogRef<NamespaceDialogComponent>,
     @Inject(MAT_DIALOG_DATA) private namespaceToEdit: Namespace | null
   ) {
-    if (namespaceToEdit != null) {
+    if (namespaceToEdit !== null) {
       this.nameControl.setValue(namespaceToEdit.namespace);
       this.nameControl.disable();
       this.users = namespaceToEdit.users.map(user => user.name);
     }
+  }
+
+  private get remainingUser(): string[] {
+    return this.allUsers.filter(user => !this.users.includes(user));
   }
 
   ngOnInit(): void {
@@ -97,9 +101,5 @@ export class NamespaceDialogComponent implements OnInit {
   private filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.remainingUser.filter(user => user.indexOf(filterValue) === 0);
-  }
-
-  private get remainingUser(): string[] {
-    return this.allUsers.filter(user => !this.users.includes(user));
   }
 }

@@ -34,7 +34,7 @@ export class AuthenticationService {
       this.oAuthService.initLoginFlow();
     } else {
       this.oAuthService.setupAutomaticSilentRefresh();
-      const profile = await this.oAuthService.loadUserProfile();
+      const profile: any = await this.oAuthService.loadUserProfile();
       this.username.next(profile.preferred_username);
       this.roles.next(this.parseJwt(this.oAuthService.getAccessToken()).realm_access.roles);
       this.oidcLoaded.next(true);

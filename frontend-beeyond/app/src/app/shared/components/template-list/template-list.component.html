@@ -4,7 +4,7 @@
       class="list-item item-hover"
       matRipple
       (click)="route(template.id)"
-      [ngClass]="{ selected: selectedTemplateId == template.id }"
+      [ngClass]="{ selected: selectedTemplateId === template.id }"
     >
       <div class="list-item-text">
         <span class="label">{{ template.name }}</span>
@@ -17,5 +17,11 @@
     </div>
 
     <div class="list-item-divider" *ngIf="i !== templates.length - 1"></div>
+  </div>
+  <div
+    *ngIf="templates.length === 0"
+    style="display: flex; justify-content: center; margin-top: 10px"
+  >
+    No templates available
   </div>
 </div>

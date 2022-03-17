@@ -12,10 +12,11 @@ import { authModuleConfig } from './authentification/oauth-module.config';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatMenuModule } from '@angular/material/menu';
 import { FormsModule } from '@angular/forms';
+import { BaseComponent } from './services/base.component';
 
 @NgModule({
-  declarations: [SideNavigationComponent, HeaderComponent],
-  exports: [SideNavigationComponent, HeaderComponent],
+  declarations: [SideNavigationComponent, HeaderComponent, BaseComponent],
+  exports: [SideNavigationComponent, HeaderComponent, BaseComponent],
   imports: [
     CommonModule,
     RouterModule,

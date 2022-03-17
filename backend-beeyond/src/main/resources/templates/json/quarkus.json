@@ -1,0 +1,18 @@
+{
+  "name": "Simple Quarkus Deployment",
+  "description": "Deployment of a Quarkus Application",
+  "content": "quarkus.yml",
+  "deleted": false,
+  "fields": [
+    {
+      "label": "Name",
+      "wildcard": "name",
+      "description": "Name of the service and deployment"
+    },
+    {
+      "label": "Image",
+      "wildcard": "backendimage",
+      "description": "Image name"
+    }
+  ]
+}
