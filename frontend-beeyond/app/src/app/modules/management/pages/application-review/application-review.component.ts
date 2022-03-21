@@ -111,7 +111,7 @@ export class ApplicationReviewComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      if (result !== undefined){
+      if (result !== undefined) {
         this.backendApiService.denyApplicationById(this.application.id, result).subscribe(() => {
           this.router.navigate(this.redirectPath);
         });
