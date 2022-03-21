@@ -6,7 +6,7 @@ Feature: Deny application endpoint
     * def insertApplication = read('classpath:at/htl/beeyond/integration/util/create-application.feature')
     * def insertApplicationResponse = call insertApplication
     * def application = insertApplicationResponse.application
-    * configure headers = {Authorization: '#(auth(karate.tags))'}
+    * configure headers = {Authorization: '#(auth(karate.tags))', 'Content-Type': 'application/json'}
 
   @teacher
   Scenario: Deny a valid application
