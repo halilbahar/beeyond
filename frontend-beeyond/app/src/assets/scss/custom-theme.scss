@@ -44,7 +44,8 @@ $beeyond-dark-theme: mat-dark-theme(
 
   mat-card-subtitle,
   .description,
-  .mat-list-item {
+  .mat-list-item,
+  .mat-option-text {
     color: white !important;
   }
 

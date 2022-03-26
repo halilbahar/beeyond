@@ -233,6 +233,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
         .map(namespace => ({ ...namespace, label: namespace.namespace }))
         .filter(namespace => namespace.namespace !== this.authenticationService.username.value);
       this.namespaces.push(defaultNamespace);
+      this.thirdFormGroup.controls.namespace.setValue(defaultNamespace.namespace);
     });
   }
 }

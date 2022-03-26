@@ -76,6 +76,10 @@ mat-sidenav-content > *:not(:first-child) {
   background-color: #f1f1f1;
 }
 
+::-webkit-scrollbar-track {
+  background:transparent;
+}
+
 @media screen and (max-device-width: 600px) {
   .show-mobile {
     display: block;
