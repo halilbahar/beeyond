@@ -28,6 +28,11 @@ $beeyond-dark-theme: mat-dark-theme(
   $beeyond-dark-warn
 );
 
+.bg-color{
+  background-color: white;
+  color: black;
+}
+
 .darkMode {
   @include angular-material-theme($beeyond-dark-theme);
 

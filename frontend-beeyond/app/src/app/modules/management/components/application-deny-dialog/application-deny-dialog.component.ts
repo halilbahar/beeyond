@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormControl } from '@angular/forms';
+import { FormControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-application-deny-dialog',
@@ -7,7 +7,7 @@ import { FormControl } from '@angular/forms';
   styleUrls: ['./application-deny-dialog.component.scss']
 })
 export class ApplicationDenyDialogComponent implements OnInit {
-  message = new FormControl('');
+  message = new FormControl('', Validators.required);
 
   constructor() {}
 

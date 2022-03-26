@@ -79,7 +79,8 @@ export class TemplateCreateComponent implements OnInit {
       this.router.navigate(['template']).then(navigated => {
         if (navigated) {
           this.snackBar.open('Your Template was created', 'close', {
-            duration: undefined
+            duration: 2000,
+            panelClass: ['mat-drawer-container']
           });
         }
       });

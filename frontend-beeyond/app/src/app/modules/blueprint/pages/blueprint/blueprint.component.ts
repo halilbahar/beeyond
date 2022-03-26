@@ -47,7 +47,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   ) {
     super(changeDetectorRef, media);
     this.themeService.theme.subscribe(value => {
-      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
+      this.monacoOptions = {...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light'};
     });
   }
 
@@ -87,7 +87,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({
-      note: this.fb.control(''),
+      note: this.fb.control('', Validators.required),
       class: this.fb.control('', Validators.required),
       to: this.fb.control(null),
       namespace: this.fb.control('', Validators.required),
@@ -123,7 +123,10 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
               this.snackBar.open(
                 'Your application was sent will be reviewed as soon as possible',
                 'close',
-                { duration: undefined }
+                {
+                  duration: 2000,
+                  panelClass: ['mat-drawer-container']
+                }
               );
             }
           });
@@ -134,7 +137,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
             'close',
             {
               duration: undefined,
-              panelClass: ['new-line']
+              panelClass: ['new-line', 'mat-drawer-container']
             }
           );
         }
@@ -154,18 +157,21 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
               this.snackBar.open(
                 'Your application was sent will be reviewed as soon as possible',
                 'close',
-                { duration: 2000 }
+                {
+                  duration: 2000,
+                  panelClass: ['mat-drawer-container']
+                }
               );
             }
           });
         },
         error => {
           this.snackBar.open(
-            error.error.map(err => err.message + ' - ' + err.key).join('\n'),
+            error?.error?.map(err => err.message + ' - ' + err.key).join('\n'),
             'close',
             {
               duration: undefined,
-              panelClass: ['new-line']
+              panelClass: ['new-line', 'mat-drawer-container']
             }
           );
         }
@@ -231,7 +237,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
       };
 
       this.namespaces = namespaces
-        .map(namespace => ({ ...namespace, label: namespace.namespace }))
+        .map(namespace => ({...namespace, label: namespace.namespace}))
         .filter(namespace => namespace.namespace !== this.authenticationService.username.value);
       this.namespaces.push(defaultNamespace);
     });

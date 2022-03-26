@@ -6,9 +6,12 @@ import { CustomApplication } from 'src/app/shared/models/custom.application.mode
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import { ApplicationDenyDialogComponent } from '../../components/application-deny-dialog/application-deny-dialog.component';
+import {
+  ApplicationDenyDialogComponent
+} from '../../components/application-deny-dialog/application-deny-dialog.component';
 
 declare function constrainedEditor(editor: any): any;
+
 declare let monaco: any;
 
 @Component({
@@ -27,7 +30,7 @@ export class ApplicationReviewComponent implements OnInit {
   redirectPath: string[];
   message: string;
 
-  monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
+  monacoEditorOptions = {language: 'yaml', scrollBeyondLastLine: false, readOnly: true};
 
   constructor(
     private route: ActivatedRoute,
@@ -93,8 +96,8 @@ export class ApplicationReviewComponent implements OnInit {
               this.customApplication.content
                 .split('\n')
                 [temp.indexOf(s)].indexOf(s.replace('image: ', '')) +
-                s.replace('image: ', '').length +
-                1
+              s.replace('image: ', '').length +
+              1
             ],
             allowMultiline: false
           }))
@@ -107,7 +110,7 @@ export class ApplicationReviewComponent implements OnInit {
     const dialogRef = this.dialog.open(ApplicationDenyDialogComponent, {
       width: '600px',
       height: '500px',
-      data: { message: this.message }
+      data: {message: this.message}
     });
 
     dialogRef.afterClosed().subscribe(result => {
@@ -138,7 +141,10 @@ export class ApplicationReviewComponent implements OnInit {
           this.snackBar.open(
             'Your application was sent will be reviewed as soon as possible',
             'close',
-            { duration: undefined }
+            {
+              duration: 2000,
+              panelClass: ['mat-drawer-container']
+            }
           );
         }
       });

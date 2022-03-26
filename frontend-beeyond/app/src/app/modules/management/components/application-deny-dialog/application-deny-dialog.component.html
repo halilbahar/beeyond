@@ -14,5 +14,5 @@
 </mat-dialog-content>
 
 <mat-dialog-actions class="button-container">
-  <button mat-flat-button [mat-dialog-close]="message.value" color="primary">Deny</button>
+  <button  mat-flat-button [mat-dialog-close]="message.value" color="primary" [disabled]="!message.valid">Deny</button>
 </mat-dialog-actions>

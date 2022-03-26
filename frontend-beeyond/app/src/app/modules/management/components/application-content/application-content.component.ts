@@ -7,7 +7,6 @@ import { ApplicationStatus } from 'src/app/shared/models/application-status.enum
 import { Application } from 'src/app/shared/models/application.model';
 import { BaseComponent } from '../../../../core/services/base.component';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-application-content',
@@ -51,6 +50,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
       this.columnsToDisplay = ['id', 'status'];
     }
   }
+
   ngOnInit(): void {
     if (this.isAdmin) {
       this.columnsToDisplay.splice(1, 0, 'owner');
@@ -62,7 +62,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
     this.applicationDataSource = new MatTableDataSource(this.applications);
     this.filterForm = this.fb.group({
       username: [''],
-      status: [ApplicationStatus.PENDING],
+      status: [this.isAdmin ? ApplicationStatus.PENDING : ApplicationStatus.ALL],
       fromDate: [null],
       toDate: [null]
     });
@@ -79,7 +79,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
   stop(id): void {
     this.backendApiService.stopApplicationById(id).subscribe(() => {
       const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
       });
     });
@@ -88,7 +88,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
   finish(id): void {
     this.backendApiService.finishApplicationById(id).subscribe(() => {
       const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
       });
     });
@@ -97,7 +97,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
   start(id): void {
     this.backendApiService.startApplicationById(id).subscribe(() => {
       const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+      this.router.navigateByUrl('/', {skipLocationChange: true}).then(() => {
         this.router.navigate([currentUrl]);
       });
     });
@@ -107,7 +107,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
     this.selectedRow = null;
     const form: { username: string; status: ApplicationStatus; fromDate: Date; toDate: Date } =
       this.filterForm.value;
-    this.applicationDataSource.data = this.applications.filter(({ status, owner, createdAt }) => {
+    this.applicationDataSource.data = this.applications.filter(({status, owner, createdAt}) => {
       const nameFilter = form.username ? owner.name.includes(form.username) : true;
       const statusFilter = form.status === ApplicationStatus.ALL || status === form.status;
       const date = new Date(createdAt);
