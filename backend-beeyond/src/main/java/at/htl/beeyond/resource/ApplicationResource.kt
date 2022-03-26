@@ -83,7 +83,7 @@ class ApplicationResource {
             deploy(application)
 
             application.namespace.users.forEach {
-                val notification = Notification(it, "Application has been accepted!", NotificationStatus.POSITIVE, "application", application.id)
+                val notification = Notification(it, "Application has been accepted!","", NotificationStatus.POSITIVE, "application", application.id)
                 notification.persist()
             }
 
@@ -109,7 +109,7 @@ class ApplicationResource {
             deploy(application)
 
             application.namespace.users.forEach {
-                val notification = Notification(it, "Application has been started!", NotificationStatus.POSITIVE, "application", application.id)
+                val notification = Notification(it, "Application has been started!","", NotificationStatus.POSITIVE, "application", application.id)
                 notification.persist()
             }
 
@@ -137,7 +137,7 @@ class ApplicationResource {
             application.status = ApplicationStatus.DENIED
 
             application.namespace.users.forEach {
-                val notification = Notification(it, message?.message ?: "Application has been denied!", NotificationStatus.NEGATIVE, "application", application.id)
+                val notification = Notification(it, "Application has been denied!",message?.message, NotificationStatus.NEGATIVE, "application", application.id)
                 notification.persist()
             }
 
@@ -216,7 +216,7 @@ class ApplicationResource {
 
         application.namespace.users.forEach {
             val notification = Notification(it,
-                "Application has been ${status.toString().lowercase()}!", NotificationStatus.NEUTRAL, "application", application.id)
+                "Application has been ${status.toString().lowercase()}!","", NotificationStatus.NEUTRAL, "application", application.id)
             notification.persist()
         }
 

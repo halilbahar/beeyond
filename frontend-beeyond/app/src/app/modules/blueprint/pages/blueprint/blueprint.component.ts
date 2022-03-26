@@ -47,7 +47,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   ) {
     super(changeDetectorRef, media);
     this.themeService.theme.subscribe(value => {
-      this.monacoOptions = {...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light'};
+      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
     });
   }
 
@@ -237,7 +237,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
       };
 
       this.namespaces = namespaces
-        .map(namespace => ({...namespace, label: namespace.namespace}))
+        .map(namespace => ({ ...namespace, label: namespace.namespace }))
         .filter(namespace => namespace.namespace !== this.authenticationService.username.value);
       this.namespaces.push(defaultNamespace);
     });

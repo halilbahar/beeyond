@@ -12,7 +12,7 @@
     <div style="padding: 20px">
       <div class="side-nav-header">
         <div id="icon">
-          <img src="assets/images/bee-purple.svg" alt=""/>
+          <img src="assets/images/bee-purple.svg" alt="" />
         </div>
         <div>
           <span class="description">Good day 👋</span>
@@ -38,8 +38,8 @@
       <div>
         <span class="description">Notifications: {{ notifications.length }}</span>
         <div class="bg-color box">
-          <div class="notification"  *ngFor="let notification of notifications; let i = index">
-            <div [routerLink]="'/profile/review/' + notification.entityId" style="cursor: pointer;">
+          <div class="notification" *ngFor="let notification of notifications; let i = index">
+            <div [routerLink]="'/profile/review/' + notification.entityId" style="cursor: pointer">
               <span style="font-size: 15px; line-height: 24px">{{ notification.message }}</span>
             </div>
           </div>
