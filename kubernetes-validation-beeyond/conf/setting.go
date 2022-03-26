@@ -6,6 +6,7 @@ import (
 	"encoding/pem"
 	"fmt"
 	"github.com/spf13/viper"
+	"strings"
 )
 
 type Configurations struct {
@@ -55,6 +56,8 @@ func Init() {
 	V.SetConfigName("config")
 	V.SetConfigType("yml")
 	V.AddConfigPath("./conf")
+	V.SetEnvPrefix("beeyond") 
+	V.SetEnvKeyReplacer(strings.NewReplacer(".", "_"))
 	V.AutomaticEnv()
 
 	if err := V.ReadInConfig(); err != nil {

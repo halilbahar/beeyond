@@ -47,7 +47,7 @@ func ParseJwt(jwtToken string, keyRSA *rsa.PublicKey) (*jwt.Token, error) {
 
 func FetchKeycloakPublicKey() *rsa.PublicKey {
 	var keyRaw map[string]interface{}
-	resp, _ := http.Get(conf.Configuration.Authentication.Url + ":" + conf.Configuration.Authentication.Port + "/auth/realms/" + conf.Configuration.Authentication.Realm)
+	resp, _ := http.Get(conf.Configuration.Authentication.Url + "/auth/realms/" + conf.Configuration.Authentication.Realm)
 	json.NewDecoder(resp.Body).Decode(&keyRaw)
 	key := "-----BEGIN PUBLIC KEY-----\n" + keyRaw["public_key"].(string) + "\n-----END PUBLIC KEY-----"
 	keyRSA := conf.ConvertStringToRSA(key)

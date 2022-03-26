@@ -14,8 +14,7 @@ KubernetesJsonschema:
   Url: https://kubernetesjsonschema.dev
 
 Authentication:
-  Url: http://localhost
-  Port: 8280
+  Url: http://localhost:8280
   Realm: school
   ClientId: beeyond-spa
   Username: polleichtner-teacher

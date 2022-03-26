@@ -20,7 +20,7 @@ export class AuthenticationService {
   async initializeLogin(): Promise<void> {
     this.oAuthService.configure({
       issuer: this.configService.config.keycloakUrl,
-      redirectUri: window.location.origin,
+      redirectUri: this.configService.config.redirectUri,
       clientId: 'beeyond-spa',
       responseType: 'code',
       scope: 'offline_access',

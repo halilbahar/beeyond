@@ -1,4 +1,4 @@
-package at.htl.beeyond;
+package at.htl.beeyond.bean;
 
 import at.htl.beeyond.entity.Template;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -6,7 +6,6 @@ import io.quarkus.runtime.StartupEvent;
 
 import javax.enterprise.context.ApplicationScoped;
 import javax.enterprise.event.Observes;
-import javax.json.JsonReader;
 import javax.transaction.Transactional;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -17,7 +16,7 @@ import java.nio.file.Paths;
 class TemplateBean {
     @Transactional
     void init(@Observes StartupEvent event) throws URISyntaxException, IOException {
-        var uri = getClass().getResource("/templates/json").toURI();
+        /*var uri = getClass().getResource("/templates/json").toURI();
         var dirPath = Paths.get(uri);
         Files.list(dirPath).forEach(fileName -> {
             try {
@@ -33,6 +32,6 @@ class TemplateBean {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-        });
+        });*/
     }
 }

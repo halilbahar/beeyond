@@ -1,0 +1,47 @@
+# nginx Web Server
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: frontend-beeyond
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: frontend-beeyond
+  template:
+    metadata:
+      labels:
+        app: frontend-beeyond
+    spec:
+      containers:
+        - name: beeyond-frontend
+          env:
+            - name: BEEYOND_BACKEND_API_URL
+              value: $URL/api
+            - name: BEEYOND_KEYCLOAK_URL
+              value: $URL/auth/realms/school
+            - name: BEEYOND_VALIDATION_API_URL
+              value: $URL/valid
+            - name: REDIRECT_URI
+              value: $URL/app/
+            - name: BASE_HREF
+              value: $EMAIL
+          image: ghcr.io/$GITHUB_ACCOUNT/beeyond-frontend:$VERSION
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: frontend-beeyond
+spec:
+  ports:
+    - name: http
+      port: 80
+      targetPort: 80
+    - name: https
+      port: 443
+      targetPort: 443
+  selector:
+    app: frontend-beeyond
