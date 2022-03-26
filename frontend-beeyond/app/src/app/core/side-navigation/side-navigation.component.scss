@@ -52,6 +52,14 @@ mat-list-item:hover {
   margin: 20px 0 20px 0;
 }
 
+.notification {
+  padding: 5px;
+}
+
+.notification:not(:first-of-type) {
+  border-top: 1px solid #808080;
+}
+
 .side-nav-header {
   display: flex;
   justify-content: center;
@@ -98,8 +106,6 @@ mat-list-item:hover {
 }
 
 .box {
-  background-color: #fff;
-  border: 1px solid #fff;
   border-radius: 5px;
   padding: 10px;
 }

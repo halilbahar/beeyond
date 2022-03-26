@@ -37,32 +37,11 @@
       <div class="spacer"></div>
       <div>
         <span class="description">Notifications: {{ notifications.length }}</span>
-        <div class="box">
-          <div *ngFor="let notification of notifications; let i = index">
-            <table>
-              <tr [routerLink]="'/profile/review/' + notification.entityId" style="cursor: pointer">
-                <td>
-                  <mat-icon
-                    *ngIf="notification.status === notificationStatus.POSITIVE"
-                    style="color: #00ca4e; box-shadow: 0 0 7px 0 #00ca4e; border-radius: 50%"
-                    >check_circle_outline
-                  </mat-icon>
-                  <mat-icon
-                    *ngIf="notification.status === notificationStatus.NEUTRAL"
-                    style="color: #ffbd44; box-shadow: 0 0 7px 0 #ffbd44; border-radius: 50%"
-                    >info
-                  </mat-icon>
-                  <mat-icon
-                    *ngIf="notification.status === notificationStatus.NEGATIVE"
-                    style="color: #ff605c; box-shadow: 0 0 7px 0 #ff605c; border-radius: 50%"
-                    >error_outline
-                  </mat-icon>
-                </td>
-                <td>
-                  <span style="font-size: 15px; line-height: 24px">{{ notification.message }}</span>
-                </td>
-              </tr>
-            </table>
+        <div class="bg-color box">
+          <div class="notification" *ngFor="let notification of notifications; let i = index">
+            <div [routerLink]="'/profile/review/' + notification.entityId" style="cursor: pointer">
+              <span style="font-size: 15px; line-height: 24px">{{ notification.message }}</span>
+            </div>
           </div>
         </div>
       </div>

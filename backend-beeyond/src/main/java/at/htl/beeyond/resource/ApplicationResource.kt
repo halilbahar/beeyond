@@ -1,6 +1,7 @@
 package at.htl.beeyond.resource
 
 import at.htl.beeyond.dto.CustomApplicationDto
+import at.htl.beeyond.dto.DenyMessageDto
 import at.htl.beeyond.dto.TemplateApplicationDto
 import at.htl.beeyond.entity.*
 import at.htl.beeyond.service.DeploymentService
@@ -82,7 +83,7 @@ class ApplicationResource {
             deploy(application)
 
             application.namespace.users.forEach {
-                val notification = Notification(it, "Application has been accepted!", NotificationStatus.POSITIVE, "application", application.id)
+                val notification = Notification(it, "Application has been accepted!","", NotificationStatus.POSITIVE, "application", application.id)
                 notification.persist()
             }
 
@@ -108,7 +109,7 @@ class ApplicationResource {
             deploy(application)
 
             application.namespace.users.forEach {
-                val notification = Notification(it, "Application has been started!", NotificationStatus.POSITIVE, "application", application.id)
+                val notification = Notification(it, "Application has been started!","", NotificationStatus.POSITIVE, "application", application.id)
                 notification.persist()
             }
 
@@ -128,7 +129,7 @@ class ApplicationResource {
     @Path("/deny/{id}")
     @RolesAllowed("teacher")
     @Transactional
-    fun denyApplication(@PathParam("id") id: Long?): Response? {
+    fun denyApplication(@PathParam("id") id: Long?, message:DenyMessageDto?): Response? {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
@@ -136,7 +137,7 @@ class ApplicationResource {
             application.status = ApplicationStatus.DENIED
 
             application.namespace.users.forEach {
-                val notification = Notification(it, "Application has been denied!", NotificationStatus.NEGATIVE, "application", application.id)
+                val notification = Notification(it, "Application has been denied!",message?.message, NotificationStatus.NEGATIVE, "application", application.id)
                 notification.persist()
             }
 
@@ -215,7 +216,7 @@ class ApplicationResource {
 
         application.namespace.users.forEach {
             val notification = Notification(it,
-                "Application has been ${status.toString().lowercase()}!", NotificationStatus.NEUTRAL, "application", application.id)
+                "Application has been ${status.toString().lowercase()}!","", NotificationStatus.NEUTRAL, "application", application.id)
             notification.persist()
         }
 
