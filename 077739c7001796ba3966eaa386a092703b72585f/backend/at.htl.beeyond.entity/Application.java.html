@@ -1,0 +1,140 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>Application.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.entity</a> &gt; <span class="el_source">Application.java</span></div><h1>Application.java</h1><pre class="source lang-java linenums">package at.htl.beeyond.entity;
+
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
+
+import javax.persistence.*;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+@Entity
+@Inheritance(strategy = InheritanceType.TABLE_PER_CLASS)
+public abstract class Application extends PanacheEntityBase {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    private Long id;
+
+    private String note;
+
+    @Enumerated(EnumType.STRING)
+    private ApplicationStatus status;
+
+    @ManyToOne
+    private User owner;
+
+    private LocalDateTime createdAt;
+
+    private LocalDateTime startedAt;
+
+    private LocalDateTime finishedAt;
+
+    @ManyToOne
+    private Namespace namespace;
+
+    private String schoolClass;
+
+    private LocalDate toDate;
+
+    private String purpose;
+
+<span class="fc" id="L40">    public Application(String note, User owner, Namespace namespace, String schoolClass, LocalDate toDate, String purpose) {</span>
+<span class="fc" id="L41">        this.note = note;</span>
+<span class="fc" id="L42">        this.status = ApplicationStatus.PENDING;</span>
+<span class="fc" id="L43">        this.owner = owner;</span>
+<span class="fc" id="L44">        this.createdAt = LocalDateTime.now();</span>
+<span class="fc" id="L45">        this.namespace = namespace;</span>
+<span class="fc" id="L46">        this.schoolClass = schoolClass;</span>
+<span class="fc" id="L47">        this.toDate = toDate;</span>
+<span class="fc" id="L48">        this.purpose = purpose;</span>
+<span class="fc" id="L49">    }</span>
+
+<span class="fc" id="L51">    public Application() {</span>
+<span class="fc" id="L52">    }</span>
+
+    public Long getId() {
+<span class="fc" id="L55">        return id;</span>
+    }
+
+    public String getNote() {
+<span class="fc" id="L59">        return note;</span>
+    }
+
+    public void setNote(String note) {
+<span class="nc" id="L63">        this.note = note;</span>
+<span class="nc" id="L64">    }</span>
+
+    public ApplicationStatus getStatus() {
+<span class="fc" id="L67">        return status;</span>
+    }
+
+    public void setStatus(ApplicationStatus status) {
+<span class="fc" id="L71">        this.status = status;</span>
+<span class="fc" id="L72">    }</span>
+
+    public User getOwner() {
+<span class="fc" id="L75">        return owner;</span>
+    }
+
+    public void setOwner(User owner) {
+<span class="nc" id="L79">        this.owner = owner;</span>
+<span class="nc" id="L80">    }</span>
+
+    public LocalDateTime getCreatedAt() {
+<span class="fc" id="L83">        return createdAt;</span>
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+<span class="nc" id="L87">        this.createdAt = createdAt;</span>
+<span class="nc" id="L88">    }</span>
+
+    public LocalDateTime getStartedAt() {
+<span class="fc" id="L91">        return startedAt;</span>
+    }
+
+    public void setStartedAt(LocalDateTime startedAt) {
+<span class="fc" id="L95">        this.startedAt = startedAt;</span>
+<span class="fc" id="L96">    }</span>
+
+    public LocalDateTime getFinishedAt() {
+<span class="fc" id="L99">        return finishedAt;</span>
+    }
+
+    public void setFinishedAt(LocalDateTime finishedAt) {
+<span class="fc" id="L103">        this.finishedAt = finishedAt;</span>
+<span class="fc" id="L104">    }</span>
+
+    public abstract String getContent();
+
+    public Namespace getNamespace() {
+<span class="fc" id="L109">        return namespace;</span>
+    }
+
+    public void setNamespace(Namespace namespace) {
+<span class="nc" id="L113">        this.namespace = namespace;</span>
+<span class="nc" id="L114">    }</span>
+
+    public String getSchoolClass() {
+<span class="fc" id="L117">        return schoolClass;</span>
+    }
+
+    public void setSchoolClass(String schoolClass) {
+<span class="nc" id="L121">        this.schoolClass = schoolClass;</span>
+<span class="nc" id="L122">    }</span>
+
+    public LocalDate getToDate() {
+<span class="fc" id="L125">        return toDate;</span>
+    }
+
+    public void setToDate(LocalDate toDate) {
+<span class="nc" id="L129">        this.toDate = toDate;</span>
+<span class="nc" id="L130">    }</span>
+
+    public String getPurpose() {
+<span class="fc" id="L133">        return purpose;</span>
+    }
+
+    public void setPurpose(String purpose) {
+<span class="nc" id="L137">        this.purpose = purpose;</span>
+<span class="nc" id="L138">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
