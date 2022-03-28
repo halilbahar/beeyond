@@ -1,4 +1,4 @@
-package at.htl.beeyond;
+package at.htl.beeyond.bean;
 
 import at.htl.beeyond.entity.Template;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -20,12 +20,14 @@ import java.util.stream.Collectors;
 
 @ApplicationScoped
 class TemplateBean {
-    private static final String[] FILENAMES = { "quarkus" };
     @Transactional
     void init(@Observes StartupEvent event) throws IOException {
-        for(String filename : FILENAMES) {
+        var filesIn = getClass().getResourceAsStream("/templates/file-list.txt");
+        assert filesIn != null;
+        var files = new BufferedReader(new InputStreamReader(filesIn)).lines().collect(Collectors.toList());
+        for(String filename : files) {
             try (InputStream in = getClass()
-                    .getResourceAsStream("/templates/json/" + filename + ".json")){
+                    .getResourceAsStream("/templates/json/" + filename)){
                 assert in != null;
 
                 BufferedReader reader = new BufferedReader(new InputStreamReader(in));

@@ -45,6 +45,8 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
+      - name: Create file list
+        run: ./src/main/resources/templates/create-file-list.sh
       - name: Package
         run: mvn package
       - name: Login to GitHub Packages
