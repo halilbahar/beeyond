@@ -23,29 +23,28 @@ class TemplateBean {
     @Transactional
     void init(@Observes StartupEvent event) throws IOException {
         var filesIn = getClass().getResourceAsStream("/templates/file-list.txt");
-        assert filesIn != null;
-        var files = new BufferedReader(new InputStreamReader(filesIn)).lines().collect(Collectors.toList());
-        for(String filename : files) {
-            try (InputStream in = getClass()
-                    .getResourceAsStream("/templates/json/" + filename)){
-                assert in != null;
+        if (filesIn != null) {
+            var files = new BufferedReader(new InputStreamReader(filesIn)).lines().collect(Collectors.toList());
+            for (String filename : files) {
+                try (InputStream in = getClass()
+                        .getResourceAsStream("/templates/json/" + filename)) {
+                    assert in != null;
 
-                BufferedReader reader = new BufferedReader(new InputStreamReader(in));
-                var jsonString = reader.lines().collect(Collectors.joining("\n"));
-                var newTemplate = new ObjectMapper().readValue(jsonString, Template.class);
+                    BufferedReader reader = new BufferedReader(new InputStreamReader(in));
+                    var jsonString = reader.lines().collect(Collectors.joining("\n"));
+                    var newTemplate = new ObjectMapper().readValue(jsonString, Template.class);
 
-                InputStream contentIn = getClass()
-                        .getResourceAsStream("/templates/yml/" + newTemplate.getContent());
-                assert contentIn != null;
-                BufferedReader contentReader = new BufferedReader(new InputStreamReader(contentIn));
-                newTemplate.setContent(
-                        contentReader.lines().collect(Collectors.joining("\n"))
-                );
-                contentIn.close();
-                newTemplate.getFields().forEach(fieldName ->{
-                    fieldName.setTemplate(newTemplate);
-                });
-                newTemplate.persist();
+                    InputStream contentIn = getClass()
+                            .getResourceAsStream("/templates/yml/" + newTemplate.getContent());
+                    assert contentIn != null;
+                    BufferedReader contentReader = new BufferedReader(new InputStreamReader(contentIn));
+                    newTemplate.setContent(
+                            contentReader.lines().collect(Collectors.joining("\n"))
+                    );
+                    contentIn.close();
+                    newTemplate.getFields().forEach(fieldName -> fieldName.setTemplate(newTemplate));
+                    newTemplate.persist();
+                }
             }
         }
     }
