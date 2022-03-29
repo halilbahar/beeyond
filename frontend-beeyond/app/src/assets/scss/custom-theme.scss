@@ -37,7 +37,8 @@ $beeyond-dark-theme: mat-dark-theme(
   @include angular-material-theme($beeyond-dark-theme);
 
   .bg-color,
-  .mat-drawer-container {
+  .mat-drawer-container,
+  #loadingScreen {
     background-color: mat-color($beeyond-dark-background) !important;
     color: white !important;
   }
@@ -50,12 +51,15 @@ $beeyond-dark-theme: mat-dark-theme(
   mat-card-subtitle,
   .description,
   .mat-list-item,
+  .mat-datepicker-toggle,
   .mat-option-text {
     color: white !important;
   }
 
-  .item-hover:hover {
-    background-color: mat-color($beeyond-dark-background, darker);
+  .item-hover:hover,
+  .selected-row,
+  .item-hover.selected {
+    background-color: mat-color($beeyond-dark-background, darker) !important;
   }
 }
 

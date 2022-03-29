@@ -6,10 +6,6 @@ $spacing: 0.4rem;
   padding: $body-space $body-margin $body-space;
   display: block;
   box-sizing: border-box;
-
-  &.constraint {
-    background-color: rgba(0, 0, 0, 0.05);
-  }
 }
 
 :host-context(:not(:last-of-type)) {

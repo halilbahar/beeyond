@@ -12,16 +12,12 @@ import { ThemeService } from '../services/theme.service';
 })
 export class HeaderComponent implements OnInit {
   breadcrumbs: Breadcrumb[] = [];
-  theme: boolean;
 
   constructor(
     private router: Router,
     private sidenavService: SidenavService,
-    public oAuthService: AuthenticationService,
-    private themeService: ThemeService
-  ) {
-    this.theme = themeService.theme.value;
-  }
+    public oAuthService: AuthenticationService
+  ) {}
 
   ngOnInit(): void {
     let segements: { path: string; params: Params }[] = [];
