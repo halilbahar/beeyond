@@ -5,8 +5,11 @@ import { ApplicationStatus } from 'src/app/shared/models/application-status.enum
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { MatDialog } from '@angular/material/dialog';
+import { ApplicationDenyDialogComponent } from '../../components/application-deny-dialog/application-deny-dialog.component';
 
 declare function constrainedEditor(editor: any): any;
+
 declare let monaco: any;
 
 @Component({
@@ -23,6 +26,7 @@ export class ApplicationReviewComponent implements OnInit {
   isDenied = false;
   isManagement: boolean;
   redirectPath: string[];
+  message: string;
 
   monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
 
@@ -30,7 +34,8 @@ export class ApplicationReviewComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private backendApiService: BackendApiService,
-    private snackBar: MatSnackBar
+    private snackBar: MatSnackBar,
+    public dialog: MatDialog
   ) {}
 
   private get application(): CustomApplication | TemplateApplication {
@@ -100,8 +105,18 @@ export class ApplicationReviewComponent implements OnInit {
   }
 
   deny(): void {
-    this.backendApiService.denyApplicationById(this.application.id).subscribe(() => {
-      this.router.navigate(this.redirectPath);
+    const dialogRef = this.dialog.open(ApplicationDenyDialogComponent, {
+      width: '600px',
+      height: '500px',
+      data: { message: this.message }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      if (result !== undefined) {
+        this.backendApiService.denyApplicationById(this.application.id, result).subscribe(() => {
+          this.router.navigate(this.redirectPath);
+        });
+      }
     });
   }
 
@@ -124,7 +139,10 @@ export class ApplicationReviewComponent implements OnInit {
           this.snackBar.open(
             'Your application was sent will be reviewed as soon as possible',
             'close',
-            { duration: undefined }
+            {
+              duration: 2000,
+              panelClass: ['mat-drawer-container']
+            }
           );
         }
       });

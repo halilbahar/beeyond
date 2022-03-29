@@ -1,0 +1,25 @@
+<h2 mat-dialog-title>Deny Message</h2>
+
+<mat-dialog-content>
+  <form class="deny-form">
+    <mat-form-field class="full-with" appearance="fill">
+      <textarea
+        matInput
+        placeholder="Write your deny message here..."
+        [formControl]="message"
+        class="text-area"
+      ></textarea>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions class="button-container">
+  <button
+    mat-flat-button
+    [mat-dialog-close]="message.value"
+    color="primary"
+    [disabled]="!message.valid"
+  >
+    Deny
+  </button>
+</mat-dialog-actions>

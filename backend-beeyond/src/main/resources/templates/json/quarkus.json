@@ -1,7 +1,7 @@
 {
   "name": "Simple Quarkus Deployment",
   "description": "Deployment of a Quarkus Application",
-  "content": "quarkus.yml",
+  "content": "quarkus.yaml",
   "deleted": false,
   "fields": [
     {
@@ -11,8 +11,18 @@
     },
     {
       "label": "Image",
-      "wildcard": "backendimage",
+      "wildcard": "image",
       "description": "Image name"
+    },
+    {
+      "label": "Image",
+      "wildcard": "image",
+      "description": "Image name"
+    },
+    {
+      "label": "Database URL",
+      "wildcard": "db-url",
+      "description": "URL to the database"
     }
   ]
 }

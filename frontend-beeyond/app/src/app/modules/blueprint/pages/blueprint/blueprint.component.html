@@ -69,12 +69,7 @@
   >
     <ng-template matStepLabel><span *ngIf="!mobileQuery.matches">Set Content</span></ng-template>
 
-    <div
-      [formGroup]="secondFormGroup"
-      style="height: 100%"
-      class="content"
-      *ngIf="blueprintType === 'Custom'"
-    >
+    <div [formGroup]="secondFormGroup" style="height: 100%" *ngIf="blueprintType === 'Custom'">
       <ngx-monaco-editor
         [options]="monacoOptions"
         class="monaco-editor monaco-editor-border"

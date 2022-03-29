@@ -31,7 +31,8 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   monacoOptions = {
     language: 'yaml',
     scrollBeyondLastLine: false,
-    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
+    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light',
+    automaticLayout: true
   };
 
   constructor(
@@ -86,7 +87,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     });
 
     this.thirdFormGroup = this.fb.group({
-      note: this.fb.control(''),
+      note: this.fb.control('', Validators.required),
       class: this.fb.control('', Validators.required),
       to: this.fb.control(null),
       namespace: this.fb.control('', Validators.required),
@@ -122,7 +123,10 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
               this.snackBar.open(
                 'Your application was sent will be reviewed as soon as possible',
                 'close',
-                { duration: undefined }
+                {
+                  duration: 2000,
+                  panelClass: ['mat-drawer-container']
+                }
               );
             }
           });
@@ -133,7 +137,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
             'close',
             {
               duration: undefined,
-              panelClass: ['new-line']
+              panelClass: ['new-line', 'mat-drawer-container']
             }
           );
         }
@@ -153,18 +157,21 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
               this.snackBar.open(
                 'Your application was sent will be reviewed as soon as possible',
                 'close',
-                { duration: 2000 }
+                {
+                  duration: 2000,
+                  panelClass: ['mat-drawer-container']
+                }
               );
             }
           });
         },
         error => {
           this.snackBar.open(
-            error.error.map(err => err.message + ' - ' + err.key).join('\n'),
+            error?.error?.map(err => err.message + ' - ' + err.key).join('\n'),
             'close',
             {
               duration: undefined,
-              panelClass: ['new-line']
+              panelClass: ['new-line', 'mat-drawer-container']
             }
           );
         }

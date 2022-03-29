@@ -20,6 +20,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApplicationContentComponent } from './components/application-content/application-content.component';
+import { ApplicationDenyDialogComponent } from './components/application-deny-dialog/application-deny-dialog.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { ApplicationContentComponent } from './components/application-content/ap
     ApplicationReviewComponent,
     VariableListComponent,
     ApplicationPreviewDialogComponent,
-    ApplicationContentComponent
+    ApplicationContentComponent,
+    ApplicationDenyDialogComponent
   ],
   imports: [
     CommonModule,
