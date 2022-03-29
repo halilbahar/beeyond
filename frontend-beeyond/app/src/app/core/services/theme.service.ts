@@ -5,9 +5,16 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class ThemeService {
-  theme = new BehaviorSubject<boolean>(
-    window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
-  );
+  isDarkTheme = new BehaviorSubject<boolean>(false);
 
-  constructor() {}
+  constructor() {
+    if (window.localStorage.getItem('isDarkTheme') != null) {
+      console.log(window.localStorage.getItem('isDarkTheme'));
+      this.isDarkTheme.next(window.localStorage.getItem('isDarkTheme') === 'true');
+    } else {
+      this.isDarkTheme.next(
+        window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches
+      );
+    }
+  }
 }

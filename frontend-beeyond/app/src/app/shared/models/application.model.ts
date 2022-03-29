@@ -9,4 +9,8 @@ export abstract class Application {
   createdAt: string;
   startedAt: string;
   finishedAt: string;
+  class: string;
+  namespace: string;
+  to: Date;
+  purpose: string;
 }

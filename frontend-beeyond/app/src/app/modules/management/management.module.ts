@@ -21,6 +21,8 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ApplicationContentComponent } from './components/application-content/application-content.component';
 import { ApplicationDenyDialogComponent } from './components/application-deny-dialog/application-deny-dialog.component';
+import { MatTabsModule } from '@angular/material/tabs';
+import { ApplicationAttributesComponent } from './components/application-attributes/application-attributes.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +31,8 @@ import { ApplicationDenyDialogComponent } from './components/application-deny-di
     VariableListComponent,
     ApplicationPreviewDialogComponent,
     ApplicationContentComponent,
-    ApplicationDenyDialogComponent
+    ApplicationDenyDialogComponent,
+    ApplicationAttributesComponent
   ],
   imports: [
     CommonModule,
@@ -48,7 +51,8 @@ import { ApplicationDenyDialogComponent } from './components/application-deny-di
     MatDialogModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatSnackBarModule
+    MatSnackBarModule,
+    MatTabsModule
   ],
   exports: [ApplicationContentComponent, ApplicationReviewComponent]
 })

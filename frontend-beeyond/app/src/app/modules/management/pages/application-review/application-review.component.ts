@@ -5,6 +5,9 @@ import { ApplicationStatus } from 'src/app/shared/models/application-status.enum
 import { CustomApplication } from 'src/app/shared/models/custom.application.model';
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Template } from '../../../../shared/models/template.model';
+import { ApplicationRange } from '../../../../shared/models/application-range.model';
+import { ThemeService } from '../../../../core/services/theme.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationDenyDialogComponent } from '../../components/application-deny-dialog/application-deny-dialog.component';
 
@@ -28,17 +31,35 @@ export class ApplicationReviewComponent implements OnInit {
   redirectPath: string[];
   message: string;
 
-  monacoEditorOptions = { language: 'yaml', scrollBeyondLastLine: false, readOnly: true };
+  template: Template;
+
+  fieldData: { value: string; label: string; wildcard: string; description: string }[] = [];
+
+  monacoEditorOptions = {
+    language: 'yaml',
+    scrollBeyondLastLine: false,
+    readOnly: true,
+    automaticLayout: true,
+    theme: this.themeService.isDarkTheme.value ? 'vs-dark' : 'vs-light'
+  };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private backendApiService: BackendApiService,
     private snackBar: MatSnackBar,
+    private themeService: ThemeService,
     public dialog: MatDialog
-  ) {}
+  ) {
+    this.themeService.isDarkTheme.subscribe(value => {
+      this.monacoEditorOptions = {
+        ...this.monacoEditorOptions,
+        theme: value ? 'vs-dark' : 'vs-light'
+      };
+    });
+  }
 
-  private get application(): CustomApplication | TemplateApplication {
+  public get application(): CustomApplication | TemplateApplication {
     return this.customApplication || this.templateApplication;
   }
 
@@ -71,6 +92,60 @@ export class ApplicationReviewComponent implements OnInit {
     } else {
       this.customApplication = application;
     }
+
+    if (this.templateApplication) {
+      this.backendApiService
+        .getTemplateById(this.templateApplication.templateId)
+        .subscribe(template => {
+          this.template = template;
+
+          for (const fieldValue of this.templateApplication.fieldValues) {
+            const { label, wildcard, description } = template.fields.find(
+              aTemplate => aTemplate.id === fieldValue.fieldId
+            );
+            this.fieldData.push({
+              value: fieldValue.value,
+              label,
+              wildcard,
+              description
+            });
+          }
+
+          const templateContent = this.template.content;
+          const lines = templateContent.split('\n');
+
+          let content = '';
+          const ranges: ApplicationRange[] = [];
+          const wildcardRegex = /%(.+?)%/g;
+
+          for (let i = 0; i < lines.length; i++) {
+            let line = lines[i];
+            let match: RegExpExecArray;
+
+            while ((match = wildcardRegex.exec(line)) != null) {
+              const { wildcard, label, value, description } = this.fieldData.find(
+                data => data.wildcard === match[0].replace(/%/g, '')
+              );
+              line = line.replace(`%${wildcard}%`, value);
+
+              ranges.push({
+                lineNumber: i + 1,
+                startColumn: match.index + 1,
+                endColumn: match.index + 1 + value.length,
+                wildcard,
+                label,
+                description
+              });
+            }
+
+            content += line + '\n';
+          }
+
+          content = content.substring(0, content.length - 1);
+          this.template.content = content;
+        });
+    }
+
     this.isReadOnly();
   }
 
