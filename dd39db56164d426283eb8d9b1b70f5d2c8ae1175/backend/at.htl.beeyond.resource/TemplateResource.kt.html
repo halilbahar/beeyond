@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.resource</a> &gt; <span class="el_source">TemplateResource.kt</span></div><h1>TemplateResource.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.resource
+
+import at.htl.beeyond.dto.TemplateDto
+import at.htl.beeyond.entity.Template
+import at.htl.beeyond.entity.User
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase
+import javax.annotation.security.RolesAllowed
+import javax.transaction.Transactional
+import javax.validation.Valid
+import javax.ws.rs.*
+import javax.ws.rs.core.*
+import kotlin.streams.toList
+
+<span class="fc" id="L14">@Path(&quot;/template&quot;)</span>
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+<span class="fc" id="L17">class TemplateResource {</span>
+
+    @GET
+    @Transactional
+    @RolesAllowed(&quot;student&quot;, &quot;teacher&quot;)
+    fun getAllTemplates(@Context ctx: SecurityContext): Response {
+<span class="fc bfc" id="L23" title="All 2 branches covered.">        return if (ctx.isUserInRole(&quot;teacher&quot;)) {</span>
+<span class="fc" id="L24">            Response.ok(Template.streamAll&lt;Template&gt;().map { TemplateDto(it) }.toList()).build()</span>
+<span class="fc" id="L25">        } else {</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">            Response.ok(Template.streamAll&lt;Template&gt;().map { TemplateDto(it) }.filter { !it.deleted!! }.toList()).build()</span>
+        }
+    }
+
+    @POST
+    @RolesAllowed(&quot;teacher&quot;)
+    @Transactional
+    fun createTemplate(
+            @Context sc: SecurityContext,
+            @Context uriInfo: UriInfo,
+            @Valid templateDto: TemplateDto?
+    ): Response {
+<span class="fc" id="L38">        val owner = User.find&lt;PanacheEntityBase&gt;(&quot;name&quot;, sc.userPrincipal.name).firstResult&lt;User&gt;()</span>
+<span class="fc" id="L39">        val template = Template(templateDto, owner)</span>
+<span class="fc" id="L40">        template.persist()</span>
+
+<span class="fc" id="L42">        val uri = uriInfo.absolutePathBuilder.path(template.id.toString()).build()</span>
+<span class="fc" id="L43">        return Response.created(uri).build()</span>
+    }
+
+    @GET
+    @Path(&quot;/{id}&quot;)
+    @RolesAllowed(&quot;student&quot;, &quot;teacher&quot;)
+    @Transactional
+    fun getTemplateById(@PathParam(&quot;id&quot;) id: Long?, @Context ctx: SecurityContext): Response {
+<span class="pc bpc" id="L51" title="1 of 2 branches missed.">        val template = Template.findById&lt;Template&gt;(id)</span>
+<span class="nc" id="L52">                ?: return Response.status(Response.Status.NOT_FOUND).build()</span>
+
+<span class="pc bpc" id="L54" title="1 of 4 branches missed.">        if (ctx.isUserInRole(&quot;student&quot;) &amp;&amp; template.deleted) {</span>
+<span class="fc" id="L55">            return Response.status(Response.Status.NOT_FOUND).build()</span>
+        }
+
+<span class="fc" id="L58">        val templateDto = TemplateDto(template)</span>
+<span class="fc" id="L59">        return Response.ok(templateDto).build()</span>
+    }
+
+    @DELETE
+    @Path(&quot;/{id}&quot;)
+    @RolesAllowed(&quot;teacher&quot;)
+    @Transactional
+    fun delete(@PathParam(&quot;id&quot;) id: Long?): Response {
+<span class="fc bfc" id="L67" title="All 2 branches covered.">        val template = Template.findById&lt;Template&gt;(id)</span>
+<span class="fc" id="L68">                ?: return Response.status(Response.Status.NOT_FOUND).build()</span>
+
+<span class="fc" id="L70">        template.deleted = true</span>
+<span class="fc" id="L71">        return Response.noContent().build()</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
