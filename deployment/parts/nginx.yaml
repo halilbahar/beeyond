@@ -22,7 +22,7 @@ spec:
               value: $URL/auth/realms/school
             - name: BEEYOND_VALIDATION_API_URL
               value: $URL/valid
-            - name: REDIRECT_URL
+            - name: REDIRECT_URI
               value: $URL/app/
             - name: BASE_HREF
               value: $EMAIL
