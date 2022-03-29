@@ -10,6 +10,6 @@ else
     for file in $(find . -type f -name "*.html"); do
         HREF=$BASE_HREF$(echo $file | cut -d. -f2- | rev | cut -d/ -f2- | rev)
         sed -i "s;<base href=\".*\">;<base href=\"/$HREF/\">;g" $file
-        sed -i "s;\$URL_TO_APP;$REDIRECT_URL;g" $file
+        sed -i "s;\$URL_TO_APP;$REDIRECT_URI;g" $file
     done 
 fi
