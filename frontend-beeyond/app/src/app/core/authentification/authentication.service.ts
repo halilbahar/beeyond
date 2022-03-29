@@ -18,6 +18,7 @@ export class AuthenticationService {
   }
 
   async initializeLogin(): Promise<void> {
+    console.log(this.configService.config);
     this.oAuthService.configure({
       issuer: this.configService.config.keycloakUrl,
       redirectUri: this.configService.config.redirectUrl,
