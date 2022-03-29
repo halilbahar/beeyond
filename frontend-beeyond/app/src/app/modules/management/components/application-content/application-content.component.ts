@@ -7,7 +7,6 @@ import { ApplicationStatus } from 'src/app/shared/models/application-status.enum
 import { Application } from 'src/app/shared/models/application.model';
 import { BaseComponent } from '../../../../core/services/base.component';
 import { MediaMatcher } from '@angular/cdk/layout';
-import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-application-content',
@@ -51,6 +50,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
       this.columnsToDisplay = ['id', 'status'];
     }
   }
+
   ngOnInit(): void {
     if (this.isAdmin) {
       this.columnsToDisplay.splice(1, 0, 'owner');
@@ -62,7 +62,7 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
     this.applicationDataSource = new MatTableDataSource(this.applications);
     this.filterForm = this.fb.group({
       username: [''],
-      status: [ApplicationStatus.PENDING],
+      status: [this.isAdmin ? ApplicationStatus.PENDING : ApplicationStatus.ALL],
       fromDate: [null],
       toDate: [null]
     });
