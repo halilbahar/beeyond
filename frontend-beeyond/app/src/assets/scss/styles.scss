@@ -2,6 +2,10 @@
 @import 'custom-theme';
 @import '~@angular/material/theming';
 
+*::-webkit-scrollbar-track {
+  background: red;
+}
+
 html,
 body {
   height: 100%;

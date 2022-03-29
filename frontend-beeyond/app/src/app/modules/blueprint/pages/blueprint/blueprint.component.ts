@@ -31,7 +31,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   monacoOptions = {
     language: 'yaml',
     scrollBeyondLastLine: false,
-    theme: this.themeService.theme.value ? 'vs-dark' : 'vs-light'
+    theme: this.themeService.isDarkTheme.value ? 'vs-dark' : 'vs-light'
   };
 
   constructor(
@@ -45,7 +45,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     media: MediaMatcher
   ) {
     super(changeDetectorRef, media);
-    this.themeService.theme.subscribe(value => {
+    this.themeService.isDarkTheme.subscribe(value => {
       this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
     });
   }

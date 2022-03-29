@@ -30,7 +30,7 @@ export class AppComponent {
     public themeService: ThemeService,
     private overlayContainer: OverlayContainer
   ) {
-    this.themeService.theme.subscribe(value => {
+    this.themeService.isDarkTheme.subscribe(value => {
       this.className = value ? 'darkMode' : '';
       if (value) {
         this.overlayContainer.getContainerElement().classList.add('darkMode');

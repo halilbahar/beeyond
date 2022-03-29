@@ -7,6 +7,7 @@ import { TemplateApplication } from 'src/app/shared/models/template.application.
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Template } from '../../../../shared/models/template.model';
 import { ApplicationRange } from '../../../../shared/models/application-range.model';
+import { ThemeService } from '../../../../core/services/theme.service';
 
 declare function constrainedEditor(editor: any): any;
 declare let monaco: any;
@@ -34,15 +35,21 @@ export class ApplicationReviewComponent implements OnInit {
     language: 'yaml',
     scrollBeyondLastLine: false,
     readOnly: true,
-    automaticLayout: true
+    automaticLayout: true,
+    theme: this.themeService.isDarkTheme.value ? 'vs-dark' : 'vs-light'
   };
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private backendApiService: BackendApiService,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private themeService: ThemeService
+  ) {
+    this.themeService.isDarkTheme.subscribe(value => {
+      this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: value ? 'vs-dark' : 'vs-light' };
+    });
+  }
 
   public get application(): CustomApplication | TemplateApplication {
     return this.customApplication || this.templateApplication;

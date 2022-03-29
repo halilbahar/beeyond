@@ -22,7 +22,7 @@ import { BaseComponent } from '../services/base.component';
   ]
 })
 export class SideNavigationComponent extends BaseComponent implements OnInit {
-  theme: boolean;
+  isDarkTheme: boolean;
   agenda = [
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
@@ -71,7 +71,7 @@ export class SideNavigationComponent extends BaseComponent implements OnInit {
     media: MediaMatcher
   ) {
     super(changeDetectorRef, media);
-    this.theme = themeService.theme.value;
+    this.isDarkTheme = themeService.isDarkTheme.value;
     this.sidenavService.minimized.next(!super.mobileQuery?.matches);
   }
 
@@ -95,7 +95,8 @@ export class SideNavigationComponent extends BaseComponent implements OnInit {
   }
 
   toggleTheme() {
-    this.themeService.theme.next(this.theme);
+    window.localStorage.setItem('isDarkTheme', String(this.isDarkTheme));
+    this.themeService.isDarkTheme.next(this.isDarkTheme);
   }
 
   logOut(): void {
