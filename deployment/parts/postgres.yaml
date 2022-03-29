@@ -1,0 +1,38 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beeyond-db
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: beeyond-db
+  template:
+    metadata:
+      labels:
+        app: beeyond-db
+    spec:
+      containers:
+        - env:
+            - name: POSTGRES_DB
+              value: beeyond_db
+            - name: POSTGRES_PASSWORD
+              value: beeyond
+            - name: POSTGRES_USER
+              value: beeyond
+          image: postgres:13.0
+          name: beeyond-database
+          ports:
+            - containerPort: 5432
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: beeyond-db
+spec:
+  ports:
+    - name: "5432"
+      port: 5432
+      targetPort: 5432
+  selector:
+    app: beeyond-db

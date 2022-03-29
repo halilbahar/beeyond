@@ -83,7 +83,7 @@ func setupContainers() {
 }
 
 func fetchTokenFromKeycloak() string {
-	client := gocloak.NewClient(conf.Configuration.Authentication.Url + ":" + conf.Configuration.Authentication.Port)
+	client := gocloak.NewClient(conf.Configuration.Authentication.Url)
 	jwt, _ := client.Login(
 		context.Background(),
 		conf.Configuration.Authentication.ClientId,

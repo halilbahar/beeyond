@@ -14,7 +14,7 @@ export class ConfigService {
 
   init(): Promise<any> {
     return this.httpClient
-      .get<Config>('/assets/config.json')
+      .get<Config>('assets/config.json')
       .pipe(
         tap(config => {
           this.config = config;

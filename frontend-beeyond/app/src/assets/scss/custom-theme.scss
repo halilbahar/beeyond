@@ -51,7 +51,8 @@ $beeyond-dark-theme: mat-dark-theme(
   mat-card-subtitle,
   .description,
   .mat-list-item,
-  .mat-datepicker-toggle {
+  .mat-datepicker-toggle,
+  .mat-option-text {
     color: white !important;
   }
 
