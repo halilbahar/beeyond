@@ -52,7 +52,10 @@ export class ApplicationReviewComponent implements OnInit {
     public dialog: MatDialog
   ) {
     this.themeService.isDarkTheme.subscribe(value => {
-      this.monacoEditorOptions = { ...this.monacoEditorOptions, theme: value ? 'vs-dark' : 'vs-light' };
+      this.monacoEditorOptions = {
+        ...this.monacoEditorOptions,
+        theme: value ? 'vs-dark' : 'vs-light'
+      };
     });
   }
 

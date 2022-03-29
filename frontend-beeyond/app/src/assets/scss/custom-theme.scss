@@ -55,8 +55,10 @@ $beeyond-dark-theme: mat-dark-theme(
     color: white !important;
   }
 
-  .item-hover:hover, .selected-row, .item-hover.selected {
-    background-color: mat-color($beeyond-dark-background, darker)!important;
+  .item-hover:hover,
+  .selected-row,
+  .item-hover.selected {
+    background-color: mat-color($beeyond-dark-background, darker) !important;
   }
 }
 
