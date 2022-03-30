@@ -8,7 +8,7 @@ import { Application } from '../../../../shared/models/application.model';
 })
 export class ApplicationAttributesComponent implements OnInit {
   @Input() public application: Application;
-  formFieldSize: String = '16px';
+  formFieldSize = '16px';
 
   constructor() {}
 
