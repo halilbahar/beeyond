@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationDto.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.dto</a> &gt; <span class="el_source">ApplicationDto.kt</span></div><h1>ApplicationDto.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.dto
+
+import at.htl.beeyond.entity.ApplicationStatus
+import at.htl.beeyond.entity.Namespace
+import at.htl.beeyond.validation.Exists
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
+import javax.json.bind.annotation.JsonbDateFormat
+import javax.json.bind.annotation.JsonbProperty
+import javax.json.bind.annotation.JsonbTransient
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
+
+<span class="pc" id="L15">abstract class ApplicationDto(</span>
+<span class="pc" id="L16">    var id: Long? = null,</span>
+<span class="pc" id="L17">    @field:Size(max = 255) var note: String? = null,</span>
+<span class="pc" id="L18">    @set:JsonbTransient var status: ApplicationStatus? = null,</span>
+<span class="pc" id="L19">    @set:JsonbTransient var owner: UserDto? = null,</span>
+<span class="pc" id="L20">    @set:JsonbTransient var createdAt: LocalDateTime? = null,</span>
+<span class="pc" id="L21">    @set:JsonbTransient var startedAt: LocalDateTime? = null,</span>
+<span class="pc" id="L22">    @set:JsonbTransient var finishedAt: LocalDateTime? = null,</span>
+<span class="fc" id="L23">    @field:NotNull</span>
+    @field:Exists(entity = Namespace::class, fieldName = &quot;namespace&quot;)
+<span class="pc" id="L25">    var namespace: String? = null,</span>
+<span class="fc" id="L26">    @field:JsonbProperty(&quot;class&quot;)</span>
+<span class="pc" id="L27">    @field:NotNull var schoolClass: String? = null,</span>
+<span class="fc" id="L28">    @set:JsonbDateFormat(value = &quot;dd.MM.yyyy&quot;)</span>
+    @field:JsonbProperty(&quot;to&quot;)
+<span class="pc" id="L30">    @field:NotNull var toDate: LocalDate? = null,</span>
+<span class="fc" id="L31">    @field:Size(max = 255)</span>
+<span class="pc" id="L32">    @field:NotNull var purpose: String? = null</span>
+<span class="nc" id="L33">)</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
