@@ -81,4 +81,4 @@ fi
 
 asciidoctor -r asciidoctor-diagram ./out/*.adoc
 
-#find out -name "*.adoc" -type f -delete
+find out -name "*.adoc" -type f -delete
