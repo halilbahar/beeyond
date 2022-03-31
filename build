@@ -49,6 +49,21 @@ cp -r ./continuous-integration-report/* out/
 cp -p -r ./asciidoctor/* out/
 recurse ./asciidoctor
 
+if [ -d "out/protokolle" ];then
+    echo >> out/index.adoc
+    echo >> out/index.adoc
+
+    echo '== Protokolle' >> out/index.adoc
+    find out/protokolle -name "*.html" -type f | while read line; do
+      if [[ $line != *"vorlage"* ]]; then
+        PROTOKOLL=$(echo $line | cut -d/ -f2- | cut -d. -f1)
+        NAME=$(echo $line | rev | cut -d/ -f1 | rev | cut -d. -f1)
+        echo "<<$PROTOKOLL#, $NAME>>" >> out/index.adoc
+        echo >> out/index.adoc
+      fi
+    done
+fi
+
 if [ -d "out/slides" ];then
     echo >> out/index.adoc
     echo >> out/index.adoc
@@ -59,10 +74,11 @@ if [ -d "out/slides" ];then
             SLIDE=$(echo $line | cut -d/ -f2- | cut -d. -f1)
             NAME=$(echo $line| rev | cut -d/ -f2 | rev)
             echo "<<$SLIDE#, $NAME>>" >> out/index.adoc
+            echo >> out/index.adoc
         fi
     done
 fi
 
 asciidoctor -r asciidoctor-diagram ./out/*.adoc
 
-find out -name "*.adoc" -type f -delete
+#find out -name "*.adoc" -type f -delete

@@ -1,0 +1,26 @@
+== Protokoll vom 2020.05.25
+
+=== Anwesend
+
+.Teilnehmer
+|===
+| anwesend        | Verteiler
+| Eichhorn Moritz     |
+| Sljivic Emina (Protokollführerin)     |
+| Polleichtner Moritz     |
+| Wallinger Marc |
+| T. Stütz        |
+|===
+
+.Ort und Zeit
+|===
+| Ort   | Klasse
+| Datum | 31. März 2022
+| Dauer | etwa 10 Minuten
+|===
+
+=== Besprochene Themen:
+
+==== Multipart Templates
+
+Soll wie im YouTrack definiert, gemacht werden.

@@ -13,16 +13,6 @@ include::pflichtenheft.adoc[leveloffset=+1]
 
 include::entwurf.adoc[leveloffset=+1]
 
-== Protokolle
-
-:leveloffset: +1
-
-include::protokolle/2020.05.25.adoc[]
-
-include::protokolle/2020.11.10.adoc[]
-
-:leveloffset: -1
-
 == Reports
 
 <<reports.adoc#, Hier>> sind die Reports

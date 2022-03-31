@@ -88,7 +88,7 @@ FieldValue "1" -up-> "1" Field
 @enduml
 ----
 
-== Anwedungsfalldiagramm
+== Anwendungsfalldiagramm
 
 [plantuml]
 ----

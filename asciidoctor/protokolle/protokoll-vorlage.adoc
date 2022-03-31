@@ -1,27 +1,22 @@
-== Protokoll vom 1900.02.30
+== Protokoll vom ?
 
 === Anwesend
 
 .Teilnehmer
 |===
 | anwesend        | Verteiler
-| Bahar Halil     |
-| Cao Sonja       |
-| Naderer Juliana |
+|                 |
+|                 |
+|                 |
+|                 |
 | T. Stütz        |
-| R. Reder        |
-| C. Aberger      |
 |===
 
 .Ort und Zeit
 |===
-| Ort   | In den Wolken
-| Datum | 30. Februar 1900
-| Dauer | etwa 12 Stunden
+| Ort   |
+| Datum |
+| Dauer |
 |===
 
 === Besprochene Themen:
-
-=== Autos
-
-* Sehr praktisch, aber umweltverschmutzend
