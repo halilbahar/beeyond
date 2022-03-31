@@ -54,7 +54,7 @@ if [ -d "out/protokolle" ];then
     echo >> out/index.adoc
 
     echo '== Protokolle' >> out/index.adoc
-    find out/protokolle -name "*.html" -type f | while read line; do
+    find out/protokolle -name "*.html" -type f | sort -r | while read line; do
       if [[ $line != *"vorlage"* ]]; then
         PROTOKOLL=$(echo $line | cut -d/ -f2- | cut -d. -f1)
         NAME=$(echo $line | rev | cut -d/ -f1 | rev | cut -d. -f1)
