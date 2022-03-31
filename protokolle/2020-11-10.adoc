@@ -1,0 +1,38 @@
+== Protokoll vom 2020.11.10
+
+=== Anwesend
+
+.Teilnehmer
+|===
+| anwesend        | Verteiler
+| Bahar Halil     |
+| Cao Sonja       |
+| Naderer Juliana |
+| T. Stütz        |
+| C. Aberger      |
+|===
+
+.Ort und Zeit
+|===
+| Ort   | Discord
+| Datum | 10. November 2020
+| Dauer | ca. 20min
+|===
+
+=== Besprochene Themen:
+
+=== Business Process
+
+Der Vorgeschlagene Prozess wie ein Lehrer Anfragen akzeptiert ist nicht detailreich genug. Dieser soll überarbeitet werden. Z.B. sollen Beispiel-Schüler verwendet werden.
+
+* Breadcrumbs sollen angezeigt werden
+* Statt Platzhalter sollen Daten verwendet werden
+
+Der überarbeitete Business Process soll dann in der Dokumentation sichtbar sein.
+
+=== In Memory DB
+
+* Zu komplex als Zusatz
+* zurzeit bei einer Ralationalen-DB bleiben
+* Prof. Aberger schaut sich Cron-job an
+

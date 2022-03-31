@@ -1,0 +1,22 @@
+== Protokoll vom ?
+
+=== Anwesend
+
+.Teilnehmer
+|===
+| anwesend        | Verteiler
+|                 |
+|                 |
+|                 |
+|                 |
+| T. Stütz        |
+|===
+
+.Ort und Zeit
+|===
+| Ort   |
+| Datum |
+| Dauer |
+|===
+
+=== Besprochene Themen:
