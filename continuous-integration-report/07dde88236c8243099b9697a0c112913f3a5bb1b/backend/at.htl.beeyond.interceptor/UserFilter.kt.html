@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>UserFilter.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.interceptor</a> &gt; <span class="el_source">UserFilter.kt</span></div><h1>UserFilter.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.interceptor
+
+import at.htl.beeyond.entity.Namespace
+import at.htl.beeyond.entity.User
+import javax.enterprise.context.ApplicationScoped
+import javax.transaction.Transactional
+import javax.ws.rs.container.ContainerRequestContext
+import javax.ws.rs.container.ContainerRequestFilter
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.SecurityContext
+import javax.ws.rs.ext.Provider
+
+<span class="fc" id="L13">@Provider</span>
+@ApplicationScoped
+<span class="fc" id="L15">class UserFilter : ContainerRequestFilter {</span>
+
+    @Context
+<span class="pc bpc" id="L18" title="1 of 2 branches missed.">    lateinit var securityContext: SecurityContext</span>
+
+    @Transactional
+    override fun filter(requestContext: ContainerRequestContext?) {
+<span class="fc" id="L22">        val userPrincipal = this.securityContext.userPrincipal</span>
+<span class="pc bpc" id="L23" title="1 of 2 branches missed.">        if (userPrincipal != null) {</span>
+<span class="fc" id="L24">            val name = userPrincipal.name</span>
+<span class="fc" id="L25">            var user: User? = User.find&lt;User&gt;(&quot;name&quot;, name).firstResult()</span>
+
+<span class="fc bfc" id="L27" title="All 2 branches covered.">            if (user == null) {</span>
+<span class="fc" id="L28">                try {</span>
+<span class="fc" id="L29">                    user = User(name)</span>
+<span class="fc" id="L30">                    user.persist()</span>
+<span class="fc" id="L31">                    val namespace = Namespace(name)</span>
+<span class="fc" id="L32">                    namespace.users = listOf(user)</span>
+<span class="fc" id="L33">                    namespace.persist()</span>
+<span class="nc" id="L34">                } catch (e: Exception) {</span>
+                } // Prevent duplicate user and namespace
+            }
+        }
+<span class="fc" id="L38">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
