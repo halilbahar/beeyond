@@ -12,6 +12,7 @@ spec:
       labels:
         app: mongo-db
     spec:
+      serviceAccountName: beeyond
       containers:
         - env:
             - name: MONGO_INITDB_DATABASE
