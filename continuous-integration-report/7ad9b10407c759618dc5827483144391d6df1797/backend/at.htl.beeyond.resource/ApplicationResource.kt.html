@@ -1,0 +1,237 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>ApplicationResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.resource</a> &gt; <span class="el_source">ApplicationResource.kt</span></div><h1>ApplicationResource.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.resource
+
+import at.htl.beeyond.dto.CustomApplicationDto
+import at.htl.beeyond.dto.DenyMessageDto
+import at.htl.beeyond.dto.TemplateApplicationDto
+import at.htl.beeyond.entity.*
+import at.htl.beeyond.service.DeploymentService
+import at.htl.beeyond.service.NamespaceService
+import io.quarkus.hibernate.orm.panache.PanacheEntityBase
+import java.time.LocalDateTime
+import java.util.stream.Collectors
+import javax.annotation.security.RolesAllowed
+import javax.inject.Inject
+import javax.transaction.Transactional
+import javax.ws.rs.*
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+import javax.ws.rs.core.SecurityContext
+
+<span class="fc" id="L21">@Path(&quot;/application&quot;)</span>
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+<span class="fc" id="L24">class ApplicationResource {</span>
+
+    @Inject
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">    lateinit var deploymentService: DeploymentService</span>
+
+    @Inject
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">    lateinit var namespaceService: NamespaceService</span>
+
+    @GET
+    @RolesAllowed(value = [&quot;student&quot;, &quot;teacher&quot;])
+    @Transactional
+    fun getAll(@Context ctx: SecurityContext): Response? {
+<span class="fc" id="L36">        val mapToDto = { o: PanacheEntityBase? -&gt;</span>
+<span class="pc bpc" id="L37" title="1 of 2 branches missed.">            if (o is CustomApplication) {</span>
+<span class="fc" id="L38">                CustomApplicationDto(o)</span>
+            } else {
+<span class="nc bnc" id="L40" title="All 2 branches missed.">                TemplateApplicationDto(o as TemplateApplication)</span>
+            }
+        }
+
+<span class="fc bfc" id="L44" title="All 2 branches covered.">        val applications = if (ctx.isUserInRole(&quot;teacher&quot;)) {</span>
+<span class="fc" id="L45">            Application.streamAll&lt;Application&gt;().map(mapToDto).collect(Collectors.toList&lt;Any&gt;())</span>
+        } else {
+<span class="fc" id="L47">            Application.streamAll&lt;Application&gt;().filter {</span>
+<span class="fc" id="L48">                it.owner.name == ctx.userPrincipal.name</span>
+<span class="pc" id="L49">            }.map(mapToDto).collect(Collectors.toList&lt;Any&gt;())</span>
+        }
+
+<span class="fc" id="L52">        return Response.ok(applications).build()</span>
+    }
+
+    @GET
+    @Path(&quot;/{id}&quot;)
+    @RolesAllowed(value = [&quot;teacher&quot;, &quot;student&quot;])
+    @Transactional
+    fun getApplicationById(@PathParam(&quot;id&quot;) id: Long?, @Context ctx: SecurityContext): Response? {
+<span class="pc bpc" id="L60" title="1 of 2 branches missed.">        val application = Application.findById&lt;Application&gt;(id)</span>
+<span class="nc" id="L61">            ?: return Response.status(Response.Status.NOT_FOUND).build()</span>
+
+<span class="pc bpc" id="L63" title="1 of 4 branches missed.">        if (!ctx.isUserInRole(&quot;teacher&quot;) &amp;&amp; application.owner.name != ctx.userPrincipal.name) {</span>
+<span class="nc" id="L64">            return Response.status(Response.Status.FORBIDDEN).build();</span>
+        }
+
+<span class="pc bpc" id="L67" title="1 of 2 branches missed.">        return if (application is CustomApplication) {</span>
+<span class="fc" id="L68">            Response.ok(CustomApplicationDto(application)).build()</span>
+        } else {
+<span class="nc" id="L70">            Response.ok(TemplateApplicationDto((application as TemplateApplication))).build()</span>
+        }
+    }
+
+    @PATCH
+    @Path(&quot;/approve/{id}&quot;)
+    @RolesAllowed(&quot;teacher&quot;)
+    @Transactional
+    fun approveApplication(@PathParam(&quot;id&quot;) id: Long?): Response? {
+<span class="fc bfc" id="L79" title="All 2 branches covered.">        val application = Application.findById&lt;Application&gt;(id)</span>
+<span class="fc" id="L80">            ?: return Response.status(Response.Status.NOT_FOUND).build()</span>
+
+<span class="fc bfc" id="L82" title="All 2 branches covered.">        return if(application.status == ApplicationStatus.PENDING){</span>
+<span class="fc" id="L83">            deploy(application)</span>
+
+<span class="fc" id="L85">            application.namespace.users.forEach {</span>
+<span class="fc" id="L86">                val notification = Notification(it, &quot;Application has been accepted!&quot;,&quot;&quot;, NotificationStatus.POSITIVE, &quot;application&quot;, application.id)</span>
+<span class="fc" id="L87">                notification.persist()</span>
+<span class="fc" id="L88">            }</span>
+
+<span class="fc" id="L90">            Response.ok().build()</span>
+        } else{
+<span class="fc" id="L92">            Response.status(422).entity(&quot;Application is not in state &quot;+ApplicationStatus.PENDING).build()</span>
+        }
+    }
+
+    @PATCH
+    @Path(&quot;/start/{id}&quot;)
+    @RolesAllowed(value = [&quot;teacher&quot;, &quot;student&quot;])
+    @Transactional
+    fun startApplication(@PathParam(&quot;id&quot;) id: Long?, @Context ctx: SecurityContext): Response? {
+<span class="fc bfc" id="L101" title="All 2 branches covered.">        val application = Application.findById&lt;Application&gt;(id)</span>
+<span class="fc" id="L102">            ?: return Response.status(Response.Status.NOT_FOUND).build()</span>
+
+<span class="fc bfc" id="L104" title="All 4 branches covered.">        if (!ctx.isUserInRole(&quot;teacher&quot;) &amp;&amp; application.owner.name != ctx.userPrincipal.name) {</span>
+<span class="fc" id="L105">            return Response.status(Response.Status.FORBIDDEN).build();</span>
+        }
+
+<span class="fc bfc" id="L108" title="All 2 branches covered.">        return if (application.status == ApplicationStatus.STOPPED){</span>
+<span class="fc" id="L109">            deploy(application)</span>
+
+<span class="fc" id="L111">            application.namespace.users.forEach {</span>
+<span class="fc" id="L112">                val notification = Notification(it, &quot;Application has been started!&quot;,&quot;&quot;, NotificationStatus.POSITIVE, &quot;application&quot;, application.id)</span>
+<span class="fc" id="L113">                notification.persist()</span>
+<span class="fc" id="L114">            }</span>
+
+<span class="fc" id="L116">            Response.ok().build()</span>
+        } else{
+<span class="fc" id="L118">            Response.status(422).entity(&quot;Application is not in state &quot;+ApplicationStatus.STOPPED).build()</span>
+        }
+    }
+
+    private fun deploy(application: Application) {
+<span class="fc" id="L123">        this.deploymentService.deploy(application)</span>
+<span class="fc" id="L124">        application.status = ApplicationStatus.RUNNING</span>
+<span class="fc" id="L125">        application.startedAt = LocalDateTime.now()</span>
+<span class="fc" id="L126">    }</span>
+
+    @PATCH
+    @Path(&quot;/deny/{id}&quot;)
+    @RolesAllowed(&quot;teacher&quot;)
+    @Transactional
+    fun denyApplication(@PathParam(&quot;id&quot;) id: Long?, message:DenyMessageDto?): Response? {
+<span class="fc bfc" id="L133" title="All 2 branches covered.">        val application = Application.findById&lt;Application&gt;(id)</span>
+<span class="fc" id="L134">            ?: return Response.status(404).build()</span>
+
+<span class="fc bfc" id="L136" title="All 2 branches covered.">        return if(application.status == ApplicationStatus.PENDING){</span>
+<span class="fc" id="L137">            application.status = ApplicationStatus.DENIED</span>
+
+<span class="fc" id="L139">            application.namespace.users.forEach {</span>
+<span class="pc bpc" id="L140" title="1 of 2 branches missed.">                val notification = Notification(it, &quot;Application has been denied!&quot;,message?.message, NotificationStatus.NEGATIVE, &quot;application&quot;, application.id)</span>
+<span class="fc" id="L141">                notification.persist()</span>
+<span class="fc" id="L142">            }</span>
+
+<span class="fc" id="L144">            Response.ok().build()</span>
+        } else{
+<span class="fc" id="L146">            Response.status(422).entity(&quot;Application is not in state &quot;+ApplicationStatus.PENDING).build()</span>
+        }
+    }
+
+    @PATCH
+    @Path(&quot;/stop/{id}&quot;)
+    @RolesAllowed(value = [&quot;teacher&quot;, &quot;student&quot;])
+    @Transactional
+    fun stopApplication(@PathParam(&quot;id&quot;) id: Long?, @Context ctx: SecurityContext): Response? {
+<span class="fc bfc" id="L155" title="All 2 branches covered.">        val application = Application.findById&lt;Application&gt;(id)</span>
+<span class="fc" id="L156">            ?: return Response.status(404).build()</span>
+
+<span class="fc bfc" id="L158" title="All 4 branches covered.">        if (!ctx.isUserInRole(&quot;teacher&quot;) &amp;&amp; application.owner.name != ctx.userPrincipal.name) {</span>
+<span class="fc" id="L159">            return Response.status(Response.Status.FORBIDDEN).build();</span>
+        }
+
+<span class="fc bfc" id="L162" title="All 2 branches covered.">        return if (application.status == ApplicationStatus.RUNNING) {</span>
+<span class="fc" id="L163">            finishStopApplication(application, ApplicationStatus.STOPPED)</span>
+<span class="fc" id="L164">            Response.ok().build()</span>
+        } else {
+<span class="fc" id="L166">            Response.status(422).entity(&quot;Application is not in state &quot;+ApplicationStatus.RUNNING).build()</span>
+        }
+    }
+
+    @PATCH
+    @Path(&quot;/finish/{id}&quot;)
+    @RolesAllowed(value = [&quot;teacher&quot;, &quot;student&quot;])
+    @Transactional
+    fun finishApplication(@PathParam(&quot;id&quot;) id: Long?, @Context ctx: SecurityContext): Response? {
+<span class="fc bfc" id="L175" title="All 2 branches covered.">        val application = Application.findById&lt;Application&gt;(id)</span>
+<span class="fc" id="L176">            ?: return Response.status(404).build()</span>
+
+<span class="pc bpc" id="L178" title="1 of 4 branches missed.">        if (!ctx.isUserInRole(&quot;teacher&quot;) &amp;&amp; application.owner.name != ctx.userPrincipal.name) {</span>
+<span class="fc" id="L179">            return Response.status(Response.Status.FORBIDDEN).build();</span>
+        }
+
+<span class="fc bfc" id="L182" title="All 4 branches covered.">        return if (application.status == ApplicationStatus.RUNNING || application.status == ApplicationStatus.STOPPED) {</span>
+<span class="fc" id="L183">            finishStopApplication(application, ApplicationStatus.FINISHED)</span>
+<span class="fc" id="L184">            Response.ok().build()</span>
+        } else {
+<span class="fc" id="L186">            Response.status(422).entity(&quot;Application is not in state &quot;+ApplicationStatus.RUNNING + &quot; or &quot; + ApplicationStatus.STOPPED).build()</span>
+        }
+    }
+
+    @PATCH
+    @Path(&quot;/request/{id}&quot;)
+    @RolesAllowed(value = [&quot;teacher&quot;, &quot;student&quot;])
+    @Transactional
+    fun requestApplication(@PathParam(&quot;id&quot;) id: Long?, @Context ctx: SecurityContext): Response? {
+<span class="fc bfc" id="L195" title="All 2 branches covered.">        val application = Application.findById&lt;Application&gt;(id)</span>
+<span class="fc" id="L196">            ?: return Response.status(404).build()</span>
+
+<span class="pc bpc" id="L198" title="3 of 4 branches missed.">        if (!ctx.isUserInRole(&quot;teacher&quot;) &amp;&amp; application.owner.name != ctx.userPrincipal.name) {</span>
+<span class="nc" id="L199">            return Response.status(Response.Status.FORBIDDEN).build();</span>
+        }
+
+<span class="fc bfc" id="L202" title="All 2 branches covered.">        return if (application.status == ApplicationStatus.DENIED) {</span>
+<span class="fc" id="L203">            application.status = ApplicationStatus.PENDING</span>
+<span class="fc" id="L204">            Response.ok().build()</span>
+        } else {
+<span class="fc" id="L206">            Response.status(422).entity(&quot;Application is not in state &quot; + ApplicationStatus.DENIED).build()</span>
+        }
+    }
+
+    private fun finishStopApplication(application: Application, status: ApplicationStatus) {
+<span class="fc" id="L211">        deploymentService.stop(application)</span>
+<span class="fc" id="L212">        application.status = status</span>
+<span class="fc bfc" id="L213" title="All 2 branches covered.">        if (status == ApplicationStatus.FINISHED) {</span>
+<span class="fc" id="L214">            application.finishedAt = LocalDateTime.now()</span>
+        }
+
+<span class="fc" id="L217">        application.namespace.users.forEach {</span>
+<span class="fc" id="L218">            val notification = Notification(it,</span>
+<span class="fc" id="L219">                &quot;Application has been ${status.toString().lowercase()}!&quot;,&quot;&quot;, NotificationStatus.NEUTRAL, &quot;application&quot;, application.id)</span>
+<span class="fc" id="L220">            notification.persist()</span>
+<span class="fc" id="L221">        }</span>
+
+<span class="pc bpc" id="L223" title="1 of 2 branches missed.">        val isLastApplication = Application</span>
+<span class="fc" id="L224">            .streamAll&lt;Application&gt;()</span>
+<span class="fc" id="L225">            .filter {</span>
+<span class="pc bpc" id="L226" title="1 of 4 branches missed.">                it.status == ApplicationStatus.RUNNING &amp;&amp; it.namespace == application.namespace</span>
+<span class="fc" id="L227">            }.count() == 0L</span>
+
+<span class="pc bpc" id="L229" title="1 of 2 branches missed.">        if (isLastApplication) {</span>
+<span class="fc" id="L230">            application.namespace.isDeleted = true</span>
+<span class="fc" id="L231">            namespaceService.deleteNamespace(application.namespace.namespace)</span>
+        }
+
+<span class="fc" id="L234">        deploymentService.client.extensions().ingresses().withLabel(&quot;beeyond-application-id&quot;, application.id.toString()).delete()</span>
+<span class="fc" id="L235">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
