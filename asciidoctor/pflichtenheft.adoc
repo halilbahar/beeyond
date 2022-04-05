@@ -1,7 +1,7 @@
 |===
 |*Projekttitel:*      |Beeyond
-|*Projektmitglieder:* |Halil Bahar, Sonja Cao, Juliana Naderer
-|*Auftraggeber:*      |Prof. Mag. Dr. Thomas Stütz
+|*Projektmitglieder:* |Halil Bahar, Sonja Cao, Juliana Naderer, Moritz Eichhorn, Moritz Polleichtner, Emina Sljivic,
+Marc Wallinger, Nico Hirsch, Markus Remplbauer
 |===
 
 == Ausgangssituation
@@ -18,15 +18,6 @@ Dafür müssen sie immer eine virtuelle Maschine beim Systemadministrator beantr
 
 Für den Systemadministrator ist es sehr umständlich, dass er jeden Antrag selbst bearbeiten muss, da es bei zu vielen von ihnen unübersichtlich wird.
 Außerdem hat dieser auch andere Tätigkeiten, die erledigt werden müssen.
-
-== Aufgabenstellung
-
-=== Funktionale Anforderungen
-
-* Möglichkeit ein Formular aus vorgegebenen Templates auszufüllen oder eigene YAML Files zu schreiben, das an den Administrator gesendet wird
-* Administratoren führen die Wartung durch (Abgelaufene Maschinen)
-* Auslastung ist für den Administrator sichtbar (Dashboard)
-* Anpassung der bereits lauffähigen Maschinen (z.B: Replicas ändern)
 
 == Ziele
 
