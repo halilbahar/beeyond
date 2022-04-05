@@ -12,6 +12,7 @@ spec:
       labels:
         app: identity-provider
     spec:
+      serviceAccountName: beeyond
       containers:
         - args:
             - -b

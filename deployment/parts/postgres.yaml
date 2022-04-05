@@ -12,6 +12,7 @@ spec:
       labels:
         app: beeyond-db
     spec:
+      serviceAccountName: beeyond
       containers:
         - env:
             - name: POSTGRES_DB

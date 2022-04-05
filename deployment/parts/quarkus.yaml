@@ -12,6 +12,7 @@ spec:
       labels:
         app: backend-beeyond
     spec:
+      serviceAccountName: beeyond
       containers:
         - env:
             - name: BEEYOND_KEYCLOAK_HOST

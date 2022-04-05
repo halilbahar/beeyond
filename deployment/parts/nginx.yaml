@@ -13,6 +13,7 @@ spec:
       labels:
         app: frontend-beeyond
     spec:
+      serviceAccountName: beeyond
       containers:
         - name: beeyond-frontend
           env:

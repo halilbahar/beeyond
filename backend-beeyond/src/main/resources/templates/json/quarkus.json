@@ -15,11 +15,6 @@
       "description": "Image name"
     },
     {
-      "label": "Image",
-      "wildcard": "image",
-      "description": "Image name"
-    },
-    {
       "label": "Database URL",
       "wildcard": "db-url",
       "description": "URL to the database"

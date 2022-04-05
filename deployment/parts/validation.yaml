@@ -12,6 +12,7 @@ spec:
       labels:
         app: kubernetes-validation-beeyond
     spec:
+      serviceAccountName: beeyond
       containers:
         - env:
             - name: BEEYOND_DATABASE_HOST
