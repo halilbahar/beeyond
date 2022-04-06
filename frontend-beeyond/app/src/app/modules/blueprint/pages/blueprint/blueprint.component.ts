@@ -49,7 +49,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   ) {
     super(changeDetectorRef, media);
     this.themeService.isDarkTheme.subscribe(value => {
-      this.monacoOptions = {...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light'};
+      this.monacoOptions = { ...this.monacoOptions, theme: value ? 'vs-dark' : 'vs-light' };
     });
   }
 
@@ -116,7 +116,8 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
 
       blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
 
-      this.backendApiService.createCustomApplication(blueprint).subscribe(() =>
+      this.backendApiService.createCustomApplication(blueprint).subscribe(
+        () =>
           this.router.navigate(['/profile']).then(navigated => {
             if (navigated) {
               this.snackBar.open(
@@ -128,8 +129,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
                 }
               );
             }
-          })
-        ,
+          }),
         error => {
           this.snackBar.open(
             error.error.map(err => err.message + ' - ' + err.key).join('\n'),
@@ -144,12 +144,13 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     } else if (this.blueprintType === 'Template') {
       blueprint = {
         ...blueprint,
-        ...this.templateForm.value,
+        ...this.templateForm.value
       };
       blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
       console.log(blueprint);
 
-      this.backendApiService.createTemplateApplication(blueprint).subscribe(() =>
+      this.backendApiService.createTemplateApplication(blueprint).subscribe(
+        () =>
           this.router.navigate(['/profile']).then(navigated => {
             if (navigated) {
               this.snackBar.open(
@@ -211,7 +212,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     }
   }
 
-  getContent(){
+  getContent() {
     let content = '';
     if (this.blueprintType === 'Template') {
       const regex = /%([\w-]+)%/g;
@@ -219,7 +220,10 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
       this.template.fields.forEach(f => {
         if (this.templateForm.controls.fieldValues.value.find(v => v.fieldId === f.id).value) {
           const re = new RegExp('%' + f.wildcard + '%', 'g');
-          temp = temp.replace(re, this.templateForm.controls.fieldValues.value.find(v => v.fieldId === f.id).value);
+          temp = temp.replace(
+            re,
+            this.templateForm.controls.fieldValues.value.find(v => v.fieldId === f.id).value
+          );
         }
       });
       content = temp.replace(regex, 'temp');
@@ -233,14 +237,18 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     const content = this.getContent();
     this.services = [];
     try {
-      yaml.loadAll(content).filter((v: any) => v.kind === 'Service').forEach((v: any) => {
-        this.services.push({
-          name: v.metadata.name,
-          selected: false,
-          ports: v.spec.ports.map(p => p.port)
+      yaml
+        .loadAll(content)
+        .filter((v: any) => v.kind === 'Service')
+        .forEach((v: any) => {
+          this.services.push({
+            name: v.metadata.name,
+            selected: false,
+            ports: v.spec.ports.map(p => p.port)
+          });
         });
-      });
-    } finally {}
+    } finally {
+    }
   }
 
   createFieldValue(fieldId: number): FormGroup {
@@ -270,7 +278,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
       };
 
       this.namespaces = namespaces
-        .map(namespace => ({...namespace, label: namespace.namespace}))
+        .map(namespace => ({ ...namespace, label: namespace.namespace }))
         .filter(namespace => namespace.namespace !== this.authenticationService.username.value);
       this.namespaces.push(defaultNamespace);
       this.thirdFormGroup.controls.namespace.setValue(defaultNamespace.namespace);

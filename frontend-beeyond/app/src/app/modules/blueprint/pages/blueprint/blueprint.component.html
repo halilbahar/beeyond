@@ -124,25 +124,24 @@
   </mat-step>
 
   <mat-step *ngIf="services.length !== 0">
-    <ng-template matStepLabel><span *ngIf="!mobileQuery.matches">Choose services</span></ng-template>
+    <ng-template matStepLabel
+      ><span *ngIf="!mobileQuery.matches">Choose services</span></ng-template
+    >
     <mat-card-title>Ingress creation</mat-card-title>
     <mat-card-subtitle>Select the services you want an ingress for</mat-card-subtitle>
     <div style="height: 100%">
-      <div *ngFor="let service of services" style="display:flex;align-items: center">
-        <mat-checkbox [(ngModel)]="service.selected" style="margin: 10px" color="primary"></mat-checkbox>
-        {{service.name}}
+      <div *ngFor="let service of services" style="display: flex; align-items: center">
+        <mat-checkbox
+          [(ngModel)]="service.selected"
+          style="margin: 10px"
+          color="primary"
+        ></mat-checkbox>
+        {{ service.name }}
       </div>
     </div>
     <div class="button-container">
       <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
-      <button
-        mat-flat-button
-        color="primary"
-        matStepperNext
-        [disabled]=""
-      >
-        Next
-      </button>
+      <button mat-flat-button color="primary" matStepperNext [disabled]="">Next</button>
     </div>
   </mat-step>
 
