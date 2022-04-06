@@ -24,6 +24,6 @@ export class TemplateListComponent implements OnInit {
     if (!this.routingEnabled) {
       return;
     }
-    this.router.navigate([this.routePath.replace('{id}', String(id))]).then(console.log);
+    this.router.navigate([this.routePath.replace('{id}', String(id))]);
   }
 }

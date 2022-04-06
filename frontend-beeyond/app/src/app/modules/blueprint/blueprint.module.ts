@@ -19,30 +19,32 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 import { MatIconModule } from '@angular/material/icon';
 import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatCheckboxModule} from "@angular/material/checkbox";
 
 @NgModule({
   declarations: [BlueprintComponent],
-  imports: [
-    CommonModule,
-    BlueprintRoutingModule,
-    MatCardModule,
-    MatDividerModule,
-    MatListModule,
-    MatButtonModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatTabsModule,
-    FormsModule,
-    SharedModule,
-    ReactiveFormsModule,
-    MatSnackBarModule,
-    MonacoEditorModule,
-    MatSelectModule,
-    MatStepperModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatIconModule,
-    MatTooltipModule
-  ]
+    imports: [
+        CommonModule,
+        BlueprintRoutingModule,
+        MatCardModule,
+        MatDividerModule,
+        MatListModule,
+        MatButtonModule,
+        MatFormFieldModule,
+        MatInputModule,
+        MatTabsModule,
+        FormsModule,
+        SharedModule,
+        ReactiveFormsModule,
+        MatSnackBarModule,
+        MonacoEditorModule,
+        MatSelectModule,
+        MatStepperModule,
+        MatDatepickerModule,
+        MatNativeDateModule,
+        MatIconModule,
+        MatTooltipModule,
+        MatCheckboxModule
+    ]
 })
 export class BlueprintModule {}

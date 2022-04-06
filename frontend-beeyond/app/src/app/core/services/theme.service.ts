@@ -9,7 +9,6 @@ export class ThemeService {
 
   constructor() {
     if (window.localStorage.getItem('isDarkTheme') != null) {
-      console.log(window.localStorage.getItem('isDarkTheme'));
       this.isDarkTheme.next(window.localStorage.getItem('isDarkTheme') === 'true');
     } else {
       this.isDarkTheme.next(

@@ -37,7 +37,10 @@ public abstract class Application extends PanacheEntityBase {
 
     private String purpose;
 
-    public Application(String note, User owner, Namespace namespace, String schoolClass, LocalDate toDate, String purpose) {
+    @Lob
+    private String content;
+
+    public Application(String note, User owner, Namespace namespace, String schoolClass, LocalDate toDate, String purpose, String content) {
         this.note = note;
         this.status = ApplicationStatus.PENDING;
         this.owner = owner;
@@ -46,6 +49,7 @@ public abstract class Application extends PanacheEntityBase {
         this.schoolClass = schoolClass;
         this.toDate = toDate;
         this.purpose = purpose;
+        this.content = content;
     }
 
     public Application() {
@@ -103,7 +107,13 @@ public abstract class Application extends PanacheEntityBase {
         this.finishedAt = finishedAt;
     }
 
-    public abstract String getContent();
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
     public Namespace getNamespace() {
         return namespace;

@@ -56,12 +56,12 @@ export class TemplateCreateComponent implements OnInit {
       this.wildcards = [];
       this.fields.clear();
 
-      const regex = /%([\w]+)%/g;
+      const regex = /%([\w-]+)%/g;
       let match;
 
       do {
         match = regex.exec(content);
-        if (match) {
+        if (match && !this.wildcards.includes(match[1])) {
           this.wildcards.push(match[1]);
           this.fields.push(this.createWildcardField(match[1]));
         }

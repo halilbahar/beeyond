@@ -18,6 +18,16 @@
       "label": "Database URL",
       "wildcard": "db-url",
       "description": "URL to the database"
+    },
+    {
+      "label": "Database Username",
+      "wildcard": "db-user",
+      "description": "Database user"
+    },
+    {
+      "label": "Database Password",
+      "wildcard": "db-password",
+      "description": "Password for the specified user"
     }
   ]
 }
