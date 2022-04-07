@@ -8,24 +8,31 @@
 <div class="review-content">
   <mat-tab-group id="tab-group" style="height: 100%">
     <mat-tab label="Information">
-      <div class="review-content">
-        <app-application-attributes [application]="application"></app-application-attributes>
-        <app-variable-list
-          *ngIf="templateApplication"
-          [fieldValues]="templateApplication.fieldValues"
-          [templateId]="templateApplication.templateId"
-        ></app-variable-list>
-      </div>
+      <ng-template matTabContent>
+        <div class="review-content">
+          <app-application-attributes
+            [application]="application"
+            style="padding-top: 10px"
+          ></app-application-attributes>
+        </div>
+      </ng-template>
     </mat-tab>
 
-    <mat-tab label="Content">
+    <mat-tab label="Content" style="padding-top: 10px; height: 100%">
       <ng-template matTabContent>
         <ngx-monaco-editor
-          style="height: 100%; overflow: hidden"
+          *ngIf="customApplication"
+          style="padding-top: 10px; height: 100%; overflow: hidden"
           [options]="monacoEditorOptions"
           [ngModel]="customApplication ? customApplication?.content : template?.content"
           (onInit)="onEditorInit($event)"
         ></ngx-monaco-editor>
+        <app-variable-list
+          style="padding-top: 10px; height: 100%"
+          *ngIf="templateApplication"
+          [fieldValues]="templateApplication.fieldValues"
+          [templateId]="templateApplication.templateId"
+        ></app-variable-list>
       </ng-template>
     </mat-tab>
   </mat-tab-group>
