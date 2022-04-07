@@ -8,9 +8,9 @@ import at.htl.beeyond.validation.ValidKubernetes
 import java.time.LocalDate
 import java.time.LocalDateTime
 import java.util.*
-import javax.json.bind.annotation.JsonbTransient
 import javax.validation.GroupSequence
 import javax.validation.Valid
+import javax.validation.constraints.NotBlank
 import javax.validation.constraints.NotNull
 
 @GroupSequence(TemplateApplicationDto::class, Checks.TemplateField::class, Checks.KubernetesContent::class)
@@ -29,7 +29,8 @@ class TemplateApplicationDto(
     namespace: String = "",
     schoolClass: String? = null,
     toDate: LocalDate? = null,
-    purpose: String? = null
+    purpose: String? = null,
+    content: String? = null
 ) : ApplicationDto(
     id,
     note,
@@ -60,20 +61,14 @@ class TemplateApplicationDto(
         templateApplication.purpose
     )
 
-    @JsonbTransient
-    fun getContent(): String {
-        val template = Template.findById<Template>(this.templateId)
-        val fieldValues = this.fieldValues
-        var content = template.content
-        for (fieldValue in fieldValues) {
-            val wildcard = TemplateField.findById<TemplateField>(fieldValue.fieldId).wildcard
-            content = content.replace("%$wildcard%", fieldValue.value!!)
-        }
-
-        return content
-    }
-
     override fun toString(): String {
         return ""
     }
+
+    var content: String? = content
+        set(value) {
+            if (value != null) {
+                field = value.trim()
+            }
+        }
 }

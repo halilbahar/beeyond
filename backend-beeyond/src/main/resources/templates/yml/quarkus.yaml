@@ -16,6 +16,10 @@ spec:
         - env:
             - name: QUARKUS_DATASOURCE_JDBC_URL
               value: %db-url%
+            - name: QUARKUS_DATASOURCE_USERNAME
+              value: %db-user%
+            - name: QUARKUS_DATASOURCE_PASSWORD
+              value: %db-password%
           image: %image%
           name: %name%
           ports:

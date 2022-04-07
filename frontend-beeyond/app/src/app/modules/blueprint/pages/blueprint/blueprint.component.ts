@@ -1,5 +1,5 @@
 import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
-import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { BackendApiService } from '../../../../core/services/backend-api.service';
 import { Router } from '@angular/router';
 import { Template } from '../../../../shared/models/template.model';
@@ -10,6 +10,7 @@ import { AuthenticationService } from '../../../../core/authentification/authent
 import { MediaMatcher } from '@angular/cdk/layout';
 import { BaseComponent } from '../../../../core/services/base.component';
 import { ThemeService } from '../../../../core/services/theme.service';
+import * as yaml from 'js-yaml';
 
 @Component({
   selector: 'app-blueprint',
@@ -27,6 +28,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   namespaces: Namespace[];
   templateId: number = null;
   templateForm: FormGroup;
+  services = [];
 
   monacoOptions = {
     language: 'yaml',
@@ -51,10 +53,6 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     });
   }
 
-  get fields(): FormArray {
-    return this.secondFormGroup.controls.fields as FormArray;
-  }
-
   ngOnInit(): void {
     this.backendApiService.getTemplates().subscribe(templates => {
       this.templates = templates.filter(template => !template.deleted);
@@ -68,22 +66,8 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
       content: ['', Validators.required]
     });
 
-    this.secondFormGroup.controls.content.valueChanges.subscribe(content => {
-      this.wildcards = [];
-      if (this.fields) {
-        this.fields.clear();
-      }
-
-      const regex = /%([\w]+)%/g;
-      let match;
-
-      do {
-        match = regex.exec(content);
-        if (match) {
-          this.wildcards.push(match[1]);
-          this.fields.push(this.createWildcardField(match[1]));
-        }
-      } while (match);
+    this.secondFormGroup.controls.content.valueChanges.subscribe(value => {
+      this.loadServices();
     });
 
     this.thirdFormGroup = this.fb.group({
@@ -108,16 +92,32 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
   }
 
   createBlueprint() {
+    let blueprint = {
+      ...this.thirdFormGroup.value
+    };
+    console.log(blueprint);
+
+    const temp: any[] = yaml.loadAll(this.getContent());
+    temp.map((c: any) => {
+      if (this.services.find(s => s.name === c.metadata.name).selected && c.kind === 'Service') {
+        if (!c.metadata.labels) {
+          c.metadata.labels = {};
+        }
+        c.metadata.labels['beeyond-create-ingress'] = 'true';
+      }
+    });
+    blueprint.content = temp.map(c => yaml.dump(c)).join('---\n');
+
     if (this.blueprintType === 'Custom') {
-      const blueprint = {
-        ...this.secondFormGroup.value,
-        ...this.thirdFormGroup.value
+      blueprint = {
+        ...blueprint,
+        ...this.secondFormGroup.value
       };
 
       blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
 
       this.backendApiService.createCustomApplication(blueprint).subscribe(
-        () => {
+        () =>
           this.router.navigate(['/profile']).then(navigated => {
             if (navigated) {
               this.snackBar.open(
@@ -129,8 +129,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
                 }
               );
             }
-          });
-        },
+          }),
         error => {
           this.snackBar.open(
             error.error.map(err => err.message + ' - ' + err.key).join('\n'),
@@ -143,15 +142,15 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
         }
       );
     } else if (this.blueprintType === 'Template') {
-      const blueprint = {
-        ...this.templateForm.value,
-        ...this.thirdFormGroup.value
+      blueprint = {
+        ...blueprint,
+        ...this.templateForm.value
       };
-
       blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
+      console.log(blueprint);
 
       this.backendApiService.createTemplateApplication(blueprint).subscribe(
-        () => {
+        () =>
           this.router.navigate(['/profile']).then(navigated => {
             if (navigated) {
               this.snackBar.open(
@@ -163,8 +162,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
                 }
               );
             }
-          });
-        },
+          }),
         error => {
           this.snackBar.open(
             error?.error?.map(err => err.message + ' - ' + err.key).join('\n'),
@@ -189,6 +187,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
 
   setTemplateId(id: number) {
     this.templateId = id;
+    this.services = [];
   }
 
   loadTemplate() {
@@ -207,7 +206,48 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
           note: ['', Validators.maxLength(255)],
           fieldValues: this.fb.array(fieldValues)
         });
+
+        this.loadServices();
       });
+    }
+  }
+
+  getContent() {
+    let content = '';
+    if (this.blueprintType === 'Template') {
+      const regex = /%([\w-]+)%/g;
+      let temp = this.template.content;
+      this.template.fields.forEach(f => {
+        if (this.templateForm.controls.fieldValues.value.find(v => v.fieldId === f.id).value) {
+          const re = new RegExp('%' + f.wildcard + '%', 'g');
+          temp = temp.replace(
+            re,
+            this.templateForm.controls.fieldValues.value.find(v => v.fieldId === f.id).value
+          );
+        }
+      });
+      content = temp.replace(regex, 'temp');
+    } else {
+      content = this.secondFormGroup.controls.content.value;
+    }
+    return content;
+  }
+
+  loadServices(): void {
+    const content = this.getContent();
+    this.services = [];
+    try {
+      yaml
+        .loadAll(content)
+        .filter((v: any) => v.kind === 'Service')
+        .forEach((v: any) => {
+          this.services.push({
+            name: v.metadata.name,
+            selected: false,
+            ports: v.spec.ports.map(p => p.port)
+          });
+        });
+    } finally {
     }
   }
 
@@ -227,6 +267,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
       this.templateId = null;
     }
     this.blueprintType = val;
+    this.services = [];
   }
 
   private refreshNamespaces(): void {

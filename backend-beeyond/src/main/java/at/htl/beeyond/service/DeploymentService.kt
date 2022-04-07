@@ -82,9 +82,12 @@ class DeploymentService {
                 metadataBuilder.add("labels", Json.createObjectBuilder().add("beeyond-application-id", applicationId))
                 kubernetesBuilder.add("metadata", metadataBuilder)
 
-                if (it.getString("kind") == "Service") {
+                if (it.getString("kind") == "Service" &&
+                    it.getJsonObject("metadata").getJsonObject("labels")?.getString("beeyond-create-ingress") == "true"
+                ) {
+                    var serviceName = it.getJsonObject("metadata").getString("name");
                     it.getJsonObject("spec").getJsonArray("ports").map {
-                        services.put(it.asJsonObject().getString("name"), it.asJsonObject().getInt("port"))
+                        services.put(serviceName, it.asJsonObject().getInt("port"))
                     }
                 }
 
@@ -109,11 +112,13 @@ class DeploymentService {
             if (!services.isEmpty()) {
                 val rules = HTTPIngressRuleValueBuilder()
                 services.forEach {
-                    rules.addNewPath().withPath("/" + namespace.namespace).withBackend(
+                    rules.addNewPath().withPath("/" + namespace.namespace + "(/|$)(.*)$").withBackend(
                         IngressBackendBuilder()
                             .withServicePort(IntOrString(it.value))
                             .withServiceName(it.key).build()
-                    ).endPath()
+                    )
+                        .withPathType("Prefix")
+                        .endPath()
                 }
 
                 client.extensions().ingresses().inNamespace(namespace.namespace).create(
@@ -122,16 +127,15 @@ class DeploymentService {
                             ObjectMetaBuilder()
                                 .withName(namespace.namespace + "-" + System.currentTimeMillis())
                                 .addToLabels("beeyond-application-id", applicationId.toString())
+                                .addToAnnotations("nginx.ingress.kubernetes.io/rewrite-target", "/$2")
                                 .build()
                         )
                         .withSpec(
                             IngressSpecBuilder()
                                 .addNewRule()
-                                    .withHost(kubernetesHost)
-                                    .endRule()
-                                .addNewRule()
-                                    .withHttp(rules.build())
-                                    .endRule()
+                                .withHost(kubernetesHost)
+                                .withHttp(rules.build())
+                                .endRule()
                                 .build()
                         ).build()
                 )

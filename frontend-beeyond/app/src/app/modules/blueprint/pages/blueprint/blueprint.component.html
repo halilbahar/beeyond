@@ -79,11 +79,11 @@
       </ngx-monaco-editor>
     </div>
 
-    <ng-container *ngIf="blueprintType === 'Template' && template">
+    <ng-container *ngIf="blueprintType === 'Template' && template" style="height: 100%">
       <mat-card-title>{{ template.name }}</mat-card-title>
       <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
-      <form [formGroup]="templateForm">
+      <form [formGroup]="templateForm" style="height: 100%">
         <div
           *ngFor="let field of template.fields; let i = index"
           class="field-container"
@@ -112,6 +112,7 @@
         mat-flat-button
         color="primary"
         matStepperNext
+        (click)="loadServices()"
         [disabled]="
           (blueprintType === 'Custom' && secondFormGroup.invalid) ||
           (blueprintType === 'Template' && templateForm && templateForm.invalid)
@@ -119,6 +120,28 @@
       >
         Next
       </button>
+    </div>
+  </mat-step>
+
+  <mat-step *ngIf="services.length !== 0">
+    <ng-template matStepLabel
+      ><span *ngIf="!mobileQuery.matches">Choose services</span></ng-template
+    >
+    <mat-card-title>Ingress creation</mat-card-title>
+    <mat-card-subtitle>Select the services you want an ingress for</mat-card-subtitle>
+    <div style="height: 100%">
+      <div *ngFor="let service of services" style="display: flex; align-items: center">
+        <mat-checkbox
+          [(ngModel)]="service.selected"
+          style="margin: 10px"
+          color="primary"
+        ></mat-checkbox>
+        {{ service.name }}
+      </div>
+    </div>
+    <div class="button-container">
+      <button mat-flat-button color="primary" matStepperPrevious>Previous</button>
+      <button mat-flat-button color="primary" matStepperNext [disabled]="">Next</button>
     </div>
   </mat-step>
 

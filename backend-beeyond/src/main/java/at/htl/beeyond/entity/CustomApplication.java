@@ -9,9 +9,6 @@ import javax.persistence.Lob;
 @Entity
 public class CustomApplication extends Application {
 
-    @Lob
-    private String content;
-
     public CustomApplication(CustomApplicationDto customApplicationDto, User owner) {
         super(
                 customApplicationDto.getNote(),
@@ -19,19 +16,11 @@ public class CustomApplication extends Application {
                 Namespace.find("namespace", customApplicationDto.getNamespace()).firstResult(),
                 customApplicationDto.getSchoolClass(),
                 customApplicationDto.getToDate(),
-                customApplicationDto.getPurpose()
+                customApplicationDto.getPurpose(),
+                customApplicationDto.getContent()
         );
-        this.content = customApplicationDto.getContent();
     }
 
     public CustomApplication() {
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 }
