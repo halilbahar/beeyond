@@ -65,7 +65,6 @@ class TemplateApplicationDto(
         return ""
     }
 
-    @field:NotBlank
     var content: String? = content
         set(value) {
             if (value != null) {
