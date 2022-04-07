@@ -12,20 +12,22 @@ import { ConfigService } from './core/services/config.service';
 import { AuthenticationService } from './core/authentification/authentication.service';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [AppComponent],
-  imports: [
-    BrowserModule,
-    BrowserAnimationsModule,
-    AppRoutingModule,
-    HttpClientModule,
-    CoreModule,
-    MonacoEditorModule.forRoot(),
-    MatProgressBarModule,
-    MatCardModule,
-    MatIconModule
-  ],
+    imports: [
+        BrowserModule,
+        BrowserAnimationsModule,
+        AppRoutingModule,
+        HttpClientModule,
+        CoreModule,
+        MonacoEditorModule.forRoot(),
+        MatProgressBarModule,
+        MatCardModule,
+        MatIconModule,
+        MatProgressSpinnerModule
+    ],
   providers: [
     {
       provide: APP_INITIALIZER,

@@ -1,9 +1,10 @@
-<mat-progress-bar
-  id="progress-bar"
-  *ngIf="progressBarService.hidden | async"
-  mode="indeterminate"
-></mat-progress-bar>
 <app-side-navigation class="bg-color">
+  <div *ngIf="loading" class="loading-container">
+    <mat-progress-spinner
+      color="primary"
+      mode="indeterminate">
+    </mat-progress-spinner>
+  </div>
   <mat-card style="padding: 0">
     <app-header></app-header>
   </mat-card>
@@ -12,5 +13,5 @@
   </mat-card>
 </app-side-navigation>
 <div id="loadingScreen" [@fadeOut]="authenticationService.oidcLoaded | async">
-  <img src="../assets/images/beeyond-logo-with-text.png" alt="Beeyond" />
+  <img src="../assets/images/beeyond-logo-with-text.png" alt="Beeyond"/>
 </div>
