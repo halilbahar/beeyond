@@ -1,4 +1,11 @@
 <div>
+  <mat-form-field class="example-full-width">
+    <mat-label>Status</mat-label>
+    <input matInput [value]="application.status" readonly="true" />
+  </mat-form-field>
+</div>
+
+<div>
   <mat-form-field class="example-full-width" [style.fontSize]="formFieldSize">
     <mat-label>Description</mat-label>
     <input matInput value="{{ application.note }}" readonly="true" />
