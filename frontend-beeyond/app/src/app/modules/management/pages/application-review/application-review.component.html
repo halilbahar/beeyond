@@ -18,7 +18,7 @@
       </ng-template>
     </mat-tab>
 
-    <mat-tab label="Content" style="padding-top: 10px">
+    <mat-tab label="Content" style="padding-top: 10px; height: 100%">
       <ng-template matTabContent>
         <ngx-monaco-editor
           *ngIf="customApplication"
@@ -28,7 +28,7 @@
           (onInit)="onEditorInit($event)"
         ></ngx-monaco-editor>
         <app-variable-list
-          style="padding-top: 10px"
+          style="padding-top: 10px; height: 100%"
           *ngIf="templateApplication"
           [fieldValues]="templateApplication.fieldValues"
           [templateId]="templateApplication.templateId"
