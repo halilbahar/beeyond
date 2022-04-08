@@ -1,9 +1,7 @@
-<mat-progress-bar
-  id="progress-bar"
-  *ngIf="progressBarService.hidden | async"
-  mode="indeterminate"
-></mat-progress-bar>
 <app-side-navigation class="bg-color">
+  <div *ngIf="loading" class="loading-container">
+    <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
+  </div>
   <mat-card style="padding: 0">
     <app-header></app-header>
   </mat-card>
