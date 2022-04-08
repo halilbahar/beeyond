@@ -17,18 +17,18 @@ import { HttpRequestInterceptor } from './core/interceptors/http-request.interce
 
 @NgModule({
   declarations: [AppComponent],
-    imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
-        AppRoutingModule,
-        HttpClientModule,
-        CoreModule,
-        MonacoEditorModule.forRoot(),
-        MatProgressBarModule,
-        MatCardModule,
-        MatIconModule,
-        MatProgressSpinnerModule
-    ],
+  imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    HttpClientModule,
+    CoreModule,
+    MonacoEditorModule.forRoot(),
+    MatProgressBarModule,
+    MatCardModule,
+    MatIconModule,
+    MatProgressSpinnerModule
+  ],
   providers: [
     {
       provide: APP_INITIALIZER,

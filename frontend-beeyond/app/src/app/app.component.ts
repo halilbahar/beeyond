@@ -15,8 +15,8 @@ const DEFAULT_DURATION = 300;
   styleUrls: ['./app.component.scss'],
   animations: [
     trigger('fadeOut', [
-      state('false', style({opacity: AUTO_STYLE, visibility: AUTO_STYLE})),
-      state('true', style({opacity: 0, visibility: 'hidden'})),
+      state('false', style({ opacity: AUTO_STYLE, visibility: AUTO_STYLE })),
+      state('true', style({ opacity: 0, visibility: 'hidden' })),
       transition('false => true', animate(DEFAULT_DURATION + 'ms ease-in')),
       transition('true => false', animate(DEFAULT_DURATION + 'ms ease-out'))
     ])
@@ -49,10 +49,8 @@ export class AppComponent implements OnInit {
   }
 
   listenToLoading(): void {
-    this.loadingService.loadingSub
-      .pipe(delay(0))
-      .subscribe((loading) => {
-        this.loading = loading;
-      });
+    this.loadingService.loadingSub.pipe(delay(0)).subscribe(loading => {
+      this.loading = loading;
+    });
   }
 }
