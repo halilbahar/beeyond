@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>DeploymentService.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.service</a> &gt; <span class="el_source">DeploymentService.kt</span></div><h1>DeploymentService.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.service
+
+import at.htl.beeyond.entity.Application
+import at.htl.beeyond.entity.CustomApplication
+import at.htl.beeyond.entity.Namespace
+import at.htl.beeyond.entity.TemplateApplication
+import io.fabric8.kubernetes.api.model.IntOrString
+import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
+import io.fabric8.kubernetes.api.model.extensions.*
+import io.fabric8.kubernetes.client.DefaultKubernetesClient
+import io.fabric8.kubernetes.client.KubernetesClient
+import org.eclipse.microprofile.config.inject.ConfigProperty
+import org.yaml.snakeyaml.DumperOptions
+import org.yaml.snakeyaml.Yaml
+import java.io.ByteArrayInputStream
+import javax.enterprise.context.ApplicationScoped
+import javax.inject.Inject
+import javax.json.Json
+import javax.json.JsonObject
+import javax.json.bind.Jsonb
+import javax.json.bind.JsonbBuilder
+
+<span class="fc" id="L23">@ApplicationScoped</span>
+<span class="fc" id="L24">class DeploymentService {</span>
+<span class="pc" id="L25">    var jsonb: Jsonb = JsonbBuilder.create()</span>
+<span class="pc bpc" id="L26" title="1 of 2 branches missed.">    lateinit var yaml: Yaml</span>
+<span class="pc bpc" id="L27" title="1 of 2 branches missed.">    lateinit var client: KubernetesClient</span>
+
+    @Inject
+<span class="pc bpc" id="L30" title="1 of 2 branches missed.">    lateinit var namespaceService: NamespaceService</span>
+
+    @ConfigProperty(name = &quot;beeyond.kubernetes.host&quot;)
+<span class="nc bnc" id="L33" title="All 2 branches missed.">    lateinit var kubernetesHost: String</span>
+
+<span class="fc" id="L35">    init {</span>
+<span class="fc" id="L36">        val dumperOptions = DumperOptions()</span>
+<span class="fc" id="L37">        dumperOptions.defaultFlowStyle = DumperOptions.FlowStyle.BLOCK</span>
+<span class="fc" id="L38">        this.yaml = Yaml(dumperOptions)</span>
+<span class="fc" id="L39">        this.client = DefaultKubernetesClient()</span>
+<span class="fc" id="L40">    }</span>
+
+    fun deploy(application: Application?) {
+<span class="pc bpc" id="L43" title="1 of 2 branches missed.">        if (application is CustomApplication) {</span>
+<span class="fc" id="L44">            this.executeYaml(application.content, application.id, application.namespace)</span>
+<span class="nc bnc" id="L45" title="All 2 branches missed.">        } else if (application is TemplateApplication) {</span>
+<span class="nc" id="L46">            this.executeYaml(application.content, application.id, application.namespace)</span>
+        }
+<span class="fc" id="L48">    }</span>
+
+    fun stop(application: Application?) {
+<span class="fc" id="L51">        val ingresses =</span>
+<span class="pc bpc" id="L52" title="1 of 2 branches missed.">            this.client.extensions().ingresses().withLabel(&quot;beeyond-application-id&quot;, application?.id.toString())</span>
+<span class="fc" id="L53">                .list().items</span>
+<span class="fc" id="L54">        ingresses.forEach {</span>
+<span class="nc" id="L55">            this.client.extensions().ingresses().delete(it)</span>
+<span class="nc" id="L56">        }</span>
+
+<span class="pc bpc" id="L58" title="1 of 2 branches missed.">        if (application is CustomApplication) {</span>
+<span class="fc" id="L59">            this.executeYaml(application.content, application.id, application.namespace, delete = true)</span>
+<span class="nc bnc" id="L60" title="All 2 branches missed.">        } else if (application is TemplateApplication) {</span>
+<span class="nc" id="L61">            this.executeYaml(application.content, application.id, application.namespace, delete = true)</span>
+        }
+<span class="fc" id="L63">    }</span>
+
+<span class="fc" id="L65">    fun executeYaml(content: String, applicationId: Long, namespace: Namespace, delete: Boolean = false) {</span>
+<span class="fc" id="L66">        val yamlArray: MutableList&lt;JsonObject&gt; = mutableListOf()</span>
+<span class="fc" id="L67">        val yamlIterator: MutableIterator&lt;Any&gt; = this.yaml.loadAll(content).iterator()</span>
+
+<span class="fc bfc" id="L69" title="All 2 branches covered.">        while (yamlIterator.hasNext()) {</span>
+<span class="fc" id="L70">            val next = yamlIterator.next()</span>
+<span class="pc bpc" id="L71" title="1 of 2 branches missed.">            if (next is Map&lt;*, *&gt;) {</span>
+<span class="fc" id="L72">                yamlArray.add(Json.createObjectBuilder(next as Map&lt;String, Any&gt;).build())</span>
+            }
+        }
+
+<span class="fc" id="L76">        val services = mutableMapOf&lt;String, Int&gt;()</span>
+
+<span class="fc" id="L78">        val yamlString = yamlArray</span>
+<span class="fc" id="L79">            .map {</span>
+<span class="fc" id="L80">                val kubernetesBuilder = Json.createObjectBuilder(it)</span>
+<span class="fc" id="L81">                val metadataBuilder = Json.createObjectBuilder(it.getJsonObject(&quot;metadata&quot;))</span>
+<span class="fc" id="L82">                metadataBuilder.add(&quot;labels&quot;, Json.createObjectBuilder().add(&quot;beeyond-application-id&quot;, applicationId))</span>
+<span class="fc" id="L83">                kubernetesBuilder.add(&quot;metadata&quot;, metadataBuilder)</span>
+
+<span class="pc bpc" id="L85" title="1 of 2 branches missed.">                if (it.getString(&quot;kind&quot;) == &quot;Service&quot; &amp;&amp;</span>
+<span class="nc bnc" id="L86" title="All 4 branches missed.">                    it.getJsonObject(&quot;metadata&quot;).getJsonObject(&quot;labels&quot;)?.getString(&quot;beeyond-create-ingress&quot;) == &quot;true&quot;</span>
+                ) {
+<span class="nc" id="L88">                    var serviceName = it.getJsonObject(&quot;metadata&quot;).getString(&quot;name&quot;);</span>
+<span class="nc" id="L89">                    it.getJsonObject(&quot;spec&quot;).getJsonArray(&quot;ports&quot;).map {</span>
+<span class="nc" id="L90">                        services.put(serviceName, it.asJsonObject().getInt(&quot;port&quot;))</span>
+                    }
+                }
+
+<span class="fc" id="L94">                kubernetesBuilder.build().toString()</span>
+            }
+<span class="fc" id="L96">            .map { this.jsonb.fromJson(it, Object::class.java) }</span>
+<span class="fc" id="L97">            .map {</span>
+<span class="fc" id="L98">                this.yaml.dump(it)</span>
+            }
+<span class="fc" id="L100">            .joinToString(&quot;---\n&quot;)</span>
+<span class="fc" id="L101">            .replace(Regex(&quot;!!float '([0-9]+)'&quot;), &quot;$1&quot;)</span>
+
+        // If problems occur: https://stackoverflow.com/a/25750748/11125147
+<span class="fc bfc" id="L104" title="All 2 branches covered.">        if (!delete) {</span>
+<span class="fc bfc" id="L105" title="All 2 branches covered.">            if (!client.namespaces().list().items.map { it.metadata.name }.contains(namespace.namespace)) {</span>
+<span class="fc" id="L106">                namespaceService.createNamespace(namespace.namespace)</span>
+            }
+
+<span class="fc" id="L109">            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace(namespace.namespace)</span>
+<span class="fc" id="L110">                .createOrReplace()</span>
+
+<span class="pc bpc" id="L112" title="1 of 2 branches missed.">            if (!services.isEmpty()) {</span>
+<span class="nc" id="L113">                val rules = HTTPIngressRuleValueBuilder()</span>
+<span class="nc" id="L114">                services.forEach {</span>
+<span class="nc" id="L115">                    rules.addNewPath().withPath(&quot;/&quot; + namespace.namespace + &quot;(/|$)(.*)$&quot;).withBackend(</span>
+<span class="nc" id="L116">                        IngressBackendBuilder()</span>
+<span class="nc" id="L117">                            .withServicePort(IntOrString(it.value))</span>
+<span class="nc" id="L118">                            .withServiceName(it.key).build()</span>
+                    )
+<span class="nc" id="L120">                        .withPathType(&quot;Prefix&quot;)</span>
+<span class="nc" id="L121">                        .endPath()</span>
+<span class="nc" id="L122">                }</span>
+
+<span class="nc" id="L124">                client.extensions().ingresses().inNamespace(namespace.namespace).create(</span>
+<span class="nc" id="L125">                    IngressBuilder()</span>
+<span class="nc" id="L126">                        .withMetadata(</span>
+<span class="nc" id="L127">                            ObjectMetaBuilder()</span>
+<span class="nc" id="L128">                                .withName(namespace.namespace + &quot;-&quot; + System.currentTimeMillis())</span>
+<span class="nc" id="L129">                                .addToLabels(&quot;beeyond-application-id&quot;, applicationId.toString())</span>
+<span class="nc" id="L130">                                .addToAnnotations(&quot;nginx.ingress.kubernetes.io/rewrite-target&quot;, &quot;/$2&quot;)</span>
+<span class="nc" id="L131">                                .build()</span>
+                        )
+<span class="nc" id="L133">                        .withSpec(</span>
+<span class="nc" id="L134">                            IngressSpecBuilder()</span>
+<span class="nc" id="L135">                                .addNewRule()</span>
+<span class="nc" id="L136">                                .withHost(kubernetesHost)</span>
+<span class="nc" id="L137">                                .withHttp(rules.build())</span>
+<span class="nc" id="L138">                                .endRule()</span>
+<span class="nc" id="L139">                                .build()</span>
+<span class="nc" id="L140">                        ).build()</span>
+                )
+            }
+        } else {
+<span class="fc" id="L144">            client.load(ByteArrayInputStream(yamlString.toByteArray())).inNamespace(namespace.namespace).delete()</span>
+        }
+<span class="fc" id="L146">    }</span>
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
