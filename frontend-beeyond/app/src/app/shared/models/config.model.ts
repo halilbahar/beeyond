@@ -3,4 +3,5 @@ export interface Config {
   validationApiUrl: string;
   keycloakUrl: string;
   redirectUri: string;
+  hostUrl: string;
 }

@@ -36,10 +36,24 @@
       <div class="spacer"></div>
       <div>
         <span class="description">Notifications: {{ notifications.length }}</span>
-        <div class="bg-color box">
+        <div
+          class="bg-color box"
+          style="display: flex; flex-direction: column; align-items: flex-end"
+        >
+          <span
+            *ngIf="notifications.length !== 0 && notifications[0].createdAt > lastAccess"
+            style="
+              position: absolute;
+              border-radius: 100%;
+              background-color: #00ca4e;
+              width: 15px;
+              height: 15px;
+              transform: translateX(15px) translateY(-15px);
+            "
+          ></span>
           <div class="notification" *ngFor="let notification of notifications; let i = index">
             <div [routerLink]="'/profile/review/' + notification.entityId" style="cursor: pointer">
-              <span style="font-size: 15px; line-height: 24px">{{ notification.message }}</span>
+              <span style="font-size: 13px">{{ notification.message }}</span>
             </div>
           </div>
         </div>

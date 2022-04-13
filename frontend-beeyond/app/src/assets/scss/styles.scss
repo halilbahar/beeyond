@@ -2,10 +2,6 @@
 @import 'custom-theme';
 @import '~@angular/material/theming';
 
-*::-webkit-scrollbar-track {
-  background: red;
-}
-
 html,
 body {
   height: 100%;
@@ -47,12 +43,19 @@ body {
 
 .button-container {
   display: flex;
-  justify-content: flex-end;
   margin-top: 0.8rem;
   margin-bottom: 0.8rem;
 
   & > button:not(:first-child) {
     margin-left: 0.8rem;
+  }
+
+  & > button:only-child {
+    margin-left: auto;
+  }
+
+  & > button:first-child:not(:only-child) {
+    margin-right: auto;
   }
 }
 
@@ -104,4 +107,12 @@ mat-sidenav-content > *:not(:first-child) {
 
 .mat-tab-body-wrapper {
   flex-grow: 1;
+}
+
+.editableArea--single-line {
+  padding: 0 2px;
+  border: 1px solid #9178ce;
+  border-radius: 5px;
+  background: transparent !important;
+  margin-left: -3px;
 }

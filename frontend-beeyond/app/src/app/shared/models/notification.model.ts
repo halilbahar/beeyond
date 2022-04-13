@@ -7,4 +7,5 @@ export abstract class Notification {
   entityName: string;
   entityId: number;
   userId: number;
+  createdAt: Date;
 }

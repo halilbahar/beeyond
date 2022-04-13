@@ -13,4 +13,5 @@ export abstract class Application {
   namespace: string;
   to: Date;
   purpose: string;
+  content: string;
 }
