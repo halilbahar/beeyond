@@ -11,6 +11,9 @@ import { MediaMatcher } from '@angular/cdk/layout';
 import { BaseComponent } from '../../../../core/services/base.component';
 import { ThemeService } from '../../../../core/services/theme.service';
 import * as yaml from 'js-yaml';
+import { ApplicationRange } from '../../../../shared/models/application-range.model';
+import { ApplicationPreviewDialogComponent } from '../../../management/components/application-preview-dialog/application-preview-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-blueprint',
@@ -44,6 +47,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     private snackBar: MatSnackBar,
     private backendApiService: BackendApiService,
     private themeService: ThemeService,
+    private dialog: MatDialog,
     changeDetectorRef: ChangeDetectorRef,
     media: MediaMatcher
   ) {
@@ -95,11 +99,10 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     let blueprint = {
       ...this.thirdFormGroup.value
     };
-    console.log(blueprint);
 
     const temp: any[] = yaml.loadAll(this.getContent());
     temp.map((c: any) => {
-      if (this.services.find(s => s.name === c.metadata.name).selected && c.kind === 'Service') {
+      if (c.kind === 'Service' && this.services.find(s => s.name === c.metadata.name).selected) {
         if (!c.metadata.labels) {
           c.metadata.labels = {};
         }
@@ -111,7 +114,8 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     if (this.blueprintType === 'Custom') {
       blueprint = {
         ...blueprint,
-        ...this.secondFormGroup.value
+        ...this.secondFormGroup.value,
+        content: blueprint.content
       };
 
       blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
@@ -147,7 +151,6 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
         ...this.templateForm.value
       };
       blueprint.to = new DatePipe('en-US').transform(blueprint.to, 'dd.MM.yyyy');
-      console.log(blueprint);
 
       this.backendApiService.createTemplateApplication(blueprint).subscribe(
         () =>
@@ -247,8 +250,7 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
             ports: v.spec.ports.map(p => p.port)
           });
         });
-    } finally {
-    }
+    } catch (e) {}
   }
 
   createFieldValue(fieldId: number): FormGroup {
@@ -268,6 +270,52 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
     }
     this.blueprintType = val;
     this.services = [];
+  }
+
+  openDialog(): void {
+    const templateContent = this.template.content;
+    const lines = templateContent.split('\n');
+
+    let content = '';
+    const ranges: ApplicationRange[] = [];
+    const wildcardRegex = /%(.+?)%/g;
+
+    for (let i = 0; i < lines.length; i++) {
+      let line = lines[i];
+      let match: RegExpExecArray;
+
+      while ((match = wildcardRegex.exec(line)) !== null) {
+        const { wildcard, label, description, id } = this.template.fields.find(
+          data => data.wildcard === match[0].replace(/%/g, '')
+        );
+        const value = this.templateForm.controls.fieldValues.value.find(
+          f => f.fieldId === id
+        ).value;
+        if (value) {
+          line = line.replace(`%${wildcard}%`, value);
+        }
+
+        ranges.push({
+          lineNumber: i + 1,
+          startColumn: match.index + 1,
+          endColumn: match.index + 1 + (value ? value.length : wildcard.length + 2),
+          wildcard,
+          label,
+          description
+        });
+      }
+
+      content += line + '\n';
+    }
+    // Remove \n
+    content = content.substring(0, content.length - 1);
+
+    this.dialog.open(ApplicationPreviewDialogComponent, {
+      data: { content, ranges },
+      width: '100%',
+      height: '80%',
+      autoFocus: false
+    });
   }
 
   private refreshNamespaces(): void {

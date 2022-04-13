@@ -9,22 +9,57 @@
   <mat-tab-group id="tab-group" style="height: 100%">
     <mat-tab label="Information">
       <ng-template matTabContent>
-        <div class="review-content">
-          <app-application-attributes
-            [application]="application"
-            style="padding-top: 10px"
-          ></app-application-attributes>
+        <div
+          style="
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            height: 100%;
+          "
+        >
+          <div class="review-content">
+            <app-application-attributes
+              [application]="application"
+              style="padding-top: 10px"
+            ></app-application-attributes>
+          </div>
+          <div
+            style="display: flex"
+            *ngIf="application.content?.includes('beeyond-create-ingress: \'true\'')"
+          >
+            <mat-form-field style="flex: 1">
+              <mat-label>Ingress</mat-label>
+              <input
+                matInput
+                value="{{ configService.config.hostUrl + application.namespace }}"
+                readonly="true"
+              />
+            </mat-form-field>
+            <button
+              mat-raised-button
+              color="primary"
+              style="margin-left: 10px; margin-bottom: 1.25rem"
+              [cdkCopyToClipboard]="configService.config.hostUrl + application.namespace"
+            >
+              <mat-icon>file_copy</mat-icon>
+            </button>
+          </div>
         </div>
       </ng-template>
     </mat-tab>
 
     <mat-tab label="Content" style="padding-top: 10px; height: 100%">
       <ng-template matTabContent>
+        <div style="height: 5%" id="editable" *ngIf="!isManagement">
+          <p *ngIf="application.status === denied || isPending">✏️ Whole content is editable</p>
+          <p *ngIf="application.status === stopped">✏️ Only images are editable</p>
+          <p *ngIf="isRunning">🔒 Content is not editable</p>
+        </div>
         <ngx-monaco-editor
           *ngIf="customApplication"
-          style="padding-top: 10px; height: 100%; overflow: hidden"
+          style="height: 95%; overflow: hidden"
           [options]="monacoEditorOptions"
-          [ngModel]="customApplication ? customApplication?.content : template?.content"
+          [formControl]="customForm"
           (onInit)="onEditorInit($event)"
         ></ngx-monaco-editor>
         <app-variable-list
@@ -42,20 +77,37 @@
   <button mat-flat-button color="primary" [routerLink]="this.redirectPath">Back</button>
   <button
     mat-flat-button
-    color="primary"
-    [disabled]="!isDenied"
-    (click)="request()"
-    class="update-button"
+    color="warn"
+    *ngIf="application.status === running || application.status === stopped || isPending"
+    (click)="finish()"
   >
-    Request
+    Finish
   </button>
   <ng-container *ngIf="isManagement">
-    <button mat-flat-button color="primary" [disabled]="!isPending" (click)="deny()">Deny</button>
-    <button mat-flat-button color="primary" [disabled]="!isPending" (click)="approve()">
-      Approve
+    <button mat-flat-button color="primary" *ngIf="isPending" (click)="deny()">Deny</button>
+    <button mat-flat-button color="primary" *ngIf="isPending" (click)="approve()">Approve</button>
+  </ng-container>
+  <ng-container *ngIf="!isManagement">
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="isDenied || isPending"
+      [disabled]="!customForm?.dirty"
+      (click)="save().subscribe()"
+    >
+      Save
     </button>
-    <button mat-flat-button color="primary" [disabled]="!isRunning" (click)="finish()">
-      Finish
+    <button mat-flat-button color="primary" *ngIf="isDenied" (click)="request()">Request</button>
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="application.status === stopped"
+      (click)="start()"
+    >
+      Start
+    </button>
+    <button mat-flat-button color="primary" *ngIf="application.status === running" (click)="stop()">
+      Stop
     </button>
   </ng-container>
 </div>

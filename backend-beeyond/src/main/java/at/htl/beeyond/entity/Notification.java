@@ -3,6 +3,7 @@ package at.htl.beeyond.entity;
 import io.quarkus.hibernate.orm.panache.PanacheEntityBase;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 public class Notification extends PanacheEntityBase {
@@ -23,10 +24,14 @@ public class Notification extends PanacheEntityBase {
 
     private Long entityId;
 
+    private LocalDateTime createdAt;
+
     public Notification() {
+        createdAt = LocalDateTime.now();
     }
 
     public Notification(User user, String message, String details, NotificationStatus status, String entityName, Long entityId) {
+        this();
         this.user = user;
         this.message = message;
         this.details = details;
@@ -85,5 +90,13 @@ public class Notification extends PanacheEntityBase {
 
     public void setEntityId(Long entityId) {
         this.entityId = entityId;
+    }
+
+    public LocalDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

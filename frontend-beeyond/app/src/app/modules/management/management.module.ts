@@ -23,6 +23,7 @@ import { ApplicationContentComponent } from './components/application-content/ap
 import { ApplicationDenyDialogComponent } from './components/application-deny-dialog/application-deny-dialog.component';
 import { MatTabsModule } from '@angular/material/tabs';
 import { ApplicationAttributesComponent } from './components/application-attributes/application-attributes.component';
+import { ClipboardModule } from '@angular/cdk/clipboard';
 
 @NgModule({
   declarations: [
@@ -52,7 +53,8 @@ import { ApplicationAttributesComponent } from './components/application-attribu
     MatDatepickerModule,
     MatNativeDateModule,
     MatSnackBarModule,
-    MatTabsModule
+    MatTabsModule,
+    ClipboardModule
   ],
   exports: [ApplicationContentComponent, ApplicationReviewComponent]
 })

@@ -82,6 +82,10 @@ export class BackendApiService {
     return this.http.patch<void>(`${this.backendApiUrl}/application/request/${id}`, null);
   }
 
+  saveApplicationById(id: number, content: string): Observable<void> {
+    return this.http.patch<void>(`${this.backendApiUrl}/application/save/${id}`, content);
+  }
+
   getAllNamespaces(): Observable<Namespace[]> {
     return this.http.get<Namespace[]>(`${this.backendApiUrl}/namespace?all=1`);
   }
@@ -99,6 +103,7 @@ export class BackendApiService {
   }
 
   getNotifications(): Observable<Notification[]> {
+    window.localStorage.setItem('lastAccess', new Date().getTime().toString());
     return this.http.get<Notification[]>(`${this.backendApiUrl}/notification`);
   }
 }

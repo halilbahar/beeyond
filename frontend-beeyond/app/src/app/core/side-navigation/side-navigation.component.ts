@@ -60,7 +60,7 @@ export class SideNavigationComponent extends BaseComponent implements OnInit {
 
   actualAgenda = [];
   notifications: Notification[] = [];
-  notificationStatus = NotificationStatus;
+  lastAccess = new Date(Number(localStorage.getItem('lastAccess')));
 
   constructor(
     public sidenavService: SidenavService,
@@ -72,7 +72,9 @@ export class SideNavigationComponent extends BaseComponent implements OnInit {
   ) {
     super(changeDetectorRef, media);
     this.isDarkTheme = themeService.isDarkTheme.value;
-    this.sidenavService.minimized.next(!super.mobileQuery?.matches);
+    this.changes.subscribe(() => {
+      this.sidenavService.minimized.next(!this.mobileQuery?.matches);
+    });
   }
 
   ngOnInit(): void {
@@ -87,9 +89,13 @@ export class SideNavigationComponent extends BaseComponent implements OnInit {
           }
           return found;
         });
-        this.backendApiService
-          .getNotifications()
-          .subscribe(notifications => (this.notifications = notifications));
+        this.backendApiService.getNotifications().subscribe(notifications => {
+          this.notifications = notifications
+            .sort((n1, n2) => new Date(n1.createdAt).getTime() - new Date(n2.createdAt).getTime())
+            .reverse()
+            .slice(0, 3);
+          this.notifications.forEach(n => (n.createdAt = new Date(n.createdAt)));
+        });
       }
     });
   }

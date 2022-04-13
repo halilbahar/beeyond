@@ -60,7 +60,8 @@
         "space-in-parens": [
           "off",
           "never"
-        ]
+        ],
+        "no-console": "error"
       }
     },
     {

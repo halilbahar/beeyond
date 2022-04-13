@@ -18,13 +18,10 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
 
   applications: Application[];
   applicationDataSource: MatTableDataSource<Application>;
-  columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt', 'buttons'];
+  columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt'];
 
   filterForm: FormGroup;
   availableUsername: string[];
-  running: ApplicationStatus = ApplicationStatus.RUNNING;
-  stopped: ApplicationStatus = ApplicationStatus.STOPPED;
-  denied: ApplicationStatus = ApplicationStatus.DENIED;
   statuses: ApplicationStatus[] = [
     ApplicationStatus.ALL,
     ApplicationStatus.PENDING,
@@ -46,9 +43,17 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
     media: MediaMatcher
   ) {
     super(changeDetectorRef, media);
-    if (!super.mobileQuery?.matches) {
-      this.columnsToDisplay = ['id', 'status'];
-    }
+
+    this.changes.subscribe(() => {
+      if (this.mobileQuery?.matches) {
+        this.columnsToDisplay = ['id', 'status'];
+      } else {
+        this.columnsToDisplay = ['id', 'status', 'startedAt', 'finishedAt'];
+        if (this.isAdmin) {
+          this.columnsToDisplay.splice(1, 0, 'owner');
+        }
+      }
+    });
   }
 
   ngOnInit(): void {
@@ -74,33 +79,6 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
     this.filterForm.valueChanges.subscribe(() => this.update());
 
     this.update();
-  }
-
-  stop(id): void {
-    this.backendApiService.stopApplicationById(id).subscribe(() => {
-      const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate([currentUrl]);
-      });
-    });
-  }
-
-  finish(id): void {
-    this.backendApiService.finishApplicationById(id).subscribe(() => {
-      const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate([currentUrl]);
-      });
-    });
-  }
-
-  start(id): void {
-    this.backendApiService.startApplicationById(id).subscribe(() => {
-      const currentUrl = this.router.url;
-      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
-        this.router.navigate([currentUrl]);
-      });
-    });
   }
 
   private update(): void {

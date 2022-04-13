@@ -1,11 +1,11 @@
 <app-side-navigation class="bg-color">
-  <div *ngIf="loading" class="loading-container">
-    <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
-  </div>
   <mat-card style="padding: 0">
     <app-header></app-header>
   </mat-card>
   <mat-card id="content">
+    <div class="loading-container" *ngIf="loading">
+      <mat-progress-spinner color="primary" mode="indeterminate"> </mat-progress-spinner>
+    </div>
     <router-outlet></router-outlet>
   </mat-card>
 </app-side-navigation>

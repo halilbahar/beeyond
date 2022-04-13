@@ -10,6 +10,9 @@ import { ApplicationRange } from '../../../../shared/models/application-range.mo
 import { ThemeService } from '../../../../core/services/theme.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationDenyDialogComponent } from '../../components/application-deny-dialog/application-deny-dialog.component';
+import { Observable } from 'rxjs';
+import { FormControl, Validators } from '@angular/forms';
+import { ConfigService } from '../../../../core/services/config.service';
 
 declare function constrainedEditor(editor: any): any;
 
@@ -22,6 +25,7 @@ declare let monaco: any;
 })
 export class ApplicationReviewComponent implements OnInit {
   customApplication: CustomApplication | null;
+  customForm: FormControl;
   templateApplication: TemplateApplication | null;
 
   isPending = false;
@@ -30,6 +34,10 @@ export class ApplicationReviewComponent implements OnInit {
   isManagement: boolean;
   redirectPath: string[];
   message: string;
+
+  running: ApplicationStatus = ApplicationStatus.RUNNING;
+  stopped: ApplicationStatus = ApplicationStatus.STOPPED;
+  denied: ApplicationStatus = ApplicationStatus.DENIED;
 
   template: Template;
 
@@ -49,6 +57,7 @@ export class ApplicationReviewComponent implements OnInit {
     private backendApiService: BackendApiService,
     private snackBar: MatSnackBar,
     private themeService: ThemeService,
+    public configService: ConfigService,
     public dialog: MatDialog
   ) {
     this.themeService.isDarkTheme.subscribe(value => {
@@ -70,6 +79,7 @@ export class ApplicationReviewComponent implements OnInit {
     }
     if (
       this.customApplication.status === ApplicationStatus.DENIED ||
+      this.customApplication.status === ApplicationStatus.STOPPED ||
       this.customApplication.status === ApplicationStatus.PENDING
     ) {
       this.monacoEditorOptions.readOnly = false;
@@ -91,6 +101,7 @@ export class ApplicationReviewComponent implements OnInit {
       this.templateApplication = application;
     } else {
       this.customApplication = application;
+      this.customForm = new FormControl(this.customApplication.content, Validators.required);
     }
 
     if (this.templateApplication) {
@@ -110,39 +121,6 @@ export class ApplicationReviewComponent implements OnInit {
               description
             });
           }
-
-          const templateContent = this.template.content;
-          const lines = templateContent.split('\n');
-
-          let content = '';
-          const ranges: ApplicationRange[] = [];
-          const wildcardRegex = /%(.+?)%/g;
-
-          for (let i = 0; i < lines.length; i++) {
-            let line = lines[i];
-            let match: RegExpExecArray;
-
-            while ((match = wildcardRegex.exec(line)) != null) {
-              const { wildcard, label, value, description } = this.fieldData.find(
-                data => data.wildcard === match[0].replace(/%/g, '')
-              );
-              line = line.replace(`%${wildcard}%`, value);
-
-              ranges.push({
-                lineNumber: i + 1,
-                startColumn: match.index + 1,
-                endColumn: match.index + 1 + value.length,
-                wildcard,
-                label,
-                description
-              });
-            }
-
-            content += line + '\n';
-          }
-
-          content = content.substring(0, content.length - 1);
-          this.template.content = content;
         });
     }
 
@@ -201,26 +179,54 @@ export class ApplicationReviewComponent implements OnInit {
     });
   }
 
-  finish(): void {
-    this.backendApiService.finishApplicationById(this.application.id).subscribe(() => {
-      this.router.navigate(this.redirectPath);
+  request(): void {
+    this.save().subscribe(() =>
+      this.backendApiService.requestApplicationById(this.application.id).subscribe(() => {
+        this.router.navigate(['/profile']).then(navigated => {
+          if (navigated) {
+            this.snackBar.open(
+              'Your application was sent will be reviewed as soon as possible',
+              'close',
+              {
+                duration: 2000,
+                panelClass: ['mat-drawer-container']
+              }
+            );
+          }
+        });
+      })
+    );
+  }
+
+  stop(): void {
+    this.backendApiService.stopApplicationById(this.application.id).subscribe(() => {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
     });
   }
 
-  request(): void {
-    this.backendApiService.requestApplicationById(this.application.id).subscribe(() => {
-      this.router.navigate(['/profile']).then(navigated => {
-        if (navigated) {
-          this.snackBar.open(
-            'Your application was sent will be reviewed as soon as possible',
-            'close',
-            {
-              duration: 2000,
-              panelClass: ['mat-drawer-container']
-            }
-          );
-        }
+  finish(): void {
+    //TODO Add dialog question, do you really wanna finish? SlEm
+    this.backendApiService.finishApplicationById(this.application.id).subscribe(() => {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
       });
     });
+  }
+
+  start(): void {
+    this.backendApiService.startApplicationById(this.application.id).subscribe(() => {
+      const currentUrl = this.router.url;
+      this.router.navigateByUrl('/', { skipLocationChange: true }).then(() => {
+        this.router.navigate([currentUrl]);
+      });
+    });
+  }
+
+  save(): Observable<void> {
+    return this.backendApiService.saveApplicationById(this.application.id, this.customForm.value);
   }
 }

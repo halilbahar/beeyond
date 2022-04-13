@@ -45,7 +45,7 @@ class ApplicationResource {
             Application.streamAll<Application>().map(mapToDto).collect(Collectors.toList<Any>())
         } else {
             Application.streamAll<Application>().filter {
-                it.owner.name == ctx.userPrincipal.name
+                it.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)
             }.map(mapToDto).collect(Collectors.toList<Any>())
         }
 
@@ -60,7 +60,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -108,7 +108,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -130,6 +130,30 @@ class ApplicationResource {
             Response.ok().build()
         } else {
             Response.status(422).entity("Application is not in state " + ApplicationStatus.STOPPED).build()
+        }
+    }
+
+    @PATCH
+    @Path("/save/{id}")
+    @RolesAllowed(value = ["teacher", "student"])
+    @Transactional
+    @Consumes(MediaType.TEXT_PLAIN)
+    fun saveApplication(@PathParam("id") id: Long?, @Context ctx: SecurityContext, content: String): Response? {
+        val application = Application.findById<Application>(id)
+            ?: return Response.status(Response.Status.NOT_FOUND).build()
+
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
+            return Response.status(Response.Status.FORBIDDEN).build();
+        }
+
+        return if (application.status == ApplicationStatus.STOPPED || application.status == ApplicationStatus.DENIED || application.status == ApplicationStatus.PENDING) {
+            application.content = content
+
+            Response.ok().build()
+        } else {
+            Response.status(422)
+                .entity("Application is not in state " + ApplicationStatus.STOPPED + "," + ApplicationStatus.PENDING + " or " + ApplicationStatus.DENIED)
+                .build()
         }
     }
 
@@ -176,7 +200,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -196,7 +220,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -218,7 +242,7 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (!ctx.isUserInRole("teacher") && application.owner.name != ctx.userPrincipal.name) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -248,19 +272,5 @@ class ApplicationResource {
             )
             notification.persist()
         }
-
-        val isLastApplication = Application
-            .streamAll<Application>()
-            .filter {
-                it.status == ApplicationStatus.RUNNING && it.namespace == application.namespace
-            }.count() == 0L
-
-        if (isLastApplication) {
-            application.namespace.isDeleted = true
-            namespaceService.deleteNamespace(application.namespace.namespace)
-        }
-
-        deploymentService.client.extensions().ingresses().withLabel("beeyond-application-id", application.id.toString())
-            .delete()
     }
 }

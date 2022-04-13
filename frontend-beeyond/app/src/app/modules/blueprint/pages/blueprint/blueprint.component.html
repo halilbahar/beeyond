@@ -83,26 +83,36 @@
       <mat-card-title>{{ template.name }}</mat-card-title>
       <mat-card-subtitle>{{ template.description }}</mat-card-subtitle>
 
-      <form [formGroup]="templateForm" style="height: 100%">
-        <div
-          *ngFor="let field of template.fields; let i = index"
-          class="field-container"
-          formArrayName="fieldValues"
-          style="display: flex; flex-direction: row"
-        >
-          <ng-container [formGroupName]="i">
-            <mat-form-field style="width: 100%" class="full-width wildcard">
-              <mat-label>{{ field.label }}</mat-label>
-              <input matInput formControlName="value" />
-              <mat-error *ngIf="templateForm.get('fieldValues').invalid"></mat-error>
-            </mat-form-field>
-            <mat-icon
-              matTooltip="{{ field.description ? field.description : 'No description available!' }}"
-              matTooltipPosition="left"
-              >help_outline
-            </mat-icon>
-          </ng-container>
+      <form
+        [formGroup]="templateForm"
+        style="height: 100%; display: flex; flex-direction: column; justify-content: space-between"
+      >
+        <div>
+          <div
+            *ngFor="let field of template.fields; let i = index"
+            class="field-container"
+            formArrayName="fieldValues"
+            style="display: flex; flex-direction: row"
+          >
+            <ng-container [formGroupName]="i">
+              <mat-form-field style="width: 100%" class="full-width wildcard">
+                <mat-label>{{ field.label }}</mat-label>
+                <input matInput formControlName="value" />
+                <mat-error *ngIf="templateForm.get('fieldValues').invalid"></mat-error>
+              </mat-form-field>
+              <mat-icon
+                matTooltip="{{
+                  field.description ? field.description : 'No description available!'
+                }}"
+                matTooltipPosition="left"
+                >help_outline
+              </mat-icon>
+            </ng-container>
+          </div>
         </div>
+        <button style="width: 100%" mat-stroked-button (click)="openDialog()" color="primary">
+          Evaluate and Show
+        </button>
       </form>
     </ng-container>
 
