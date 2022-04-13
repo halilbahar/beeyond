@@ -50,7 +50,7 @@
 
     <mat-tab label="Content" style="padding-top: 10px; height: 100%">
       <ng-template matTabContent>
-        <div style="height: 5%" id="editable" *ngIf="!isManagement">
+        <div style="height: 5%" id="editable" *ngIf="!isManagement && customApplication">
           <p *ngIf="application.status === denied || isPending">✏️ Whole content is editable</p>
           <p *ngIf="application.status === stopped">✏️ Only images are editable</p>
           <p *ngIf="isRunning">🔒 Content is not editable</p>
@@ -63,7 +63,7 @@
           (onInit)="onEditorInit($event)"
         ></ngx-monaco-editor>
         <app-variable-list
-          style="padding-top: 10px; height: 100%"
+          style="height: 100%"
           *ngIf="templateApplication"
           [fieldValues]="templateApplication.fieldValues"
           [templateId]="templateApplication.templateId"
@@ -87,7 +87,7 @@
     <button mat-flat-button color="primary" *ngIf="isPending" (click)="deny()">Deny</button>
     <button mat-flat-button color="primary" *ngIf="isPending" (click)="approve()">Approve</button>
   </ng-container>
-  <ng-container *ngIf="!isManagement">
+  <ng-container *ngIf="!isManagement && customApplication">
     <button
       mat-flat-button
       color="primary"

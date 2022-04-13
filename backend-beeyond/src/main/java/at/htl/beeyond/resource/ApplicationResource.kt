@@ -1,5 +1,6 @@
 package at.htl.beeyond.resource
 
+import at.htl.beeyond.dto.ApplicationDto
 import at.htl.beeyond.dto.CustomApplicationDto
 import at.htl.beeyond.dto.DenyMessageDto
 import at.htl.beeyond.dto.TemplateApplicationDto
@@ -11,6 +12,7 @@ import java.time.LocalDateTime
 import java.util.stream.Collectors
 import javax.annotation.security.RolesAllowed
 import javax.inject.Inject
+import javax.json.JsonObject
 import javax.transaction.Transactional
 import javax.ws.rs.*
 import javax.ws.rs.core.Context
@@ -25,9 +27,6 @@ class ApplicationResource {
 
     @Inject
     lateinit var deploymentService: DeploymentService
-
-    @Inject
-    lateinit var namespaceService: NamespaceService
 
     @GET
     @RolesAllowed(value = ["student", "teacher"])
@@ -60,7 +59,8 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }
+                .contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -108,7 +108,8 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }
+                .contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -134,20 +135,23 @@ class ApplicationResource {
     }
 
     @PATCH
-    @Path("/save/{id}")
+    @Path("/{id}")
     @RolesAllowed(value = ["teacher", "student"])
     @Transactional
-    @Consumes(MediaType.TEXT_PLAIN)
-    fun saveApplication(@PathParam("id") id: Long?, @Context ctx: SecurityContext, content: String): Response? {
+    fun saveApplication(@PathParam("id") id: Long?, @Context ctx: SecurityContext, json: JsonObject): Response? {
         val application = Application.findById<Application>(id)
             ?: return Response.status(Response.Status.NOT_FOUND).build()
 
-        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }
+                .contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
-        return if (application.status == ApplicationStatus.STOPPED || application.status == ApplicationStatus.DENIED || application.status == ApplicationStatus.PENDING) {
-            application.content = content
+        return if ((application.status == ApplicationStatus.STOPPED ||
+                    application.status == ApplicationStatus.DENIED ||
+                    application.status == ApplicationStatus.PENDING) && json.containsKey("content")
+        ) {
+            application.content = json.getString("content")
 
             Response.ok().build()
         } else {
@@ -200,7 +204,8 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }
+                .contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -220,7 +225,8 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }
+                .contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 
@@ -242,7 +248,8 @@ class ApplicationResource {
         val application = Application.findById<Application>(id)
             ?: return Response.status(404).build()
 
-        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }.contains(ctx.userPrincipal.name)) {
+        if (!ctx.isUserInRole("teacher") && !application.namespace.users.map { it.name }
+                .contains(ctx.userPrincipal.name)) {
             return Response.status(Response.Status.FORBIDDEN).build();
         }
 

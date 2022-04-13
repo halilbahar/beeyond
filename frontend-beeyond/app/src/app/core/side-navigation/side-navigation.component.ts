@@ -90,6 +90,7 @@ export class SideNavigationComponent extends BaseComponent implements OnInit {
           return found;
         });
         this.backendApiService.getNotifications().subscribe(notifications => {
+          // Only show last 3 notifications in the side nav -> the rest of the notifications is available in a separate page
           this.notifications = notifications
             .sort((n1, n2) => new Date(n1.createdAt).getTime() - new Date(n2.createdAt).getTime())
             .reverse()

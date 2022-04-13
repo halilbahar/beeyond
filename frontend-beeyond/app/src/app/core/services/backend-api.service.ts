@@ -82,8 +82,8 @@ export class BackendApiService {
     return this.http.patch<void>(`${this.backendApiUrl}/application/request/${id}`, null);
   }
 
-  saveApplicationById(id: number, content: string): Observable<void> {
-    return this.http.patch<void>(`${this.backendApiUrl}/application/save/${id}`, content);
+  saveApplicationById(id: number, application: any): Observable<void> {
+    return this.http.patch<void>(`${this.backendApiUrl}/application/${id}`, application);
   }
 
   getAllNamespaces(): Observable<Namespace[]> {
@@ -103,6 +103,7 @@ export class BackendApiService {
   }
 
   getNotifications(): Observable<Notification[]> {
+    // Set lastAccess to be able to visibly show that new notifications are available
     window.localStorage.setItem('lastAccess', new Date().getTime().toString());
     return this.http.get<Notification[]>(`${this.backendApiUrl}/notification`);
   }

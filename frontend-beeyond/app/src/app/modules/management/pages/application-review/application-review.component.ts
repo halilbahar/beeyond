@@ -227,6 +227,8 @@ export class ApplicationReviewComponent implements OnInit {
   }
 
   save(): Observable<void> {
-    return this.backendApiService.saveApplicationById(this.application.id, this.customForm.value);
+    return this.backendApiService.saveApplicationById(this.application.id, {
+      content: this.customForm.value
+    });
   }
 }
