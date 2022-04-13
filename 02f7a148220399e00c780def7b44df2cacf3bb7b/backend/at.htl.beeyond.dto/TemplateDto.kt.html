@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateDto.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.dto</a> &gt; <span class="el_source">TemplateDto.kt</span></div><h1>TemplateDto.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.dto
+
+import at.htl.beeyond.entity.Template
+import at.htl.beeyond.validation.Checks.TemplateContent
+import at.htl.beeyond.validation.TemplateFieldsMatching
+import java.util.*
+import javax.json.bind.annotation.JsonbTransient
+import javax.validation.GroupSequence
+import javax.validation.Valid
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
+
+<span class="fc" id="L14">@GroupSequence(TemplateDto::class, TemplateContent::class)</span>
+@TemplateFieldsMatching(groups = [TemplateContent::class])
+<span class="fc" id="L16">class TemplateDto(</span>
+<span class="pc" id="L17">        @set:JsonbTransient var id: Long? = null,</span>
+<span class="fc" id="L18">        @field:NotNull @field:Size(min = 1, max = 255) var name: String? = null,</span>
+<span class="fc" id="L19">        @field:Size(max = 255) var description: String? = null,</span>
+<span class="fc" id="L20">        @field:NotBlank var content: String? = null,</span>
+<span class="fc" id="L21">        @field:Valid var fields: List&lt;TemplateFieldDto&gt; = LinkedList(),</span>
+<span class="pc" id="L22">        @set:JsonbTransient var deleted: Boolean? = null</span>
+) {
+<span class="fc" id="L24">    constructor(template: Template) : this(</span>
+<span class="fc" id="L25">            template.id,</span>
+<span class="fc" id="L26">            template.name,</span>
+<span class="fc" id="L27">            template.description,</span>
+<span class="fc" id="L28">            template.content,</span>
+<span class="fc" id="L29">            template.fields.map { TemplateFieldDto(it) }.toList(),</span>
+<span class="fc" id="L30">            template.deleted</span>
+<span class="fc" id="L31">    )</span>
+
+    override fun toString(): String {
+<span class="fc" id="L34">        return &quot;&quot;</span>
+    }
+<span class="fc" id="L36">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
