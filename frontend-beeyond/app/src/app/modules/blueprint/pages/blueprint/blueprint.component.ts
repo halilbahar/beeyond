@@ -12,6 +12,7 @@ import { BaseComponent } from '../../../../core/services/base.component';
 import { ThemeService } from '../../../../core/services/theme.service';
 import * as yaml from 'js-yaml';
 import { ApplicationRange } from '../../../../shared/models/application-range.model';
+// eslint-disable-next-line max-len
 import { ApplicationPreviewDialogComponent } from '../../../management/components/application-preview-dialog/application-preview-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
