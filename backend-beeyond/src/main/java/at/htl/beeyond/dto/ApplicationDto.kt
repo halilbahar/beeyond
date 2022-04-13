@@ -30,4 +30,6 @@ abstract class ApplicationDto(
     @field:NotNull var toDate: LocalDate? = null,
     @field:Size(max = 255)
     @field:NotNull var purpose: String? = null
-)
+){
+    abstract var content: String?
+}

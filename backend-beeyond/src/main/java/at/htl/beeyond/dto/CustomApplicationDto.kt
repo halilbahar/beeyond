@@ -53,7 +53,7 @@ class CustomApplicationDto(
     )
 
     @field:NotBlank
-    var content: String? = content
+    override var content: String? = content
         set(value) {
             if (value != null) {
                 field = value.trim()

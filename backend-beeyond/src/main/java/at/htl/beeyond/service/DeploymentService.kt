@@ -48,14 +48,13 @@ class DeploymentService {
     }
 
     fun stop(application: Application?) {
-        //TODO Uncomment before pusing
-        /*val ingresses =
+        val ingresses =
             this.client.extensions().ingresses().inNamespace(application!!.namespace.namespace)
                 .withLabel("beeyond-application-id", application.id.toString())
                 .list().items
         ingresses.forEach {
             this.client.extensions().ingresses().delete(it)
-        }*/
+        }
 
         if (application is CustomApplication) {
             this.executeYaml(application.content, application.id, application.namespace, delete = true)
