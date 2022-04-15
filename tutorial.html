@@ -5,8 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Bahar Halil, Cao Sonja, Naderer Juliana, Eichhorn Moritz, Polleichtner Moritz, Sljivic Emina, Wallinger Marc, Hirsch Nico, Remplbauer Markus">
-<title>Beeyond</title>
+<meta name="author" content="Moritz Eichhorn">
+<title>Deploy Quarkus mit PostgreSQL-Datenbank in Beeyond</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,156 +439,118 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Beeyond</h1>
+<h1>Deploy Quarkus mit PostgreSQL-Datenbank in Beeyond</h1>
 <div class="details">
-<span id="author" class="author">Bahar Halil, Cao Sonja, Naderer Juliana, Eichhorn Moritz, Polleichtner Moritz, Sljivic Emina, Wallinger Marc, Hirsch Nico, Remplbauer Markus</span><br>
-<span id="revnumber">version 1.1,</span>
-<span id="revdate">2022-04-05</span>
+<span id="author" class="author">Moritz Eichhorn</span><br>
+<span id="revnumber">version 1.0,</span>
+<span id="revdate">2022-04-15</span>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_systemarchitektur">1. Systemarchitektur</a></li>
-<li><a href="#_quarkus_tutorial">2. Quarkus Tutorial</a></li>
-<li><a href="#_pflichtenheft">3. Pflichtenheft</a>
-<ul class="sectlevel2">
-<li><a href="#_ausgangssituation">3.1. Ausgangssituation</a></li>
-<li><a href="#_ist_zustand">3.2. Ist-Zustand</a></li>
-<li><a href="#_problemstellung">3.3. Problemstellung</a></li>
-<li><a href="#_ziele">3.4. Ziele</a></li>
-</ul>
-</li>
-<li><a href="#_entwurf_wie_mache_ich_es">4. Entwurf "Wie mache ich es"</a></li>
-<li><a href="#_reviews">5. Reviews</a></li>
-<li><a href="#_reports">6. Reports</a></li>
-<li><a href="#_protokolle">7. Protokolle</a></li>
-<li><a href="#_slides">8. Slides</a></li>
+<li><a href="#_image_erstellen">1. Image erstellen</a></li>
+<li><a href="#_db_deployment">2. DB-Deployment</a></li>
+<li><a href="#_quarkus_deployment">3. Quarkus-Deployment</a></li>
 </ul>
 </div>
 </div>
 <div id="content">
-<div id="preamble">
+<div class="sect1">
+<h2 id="_image_erstellen">1. Image erstellen</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Webanwendungen, die an der HTL Leonding entwickelt werden, können ganz einfach in der LeoCloud – der Cloud Computing Umgebung der HTL Leonding – online gehen.
-Beeyond bietet dazu eine benutzerfreundliche und einfache Konfigurationsmöglichkeit für Unterrichtsprojekte.</p>
+<p>Als Erstes muss ein Image von dem Quarkus-Backend, welches deployed
+werden soll, erstellt werden. Dazu kann ein Github-Workflow,
+welcher automatisch ein Image erstellt, wenn ein Tag
+gepusht wird, verwendet werden. Hier ein Beispiel dazu:</p>
 </div>
 <div class="paragraph">
-<p>Es ist aufrufbar unter: <a href="https://leocloud.htl-leonding.ac.at/" class="bare">https://leocloud.htl-leonding.ac.at/</a></p>
+<p><a href="https://github.com/halilbahar/beeyond/blob/master/.github/workflows/cd.yml#L36" class="bare">https://github.com/halilbahar/beeyond/blob/master/.github/workflows/cd.yml#L36</a></p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_systemarchitektur">1. Systemarchitektur</h2>
+<h2 id="_db_deployment">2. DB-Deployment</h2>
 <div class="sectionbody">
+<div class="paragraph">
+<p>Auf Beeyond (<a href="https://leocloud.htl-leonding.ac.at/" class="bare">https://leocloud.htl-leonding.ac.at/</a>) im
+Tab Blueprint das Template für PostgresDB auswählen.</p>
+</div>
 <div class="imageblock">
 <div class="content">
-<img src="images/sys-arch.png" alt="sys arch">
+<img src="images/select_DB.png" alt="select DB">
 </div>
+</div>
+<div class="paragraph">
+<p>Nun müssen die Felder entsprechend gesetzt werden. Man muss
+einen Namen für das Deployment, einen Namen für die Datenbank
+und den Benutzer und das Passwort der DB angeben.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/fields_DB.png" alt="fields DB">
+</div>
+</div>
+<div class="paragraph">
+<p>Daraufhin wird man gefragt ob man einen Ingress erstellen wird.
+Dies ist bei der DB nicht notwendig.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/information_DB.png" alt="information DB">
+</div>
+</div>
+<div class="paragraph">
+<p>Nun muss man noch eine Beschreibung, die Klasse, wie lange und
+wofür man die Datenbank braucht, angeben.</p>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_quarkus_tutorial">2. Quarkus Tutorial</h2>
+<h2 id="_quarkus_deployment">3. Quarkus-Deployment</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p><a href="tutorial.html">Hier</a> ist ein Tutorial, wie eine einfache
-Quarkus-Applikation mit einer PostrgreSQL-Datenbank deployed
-werden kann.</p>
+<p>Unter Blueprint wird nun das <strong>Simple Quarkus Deployment</strong> Template
+ausgewählt.</p>
 </div>
+<div class="imageblock">
+<div class="content">
+<img src="images/select_quarkus.png" alt="select quarkus">
 </div>
-</div>
-<div class="sect1">
-<h2 id="_pflichtenheft">3. Pflichtenheft</h2>
-<div class="sectionbody">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Projekttitel:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beeyond</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Projektmitglieder:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Halil Bahar, Sonja Cao, Juliana Naderer, Moritz Eichhorn, Moritz Polleichtner, Emina Sljivic,
-Marc Wallinger, Nico Hirsch, Markus Remplbauer</p></td>
-</tr>
-</tbody>
-</table>
-<div class="sect2">
-<h3 id="_ausgangssituation">3.1. Ausgangssituation</h3>
-<div class="paragraph">
-<p>Die HTL Leonding ist eine Höhere Technische Lehranstalt im oberösterreichischen Zentralraum mit etwa 1000 Schülerinnen und Schülern sowie den Fachabteilungen IT-Medientechnik, Informatik, Medizintechnik und Elektrotechnik.
-Im Laufe der Berufsausbildung erstellen die Schülerinnen und Schüler Projekte mit einem Team aus meist zwei bis drei Schülern.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_ist_zustand">3.2. Ist-Zustand</h3>
-<div class="paragraph">
-<p>Die meisten Schülerinnen und Schüler benötigen für ihre Projekte oftmals Produktions- oder Testumgebungen.
-Dafür müssen sie immer eine virtuelle Maschine beim Systemadministrator beantragen, die von ihm genehmigt und aufgesetzt werden.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_problemstellung">3.3. Problemstellung</h3>
-<div class="paragraph">
-<p>Für den Systemadministrator ist es sehr umständlich, dass er jeden Antrag selbst bearbeiten muss, da es bei zu vielen von ihnen unübersichtlich wird.
-Außerdem hat dieser auch andere Tätigkeiten, die erledigt werden müssen.</p>
-</div>
-</div>
-<div class="sect2">
-<h3 id="_ziele">3.4. Ziele</h3>
-<div class="paragraph">
-<p>Die Projekte der Schülerinnen und Schüler können mit wenig Mühe schnell und effizient aufgesetzt werden.<br>
-Durch die Automatisierung vereinfachen sich die administrativen Tätigkeiten.</p>
-</div>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_entwurf_wie_mache_ich_es">4. Entwurf "Wie mache ich es"</h2>
-<div class="sectionbody">
-
-</div>
-</div>
-<div class="sect1">
-<h2 id="_reviews">5. Reviews</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="https://unterrainerinformatik.github.io/htl_review_beeyond/">Reviews von Professor Unterrainer</a></p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_reports">6. Reports</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="reports.html">Hier</a> sind die Reports</p>
-</div>
-</div>
-</div>
-<div class="sect1">
-<h2 id="_protokolle">7. Protokolle</h2>
-<div class="sectionbody">
-<div class="paragraph">
-<p><a href="protokolle/2022-03-31.html">2022-03-31</a></p>
 </div>
 <div class="paragraph">
-<p><a href="protokolle/2020-11-10.html">2020-11-10</a></p>
+<p>Nun muss wieder ein Name für das Deployment vergeben werden. Außerdem
+gibt man das zuerst erstellte Image an. Weiters gibt man die benötigten
+Information, um die Verbindung zur Datenbank herstellen zu können, an.
+In der Database URL kann einfach der Name des zuerst erstellten DB-Deployments
+angegeben werden.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/fields_quarkus.png" alt="fields quarkus">
+</div>
 </div>
 <div class="paragraph">
-<p><a href="protokolle/2020-05-25.html">2020-05-25</a></p>
+<p>Für das Quarkus-Deployment soll ein Ingress erstellt werden. Daher
+muss man hier das Häkchen setzen.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/ingress_quarkus.png" alt="ingress quarkus">
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_slides">8. Slides</h2>
-<div class="sectionbody">
 <div class="paragraph">
-<p><a href="slides/project-award-2022/index.html">project-award-2022</a></p>
+<p>Nun müssen wieder die gleichen Informationen wie schon für die DB angegeben werden.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/information_quarkus.png" alt="information quarkus">
+</div>
+</div>
+<div class="paragraph">
+<p>Wenn nun das Quarkus-Deployment erstellt wurde, muss eine Lehrperson
+diese Anfragen annehmen. Wenn diese genehmigt wurden, werden beide im Namespace
+deployed.</p>
 </div>
 </div>
 </div>
