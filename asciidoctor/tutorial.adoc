@@ -1,0 +1,67 @@
+= Deploy Quarkus mit PostgreSQL-Datenbank in Beeyond
+:toc: left
+:sectnums:
+:nofooter:
+:imagesdir: images
+Moritz Eichhorn
+1.0, 2022-04-15
+
+== Image erstellen
+Als Erstes muss ein Image von dem Quarkus-Backend, welches deployed
+werden soll, erstellt werden. Dazu kann ein Github-Workflow,
+welcher automatisch ein Image erstellt, wenn ein Tag
+gepusht wird, verwendet werden. Hier ein Beispiel dazu:
+
+https://github.com/halilbahar/beeyond/blob/master/.github/workflows/cd.yml#L36
+
+== DB-Deployment
+
+Auf Beeyond (https://leocloud.htl-leonding.ac.at/) im
+Tab Blueprint das Template für PostgresDB auswählen.
+
+image::select_DB.png[]
+
+Nun müssen die Felder entsprechend gesetzt werden. Man muss
+einen Namen für das Deployment, einen Namen für die Datenbank
+und den Benutzer und das Passwort der DB angeben.
+
+image::fields_DB.png[]
+
+Daraufhin wird man gefragt ob man einen Ingress erstellen wird.
+Dies ist bei der DB nicht notwendig.
+
+image::information_DB.png[]
+
+Nun muss man noch eine Beschreibung, die Klasse, wie lange und
+wofür man die Datenbank braucht, angeben.
+
+== Quarkus-Deployment
+
+Unter Blueprint wird nun das *Simple Quarkus Deployment* Template
+ausgewählt.
+
+image::select_quarkus.png[]
+
+Nun muss wieder ein Name für das Deployment vergeben werden. Außerdem
+gibt man das zuerst erstellte Image an. Weiters gibt man die benötigten
+Information, um die Verbindung zur Datenbank herstellen zu können, an.
+In der Database URL kann einfach der Name des zuerst erstellten DB-Deployments
+angegeben werden.
+
+image::fields_quarkus.png[]
+
+Für das Quarkus-Deployment soll ein Ingress erstellt werden. Daher
+muss man hier das Häkchen setzen.
+
+image::ingress_quarkus.png[]
+
+Nun müssen wieder die gleichen Informationen wie schon für die DB angegeben werden.
+
+image::information_quarkus.png[]
+
+Wenn nun das Quarkus-Deployment erstellt wurde, muss eine Lehrperson
+diese Anfragen annehmen. Wenn diese genehmigt wurden, werden beide im Namespace
+deployed.
+
+
+

@@ -15,6 +15,11 @@ Es ist aufrufbar unter: https://leocloud.htl-leonding.ac.at/
 
 image::sys-arch.png[]
 
+== Quarkus Tutorial
+<<tutorial.adoc#, Hier>> ist ein Tutorial, wie eine einfache
+Quarkus-Applikation mit einer PostrgreSQL-Datenbank deployed
+werden kann.
+
 == Pflichtenheft
 
 include::pflichtenheft.adoc[leveloffset=+1]
