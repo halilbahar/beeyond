@@ -23,7 +23,8 @@ image::select_DB.png[]
 
 Nun müssen die Felder entsprechend gesetzt werden. Man muss
 einen Namen für das Deployment, einen Namen für die Datenbank
-und den Benutzer und das Passwort der DB angeben.
+und den Benutzer und das Passwort der DB angeben. Der Name des
+Deployments *muss* klein geschrieben werden.
 
 image::fields_DB.png[]
 
