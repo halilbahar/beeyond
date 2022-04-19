@@ -53,7 +53,7 @@ class DeploymentService {
                 .withLabel("beeyond-application-id", application.id.toString())
                 .list().items
         ingresses.forEach {
-            this.client.extensions().ingresses().delete(it)
+            this.client.extensions().ingresses().inNamespace(application!!.namespace.namespace).delete(it)
         }
 
         if (application is CustomApplication) {
