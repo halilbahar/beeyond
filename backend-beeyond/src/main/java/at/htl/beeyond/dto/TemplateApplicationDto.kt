@@ -58,7 +58,8 @@ class TemplateApplicationDto(
         templateApplication.namespace.namespace,
         templateApplication.schoolClass,
         templateApplication.toDate,
-        templateApplication.purpose
+        templateApplication.purpose,
+        templateApplication.content
     )
 
     override fun toString(): String {

@@ -27,6 +27,8 @@ spec:
               value: $URL/app/
             - name: BASE_HREF
               value: $EMAIL
+            - name: CLOUD_HOST
+              value: https://student.cloud.htl-leonding.ac.at/
           image: ghcr.io/$GITHUB_ACCOUNT/beeyond-frontend:$VERSION
           ports:
             - containerPort: 80
