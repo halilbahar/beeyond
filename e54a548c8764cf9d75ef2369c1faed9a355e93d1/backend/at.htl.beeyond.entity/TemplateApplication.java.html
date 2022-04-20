@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateApplication.java</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.entity</a> &gt; <span class="el_source">TemplateApplication.java</span></div><h1>TemplateApplication.java</h1><pre class="source lang-java linenums">package at.htl.beeyond.entity;
+
+import at.htl.beeyond.dto.TemplateApplicationDto;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import java.util.List;
+import java.util.stream.Collectors;
+
+@Entity
+public class TemplateApplication extends Application {
+
+    @ManyToOne
+    private Template template;
+
+    @OneToMany(mappedBy = &quot;templateApplication&quot;, cascade = CascadeType.PERSIST)
+    private List&lt;TemplateFieldValue&gt; fieldValues;
+
+    public TemplateApplication(TemplateApplicationDto templateApplicationDto, User owner) {
+<span class="fc" id="L22">        super(</span>
+<span class="fc" id="L23">                templateApplicationDto.getNote(),</span>
+                owner,
+<span class="fc" id="L25">                Namespace.find(&quot;namespace&quot;, templateApplicationDto.getNamespace()).firstResult(),</span>
+<span class="fc" id="L26">                templateApplicationDto.getSchoolClass(),</span>
+<span class="fc" id="L27">                templateApplicationDto.getToDate(),</span>
+<span class="fc" id="L28">                templateApplicationDto.getPurpose(),</span>
+<span class="fc" id="L29">                templateApplicationDto.getContent()</span>
+        );
+<span class="fc" id="L31">        this.template = Template.findById(templateApplicationDto.getTemplateId());</span>
+<span class="fc" id="L32">        List&lt;TemplateFieldValue&gt; templateFieldValues = templateApplicationDto.getFieldValues()</span>
+<span class="fc" id="L33">                .stream()</span>
+<span class="fc" id="L34">                .map(TemplateFieldValue::new)</span>
+<span class="fc" id="L35">                .collect(Collectors.toList());</span>
+
+<span class="fc" id="L37">        this.setFieldValues(templateFieldValues);</span>
+<span class="fc" id="L38">    }</span>
+
+<span class="fc" id="L40">    public TemplateApplication() {</span>
+<span class="fc" id="L41">    }</span>
+
+    public Template getTemplate() {
+<span class="nc" id="L44">        return template;</span>
+    }
+
+    public void setTemplate(Template template) {
+<span class="nc" id="L48">        this.template = template;</span>
+<span class="nc" id="L49">    }</span>
+
+    public List&lt;TemplateFieldValue&gt; getFieldValues() {
+<span class="nc" id="L52">        return fieldValues;</span>
+    }
+
+    public void setFieldValues(List&lt;TemplateFieldValue&gt; fieldValues) {
+<span class="fc" id="L56">        fieldValues.forEach(templateFieldValue -&gt; templateFieldValue.setTemplateApplication(this));</span>
+<span class="fc" id="L57">        this.fieldValues = fieldValues;</span>
+<span class="fc" id="L58">    }</span>
+
+    @Override
+    public String getContent() {
+<span class="nc bnc" id="L62" title="All 2 branches missed.">        if (super.getContent() != null) {</span>
+<span class="nc" id="L63">            return super.getContent();</span>
+        } else {
+<span class="nc" id="L65">            List&lt;TemplateFieldValue&gt; fieldValues = this.fieldValues;</span>
+<span class="nc" id="L66">            String content = this.template.getContent();</span>
+
+<span class="nc bnc" id="L68" title="All 2 branches missed.">            for (TemplateFieldValue fieldValue : fieldValues) {</span>
+<span class="nc" id="L69">                String wildcard = fieldValue.getField().getWildcard();</span>
+<span class="nc" id="L70">                content = content.replace(&quot;%&quot; + wildcard + &quot;%&quot;, fieldValue.getValue());</span>
+<span class="nc" id="L71">            }</span>
+<span class="nc" id="L72">            return content;</span>
+        }
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
