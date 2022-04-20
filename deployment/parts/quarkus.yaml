@@ -21,6 +21,12 @@ spec:
               value: http://kubernetes-validation-beeyond:8180
             - name: QUARKUS_DATASOURCE_JDBC_URL
               value: jdbc:postgresql://beeyond-db:5432/beeyond_db
+            - name: BEEYOND_KEYCLOAK_SECRET
+              value: $KEYCLOAK_SECRET
+            - name: BEEYOND_KEYCLOAK_CLIENT-ID
+              value: $KEYCLOAK_CLIENT_ID
+            - name: BEEYOND_KEYCLOAK_REALM
+              value: $KEYCLOAK_REALM
           image: ghcr.io/$GITHUB_ACCOUNT/beeyond-backend:$VERSION
           name: beeyond-backend
           ports:
