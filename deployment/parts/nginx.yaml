@@ -4,7 +4,6 @@ kind: Deployment
 metadata:
   name: frontend-beeyond
 spec:
-  replicas: 1
   selector:
     matchLabels:
       app: frontend-beeyond
@@ -20,7 +19,7 @@ spec:
             - name: BEEYOND_BACKEND_API_URL
               value: $URL/api
             - name: BEEYOND_KEYCLOAK_URL
-              value: $URL/auth/realms/school
+              value: $URL/auth/realms/leocloud
             - name: BEEYOND_VALIDATION_API_URL
               value: $URL/valid
             - name: REDIRECT_URI

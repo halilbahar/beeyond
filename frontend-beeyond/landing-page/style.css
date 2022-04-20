@@ -1,8 +1,8 @@
-body, html{
+body, html {
     height: 100%;
 }
 
-.center{
+.center {
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -16,7 +16,7 @@ body {
     padding: 10px;
 }
 
-.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited,  .btn-primary:focus {
+.btn-primary, .btn-primary:hover, .btn-primary:active, .btn-primary:visited, .btn-primary:focus {
     background-color: #8736aa !important;
     border-color: #8736aa !important;
     width: fit-content;
@@ -46,4 +46,31 @@ p {
 
 #d {
     color: #47297b;
+}
+
+.explanation {
+    display: flex;
+    justify-content: space-between;
+}
+
+.explanation div {
+    background: #47297b;
+    color: #fff;
+    padding: 10px;
+    border-radius: 10px;
+    flex: 1 1 0;
+    width: 0;
+    margin: 10px;
+}
+
+.explanation div * {
+    text-align: center;
+}
+
+.footer {
+    width: 100%;
+    border-top: 1px solid grey;
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
 }

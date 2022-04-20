@@ -29,7 +29,6 @@ Deployment:
 | 1 | image-version| latest | * |
 | 2 | image-github-acc | halilbahar | * |
 | 3 | ingress-path | beeyond | * |
-| 4 | keycloak-deployment | false | true, false | Define wether the Identity Provider (Keycloak) should be deployed or not.
 
 * (optional) Run `kubectl delete -f deployment.yaml` if you already have running deployed it once.
 * Run `kubectl apply -f deployment.yaml`.
