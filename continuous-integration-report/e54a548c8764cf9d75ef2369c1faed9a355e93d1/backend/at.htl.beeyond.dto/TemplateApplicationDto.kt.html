@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>TemplateApplicationDto.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.dto</a> &gt; <span class="el_source">TemplateApplicationDto.kt</span></div><h1>TemplateApplicationDto.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.dto
+
+import at.htl.beeyond.entity.*
+import at.htl.beeyond.validation.Checks
+import at.htl.beeyond.validation.Exists
+import at.htl.beeyond.validation.TemplateFieldsComplete
+import at.htl.beeyond.validation.ValidKubernetes
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.util.*
+import javax.validation.GroupSequence
+import javax.validation.Valid
+import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
+
+@GroupSequence(TemplateApplicationDto::class, Checks.TemplateField::class, Checks.KubernetesContent::class)
+@TemplateFieldsComplete(groups = [Checks.TemplateField::class])
+@ValidKubernetes(groups = [Checks.KubernetesContent::class])
+<span class="fc" id="L19">class TemplateApplicationDto(</span>
+<span class="fc" id="L20">    id: Long? = null,</span>
+<span class="fc" id="L21">    note: String? = null,</span>
+<span class="fc" id="L22">    status: ApplicationStatus? = null,</span>
+<span class="fc" id="L23">    owner: UserDto? = null,</span>
+<span class="fc" id="L24">    createdAt: LocalDateTime? = null,</span>
+<span class="fc" id="L25">    startedAt: LocalDateTime? = null,</span>
+<span class="fc" id="L26">    finishedAt: LocalDateTime? = null,</span>
+<span class="fc" id="L27">    @field:NotNull @field:Exists(entity = Template::class, fieldName = &quot;id&quot;) var templateId: Long? = null,</span>
+<span class="fc" id="L28">    @field:Valid var fieldValues: List&lt;TemplateFieldValueDto&gt; = LinkedList(),</span>
+<span class="fc" id="L29">    namespace: String = &quot;&quot;,</span>
+<span class="fc" id="L30">    schoolClass: String? = null,</span>
+<span class="fc" id="L31">    toDate: LocalDate? = null,</span>
+<span class="fc" id="L32">    purpose: String? = null,</span>
+<span class="fc" id="L33">    content: String? = null</span>
+<span class="fc" id="L34">) : ApplicationDto(</span>
+<span class="fc" id="L35">    id,</span>
+<span class="fc" id="L36">    note,</span>
+<span class="fc" id="L37">    status,</span>
+<span class="fc" id="L38">    owner,</span>
+<span class="fc" id="L39">    createdAt,</span>
+<span class="fc" id="L40">    startedAt,</span>
+<span class="fc" id="L41">    finishedAt,</span>
+<span class="fc" id="L42">    namespace,</span>
+<span class="fc" id="L43">    schoolClass,</span>
+<span class="fc" id="L44">    toDate,</span>
+<span class="fc" id="L45">    purpose</span>
+) {
+
+<span class="nc" id="L48">    constructor(templateApplication: TemplateApplication) : this(</span>
+<span class="nc" id="L49">        templateApplication.id,</span>
+<span class="nc" id="L50">        templateApplication.note,</span>
+<span class="nc" id="L51">        templateApplication.status,</span>
+<span class="nc" id="L52">        UserDto(templateApplication.owner),</span>
+<span class="nc" id="L53">        templateApplication.createdAt,</span>
+<span class="nc" id="L54">        templateApplication.startedAt,</span>
+<span class="nc" id="L55">        templateApplication.finishedAt,</span>
+<span class="nc" id="L56">        templateApplication.template.id,</span>
+<span class="nc" id="L57">        templateApplication.fieldValues.map { TemplateFieldValueDto(it) }.toList(),</span>
+<span class="nc" id="L58">        templateApplication.namespace.namespace,</span>
+<span class="nc" id="L59">        templateApplication.schoolClass,</span>
+<span class="nc" id="L60">        templateApplication.toDate,</span>
+<span class="nc" id="L61">        templateApplication.purpose,</span>
+<span class="nc" id="L62">        templateApplication.content</span>
+<span class="nc" id="L63">    )</span>
+
+    override fun toString(): String {
+<span class="fc" id="L66">        return &quot;&quot;</span>
+    }
+
+<span class="fc" id="L69">    override var content: String? = content</span>
+        set(value) {
+<span class="nc bnc" id="L71" title="All 2 branches missed.">            if (value != null) {</span>
+<span class="nc" id="L72">                field = value.trim()</span>
+            }
+<span class="nc" id="L74">        }</span>
+<span class="fc" id="L75">}</span>
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
