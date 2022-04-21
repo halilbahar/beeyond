@@ -1,0 +1,28 @@
+== Protokoll vom 2020.05.25
+
+=== Anwesend
+
+.Teilnehmer
+|===
+| anwesend        | Verteiler
+| Eichhorn Moritz  (Protokollführer)    |
+| Sljivic Emina     |
+| Wallinger Marc |
+| T. Stütz        |
+|===
+
+.Ort und Zeit
+|===
+| Ort   | Klasse
+| Datum | 19. April 2022
+| Dauer | etwa 10 Minuten
+|===
+
+=== Besprochene Themen
+
+* Hinweis für Ingress hinzufügen.
+* Tipp ändern bei fields
+* URL für Zugriff
+* View Profile und Management Name des Deployments
+anzeigen.
+* Namespace kontrollieren ob es schon existiert.
