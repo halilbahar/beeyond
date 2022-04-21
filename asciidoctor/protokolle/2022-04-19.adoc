@@ -1,4 +1,4 @@
-== Protokoll vom 2020.05.25
+== Protokoll vom 2022.04.19
 
 === Anwesend
 
@@ -15,7 +15,7 @@
 |===
 | Ort   | Klasse
 | Datum | 19. April 2022
-| Dauer | etwa 10 Minuten
+| Dauer | etwa 15 Minuten
 |===
 
 === Besprochene Themen
