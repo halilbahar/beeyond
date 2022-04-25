@@ -1,0 +1,41 @@
+.slides {
+    inset: unset!important;
+    transform: none!important;
+}
+
+.slides section {
+    text-align: left!important;
+    margin-left: 2em;
+}
+
+.reveal.slide {
+    display: flex;
+    align-items: center;
+}
+
+.slides section h2 {
+    color: #5d2689;
+}
+
+img {
+    border-radius: 50%;
+}
+
+.team {
+    margin: 0;
+}
+
+.team div {
+    height: 500px;
+    display: flex;
+    width: 1700px;
+}
+
+.team h2 {
+    display: none;
+}
+
+.team img {
+    border-radius: 500px;
+    border: 0px!important;
+}
