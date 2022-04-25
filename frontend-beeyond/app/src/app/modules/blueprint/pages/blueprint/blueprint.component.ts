@@ -321,15 +321,12 @@ export class BlueprintComponent extends BaseComponent implements OnInit {
 
   private refreshNamespaces(): void {
     this.backendApiService.getUserNamespaces().subscribe(namespaces => {
-      const defaultNamespace = {
-        namespace: this.authenticationService.username.value,
-        label: 'Default'
-      };
-
       this.namespaces = namespaces
         .map(namespace => ({ ...namespace, label: namespace.namespace }))
         .filter(namespace => namespace.namespace !== this.authenticationService.username.value);
-      this.namespaces.push(defaultNamespace);
+
+      const defaultNamespace = this.namespaces.find(n => n.default);
+      defaultNamespace.label = 'Default';
       this.thirdFormGroup.controls.namespace.setValue(defaultNamespace.namespace);
     });
   }

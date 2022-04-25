@@ -14,7 +14,7 @@ require (
 	github.com/golang/protobuf v1.4.3 // indirect
 	github.com/gopherjs/gopherjs v0.0.0-20200217142428-fce0ec30dd00 // indirect
 	github.com/gorilla/mux v1.7.4 // indirect
-	github.com/instrumenta/kubeval v0.0.0-20201118090229-529b532b1ea1
+	github.com/instrumenta/kubeval v0.16.1
 	github.com/json-iterator/go v1.1.10 // indirect
 	github.com/leodido/go-urn v1.2.1 // indirect
 	github.com/mailru/easyjson v0.7.7 // indirect

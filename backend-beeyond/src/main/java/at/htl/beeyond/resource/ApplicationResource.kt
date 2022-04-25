@@ -31,7 +31,7 @@ class ApplicationResource {
     @GET
     @RolesAllowed(value = ["student", "teacher"])
     @Transactional
-    fun getAll(@Context ctx: SecurityContext): Response? {
+    fun getAll(@Context ctx: SecurityContext, @QueryParam("all") all: Int): Response? {
         val mapToDto = { o: PanacheEntityBase? ->
             if (o is CustomApplication) {
                 CustomApplicationDto(o)
@@ -40,7 +40,7 @@ class ApplicationResource {
             }
         }
 
-        val applications = if (ctx.isUserInRole("teacher")) {
+        val applications = if (ctx.isUserInRole("teacher") && all == 1) {
             Application.streamAll<Application>().map(mapToDto).collect(Collectors.toList<Any>())
         } else {
             Application.streamAll<Application>().filter {

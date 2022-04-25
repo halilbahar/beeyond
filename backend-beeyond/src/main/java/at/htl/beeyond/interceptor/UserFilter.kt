@@ -2,6 +2,7 @@ package at.htl.beeyond.interceptor
 
 import at.htl.beeyond.entity.Namespace
 import at.htl.beeyond.entity.User
+import org.eclipse.microprofile.config.inject.ConfigProperty
 import javax.enterprise.context.ApplicationScoped
 import javax.transaction.Transactional
 import javax.ws.rs.container.ContainerRequestContext
@@ -17,6 +18,9 @@ class UserFilter : ContainerRequestFilter {
     @Context
     lateinit var securityContext: SecurityContext
 
+    @ConfigProperty(name = "beeyond.namespace.prefix")
+    lateinit var namespacePrefix: String
+
     @Transactional
     override fun filter(requestContext: ContainerRequestContext?) {
         val userPrincipal = this.securityContext.userPrincipal
@@ -28,7 +32,10 @@ class UserFilter : ContainerRequestFilter {
                 try {
                     user = User(name)
                     user.persist()
-                    val namespace = Namespace(name)
+
+                    val namespaceName = namespacePrefix + "-" + name.split('@')[0].replace('.', '-');
+                    val namespace = Namespace(namespaceName)
+                    namespace.isDefault = true
                     namespace.users = listOf(user)
                     namespace.persist()
                 } catch (e: Exception) {

@@ -16,7 +16,7 @@ spec:
       containers:
         - env:
             - name: BEEYOND_KEYCLOAK_HOST
-              value: $URL
+              value: https://auth.cloud.htl-leonding.ac.at
             - name: BEEYOND_VALIDATION_HOST
               value: http://kubernetes-validation-beeyond:8180
             - name: QUARKUS_DATASOURCE_JDBC_URL

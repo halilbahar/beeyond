@@ -6,12 +6,12 @@ import { ApplicationReviewResolver } from 'src/app/core/resolver/application-rev
 import { ApplicationResolver } from 'src/app/core/resolver/application.resolver';
 
 const routes: Routes = [
-  { path: '', component: ApplicationComponent, resolve: { applications: ApplicationResolver } },
+  {path: '', component: ApplicationComponent, resolve: {applications: ApplicationResolver}, data: {all: true}},
   {
     path: 'review/:id',
     component: ApplicationReviewComponent,
-    resolve: { application: ApplicationReviewResolver },
-    data: { isManagement: true, redirectPath: ['/management'] }
+    resolve: {application: ApplicationReviewResolver},
+    data: {isManagement: true, redirectPath: ['/management']}
   }
 ];
 

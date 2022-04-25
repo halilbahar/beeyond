@@ -9,6 +9,7 @@ import { ConfigService } from '../services/config.service';
 export class AuthenticationService {
   username = new BehaviorSubject<string>('');
   roles = new BehaviorSubject<string[]>([]);
+  firstname = new BehaviorSubject<string[]>([]);
   oidcLoaded = new BehaviorSubject<boolean>(false);
 
   constructor(private oAuthService: OAuthService, private configService: ConfigService) {}
@@ -36,6 +37,8 @@ export class AuthenticationService {
       this.oAuthService.setupAutomaticSilentRefresh();
       const profile: any = await this.oAuthService.loadUserProfile();
       this.username.next(profile.info.preferred_username);
+      const claims: any = this.oAuthService.getIdentityClaims();
+      this.firstname.next(claims.given_name);
       this.roles.next(this.parseJwt(this.oAuthService.getAccessToken()).realm_access.roles);
       this.oidcLoaded.next(true);
     }
