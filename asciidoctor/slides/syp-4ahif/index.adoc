@@ -1,0 +1,47 @@
+
+= Beeyond
+:imagesdir: images
+:notitle:
+:title-slide-background-image: avg.jpg
+:customcss: style.css
+
+
+== Investition in die Zukunft
+image::avg.jpg[background, size=cover]
+
+* Neueste Technologien unterrichten
+* Cloud
+* Kommerzielle Cloud-Dienste nicht im Budget
+* Keine uns bekannte HTL bietet eigene Cloud an
+
+== Wie hilft Beeyond?
+
+image::avg.jpg[background, size=cover]
+
+* Konfiguration vereinfachen
+* Kollaboration fördern
+* Überblick über Zustand der Systeme
+
+== Konfiguration mit Beeyond
+
+image::avg.jpg[background, size=cover]
+
+* Mittels Templates für beliebte Tech-Stacks
+* ... oder eigene Kubernetes-Objekte
+* Einschränkungen für Ressourcen je nach Vorgabe
+* Validierung durch unser eigenentwickeltes Validierungs-Microservice
+
+== !
+image::sys-arch.png[background, size=cover]
+
+== Validierungs-Backend
+
+image::avg.jpg[background, size=cover]
+
+* Go-Backend
+* Syntax-Validierung
+* Feldspezifische Einschränkungen
+
+== Live-Demo
+
+image::avg.jpg[background, size=cover]
