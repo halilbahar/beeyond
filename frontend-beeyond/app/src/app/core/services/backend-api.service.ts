@@ -67,7 +67,7 @@ export class BackendApiService {
   }
 
   denyApplicationById(id: number, message: string): Observable<void> {
-    return this.http.patch<void>(`${this.backendApiUrl}/application/deny/${id}`, {message});
+    return this.http.patch<void>(`${this.backendApiUrl}/application/deny/${id}`, { message });
   }
 
   stopApplicationById(id: number): Observable<void> {

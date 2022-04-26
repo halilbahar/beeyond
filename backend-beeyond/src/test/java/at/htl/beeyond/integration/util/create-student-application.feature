@@ -13,7 +13,7 @@ Feature: Custom application creation
     {
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "moritz",
+      "namespace": "student-moritz",
       "class": "5AHIF",
       "to": "26.02.2023",
       "purpose": "SYP"
