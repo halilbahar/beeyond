@@ -5,14 +5,17 @@ import java.util.*
 import javax.json.bind.annotation.JsonbTransient
 
 class NamespaceDto(
-        @set:JsonbTransient var id: Long? = null,
-        var namespace: String? = null,
-        var users: List<UserDto?> = LinkedList(),
-        @set:JsonbTransient var deleted: Boolean? = null
+    @set:JsonbTransient var id: Long? = null,
+    var namespace: String? = null,
+    var users: List<UserDto?> = LinkedList(),
+    @set:JsonbTransient var deleted: Boolean? = null,
+    @set:JsonbTransient var isDefault: Boolean? = null
 ) {
     constructor(namespace: Namespace) : this(
-            namespace.id,
-            namespace.namespace,
-            namespace.users.map { UserDto(it) }
+        namespace.id,
+        namespace.namespace,
+        namespace.users.map { UserDto(it) },
+        namespace.isDeleted,
+        namespace.isDefault
     )
 }

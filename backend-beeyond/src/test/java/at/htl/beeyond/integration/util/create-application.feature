@@ -13,7 +13,7 @@ Feature:
     {
       "note": "Nginx Deployment",
       "content": "#(nginxDeployment)",
-      "namespace": "stuetz",
+      "namespace": "student-stuetz",
       "class": "5AHIF",
       "to": "18.01.2022",
       "purpose": "SYP"

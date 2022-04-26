@@ -6,7 +6,6 @@ import { CustomApplication } from 'src/app/shared/models/custom.application.mode
 import { TemplateApplication } from 'src/app/shared/models/template.application.model';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Template } from '../../../../shared/models/template.model';
-import { ApplicationRange } from '../../../../shared/models/application-range.model';
 import { ThemeService } from '../../../../core/services/theme.service';
 import { MatDialog } from '@angular/material/dialog';
 import { ApplicationDenyDialogComponent } from '../../components/application-deny-dialog/application-deny-dialog.component';

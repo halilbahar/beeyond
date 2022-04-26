@@ -9,6 +9,7 @@ import io.fabric8.kubernetes.api.model.ObjectMetaBuilder
 import io.fabric8.kubernetes.api.model.extensions.*
 import io.fabric8.kubernetes.client.DefaultKubernetesClient
 import io.fabric8.kubernetes.client.KubernetesClient
+import io.quarkus.security.UnauthorizedException
 import org.eclipse.microprofile.config.inject.ConfigProperty
 import org.yaml.snakeyaml.DumperOptions
 import org.yaml.snakeyaml.Yaml
@@ -86,10 +87,21 @@ class DeploymentService {
                 if (it.getString("kind") == "Service" &&
                     it.getJsonObject("metadata").getJsonObject("labels")?.getString("beeyond-create-ingress") == "true"
                 ) {
-                    var serviceName = it.getJsonObject("metadata").getString("name");
+                    val serviceName = it.getJsonObject("metadata").getString("name");
                     it.getJsonObject("spec").getJsonArray("ports").map {
                         services.put(serviceName, it.asJsonObject().getInt("port"))
                     }
+                }
+
+                if (it.getString("kind") == "Ingress" &&
+                    it.getJsonObject("spec").getJsonArray("rules").any {
+                        it.asJsonObject().getJsonObject("http").getJsonArray("paths")
+                            .any {
+                                !it.asJsonObject().getString("path").startsWith("\"/" + namespace.namespace)
+                            }
+                    }
+                ) {
+                    throw UnauthorizedException("The ingress does not direct to a path with the namespace.")
                 }
 
                 kubernetesBuilder.build().toString()

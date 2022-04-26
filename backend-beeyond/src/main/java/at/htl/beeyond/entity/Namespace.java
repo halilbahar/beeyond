@@ -22,6 +22,8 @@ public class Namespace extends PanacheEntityBase {
 
     private boolean deleted;
 
+    private boolean isDefault;
+
     public Namespace(String namespace) {
         this.namespace = namespace;
     }
@@ -63,5 +65,13 @@ public class Namespace extends PanacheEntityBase {
 
     public void setDeleted(boolean deleted) {
         this.deleted = deleted;
+    }
+
+    public boolean isDefault() {
+        return isDefault;
+    }
+
+    public void setDefault(boolean aDefault) {
+        isDefault = aDefault;
     }
 }

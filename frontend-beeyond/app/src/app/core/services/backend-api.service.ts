@@ -48,8 +48,8 @@ export class BackendApiService {
     return this.http.delete<void>(`${this.backendApiUrl}/template/${id}`);
   }
 
-  getApplications(): Observable<Application[]> {
-    return this.http.get<Application[]>(`${this.backendApiUrl}/application`);
+  getApplications(all: boolean): Observable<Application[]> {
+    return this.http.get<Application[]>(`${this.backendApiUrl}/application?all=${all ? 1 : 0}`);
   }
 
   getApplicationById(id: number): Observable<TemplateApplication | CustomApplication> {

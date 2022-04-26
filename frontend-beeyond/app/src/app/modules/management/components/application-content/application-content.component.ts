@@ -57,9 +57,6 @@ export class ApplicationContentComponent extends BaseComponent implements OnInit
   }
 
   ngOnInit(): void {
-    if (this.isAdmin) {
-      this.columnsToDisplay.splice(1, 0, 'owner');
-    }
     this.redirectPath = this.route.snapshot.data.redirectPath;
     this.applications = this.route.snapshot.data.applications.sort(
       (a1, a2) => a1.createdAt > a2.createdAt

@@ -5,4 +5,5 @@ export interface Namespace {
   namespace: string;
   users?: User[];
   label: string;
+  default: boolean;
 }
