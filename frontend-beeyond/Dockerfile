@@ -4,7 +4,7 @@ WORKDIR app
 RUN pwd
 
 COPY ./app .
-RUN npm i && npm run build --base="/"
+RUN npm i --force && npm run build --base="/"
 
 FROM nginx:alpine
 
