@@ -62,13 +62,13 @@ class NamespaceResource {
         val namespaceName = userList.namespace
         var namespace = Namespace.find<Namespace>("namespace", namespaceName).firstResult<Namespace>()
 
-        if(namespace.isDefault){
-            return Response.status(Response.Status.FORBIDDEN).build()
-        }
-
         if (namespace == null) {
             namespace = Namespace(namespaceName)
             namespace.persist()
+        }
+
+        if(namespace.isDefault){
+            return Response.status(Response.Status.FORBIDDEN).build()
         }
 
         namespace.users = userList.users.distinct().map {
