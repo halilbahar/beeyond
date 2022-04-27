@@ -67,8 +67,12 @@ class NamespaceResource {
             namespace.persist()
         }
 
+        if(namespace.isDefault){
+            return Response.status(Response.Status.FORBIDDEN).build()
+        }
+
         namespace.users = userList.users.distinct().map {
-            User.find<User>("name", it).firstResult<User>()
+            User.find<User>("name", it).firstResult()
         }
 
         if (namespace.users.isEmpty()) {

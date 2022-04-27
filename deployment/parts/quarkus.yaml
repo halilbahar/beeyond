@@ -19,10 +19,25 @@ spec:
               value: https://auth.cloud.htl-leonding.ac.at
             - name: BEEYOND_VALIDATION_HOST
               value: http://kubernetes-validation-beeyond:8180
-            - name: QUARKUS_DATASOURCE_JDBC_URL
-              value: jdbc:postgresql://beeyond-db:5432/beeyond_db
+            - name: BEEYOND_DATABASE_JDBC
+              value: jdbc:postgresql://beeyond-db:5432
+            - name: BEEYOND_DATABASE_DATABASE
+              value: beeyond_db
+            - name: BEEYOND_DATABASE_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-admin
+                  key: username
+            - name: BEEYOND_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-admin
+                  key: password
             - name: BEEYOND_KEYCLOAK_SECRET
-              value: $KEYCLOAK_SECRET
+              valueFrom:
+                secretKeyRef:
+                  name: keycloak-secret
+                  key: password
             - name: BEEYOND_KEYCLOAK_CLIENT-ID
               value: $KEYCLOAK_CLIENT_ID
             - name: BEEYOND_KEYCLOAK_REALM

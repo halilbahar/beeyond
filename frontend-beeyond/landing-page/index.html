@@ -10,42 +10,113 @@
 </head>
 <body>
 <div class="center">
-    <h1>To the cloud and <span id="b">B</span><span id="ee">ee</span><span id="yo">yo</span><span id="n">n</span><span
-            id="d">d</span></h1>
-    <p>
-        Beeyond is a tool that helps students create, maintain and destroy Kubernetes clusters.
-    </p>
-    <a type="button" class="btn btn-primary" href="$URL_TO_APP">To application</a>
-</div>
-<div style="display: flex; justify-content: center">
-    <button type="button" class="btn btn-primary rounded-circle">
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-chevron-down"
-             viewBox="0 0 16 16">
-            <path fill-rule="evenodd"
-                  d="M1.646 4.646a.5.5 0 0 1 .708 0L8 10.293l5.646-5.647a.5.5 0 0 1 .708.708l-6 6a.5.5 0 0 1-.708 0l-6-6a.5.5 0 0 1 0-.708z"/>
-        </svg>
-    </button>
-</div>
-<div class="explanation">
-    <div>
-        <h1>Templates</h1>
-        <p>For fast and easy deployments it is possible to use the provided templates.</p>
+    <div style="display: flex; justify-content: center; flex-direction: column; align-items: center; color: white">
+        <div>
+            <h1>To the cloud and <span id="b">B</span><span id="ee">ee</span><span id="yo">yo</span><span
+                    id="n">n</span><span
+                    id="d">d</span></h1>
+            <p>
+                Beeyond is a tool that helps students create, maintain and destroy Kubernetes clusters.
+            </p>
+            <a type="button" class="btn btn-primary" href="$URL_TO_APP">To the application</a>
+            <a type="button" class="btn btn-outline-primary" href="$URL_TO_DOCUMENTATION">Documentation</a>
+        </div>
     </div>
-    <div>
-        <h1>Namespaces</h1>
-        <p>Work as a group on a deployment.</p>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: center">
+    <div style=" width: 80%;">
+
+        <div style="background-color: white; border-radius: 10px; width: 100%; margin-top: -50px;padding: 20px;display: flex">
+            <img src="images/ingress.svg" style="width: 20%">
+            <div style="padding: 10px">
+                <span style="color: #f5bd1f">WHAT'S NEW</span>
+                <h2>Create ingresses on the fly</h2>
+                <p>Ingresses exposes HTTP and HTTPS routes from outside the cluster to services within the cluster. Now
+                    you can
+                    select a service and the ingress is created automatically.</p>
+            </div>
+        </div>
     </div>
-    <div>
-        <h1>Constraints</h1>
-        <p>It is important to restrict students to some degree because it is a learning environment. Teachers can set Regex or Min/Max constraints which helps to create a safe place to study.</p>
+</div>
+
+<div style="display: flex; align-items: center; width: 100%; flex-direction: column;margin: 5% 0">
+    <h1 style="margin-bottom: 3%">A project for the HTBLA Leonding cloud.</h1>
+    <div style="display: flex; width: 80%;justify-content: space-evenly">
+        <div>
+            <h2>40 +</h2>
+            <span>classes</span>
+        </div>
+
+        <div>
+            <h2>1100 +</h2>
+            <span>students</span>
+        </div>
+
+        <div>
+            <h2>130 +</h2>
+            <span>teachers</span>
+        </div>
+    </div>
+</div>
+
+<div style="display: flex; flex-direction: column; align-items: center;background-color: white;padding: 5% 0">
+    <div style=" width: 80%;">
+        <div>
+            <div style="display: flex; margin: 3% 0; padding: 3% 0;">
+                <img src="images/template.svg" style="width: 20%">
+                <div style="width: 80%;padding-left: 60px">
+                    <h1 style="color: #8736aa">Templates</h1>
+                    <ul>
+                        <li>For fast and easy deployments it is possible to use the provided templates.</li>
+                        <li>The user just has to fill out the set fields, which are described by a brief statement.</li>
+                        <li>For example: Quarkus, Postgres, ...</li>
+                    </ul>
+                </div>
+            </div>
+            <div style="display: flex; margin: 3% 0; padding: 3% 0; border-top: 1px solid grey;">
+                <div style="width: 80%">
+                    <h1 style="color: #8736aa">Namespaces</h1>
+                    <ul>
+                        <li>The teachers is able to create endless namespaces for every group project.</li>
+                        <li>Be able to work together on the deployment.</li>
+                    </ul>
+                </div>
+                <img src="images/namespace.svg" style="width: 30%">
+            </div>
+            <div style="display: flex; margin: 3% 0; padding: 3% 0; border-top: 1px solid grey;">
+                <img src="images/constraints.svg" style="width: 20%">
+                <div style="width: 80%;padding: 60px">
+                    <h1 style="color: #8736aa">Constraints</h1>
+                    <ul>
+                        <li>It is important to restrict students to some degree because it is a learning environment.
+                        </li>
+                        <li>Teachers can set Regex or Min/Max constraints which helps to create a safe place to study.
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="footer">
+    <div style="width: 80%;display: flex;flex-direction: column">
+        <h4>Members:</h4>
+        <div>
+            <h5>5AHIF - 2020/2021</h5>
+            <span>Bahar Halil, Cao Sonja, Naderer Julia</span>
+        </div>
+        <div>
+            <h5>5AHIF - 2021/2022</h5>
+            <span>Eichhorn Moritz, Polleichtner Moritz, Sljivic Emina, Wallinger Marc</span>
+        </div>
+        <div>
+            <h5>5AHIF - 2022/2023</h5>
+            <span>Hirsch Nico, Remplbauer Markus</span>
+        </div>
     </div>
 </div>
 </body>
-
-<div class="footer">
-    <p>This is a project for the HTBLA Leonding.</p>
-    <span>Bahar Halil, Cao Sonja, Naderer Julia</span>
-    <span>Eichhorn Moritz, Polleichtner Moritz, Sljivic Emina, Wallinger Marc</span>
-    <span>Hirsch Nico, Remplbauer Markus</span>
-</div>
 </html>
