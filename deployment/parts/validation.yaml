@@ -17,6 +17,16 @@ spec:
         - env:
             - name: BEEYOND_DATABASE_HOST
               value: mongo-db
+            - name: BEEYOND_DATABASE_USER
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-admin
+                  key: username
+            - name: BEEYOND_DATABASE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-admin
+                  key: password
             - name: BEEYOND_AUTHENTICATION_URL
               value: https://auth.cloud.htl-leonding.ac.at
             - name: BEEYOND_AUTHENTICATION_REALM

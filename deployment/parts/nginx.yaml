@@ -19,7 +19,7 @@ spec:
             - name: BEEYOND_BACKEND_API_URL
               value: $URL/api
             - name: BEEYOND_KEYCLOAK_URL
-              value: $URL/auth/realms/leocloud
+              value: https://auth.cloud.htl-leonding.ac.at/auth/realms/leocloud
             - name: BEEYOND_VALIDATION_API_URL
               value: $URL/valid
             - name: REDIRECT_URI

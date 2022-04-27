@@ -18,9 +18,15 @@ spec:
             - name: MONGO_INITDB_DATABASE
               value: beeyond_validation_db
             - name: MONGO_INITDB_ROOT_PASSWORD
-              value: beeyond
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-admin
+                  key: password
             - name: MONGO_INITDB_ROOT_USERNAME
-              value: beeyond
+              valueFrom:
+                secretKeyRef:
+                  name: mongo-db-admin
+                  key: username
           image: mongo:4.4.3
           name: beeyond-mongo-db
           livenessProbe:

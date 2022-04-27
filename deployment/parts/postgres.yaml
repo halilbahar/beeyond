@@ -18,13 +18,26 @@ spec:
             - name: POSTGRES_DB
               value: beeyond_db
             - name: POSTGRES_PASSWORD
-              value: beeyond
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-admin
+                  key: password
             - name: POSTGRES_USER
-              value: beeyond
+              valueFrom:
+                secretKeyRef:
+                  name: postgres-db-admin
+                  key: username
           image: postgres:13.0
           name: beeyond-database
           ports:
             - containerPort: 5432
+          volumeMounts:
+            - mountPath: /var/lib/postgresql/data
+              name: postgres-pv-claim
+      volumes:
+        - name: postgres-pv-claim
+          persistentVolumeClaim:
+            claimName: postgres-pv-claim
 ---
 apiVersion: v1
 kind: Service
