@@ -24,8 +24,6 @@ werden kann.
 
 include::pflichtenheft.adoc[leveloffset=+1]
 
-== Entwurf "Wie mache ich es"
-
 == Reviews
 https://unterrainerinformatik.github.io/htl_review_beeyond/[Reviews von Professor Unterrainer]
 

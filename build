@@ -79,6 +79,25 @@ if [ -d "out/slides" ];then
     done
 fi
 
+if [ -d "out/docu" ];then
+    echo >> out/docu/index.adoc
+    echo >> out/docu/index.adoc
+
+    echo '== Tutorials' >> out/docu/index.adoc
+    find asciidoctor/docu/tutorials -type f -name "*.adoc" | while read line; do
+        SLIDE=$(echo $line | rev | cut -d/ -f1-2 | rev | cut -d. -f1)
+        NAME=''
+        for i in $(echo $SLIDE | cut -d/ -f2 | tr "-" "\n"); do
+            TEMP="$(tr '[:lower:]' '[:upper:]' <<< ${i:0:1})${i:1}"
+            NAME="$NAME $TEMP"
+        done
+        echo "<<$SLIDE#, $NAME>>" >> out/docu/index.adoc
+        echo >> out/docu/index.adoc
+    done
+
+    asciidoctor -r asciidoctor-diagram ./out/docu/index.adoc
+fi
+
 asciidoctor -r asciidoctor-diagram ./out/*.adoc
 
 find out -name "*.adoc" -type f -delete
