@@ -13,7 +13,7 @@ VOLUMES=false
 
 while [[ $# -gt 0 ]]; do
   case $1 in
-    -v|--extension)
+    -v|--version)
       VERSION="$2"
       shift
       shift

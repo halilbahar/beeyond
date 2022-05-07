@@ -28,6 +28,8 @@ spec:
               value: $EMAIL
             - name: CLOUD_HOST
               value: https://student.cloud.htl-leonding.ac.at/
+            - name: URL_TO_DOCUMENTATION
+              value: https://halilbahar.github.io/beeyond/docu/
           image: ghcr.io/$GITHUB_ACCOUNT/beeyond-frontend:$VERSION
           ports:
             - containerPort: 80

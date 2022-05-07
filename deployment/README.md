@@ -10,7 +10,7 @@ Credit: [caberger/leocloud](https://github.com/caberger/leocloud)
 | App (Angular) | <https://student.cloud.htl-leonding.ac.at/beeyond/app/> |
 | Backend (Quarkus) | <https://student.cloud.htl-leonding.ac.at/beeyond/api> |
 | Validation (Go) | <https://student.cloud.htl-leonding.ac.at/beeyond/valid> |
-| Authentication (Keycloak) | <https://student.cloud.htl-leonding.ac.at/beeyond/auth> |
+| Authentication (Keycloak) | <https://auth.cloud.htl-leonding.ac.at/auth/> |
 
 ## How to deploy?
 
@@ -24,32 +24,24 @@ Deployment:
 * Install your config file into your ~/.kube folder
 * Call `./create-deployment.sh`, to specify following fields pass them as a parameter in the given order. This will merge all .yaml files in the folder [parts](./parts), separated by "---" (IMPORANT: Always have an empty line at the end of the .yaml file).
 
-| Nr | Parameter | Default-Value | Possible Values | Description
-|-|-|-|-|-|
-| 1 | image-version| latest | * |
-| 2 | image-github-acc | halilbahar | * |
-| 3 | ingress-path | beeyond | * |
+| Parameter | Default-Value | Possible Values | Description
+|-|-|-|-|
+| -v \<value>, --version \<value> | latest | * | Sets the image version (same for all images) |
+| -g \<value>, --githubaccount \<value>  | halilbahar | * | Sets the owner of the images |
+| -i \<value>, --ingress \<value> | beeyond | * | Sets the ingress path |
+| -vo, --volumes | false | no values | Sets if the volumes should be includes as well |
 
 * (optional) Run `kubectl delete -f deployment.yaml` if you already have running deployed it once.
 * Run `kubectl apply -f deployment.yaml`.
 * With `kubectl get pods` you are able to see if the pods are working as expected.
 
-## Keycloak Configuration - TODO
-
-<https://github.com/keycloak/keycloak-documentation/blob/main/server_admin/topics/admin-cli.adoc>
-
-
-```bash
-kubectl cp ../development-container/keycloak-theme identity-provider-5d5674444b-8nvt4:/opt/jboss/keycloak/themes/beeyond
-./kcadm.sh delete realms/school --server http://localhost:8080/auth --realm master --user beeyond
-./kcadm.sh create realms -f /tmp/school-realm.json --server http://localhost:8080/auth --realm master --user beeyond
-```
+## Keycloak
 
 ### Known Problems
 
 #### X-Frame-Options-Error in Admin Console
 
-```
+```text
 Refused to display 'https://student.cloud.htl-leonding.ac.at/' in a frame because it set 'X-Frame-Options' to 'deny'.
 ```
 
