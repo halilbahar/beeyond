@@ -11,5 +11,6 @@ else
         HREF=$BASE_HREF$(echo $file | cut -d. -f2- | rev | cut -d/ -f2- | rev)
         sed -i "s;<base href=\".*\">;<base href=\"/$HREF/\">;g" $file
         sed -i "s;\$URL_TO_APP;$REDIRECT_URI;g" $file
+        sed -i "s;\$URL_TO_DOCUMENTATION;$URL_TO_DOCUMENTATION;g" $file
     done 
 fi
