@@ -30,3 +30,8 @@ https://unterrainerinformatik.github.io/htl_review_beeyond/[Reviews von Professo
 == Reports
 
 <<reports.adoc#, Hier>> sind die Reports
+
+== Docs
+
+<<docu/index.adoc#, Hier>> sind die Docs
+
