@@ -5,8 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<meta name="author" content="Moritz Eichhorn">
-<title>Deploy Quarkus mit PostgreSQL-Datenbank in Beeyond</title>
+<meta name="author" content="Nico Hirsch, Markus Remplbauer">
+<title>Deploy Quarkus with PostgreSQL-Database in Beeyond</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,119 +439,397 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Deploy Quarkus mit PostgreSQL-Datenbank in Beeyond</h1>
+<h1>Deploy Quarkus with PostgreSQL-Database in Beeyond</h1>
 <div class="details">
-<span id="author" class="author">Moritz Eichhorn</span><br>
-<span id="revnumber">version 1.0,</span>
-<span id="revdate">2022-04-15</span>
+<span id="author" class="author">Nico Hirsch, Markus Remplbauer</span><br>
 </div>
 <div id="toc" class="toc2">
 <div id="toctitle">Table of Contents</div>
 <ul class="sectlevel1">
-<li><a href="#_image_erstellen">1. Image erstellen</a></li>
-<li><a href="#_db_deployment">2. DB-Deployment</a></li>
-<li><a href="#_quarkus_deployment">3. Quarkus-Deployment</a></li>
+<li><a href="#_preparation">1. Preparation</a>
+<ul class="sectlevel2">
+<li><a href="#_publish_quarkus_package">1.1. Publish Quarkus Package</a></li>
+<li><a href="#_request_a_namespace_for_your_deployment">1.2. Request a namespace for your deployment</a></li>
+</ul>
+</li>
+<li><a href="#_deploy_database">2. Deploy Database</a>
+<ul class="sectlevel2">
+<li><a href="#_db_wildcards">2.1. DB Wildcards</a></li>
+<li><a href="#_db_information">2.2. DB Information</a></li>
+</ul>
+</li>
+<li><a href="#_deploy_quarkus_backend">3. Deploy Quarkus Backend</a>
+<ul class="sectlevel2">
+<li><a href="#_quarkus_wildcards">3.1. Quarkus Wildcards</a></li>
+<li><a href="#_quarkus_ingress">3.2. Quarkus Ingress</a></li>
+<li><a href="#_quarkus_information">3.3. Quarkus Information</a></li>
+</ul>
+</li>
+<li><a href="#_approval">4. Approval</a></li>
+<li><a href="#_access_deployment">5. Access Deployment</a>
+<ul class="sectlevel2">
+<li><a href="#_testing_endpoint">5.1. Testing Endpoint</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
 <div id="content">
 <div class="sect1">
-<h2 id="_image_erstellen">1. Image erstellen</h2>
+<h2 id="_preparation">1. Preparation</h2>
 <div class="sectionbody">
+<div class="sect2">
+<h3 id="_publish_quarkus_package">1.1. Publish Quarkus Package</h3>
 <div class="paragraph">
-<p>Als Erstes muss ein Image von dem Quarkus-Backend, welches deployed
-werden soll, erstellt werden. Dazu kann ein Github-Workflow,
-welcher automatisch ein Image erstellt, wenn ein Tag
-gepusht wird, verwendet werden. Hier ein Beispiel dazu:</p>
+<p>First of all our Quarkus Backend needs to be in some kind of Registry, so we can use the docker image.
+You can easily achieve this using the <a href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry">Github Container registry</a>.
+For this we use the following Github-Workflow to automatically publish our backend package if a Tag is pushed.</p>
 </div>
+<details>
+<summary class="title">Details</summary>
+<div class="content">
+<div class="listingblock">
+<div class="content">
+<pre class="highlight"><code class="language-yaml" data-lang="yaml">name: CD
+
+on:
+  push:
+    tags: [ '*' ]
+
+jobs:
+  build_backend:
+    name: Build backend
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: backend
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Package
+        run: mvn package -Dmaven.test.skip
+      - name: Login to GitHub Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image
+        run: docker build . -f src/main/docker/Dockerfile.jvm --tag $IMAGE_NAME
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION</code></pre>
+</div>
+</div>
+</div>
+</details>
+</div>
+<div class="sect2">
+<h3 id="_request_a_namespace_for_your_deployment">1.2. Request a namespace for your deployment</h3>
 <div class="paragraph">
-<p><a href="https://github.com/halilbahar/beeyond/blob/master/.github/workflows/cd.yml#L36" class="bare">https://github.com/halilbahar/beeyond/blob/master/.github/workflows/cd.yml#L36</a></p>
+<p>Request a namespace for your deployment from a Beeyond Administratior.</p>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_db_deployment">2. DB-Deployment</h2>
+<h2 id="_deploy_database">2. Deploy Database</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Auf Beeyond (<a href="https://leocloud.htl-leonding.ac.at/" class="bare">https://leocloud.htl-leonding.ac.at/</a>) im
-Tab Blueprint das Template für PostgresDB auswählen.</p>
+<p>Navigate to <code><a href="https://student.cloud.htl-leonding.ac.at/beeyond/app/blueprint" class="bare">https://student.cloud.htl-leonding.ac.at/beeyond/app/blueprint</a></code></p>
+</div>
+<div class="paragraph">
+<p>Click on template and choose the "Postgres DB" template</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/select_DB.png" alt="select DB">
+<img src="images/blueprint-type.png" alt="blueprint type">
 </div>
 </div>
+<div class="sect2">
+<h3 id="_db_wildcards">2.1. DB Wildcards</h3>
 <div class="paragraph">
-<p>Nun müssen die Felder entsprechend gesetzt werden. Man muss
-einen Namen für das Deployment, einen Namen für die Datenbank
-und den Benutzer und das Passwort der DB angeben. Der Name des
-Deployments <strong>muss</strong> klein geschrieben werden.</p>
+<p>Fill out the wildcards for the  "Postgres DB" template</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/fields_DB.png" alt="fields DB">
+<img src="images/postgres-wildcards.png" alt="postgres wildcards">
 </div>
 </div>
-<div class="paragraph">
-<p>Daraufhin wird man gefragt ob man einen Ingress erstellen wird.
-Dies ist bei der DB nicht notwendig.</p>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Wildcardname</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the service and deployment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">auction-db</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">db</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Password for the specified user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">app</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">User name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">app</p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonitionblock tip">
+<table>
+<tr>
+<td class="icon">
+<div class="title">Tip</div>
+</td>
+<td class="content">
+You can preview the generated yaml using the "Evaluate and Show" button
+</td>
+</tr>
+</table>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/information_DB.png" alt="information DB">
+<img src="images/yaml-preview.png" alt="yaml preview">
 </div>
 </div>
 <div class="paragraph">
-<p>Nun muss man noch eine Beschreibung, die Klasse, wie lange und
-wofür man die Datenbank braucht, angeben.</p>
+<p>Since the database is an internal service we do not need an Ingress</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/postgres-ingress.png" alt="postgres ingress">
+</div>
+</div>
+</div>
+<div class="sect2">
+<h3 id="_db_information">2.2. DB Information</h3>
+<div class="paragraph">
+<p>Fill out the information</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/postgres-information.png" alt="postgres information">
+</div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">DB Information</th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database for the Auction Quarkus App</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4ahif</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;namespace&gt; (auction-app)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;Expiry date&gt;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deploy the Auction Quarkus App</p></td>
+</tr>
+</tbody>
+</table>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_quarkus_deployment">3. Quarkus-Deployment</h2>
+<h2 id="_deploy_quarkus_backend">3. Deploy Quarkus Backend</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Unter Blueprint wird nun das <strong>Simple Quarkus Deployment</strong> Template
-ausgewählt.</p>
+<p>Create another blueprint with the "Simple Quarkus Development" template</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/select_quarkus.png" alt="select quarkus">
+<img src="images/quarkus-template.png" alt="quarkus template">
 </div>
 </div>
+<div class="sect2">
+<h3 id="_quarkus_wildcards">3.1. Quarkus Wildcards</h3>
 <div class="paragraph">
-<p>Nun muss wieder ein Name für das Deployment vergeben werden. Außerdem
-gibt man das zuerst erstellte Image an. Weiters gibt man die benötigten
-Information, um die Verbindung zur Datenbank herstellen zu können, an.
-In der Database URL kann einfach der Name des zuerst erstellten DB-Deployments
-angegeben werden.</p>
+<p>Fill out the wildcards</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/fields_quarkus.png" alt="fields quarkus">
+<img src="images/quarkus-wildcards.png" alt="quarkus wildcards">
 </div>
 </div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 33.3333%;">
+<col style="width: 33.3333%;">
+<col style="width: 33.3334%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Wildcardname</th>
+<th class="tableblock halign-left valign-top">Description</th>
+<th class="tableblock halign-left valign-top">Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Name of the service and deployment</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">auction-backend</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Image</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Docker Image name</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">ghcr.io/eminasljivic/backend:v0.2</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database URL</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">URL to the database</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">jdbc:postgresql://auction-db:5432/db</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Username</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">app</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Password</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Database Password for the specified user</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">app</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="sect2">
+<h3 id="_quarkus_ingress">3.2. Quarkus Ingress</h3>
 <div class="paragraph">
-<p>Für das Quarkus-Deployment soll ein Ingress erstellt werden. Daher
-muss man hier das Häkchen setzen.</p>
+<p>Create an Ingress as the Quarkus API is an external service</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/ingress_quarkus.png" alt="ingress quarkus">
+<img src="images/quarkus-ingress.png" alt="quarkus ingress">
 </div>
 </div>
+</div>
+<div class="sect2">
+<h3 id="_quarkus_information">3.3. Quarkus Information</h3>
 <div class="paragraph">
-<p>Nun müssen wieder die gleichen Informationen wie schon für die DB angegeben werden.</p>
+<p>Fill out the information</p>
 </div>
 <div class="imageblock">
 <div class="content">
-<img src="images/information_quarkus.png" alt="information quarkus">
+<img src="images/quarkus-information.png" alt="quarkus information">
 </div>
+</div>
+<table class="tableblock frame-all grid-all stretch">
+<colgroup>
+<col style="width: 50%;">
+<col style="width: 50%;">
+</colgroup>
+<thead>
+<tr>
+<th class="tableblock halign-left valign-top">Quarkus Information</th>
+<th class="tableblock halign-left valign-top"></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Description</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Auction Quarkus Backend</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Class</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">4ahif</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Namespace</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;namespace&gt; (auction-app)</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">To</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">&lt;Expiry date&gt;</p></td>
+</tr>
+<tr>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Purpose</p></td>
+<td class="tableblock halign-left valign-top"><p class="tableblock">Deploy the Auction Quarkus App</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_approval">4. Approval</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>Now you have to wait until a Beeyond Administrator approves your requested deployments.</p>
 </div>
 <div class="paragraph">
-<p>Wenn nun das Quarkus-Deployment erstellt wurde, muss eine Lehrperson
-diese Anfragen annehmen. Wenn diese genehmigt wurden, werden beide im Namespace
-deployed.</p>
+<p>Once your deployments got accepted you can view them running under the Profile tab.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/deployments-running.png" alt="deployments running">
+</div>
+</div>
+</div>
+</div>
+<div class="sect1">
+<h2 id="_access_deployment">5. Access Deployment</h2>
+<div class="sectionbody">
+<div class="paragraph">
+<p>You can get information about the deployment and copy the ingress from the deployment&#8217;s review page.
+The ingress follows the pattern <code>student.cloud.htl-leonding.ac.at/{namespace}</code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/quarkus-review.png" alt="quarkus review">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_testing_endpoint">5.1. Testing Endpoint</h3>
+<div class="paragraph">
+<p>Our Auction-Deployment provides an endpoint at <code>/api/auction/get-running</code> which fetches currently running auctions from the database.
+In the case of our deployment the full url for the endpoint is <code><a href="https://student.cloud.htl-leonding.ac.at/auction-app/api/auction/get-running" class="bare">https://student.cloud.htl-leonding.ac.at/auction-app/api/auction/get-running</a></code>.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/access-deployment.png" alt="access deployment">
+</div>
+</div>
 </div>
 </div>
 </div>
