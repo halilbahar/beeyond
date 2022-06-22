@@ -1,68 +1,216 @@
-= Deploy Quarkus mit PostgreSQL-Datenbank in Beeyond
+= Deploy Quarkus with PostgreSQL-Database in Beeyond
 :toc: left
 :sectnums:
 :nofooter:
 :imagesdir: images
-Moritz Eichhorn
-1.0, 2022-04-15
+Nico Hirsch, Markus Remplbauer
 
-== Image erstellen
-Als Erstes muss ein Image von dem Quarkus-Backend, welches deployed
-werden soll, erstellt werden. Dazu kann ein Github-Workflow,
-welcher automatisch ein Image erstellt, wenn ein Tag
-gepusht wird, verwendet werden. Hier ein Beispiel dazu:
+== Preparation
 
-https://github.com/halilbahar/beeyond/blob/master/.github/workflows/cd.yml#L36
+=== Publish Quarkus Package
 
-== DB-Deployment
+First of all our Quarkus Backend needs to be in some kind of Registry, so we can use the docker image.
+You can easily achieve this using the https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry[Github Container registry].
+For this we use the following Github-Workflow to automatically publish our backend package if a Tag is pushed.
 
-Auf Beeyond (https://leocloud.htl-leonding.ac.at/) im
-Tab Blueprint das Template für PostgresDB auswählen.
+[%collapsible]
+====
+[source,yaml]
+----
+name: CD
 
-image::select_DB.png[]
+on:
+  push:
+    tags: [ '*' ]
 
-Nun müssen die Felder entsprechend gesetzt werden. Man muss
-einen Namen für das Deployment, einen Namen für die Datenbank
-und den Benutzer und das Passwort der DB angeben. Der Name des
-Deployments *muss* klein geschrieben werden.
+jobs:
+  build_backend:
+    name: Build backend
+    runs-on: ubuntu-latest
+    env:
+      IMAGE_NAME: backend
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+      - name: Package
+        run: mvn package -Dmaven.test.skip
+      - name: Login to GitHub Packages
+        uses: docker/login-action@v1
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - name: Build image
+        run: docker build . -f src/main/docker/Dockerfile.jvm --tag $IMAGE_NAME
+      - name: Push image
+        run: |
+          IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
+          IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          echo IMAGE_ID=$IMAGE_ID
+          echo VERSION=$VERSION
+          docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
+          docker push $IMAGE_ID:$VERSION
+----
+====
 
-image::fields_DB.png[]
+=== Request a namespace for your deployment
 
-Daraufhin wird man gefragt ob man einen Ingress erstellen wird.
-Dies ist bei der DB nicht notwendig.
+Request a namespace for your deployment from a Beeyond Administratior.
 
-image::information_DB.png[]
+== Deploy Database
 
-Nun muss man noch eine Beschreibung, die Klasse, wie lange und
-wofür man die Datenbank braucht, angeben.
+Navigate to `https://student.cloud.htl-leonding.ac.at/beeyond/app/blueprint`
 
-== Quarkus-Deployment
+Click on template and choose the "Postgres DB" template
 
-Unter Blueprint wird nun das *Simple Quarkus Deployment* Template
-ausgewählt.
+image::blueprint-type.png[]
 
-image::select_quarkus.png[]
+=== DB Wildcards
 
-Nun muss wieder ein Name für das Deployment vergeben werden. Außerdem
-gibt man das zuerst erstellte Image an. Weiters gibt man die benötigten
-Information, um die Verbindung zur Datenbank herstellen zu können, an.
-In der Database URL kann einfach der Name des zuerst erstellten DB-Deployments
-angegeben werden.
-
-image::fields_quarkus.png[]
-
-Für das Quarkus-Deployment soll ein Ingress erstellt werden. Daher
-muss man hier das Häkchen setzen.
-
-image::ingress_quarkus.png[]
-
-Nun müssen wieder die gleichen Informationen wie schon für die DB angegeben werden.
-
-image::information_quarkus.png[]
-
-Wenn nun das Quarkus-Deployment erstellt wurde, muss eine Lehrperson
-diese Anfragen annehmen. Wenn diese genehmigt wurden, werden beide im Namespace
-deployed.
+Fill out the wildcards for the  "Postgres DB" template
 
 
+image::postgres-wildcards.png[]
 
+|===
+|Wildcardname | Description | Example
+
+|Name
+|Name of the service and deployment
+|auction-db
+
+|Database
+|Database name
+|db
+
+|Password
+|Password for the specified user
+|app
+
+|User
+|User name
+|app
+|===
+
+TIP: You can preview the generated yaml using the "Evaluate and Show" button
+
+image::yaml-preview.png[]
+
+Since the database is an internal service we do not need an Ingress
+
+image::postgres-ingress.png[]
+
+=== DB Information
+
+Fill out the information
+
+image::postgres-information.png[]
+
+|===
+|DB Information |
+
+|Description
+|Database for the Auction Quarkus App
+
+|Class
+|4ahif
+
+|Namespace
+|<namespace> (auction-app)
+
+|To
+|<Expiry date>
+
+|Purpose
+|Deploy the Auction Quarkus App
+|===
+
+== Deploy Quarkus Backend
+
+Create another blueprint with the "Simple Quarkus Development" template
+
+image::quarkus-template.png[]
+
+=== Quarkus Wildcards
+
+Fill out the wildcards
+
+image::quarkus-wildcards.png[]
+
+|===
+|Wildcardname | Description | Example
+
+|Name
+|Name of the service and deployment
+|auction-backend
+
+|Image
+|Docker Image name
+|ghcr.io/eminasljivic/backend:v0.2
+
+|Database URL
+|URL to the database
+|jdbc:postgresql://auction-db:5432/db
+
+|Database Username
+|Database user
+|app
+
+|Database Password
+|Database Password for the specified user
+|app
+|===
+
+=== Quarkus Ingress
+
+Create an Ingress as the Quarkus API is an external service
+
+image::quarkus-ingress.png[]
+
+=== Quarkus Information
+
+Fill out the information
+
+image::quarkus-information.png[]
+
+|===
+|Quarkus Information |
+
+|Description
+|Auction Quarkus Backend
+
+|Class
+|4ahif
+
+|Namespace
+|<namespace> (auction-app)
+
+|To
+|<Expiry date>
+
+|Purpose
+|Deploy the Auction Quarkus App
+|===
+
+== Approval
+
+Now you have to wait until a Beeyond Administrator approves your requested deployments.
+
+Once your deployments got accepted you can view them running under the Profile tab.
+
+image::deployments-running.png[]
+
+== Access Deployment
+
+You can get information about the deployment and copy the ingress from the deployment's review page.
+The ingress follows the pattern `student.cloud.htl-leonding.ac.at/{namespace}`.
+
+image::quarkus-review.png[]
+
+=== Testing Endpoint
+
+Our Auction-Deployment provides an endpoint at `/api/auction/get-running` which fetches currently running auctions from the database.
+In the case of our deployment the full url for the endpoint is `https://student.cloud.htl-leonding.ac.at/auction-app/api/auction/get-running`.
+
+image::access-deployment.png[]
