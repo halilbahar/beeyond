@@ -1,0 +1,65 @@
+= Beeyond tutorial for teachers
+:toc: left
+:sectnums:
+:nofooter:
+:imagesdir: images
+Nico Hirsch, Markus Remplbauer
+
+== Namespaces
+
+Under the "Namespace" tab you can find all current available namespaces.
+
+image::namespaces-list.png[]
+
+=== Create namespace
+
+If you click on the "+" on the top right you can create a namespace.
+You will have to give it a name and choose from a list of all users who should be able to use it.
+
+image::namespace-create.png[]
+
+=== Edit namespace
+
+You can edit non-default namespaces by assigning and removing users from the namespace.
+
+image::namespace-edit.png[]
+
+== Management
+
+Under the "Management" tab you can find all deployments.
+
+image::management-list-all.png[]
+
+To make life easier you can use the "Select a status..." filter to show only pending deployments that are waiting for approval.
+
+image::management-list-pending.png[]
+
+=== Review
+
+If you click on a deployment you will be able to see its information and either "Finish", "Deny" or "Approve" it.
+
+image::management-review.png[]
+
+==== Finish
+Stop running deployment.
+
+==== Deny
+
+When denying a deployment, you have to leave a deny-message.
+
+image::management-review-deny.png[]
+
+==== Approve
+After approving the deployment, it will be deployed to the leocloud.
+
+==== Content
+
+Under the "Content" tab you can find the wildcard fields with its values.
+
+image::management-review-content.png[]
+
+==== View yaml file
+
+View the deployment's yaml file by clicking on "Evaluate and Show".
+
+image::management-review-yaml.png[]
