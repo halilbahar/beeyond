@@ -5,7 +5,8 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
-<title>Ausgangssituation</title>
+<meta name="author" content="Nico Hirsch, Markus Remplbauer">
+<title>Beeyond tutorial for teachers</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -436,67 +437,142 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 @media amzn-kf8{#header,#content,#footnotes,#footer{padding:0}}
 </style>
 </head>
-<body class="article">
+<body class="article toc2 toc-left">
 <div id="header">
+<h1>Beeyond tutorial for teachers</h1>
+<div class="details">
+<span id="author" class="author">Nico Hirsch, Markus Remplbauer</span><br>
+</div>
+<div id="toc" class="toc2">
+<div id="toctitle">Table of Contents</div>
+<ul class="sectlevel1">
+<li><a href="#_namespaces">1. Namespaces</a>
+<ul class="sectlevel2">
+<li><a href="#_create_namespace">1.1. Create namespace</a></li>
+<li><a href="#_edit_namespace">1.2. Edit namespace</a></li>
+</ul>
+</li>
+<li><a href="#_management">2. Management</a>
+<ul class="sectlevel2">
+<li><a href="#_review">2.1. Review</a></li>
+</ul>
+</li>
+</ul>
+</div>
 </div>
 <div id="content">
-<table class="tableblock frame-all grid-all stretch">
-<colgroup>
-<col style="width: 50%;">
-<col style="width: 50%;">
-</colgroup>
-<tbody>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Projekttitel:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Beeyond</p></td>
-</tr>
-<tr>
-<td class="tableblock halign-left valign-top"><p class="tableblock"><strong>Projektmitglieder:</strong></p></td>
-<td class="tableblock halign-left valign-top"><p class="tableblock">Halil Bahar, Sonja Cao, Juliana Naderer, Moritz Eichhorn, Moritz Polleichtner, Emina Sljivic,
-Marc Wallinger, Nico Hirsch, Markus Remplbauer</p></td>
-</tr>
-</tbody>
-</table>
 <div class="sect1">
-<h2 id="_ausgangssituation">Ausgangssituation</h2>
+<h2 id="_namespaces">1. Namespaces</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Die HTL Leonding ist eine Höhere Technische Lehranstalt im oberösterreichischen Zentralraum mit etwa 1000 Schülerinnen und Schülern sowie den Fachabteilungen IT-Medientechnik, Informatik, Medizintechnik und Elektrotechnik.
-Im Laufe der Berufsausbildung erstellen die Schülerinnen und Schüler Projekte mit einem Team aus meist zwei bis drei Schülern.</p>
+<p>Under the "Namespace" tab you can find all current available namespaces.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/namespaces-list.png" alt="namespaces list">
 </div>
 </div>
-</div>
-<div class="sect1">
-<h2 id="_ist_zustand">Ist-Zustand</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_create_namespace">1.1. Create namespace</h3>
 <div class="paragraph">
-<p>Die meisten Schülerinnen und Schüler benötigen für ihre Projekte oftmals Produktions- oder Testumgebungen.
-Dafür müssen sie immer eine virtuelle Maschine beim Systemadministrator beantragen, die von ihm genehmigt und aufgesetzt werden.</p>
+<p>If you click on the "+" on the top right you can create a namespace.
+You will have to give it a name and choose from a list of all users who should be able to use it.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/namespace-create.png" alt="namespace create">
 </div>
 </div>
 </div>
-<div class="sect1">
-<h2 id="_problemstellung">Problemstellung</h2>
-<div class="sectionbody">
+<div class="sect2">
+<h3 id="_edit_namespace">1.2. Edit namespace</h3>
 <div class="paragraph">
-<p>Für den Systemadministrator ist es sehr umständlich, dass er jeden Antrag selbst bearbeiten muss, da es bei zu vielen von ihnen unübersichtlich wird.
-Außerdem hat dieser auch andere Tätigkeiten, die erledigt werden müssen.</p>
+<p>You can edit non-default namespaces by assigning and removing users from the namespace.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/namespace-edit.png" alt="namespace edit">
+</div>
+</div>
 </div>
 </div>
 </div>
 <div class="sect1">
-<h2 id="_ziele">Ziele</h2>
+<h2 id="_management">2. Management</h2>
 <div class="sectionbody">
 <div class="paragraph">
-<p>Die Projekte der Schülerinnen und Schüler können mit wenig Mühe schnell und effizient aufgesetzt werden.<br>
-Durch die Automatisierung vereinfachen sich die administrativen Tätigkeiten.</p>
+<p>Under the "Management" tab you can find all deployments.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/management-list-all.png" alt="management list all">
+</div>
+</div>
+<div class="paragraph">
+<p>To make life easier you can use the "Select a status&#8230;&#8203;" filter to show only pending deployments that are waiting for approval.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/management-list-pending.png" alt="management list pending">
+</div>
+</div>
+<div class="sect2">
+<h3 id="_review">2.1. Review</h3>
+<div class="paragraph">
+<p>If you click on a deployment you will be able to see its information and either "Finish", "Deny" or "Approve" it.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/management-review.png" alt="management review">
+</div>
+</div>
+<div class="sect3">
+<h4 id="_finish">2.1.1. Finish</h4>
+<div class="paragraph">
+<p>Stop running deployment.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_deny">2.1.2. Deny</h4>
+<div class="paragraph">
+<p>When denying a deployment, you have to leave a deny-message.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/management-review-deny.png" alt="management review deny">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_approve">2.1.3. Approve</h4>
+<div class="paragraph">
+<p>After approving the deployment, it will be deployed to the leocloud.</p>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_content">2.1.4. Content</h4>
+<div class="paragraph">
+<p>Under the "Content" tab you can find the wildcard fields with its values.</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/management-review-content.png" alt="management review content">
+</div>
+</div>
+</div>
+<div class="sect3">
+<h4 id="_view_yaml_file">2.1.5. View yaml file</h4>
+<div class="paragraph">
+<p>View the deployment&#8217;s yaml file by clicking on "Evaluate and Show".</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/management-review-yaml.png" alt="management review yaml">
 </div>
 </div>
 </div>
 </div>
-<div id="footer">
-<div id="footer-text">
-Last updated 2022-06-23 10:05:01 UTC
+</div>
 </div>
 </div>
 </body>
