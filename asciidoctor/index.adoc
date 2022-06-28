@@ -4,7 +4,7 @@
 :nofooter:
 :imagesdir: images
 Bahar Halil, Cao Sonja, Naderer Juliana, Eichhorn Moritz, Polleichtner Moritz, Sljivic Emina, Wallinger Marc, Hirsch Nico, Remplbauer Markus
-1.1, 2022-04-05
+1.1, 2022-06-28
 
 Webanwendungen, die an der HTL Leonding entwickelt werden, können ganz einfach in der LeoCloud – der Cloud Computing Umgebung der HTL Leonding – online gehen.
 Beeyond bietet dazu eine benutzerfreundliche und einfache Konfigurationsmöglichkeit für Unterrichtsprojekte.
@@ -16,7 +16,8 @@ Es ist aufrufbar unter: https://leocloud.htl-leonding.ac.at/
 image::sys-arch.png[]
 
 == Quarkus Tutorial
-<<tutorial.adoc#, Hier>> ist ein Tutorial, wie eine einfache
+
+<<docu/tutorials/quarkus-with-postgresDB.adoc#, Hier>> ist ein Tutorial, wie eine einfache
 Quarkus-Applikation mit einer PostrgreSQL-Datenbank deployed
 werden kann.
 
