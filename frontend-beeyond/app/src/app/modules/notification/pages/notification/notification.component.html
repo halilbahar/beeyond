@@ -6,7 +6,9 @@
     <div style="display: flex; justify-content: space-between">
       <h2 style="font-size: x-large">{{ notification.message }}</h2>
       <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 16px">
-        <mat-icon (click)="deleteNotification(notification)">delete</mat-icon>
+        <button mat-mini-fab color="primary" (click)="deleteNotification(notification)">
+          <mat-icon>delete</mat-icon>
+        </button>
       </div>
     </div>
 
