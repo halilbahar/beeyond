@@ -1,0 +1,44 @@
+GROUP,PACKAGE,CLASS,INSTRUCTION_MISSED,INSTRUCTION_COVERED,BRANCH_MISSED,BRANCH_COVERED,LINE_MISSED,LINE_COVERED,COMPLEXITY_MISSED,COMPLEXITY_COVERED,METHOD_MISSED,METHOD_COVERED
+quarkus-application,at.htl.beeyond.dto,TemplateDto,8,149,0,0,0,18,2,14,2,14
+quarkus-application,at.htl.beeyond.dto,TemplateFieldValueDto,20,52,1,1,5,11,4,6,3,6
+quarkus-application,at.htl.beeyond.dto,TemplateFieldDto,4,95,3,3,0,24,4,10,1,10
+quarkus-application,at.htl.beeyond.dto,UserListDto,0,53,0,0,0,7,0,6,0,6
+quarkus-application,at.htl.beeyond.dto,TemplateApplicationDto,88,141,2,0,19,30,3,8,2,8
+quarkus-application,at.htl.beeyond.dto,CustomApplicationDto,0,143,1,1,0,44,1,5,0,5
+quarkus-application,at.htl.beeyond.dto,ApplicationDto,89,93,0,0,1,16,6,18,6,18
+quarkus-application,at.htl.beeyond.dto,FailedFieldDto,42,30,0,0,1,1,4,4,4,4
+quarkus-application,at.htl.beeyond.dto,NamespaceDto,59,77,0,0,1,13,6,7,6,7
+quarkus-application,at.htl.beeyond.dto,NotificationDto,157,0,0,0,20,0,19,0,19,0
+quarkus-application,at.htl.beeyond.dto,DenyMessageDto,22,0,0,0,2,0,4,0,4,0
+quarkus-application,at.htl.beeyond.dto,UserDto,23,25,0,0,1,4,3,4,3,4
+quarkus-application,at.htl.beeyond.bean,TemplateBean,106,17,12,2,18,5,8,3,1,3
+quarkus-application,at.htl.beeyond.service,NamespaceService,21,37,1,1,2,10,3,3,2,3
+quarkus-application,at.htl.beeyond.service,DeploymentService,355,403,27,15,41,53,22,14,4,11
+quarkus-application,at.htl.beeyond.mapper,ValidationExceptionMapper,0,63,0,2,0,12,0,4,0,3
+quarkus-application,at.htl.beeyond.interceptor,UserFilter,23,103,3,5,1,18,5,5,2,4
+quarkus-application,at.htl.beeyond.validation,TemplateFieldsCompleteValidator,4,100,3,11,2,23,3,6,0,2
+quarkus-application,at.htl.beeyond.validation,NamespaceValidValidator,2,24,1,3,1,3,1,3,0,2
+quarkus-application,at.htl.beeyond.validation,TemplateFieldsMatchingValidator,2,97,1,13,1,22,1,8,0,2
+quarkus-application,at.htl.beeyond.validation,ExistsValidator,0,93,0,12,0,18,0,9,0,3
+quarkus-application,at.htl.beeyond.validation,ValidKubernetesValidator,25,29,5,5,7,8,4,3,0,2
+quarkus-application,at.htl.beeyond.resource,NotificationResource.getNamespaces.mapToDto.new Function1() {...},8,0,0,0,1,0,1,0,1,0
+quarkus-application,at.htl.beeyond.resource,UserResource,25,0,0,0,4,0,3,0,3,0
+quarkus-application,at.htl.beeyond.resource,ApplicationResource,164,580,24,50,19,111,19,35,3,14
+quarkus-application,at.htl.beeyond.resource,NamespaceResource.getNamespaces.mapToDto.new Function1() {...},8,0,0,0,1,0,1,0,1,0
+quarkus-application,at.htl.beeyond.resource,CustomApplicationResource,0,53,0,0,0,9,0,2,0,2
+quarkus-application,at.htl.beeyond.resource,TemplateApplicationResource,9,69,1,1,1,11,1,2,0,2
+quarkus-application,at.htl.beeyond.resource,ApplicationResource.getAll.mapToDto.new Function1() {...},14,11,3,1,1,2,2,1,0,1
+quarkus-application,at.htl.beeyond.resource,NotificationResource,76,0,2,0,11,0,6,0,5,0
+quarkus-application,at.htl.beeyond.resource,TemplateResource,11,194,3,9,1,20,3,11,0,8
+quarkus-application,at.htl.beeyond.resource,NamespaceResource,113,113,8,6,10,17,11,5,6,3
+quarkus-application,at.htl.beeyond.entity,TemplateApplication,47,58,4,0,13,19,6,4,4,4
+quarkus-application,at.htl.beeyond.entity,Namespace,33,36,0,0,9,16,3,10,3,10
+quarkus-application,at.htl.beeyond.entity,Template,23,79,0,0,11,25,6,10,6,10
+quarkus-application,at.htl.beeyond.entity,CustomApplication,0,28,0,0,0,10,0,2,0,2
+quarkus-application,at.htl.beeyond.entity,NotificationStatus,0,34,0,0,0,2,0,1,0,1
+quarkus-application,at.htl.beeyond.entity,Notification,52,27,0,0,22,11,15,2,15,2
+quarkus-application,at.htl.beeyond.entity,TemplateFieldValue,32,20,0,0,13,8,7,3,7,3
+quarkus-application,at.htl.beeyond.entity,Application,32,81,0,0,16,31,8,17,8,17
+quarkus-application,at.htl.beeyond.entity,TemplateField,19,30,0,0,9,12,5,6,5,6
+quarkus-application,at.htl.beeyond.entity,User,25,15,0,0,11,7,7,4,7,4
+quarkus-application,at.htl.beeyond.entity,ApplicationStatus,0,54,0,0,0,2,0,1,0,1
