@@ -1,7 +1,10 @@
 <mat-card-title>Notifications</mat-card-title>
 <mat-card-subtitle>Notification History:</mat-card-subtitle>
 
-<div class="notification-container item-hover" *ngFor="let notification of notifications; let i = index">
+<div
+  class="notification-container item-hover"
+  *ngFor="let notification of notifications; let i = index"
+>
   <div style="display: flex; justify-content: space-between">
     <h2 class="title-edit">{{ notification.message }}</h2>
     <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 16px">
