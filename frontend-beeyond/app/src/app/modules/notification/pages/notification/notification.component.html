@@ -1,30 +1,23 @@
 <mat-card-title>Notifications</mat-card-title>
 <mat-card-subtitle>Notification History:</mat-card-subtitle>
 
-<div style="display: flex; justify-content: center; align-items: center; flex-direction: column">
-  <div style="width: 800px" *ngFor="let notification of notifications; let i = index">
-    <div style="display: flex; justify-content: space-between">
-      <h2 style="font-size: x-large">{{ notification.message }}</h2>
-      <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 16px">
-        <button mat-mini-fab color="primary" (click)="deleteNotification(notification)">
-          <mat-icon>delete</mat-icon>
-        </button>
-      </div>
+<div class="notification-container item-hover" *ngFor="let notification of notifications; let i = index">
+  <div style="display: flex; justify-content: space-between">
+    <h2 class="title-edit">{{ notification.message }}</h2>
+    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 16px">
+      <button mat-mini-fab color="primary" (click)="deleteNotification(notification)">
+        <mat-icon>delete</mat-icon>
+      </button>
     </div>
-
-    <h3>{{ notification.details }}</h3>
-    <a [routerLink]="['/management/review/', notification.entityId]">To the application</a>
-    <div
-      class="list-item-divider"
-      style="margin-top: 10px; margin-bottom: 10px"
-      *ngIf="i !== notifications.length - 1"
-    ></div>
   </div>
 
-  <div
-    *ngIf="notifications.length === 0"
-    style="display: flex; justify-content: center; margin-top: 10px"
-  >
-    No Notifications available
-  </div>
+  <h3>{{ notification.details }}</h3>
+  <a [routerLink]="['/management/review/', notification.entityId]">To the application</a>
+</div>
+
+<div
+  *ngIf="notifications.length === 0"
+  style="display: flex; justify-content: center; margin-top: 10px"
+>
+  No Notifications available
 </div>
