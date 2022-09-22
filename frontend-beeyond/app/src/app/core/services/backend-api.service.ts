@@ -107,4 +107,8 @@ export class BackendApiService {
     window.localStorage.setItem('lastAccess', new Date().getTime().toString());
     return this.http.get<Notification[]>(`${this.backendApiUrl}/notification`);
   }
+
+  deleteNotifications(id: number): Observable<void> {
+    return this.http.delete<void>(`${this.backendApiUrl}/notification/${id}`);
+  }
 }

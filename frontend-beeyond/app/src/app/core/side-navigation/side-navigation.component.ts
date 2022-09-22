@@ -26,6 +26,7 @@ export class SideNavigationComponent extends BaseComponent implements OnInit {
   agenda = [
     { name: 'Blueprint', icon: 'list_alt', router: '/blueprint' },
     { name: 'Profile', icon: 'account_circle', router: '/profile' },
+    { name: 'Notification', icon: 'notifications', router: '/notification' },
     /*{
       name: 'Accounting',
       icon: 'account_balance',

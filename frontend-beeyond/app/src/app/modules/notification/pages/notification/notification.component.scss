@@ -1,0 +1,24 @@
+@import '../../../../../assets/scss/variables.scss';
+@import '../../../../../assets/scss/custom-theme';
+
+.list-item-divider {
+  width: 100%;
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.notification-container {
+  box-sizing: border-box;
+  padding: 0.8rem;
+  border-radius: 5px;
+  border: 2px solid mat-color($beeyond-light-primary);
+
+  .title-edit {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+}
+
+.notification-container:not(:first-child) {
+  margin-bottom: 10px;
+}
