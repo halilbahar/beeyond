@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?><!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml" lang="en"><head><meta http-equiv="Content-Type" content="text/html;charset=UTF-8"/><link rel="stylesheet" href="../jacoco-resources/report.css" type="text/css"/><link rel="shortcut icon" href="../jacoco-resources/report.gif" type="image/gif"/><title>NotificationResource.kt</title><link rel="stylesheet" href="../jacoco-resources/prettify.css" type="text/css"/><script type="text/javascript" src="../jacoco-resources/prettify.js"></script></head><body onload="window['PR_TAB_WIDTH']=4;prettyPrint()"><div class="breadcrumb" id="breadcrumb"><span class="info"><a href="../jacoco-sessions.html" class="el_session">Sessions</a></span><a href="../index.html" class="el_report">quarkus-application</a> &gt; <a href="index.source.html" class="el_package">at.htl.beeyond.resource</a> &gt; <span class="el_source">NotificationResource.kt</span></div><h1>NotificationResource.kt</h1><pre class="source lang-java linenums">package at.htl.beeyond.resource
+
+import at.htl.beeyond.dto.NotificationDto
+import at.htl.beeyond.entity.Notification
+import at.htl.beeyond.entity.Template
+import javax.annotation.security.RolesAllowed
+import java.util.stream.Collectors
+import javax.transaction.Transactional
+import javax.ws.rs.*
+import javax.ws.rs.core.Context
+import javax.ws.rs.core.MediaType
+import javax.ws.rs.core.Response
+import javax.ws.rs.core.SecurityContext
+
+<span class="nc" id="L15">@Path(&quot;/notification&quot;)</span>
+@Consumes(MediaType.APPLICATION_JSON)
+@Produces(MediaType.APPLICATION_JSON)
+<span class="nc" id="L18">class NotificationResource {</span>
+    @GET
+    @RolesAllowed(&quot;student&quot;, &quot;teacher&quot;)
+    fun getNamespaces(@Context ctx: SecurityContext): Response {
+<span class="nc" id="L22">        val mapToDto = { o: Notification -&gt; NotificationDto(o) }</span>
+
+<span class="nc" id="L24">        val notifications = Notification.streamAll&lt;Notification&gt;().filter {</span>
+<span class="nc" id="L25">            it.user.name == ctx.userPrincipal.name</span>
+<span class="nc" id="L26">        }.map(mapToDto).collect(Collectors.toList&lt;Any&gt;())</span>
+
+<span class="nc" id="L28">        return Response.ok(notifications).build()</span>
+    }
+
+    @DELETE
+    @Path(&quot;/{id}&quot;)
+    @RolesAllowed(&quot;student&quot;, &quot;teacher&quot;)
+    @Transactional
+    fun delete(@PathParam(&quot;id&quot;) id: Long?): Response {
+<span class="nc bnc" id="L36" title="All 2 branches missed.">        var notification = Notification.findById&lt;Notification&gt;(id)</span>
+<span class="nc" id="L37">            ?: return Response.status(Response.Status.NOT_FOUND).build()</span>
+
+<span class="nc" id="L39">        Notification.deleteById(id)</span>
+<span class="nc" id="L40">        return Response.noContent().build()</span>
+    }
+}
+</pre><div class="footer"><span class="right">Created with <a href="http://www.jacoco.org/jacoco">JaCoCo</a> 0.8.7.202105040129</span></div></body></html>
