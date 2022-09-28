@@ -6,7 +6,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <meta name="generator" content="Asciidoctor 2.0.10">
 <meta name="author" content="Nico Hirsch, Markus Remplbauer">
-<title>Deploy Quarkus with PostgreSQL-Database in Beeyond</title>
+<title>Student Tutorial (Deploy Quarkus with PostgreSQL-Database)</title>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Open+Sans:300,300italic,400,400italic,600,600italic%7CNoto+Serif:400,400italic,700,700italic%7CDroid+Sans+Mono:400,700">
 <style>
 /* Asciidoctor default stylesheet | MIT License | https://asciidoctor.org */
@@ -439,7 +439,7 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 </head>
 <body class="article toc2 toc-left">
 <div id="header">
-<h1>Deploy Quarkus with PostgreSQL-Database in Beeyond</h1>
+<h1>Student Tutorial (Deploy Quarkus with PostgreSQL-Database)</h1>
 <div class="details">
 <span id="author" class="author">Nico Hirsch, Markus Remplbauer</span><br>
 </div>
@@ -481,20 +481,26 @@ body.book #toc,body.book #preamble,body.book h1.sect0,body.book .sect1>h2{page-b
 <div class="sect2">
 <h3 id="_publish_quarkus_package">1.1. Publish Quarkus Package</h3>
 <div class="paragraph">
-<p>First of all our Quarkus Backend needs to be in some kind of Registry, so we can use the docker image.
+<p>First of all the quarkus Backend needs to be in some kind of registry, so we can use the docker image.
 You can easily achieve this using the <a href="https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry">Github Container registry</a>.
-For this we use the following Github-Workflow to automatically publish our backend package if a Tag is pushed.</p>
+For this we use the following Github-Workflow to publish our backend package to the Github Container registry.</p>
 </div>
 <details>
 <summary class="title">Details</summary>
 <div class="content">
+<div class="paragraph">
+<p>Github-Workflow</p>
+</div>
 <div class="listingblock">
 <div class="content">
 <pre class="highlight"><code class="language-yaml" data-lang="yaml">name: CD
 
 on:
-  push:
-    tags: [ '*' ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tags'
+        required: true
 
 jobs:
   build_backend:
@@ -502,6 +508,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: backend
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -519,11 +528,19 @@ jobs:
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          VERSION=$(echo "${{ github.event.inputs.tags }}" | sed -e 's,.*/\(.*\),\1,')
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION</code></pre>
+</div>
+</div>
+<div class="paragraph">
+<p>Running the Github-Workflow</p>
+</div>
+<div class="imageblock">
+<div class="content">
+<img src="images/cd-gh-action.png" alt="cd gh action">
 </div>
 </div>
 </div>
