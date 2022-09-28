@@ -1,4 +1,4 @@
-= Deploy Quarkus with PostgreSQL-Database in Beeyond
+= Student Tutorial (Deploy Quarkus with PostgreSQL-Database)
 :toc: left
 :sectnums:
 :nofooter:
@@ -9,19 +9,25 @@ Nico Hirsch, Markus Remplbauer
 
 === Publish Quarkus Package
 
-First of all our Quarkus Backend needs to be in some kind of Registry, so we can use the docker image.
+First of all the quarkus Backend needs to be in some kind of registry, so we can use the docker image.
 You can easily achieve this using the https://docs.github.com/en/packages/working-with-a-github-packages-registry/working-with-the-container-registry[Github Container registry].
-For this we use the following Github-Workflow to automatically publish our backend package if a Tag is pushed.
+For this we use the following Github-Workflow to publish our backend package to the Github Container registry.
 
 [%collapsible]
 ====
+
+Github-Workflow
+
 [source,yaml]
 ----
 name: CD
 
 on:
-  push:
-    tags: [ '*' ]
+  workflow_dispatch:
+    inputs:
+      tags:
+        description: 'Tags'
+        required: true
 
 jobs:
   build_backend:
@@ -29,6 +35,9 @@ jobs:
     runs-on: ubuntu-latest
     env:
       IMAGE_NAME: backend
+    defaults:
+      run:
+        working-directory: ./backend
     steps:
       - name: Check out the repo
         uses: actions/checkout@v2
@@ -46,12 +55,16 @@ jobs:
         run: |
           IMAGE_ID=ghcr.io/${{ github.repository_owner }}/$IMAGE_NAME
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
-          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+          VERSION=$(echo "${{ github.event.inputs.tags }}" | sed -e 's,.*/\(.*\),\1,')
           echo IMAGE_ID=$IMAGE_ID
           echo VERSION=$VERSION
           docker tag $IMAGE_NAME $IMAGE_ID:$VERSION
           docker push $IMAGE_ID:$VERSION
 ----
+
+Running the Github-Workflow
+
+image::cd-gh-action.png[]
 ====
 
 === Request a namespace for your deployment

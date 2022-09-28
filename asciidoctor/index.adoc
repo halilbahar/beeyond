@@ -15,11 +15,9 @@ Es ist aufrufbar unter: https://leocloud.htl-leonding.ac.at/
 
 image::sys-arch.png[]
 
-== Quarkus Tutorial
+== Beeyond Tutorial
 
-<<docu/tutorials/quarkus-with-postgresDB.adoc#, Hier>> ist ein Tutorial, wie eine einfache
-Quarkus-Applikation mit einer PostrgreSQL-Datenbank deployed
-werden kann.
+<<docu/index.adoc#, Hier>> sind Tutorials für Schüler und Lehrer, wie ein Beispielprojekt mit Beeyond in die LeoCloud deployt wird.
 
 == Pflichtenheft
 
@@ -31,8 +29,4 @@ https://unterrainerinformatik.github.io/htl_review_beeyond/[Reviews von Professo
 == Reports
 
 <<reports.adoc#, Hier>> sind die Reports
-
-== Docs
-
-<<docu/index.adoc#, Hier>> sind die Docs
 
