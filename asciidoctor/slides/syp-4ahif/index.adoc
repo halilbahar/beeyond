@@ -7,7 +7,7 @@
 :customcss: style.css
 
 [.text-left]
-Nico Hirsch  & Markus Remplbauer
+K8s Templating App
 
 [.lightbg,background-opacity="0.9"]
 == Warum braucht die HTL Leonding eine eigene Cloud
