@@ -22,7 +22,7 @@ image::questionmark.jpg[background, size=cover]
 image::meeting.jpg[background, size=cover]
 
 * Ausbildung mit Fokus auf aktuelle Technologien
-* die Anzahl an Cloud Anwendungen steigt stätig an
+* die Anzahl an Cloud Anwendungen steigt stetig an
 * kommerzielle Cloud-Dienste nicht im Budget
 * HTL Leonding ist die erste HTL mit eigener Cloud
 
