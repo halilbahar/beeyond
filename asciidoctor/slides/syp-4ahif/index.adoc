@@ -50,3 +50,6 @@ image::sys-arch.png[background, size=cover]
 == Live-Demo
 
 image::avg.jpg[background, size=cover]
+
+* Beeyond https://student.cloud.htl-leonding.ac.at/beeyond
+* Docs https://halilbahar.github.io/beeyond/
