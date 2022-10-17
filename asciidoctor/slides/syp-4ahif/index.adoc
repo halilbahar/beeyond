@@ -51,5 +51,7 @@ image::sys-arch.png[background, size=cover]
 
 image::avg.jpg[background, size=cover]
 
-* Beeyond https://student.cloud.htl-leonding.ac.at/beeyond
-* Docs https://halilbahar.github.io/beeyond/
+* Beeyond
+** https://student.cloud.htl-leonding.ac.at/beeyond
+* Docs
+** https://halilbahar.github.io/beeyond/
