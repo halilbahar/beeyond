@@ -46,7 +46,7 @@ image::gear.jpg[background, size=cover]
 == !
 image::sys-arch.png[background, size=cover]
 
-
+[.text-left]
 == Live-Demo
 
 image::avg.jpg[background, size=cover]
