@@ -22,7 +22,7 @@
         <surefire-plugin.version>2.22.1</surefire-plugin.version>
         <testcontainers.version>1.15.3</testcontainers.version>
         <karate.version>1.0.1</karate.version>
-        <snakeyaml.version>1.29</snakeyaml.version>
+        <snakeyaml.version>1.32</snakeyaml.version>
         <postgresql.version>42.2.18</postgresql.version>
         <wiremock.version>2.28.1</wiremock.version>
     </properties>
